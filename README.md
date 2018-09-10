@@ -39,4 +39,4 @@
     Password: root
     
 ##### All outgoing mails are sent to MailHog
-    http://app.doc:8025
+    https://app.doc:8025

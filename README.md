@@ -1,9 +1,6 @@
-### Howtos
+## The Docker LAMP Setup
 
-#### The Docker Setup
-
-*Change settings under .docker/.env*
-You can your php version here
+### Change settings under ```.docker/.env``` ###
 Available 7.0, 7.1, 7.2 all based on php:alpine docker image
 
 ##### Add Host Adress to your /etc/hosts

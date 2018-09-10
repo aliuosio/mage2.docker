@@ -40,3 +40,9 @@
     
 ##### All outgoing mails are sent to MailHog
     https://app.doc:8025
+
+
+### Todos ###
+- set permssions for webserver on php container
+- use sockets instead of TCP
+- make Database Data persistent

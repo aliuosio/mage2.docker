@@ -5,8 +5,7 @@
     echo -e "0.0.0.0 app.doc" | sudo tee -a /etc/hosts
 
 ##### Get Git Repository
-    git clone git@bitbucket.org:digitalmasters/dockerboilerplate.git
-    git config core.fileMode false
+    git clone git@github.com:aliuosio/docker-lamp.git
 
 ##### start docker first time (!! on OSX !!)
     sudo chmod -R 777 app_root/

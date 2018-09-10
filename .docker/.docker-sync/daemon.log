@@ -1,0 +1,32 @@
+          ok  Starting native_osx for sync docker-mac-sync-app
+          ok  docker-mac-sync-app container still running, restarting unison in container
+     command  docker exec docker-mac-sync-app supervisorctl restart unison
+unison: stopped
+unison: started
+          ok  starting initial sync of docker-mac-sync-app
+     success  Sync container started
+     success  Showing unison logs from your sync container: docker-mac-sync-app
+[2018-09-10 03:40:21 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 03:40:21.50 on 10 Sep 2018
+[2018-09-10 03:40:21 +0200] Sync Log:  [BGN] Deleting shopware from /app_sync
+[2018-09-10 03:40:21 +0200] Sync Log:  [END] Deleting shopware
+[2018-09-10 03:40:21 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 03:40:21.50 on 10 Sep 2018
+[2018-09-10 03:40:21 +0200] Sync Log:  Synchronization complete at 03:40:21  (1 item transferred, 0 skipped, 0 failed)
+[2018-09-10 03:42:18 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 03:42:18.49 on 10 Sep 2018
+[2018-09-10 03:42:18 +0200] Sync Log:  [BGN] Copying html from /app_sync to /host_sync
+[2018-09-10 03:42:18 +0200] Sync Log:  [END] Copying html
+[2018-09-10 03:42:18 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 03:42:18.50 on 10 Sep 2018
+[2018-09-10 03:42:18 +0200] Sync Log:  Synchronization complete at 03:42:18  (1 item transferred, 0 skipped, 0 failed)
+[2018-09-10 03:43:02 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 03:43:02.24 on 10 Sep 2018
+[2018-09-10 03:43:02 +0200] Sync Log:  [BGN] Copying magento_2 from /app_sync to /host_sync
+[2018-09-10 03:43:02 +0200] Sync Log:  [END] Copying magento_2
+[2018-09-10 03:43:02 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 03:43:02.24 on 10 Sep 2018
+[2018-09-10 03:43:02 +0200] Sync Log:  Synchronization complete at 03:43:02  (1 item transferred, 0 skipped, 0 failed)
+[2018-09-10 03:43:04 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 03:43:04.40 on 10 Sep 2018
+[2018-09-10 03:43:04 +0200] Sync Log:  [BGN] Copying magento_2/.gitignore from /app_sync to /host_sync
+[2018-09-10 03:43:04 +0200] Sync Log:  [END] Copying magento_2/.gitignore
+[2018-09-10 03:43:04 +0200] Sync Log:  [BGN] Copying magento_2/composer.json from /app_sync to /host_sync
+[2018-09-10 03:43:04 +0200] Sync Log:  [END] Copying magento_2/composer.json
+[2018-09-10 03:43:04 +0200] Sync Log:  [BGN] Copying magento_2/update from /app_sync to /host_sync
+[2018-09-10 03:43:15 +0200] Sync Log:  [END] Copying magento_2/update
+[2018-09-10 03:43:15 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 03:43:14.98 on 10 Sep 2018
+[2018-09-10 03:43:15 +0200] Sync Log:  Synchronization complete at 03:43:14  (3 items transferred, 0 skipped, 0 failed)

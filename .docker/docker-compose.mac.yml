@@ -1,0 +1,73 @@
+version: "3.7"
+
+services:
+  webserver:
+    build: ./webserver
+    container_name: ${NAMESPACE}_webserver
+    image: dm:webserver
+    depends_on:
+    - php
+    working_dir: ${WORKDIR_SERVER}
+    ports:
+    - 80:80
+    - 443:443
+    volumes:
+    - docker-mac-sync-app:${WORKDIR_SERVER}:delegated
+
+  php:
+    build:
+      context: ./php
+      args:
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.7
+        PHP_BUILD_DIR: ${PHP_BUILD_DIR}
+    container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
+    image: dm:php_${PHP_VERSION_SET}
+    working_dir: ${WORKDIR_SERVER}
+    depends_on:
+    - database
+    - mailhog
+    volumes:
+    - docker-mac-sync-app:${WORKDIR_SERVER}:delegated
+
+  database:
+    build: ./database
+    container_name: ${NAMESPACE}_database
+    image: dm:database
+    ports:
+    - ${DATABASE_PORT_EXTERNAL}:3306
+    environment:
+      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+    volumes:
+    - ./database/inital-import:/docker-entrypoint-initdb.d:rw
+
+  redis_cache:
+    image: redis:alpine
+    container_name: ${NAMESPACE}_redis_cache
+    ports:
+    - 6380:6379
+    sysctls:
+      net.core.somaxconn: '511'
+
+  redis_session:
+    image: redis:alpine
+    container_name: ${NAMESPACE}_redis_session
+    ports:
+    - 6381:6379
+    sysctls:
+      net.core.somaxconn: '511'
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: ${NAMESPACE}_mailhog
+    expose:
+    - 1025
+    ports:
+    - 8025:8025
+
+volumes:
+  docker-mac-sync-app:
+    external: true

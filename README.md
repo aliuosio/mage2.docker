@@ -1,7 +1,7 @@
 ## The Docker LAMP Setup
 
 ### Change settings under ```.docker/.env``` ###
-Available 7.0, 7.1, 7.2 all based on php:alpine docker image
+##### Available 7.0, 7.1, 7.2 all based on php:alpine docker image
 
 ##### Add Host Adress to your /etc/hosts
     echo -e "0.0.0.0 app.doc" | sudo tee -a /etc/hosts

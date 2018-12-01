@@ -2,6 +2,7 @@ composer create-project --repository-url=https://repo.magento.com/ magento/proje
 
 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;
 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
+
 chmod u+x bin/magento;
 bin/magento setup:install \
     --db-host=database \
@@ -22,7 +23,7 @@ bin/magento setup:install \
     --use-rewrites=1 \
     --use-sample-data
 
+bin/magento sampledata:deploy;
 bin/magento setup:upgrade;
 bin/magento indexer:reindex;
 bin/magento cache:clean;
-bin/magento deploy:mode:set

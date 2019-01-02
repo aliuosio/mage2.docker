@@ -29,8 +29,16 @@ services:
       - mysql
       - redis
       - mailhog
+      - elasticsearch
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
+
+  elasticsearch:
+    image: elasticsearch:5.6-alpine
+    container_name: ${NAMESPACE}_elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
 
   mysql:
     build: ./mysql

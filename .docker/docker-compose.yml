@@ -74,7 +74,8 @@ services:
       - 8025:8025
 
 volumes:
-  mysql_data: {}
+  mysql_data:
+    driver: local
   app_data:
     driver: local
     driver_opts:

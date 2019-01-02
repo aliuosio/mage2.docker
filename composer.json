@@ -1,0 +1,9 @@
+{
+    "name": "aliuosio/mage2.docker",
+    "type": "Docker",
+    "description": "Magento 2 - Docker (OSX and Linux) with nginx, php, mailhog, redis and elasticsearch (Alpine Images Only but not MySQL)",
+    "keywords": ["Docker","Container", "Magento 2"],
+    "homepage": "https://aliuosio.github.io/mage2.docker",
+    "license": "MIT",
+    "authors": [{"name": "Osiozekhai Aliu}]
+}

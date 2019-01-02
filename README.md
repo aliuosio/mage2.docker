@@ -1,4 +1,7 @@
-# The Docker Nginx-MySQL-PHP-Redis Setup
+# The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+This repository allows the creation of a Docker environment that meets
+[Magento 2](http://devdocs.magento.com/guides/v2.2/install-gde/system-requirements-tech.html) requirements.
 
 ### Change settings under ```.docker/.env``` ###
 ##### Available 7.0, 7.1, 7.2 all based on php:alpine docker image
@@ -13,12 +16,12 @@
     sudo chmod -R 777 app_root/
     cd .docker
     docker-sync start
-    docker-compose -f docker-compose.mac.yml up -d
+    docker-compose -f docker-compose.mac.yml up --build
 
 ## start docker
     sudo chmod -R 777 app_root/
     cd .docker
-    docker-compose up -d
+    docker-compose up --build
     
 ## Login to PHP container
     docker exec -it app_php_<version> bash

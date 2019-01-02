@@ -2,9 +2,10 @@ version: "3.7"
 
 services:
   nginx:
-    build: ./nginx
+    #build: ./nginx
+    image: osioaliu/nginx
     container_name: ${NAMESPACE}_nginx
-    image: ${NAMESPACE}/nginx
+    #image: ${NAMESPACE}/nginx
     depends_on:
       - php
     working_dir: ${WORKDIR_SERVER}
@@ -15,14 +16,15 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
 
   php:
-    build:
-      context: ./php
-      args:
-        PHP_VERSION_SET: ${PHP_VERSION_SET}
-        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
-        PHP_BUILD_DIR: ${PHP_BUILD_DIR}
-    container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
-    image: ${NAMESPACE}/php_${PHP_VERSION_SET}
+    #build:
+    #  context: ./php
+    #  args:
+    #    PHP_VERSION_SET: ${PHP_VERSION_SET}
+    #    PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+    #    PHP_BUILD_DIR: ${PHP_BUILD_DIR}
+    image: osiolaliu/php_7.1
+    #image: ${NAMESPACE}/php_${NAMESPACE}
+    container_name: ${NAMESPACE}_php_7.1
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql
@@ -32,9 +34,10 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
 
   mysql:
-    build: ./mysql
+    #build: ./mysql
+    image: osiolaliu/mysql
     container_name: ${NAMESPACE}_mysql
-    image: ${NAMESPACE}/mysql
+    #image: ${NAMESPACE}/mysql
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
     environment:
@@ -44,9 +47,10 @@ services:
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
 
   redis:
-    build: ./redis
-    image: ${NAMESPACE}/redis
+    #build: ./redis
+    image: osiolaliu/redis
     container_name: ${NAMESPACE}_redis
+    #image: ${NAMESPACE}/redis
     ports:
       - 6379:6379
     sysctls:

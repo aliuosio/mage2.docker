@@ -12,7 +12,7 @@ chmod u+x bin/magento;
 bin/magento sampledata:deploy;
 
 bin/magento setup:install \
-    --db-host=database \
+    --db-host=mysql \
     --db-name=app \
     --db-user=app \
     --db-password=app \

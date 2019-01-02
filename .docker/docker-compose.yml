@@ -62,4 +62,8 @@ services:
 
 volumes:
   app_data:
-    external: true
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${WORKDIR}"

@@ -15,14 +15,10 @@
     docker-sync start
     docker-compose -f docker-compose.mac.yml up -d
 
-##### start docker first time (!! on NONE OSX !!)
+##### start docker
     sudo chmod -R 777 app_root/
     cd .docker
     docker-compose up -d
-    
-#### after first run (on the everyday bases)
-    cd .docker
-    docker-compose start
     
 ##### Login to PHP container
     docker exec -it app_php_<version> bash

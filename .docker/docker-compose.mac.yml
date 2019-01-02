@@ -72,5 +72,6 @@ services:
       - 8025:8025
 
 volumes:
+  mysql_data: {}
   app_data:
     external: true

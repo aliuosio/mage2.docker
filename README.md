@@ -9,7 +9,7 @@
 ##### Get Git Repository
     git clone git@github.com:aliuosio/docker-lamp.git
 
-##### start docker first time (!! on OSX !!)
+##### start docker (!! on OSX !!)
     sudo chmod -R 777 app_root/
     cd .docker
     docker-sync start
@@ -42,4 +42,3 @@
 - set permssions for webserver on php container
 - use sockets instead of TCP
 - make Database Data persistent
-- add Nginx as proxy server

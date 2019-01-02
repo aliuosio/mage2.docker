@@ -4,7 +4,7 @@ services:
   nginx:
     build: ./nginx
     container_name: ${NAMESPACE}_nginx
-    image: ${NAMESPACE}:nginx
+    image: ${NAMESPACE}/nginx
     depends_on:
       - php
     working_dir: ${WORKDIR_SERVER}
@@ -12,28 +12,29 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ${WORKDIR}:${WORKDIR_SERVER}:delegated
+      - app_data:${WORKDIR_SERVER}:delegated
 
   php:
     build:
       context: ./php
       args:
         PHP_VERSION_SET: ${PHP_VERSION_SET}
-        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.7
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
         PHP_BUILD_DIR: ${PHP_BUILD_DIR}
     container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
-    image: ${NAMESPACE}:php_${PHP_VERSION_SET}
+    image: ${NAMESPACE}/php_${PHP_VERSION_SET}
     working_dir: ${WORKDIR_SERVER}
     depends_on:
-      - database
+      - mysql
+      - redis
       - mailhog
     volumes:
-      - ${WORKDIR}:${WORKDIR_SERVER}:delegated
+      - app_data:${WORKDIR_SERVER}:delegated
 
-  database:
-    build: ./database
-    container_name: ${NAMESPACE}_database
-    image: ${NAMESPACE}:database
+  mysql:
+    build: ./mysql
+    container_name: ${NAMESPACE}_mysql
+    image: ${NAMESPACE}/mysql
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
     environment:
@@ -44,7 +45,7 @@ services:
 
   redis:
     build: ./redis
-    image: ${NAMESPACE}:redis
+    image: ${NAMESPACE}/redis
     container_name: ${NAMESPACE}_redis
     ports:
       - 6379:6379
@@ -58,3 +59,7 @@ services:
       - 1025
     ports:
       - 8025:8025
+
+volumes:
+  app_data:
+    external: true

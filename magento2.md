@@ -30,8 +30,6 @@ bin/magento setup:install \
     --cleanup-database \
     --use-sample-data
 
-bin/magento sampledata:deploy;
-
 bin/magento setup:upgrade;
 
 bin/magento indexer:reindex;

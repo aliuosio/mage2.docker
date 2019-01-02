@@ -5,5 +5,9 @@
     "keywords": ["Docker","Container", "Magento 2"],
     "homepage": "https://aliuosio.github.io/mage2.docker",
     "license": "MIT",
-    "authors": [{"name": "Osiozekhai Aliu}]
+    "authors": [
+       {
+           "name": "Osiozekhai Aliu"
+       }
+    ]
 }

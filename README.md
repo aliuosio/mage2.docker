@@ -45,4 +45,3 @@ This repository allows the creation of a Docker environment that meets
 ### Todos ###
 * set permssions for webserver on php container
 * use sockets instead of TCP
-* make Database Data persistent

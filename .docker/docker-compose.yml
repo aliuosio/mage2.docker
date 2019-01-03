@@ -42,6 +42,7 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
       - phpsocket:/var/run
       - redissocket:/var/redis
+      - mysqlsocket:/var/run/mysqld
 
   elasticsearch:
     image: elasticsearch:5.6-alpine
@@ -51,7 +52,10 @@ services:
       - 9300:9300
 
   mysql:
-    build: ./mysql
+    build:
+      context: ./mysql
+      args:
+        USER: ${USER}
     #image: osiolaliu/mysql
     container_name: ${NAMESPACE}_mysql
     image: ${NAMESPACE}/mysql
@@ -64,6 +68,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
+      - mysqlsocket:/var/run/mysqld
 
   redis:
     build:
@@ -89,8 +94,9 @@ services:
       - 8025:8025
 
 volumes:
-  redissocket:
   phpsocket:
+  mysqlsocket:
+  redissocket:
   mysql_data:
     driver: local
   app_data:

@@ -39,8 +39,4 @@
     port: <DATABASE_PORT_EXTERNAL>
     
 ### All outgoing mails are sent to MailHog
-    https://<SHOP_URI>:8025 // The User you set 
-
-
-### Todos
-* use sockets instead of TCP
+    https://<SHOP_URI>:8025

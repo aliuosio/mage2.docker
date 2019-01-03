@@ -1,4 +1,6 @@
 [mysqld]
+user=__user
+
 ft_min_word_len = 3
 
 innodb_buffer_pool_size = 512M

@@ -3,7 +3,7 @@ composer global require hirak/prestissimo
 
 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.2.7 .
 
-composer require predis/predis
+    composer require predis/predis
 
 composer require smile/elasticsuite
 

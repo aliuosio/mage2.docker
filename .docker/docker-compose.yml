@@ -1,13 +1,17 @@
 version: "3.7"
 
 services:
+
   nginx:
-    build: ./nginx
+    build:
+      context: ./nginx
+      args:
+        USER: ${USER}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
     #image: osioaliu/nginx
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
-    depends_on:
-      - php
     working_dir: ${WORKDIR_SERVER}
     ports:
       - 80:80
@@ -19,17 +23,13 @@ services:
     build:
       context: ./php
       args:
-        PHP_VERSION_SET: ${PHP_VERSION_SET}
         PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+        USER: ${USER}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
     #image: osiolaliu/php_7.1
     image: ${NAMESPACE}/php_${PHP_VERSION_SET}
-    container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
+    container_name: ${NAMESPACE}_php
     working_dir: ${WORKDIR_SERVER}
-    depends_on:
-      - mysql
-      - redis
-      - mailhog
-      - elasticsearch
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
 
@@ -39,7 +39,7 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
- 
+
   mysql:
     build: ./mysql
     #image: osiolaliu/mysql

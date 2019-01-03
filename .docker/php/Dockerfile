@@ -1,7 +1,12 @@
-ARG PHP_VERSION_SET_IMAGE=${PHP_VERSION_SET_IMAGE}
+ARG PHP_VERSION_SET_IMAGE
 
 FROM $PHP_VERSION_SET_IMAGE
 
+ARG USER
+ARG WORKDIR_SERVER
+
+ENV WORKDIR_SERVER=${WORKDIR_SERVER}
+ENV USER=${USER}
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
 ENV PATH /usr/local/go/bin:$PATH
@@ -12,10 +17,12 @@ COPY conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Update alpine
 RUN apk update && apk upgrade \
-    && addgroup -g 3000 -S krusty \
-    && adduser -u 3000 -S -D -G krusty krusty \
-    && mkdir /home/krusty/html \
-    && chown -R krusty:krusty /home/krusty/html \
+    && addgroup -g 3000 -S ${USER} \
+    && adduser -u 3000 -S -D -G ${USER} ${USER} \
+    && mkdir ${WORKDIR_SERVER} \
+    && chown -R ${USER}:${USER} ${WORKDIR_SERVER} \
+    && chmod -R 755 ${WORKDIR_SERVER} \
+    && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/www.conf \
     && apk add --no-cache --virtual build-dependencies \
     go \
     git \

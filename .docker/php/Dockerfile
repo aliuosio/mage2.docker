@@ -6,13 +6,16 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
 ENV PATH /usr/local/go/bin:$PATH
 
-COPY /conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
-COPY /conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY conf/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
+COPY conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Update alpine
 RUN apk update && apk upgrade \
-    && addgroup -g 3000 -S app \
-    && adduser -u 3000 -S -D -G app app \
+    && addgroup -g 3000 -S krusty \
+    && adduser -u 3000 -S -D -G krusty krusty \
+    && mkdir /home/krusty/html \
+    && chown -R krusty:krusty /home/krusty/html \
     && apk add --no-cache --virtual build-dependencies \
     go \
     git \

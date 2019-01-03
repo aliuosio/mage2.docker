@@ -38,11 +38,12 @@ bin/magento indexer:reindex;
 
 bin/magento cache:clean;
 
-composer config repositories.firegento_magesetup vcs git@github.com:firegento/firegento-magesetup2.git
-composer require firegento/magesetup2:dev-develop
-composer require splendidinternet/mage2-locale-de-de
 
 composer require --dev msp/devtools
 composer require --dev mage2tv/magento-cache-clean
+composer require splendidinternet/mage2-locale-de-de
+
+composer config repositories.firegento_magesetup vcs git@github.com:firegento/firegento-magesetup2.git
+composer require firegento/magesetup2:dev-develop
 
 ```

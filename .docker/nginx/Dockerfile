@@ -13,8 +13,8 @@ COPY conf/default.conf /etc/nginx/conf.d/default.conf
 
 RUN apk update && apk upgrade \
    && apk add --update bash \
-   && addgroup -g 3000 -S ${USER} \
-   && adduser -u 3000 -S -D -G ${USER} ${USER} \
+   && addgroup -g 3000 --system ${USER} \
+   && adduser -u 3000 --system -D -G ${USER} ${USER} \
    && mkdir ${WORKDIR_SERVER} \
    && chown -R ${USER}:${USER} ${WORKDIR_SERVER} \
    && chmod -R 755 ${WORKDIR_SERVER} \

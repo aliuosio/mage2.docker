@@ -12,17 +12,19 @@ ENV TZ=Europe/Berlin
 ENV PATH /usr/local/go/bin:$PATH
 
 COPY conf/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Update alpine
 RUN apk update && apk upgrade \
-    && addgroup -g 3000 -S ${USER} \
-    && adduser -u 3000 -S -D -G ${USER} ${USER} \
+    && addgroup -g 3000 --system ${USER} \
+    && adduser -u 3000 --system -D -G ${USER} ${USER} \
     && mkdir ${WORKDIR_SERVER} \
     && chown -R ${USER}:${USER} ${WORKDIR_SERVER} \
     && chmod -R 755 ${WORKDIR_SERVER} \
     && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
     && apk add --no-cache --virtual build-dependencies \
     go \
     git \

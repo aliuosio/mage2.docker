@@ -13,11 +13,14 @@ services:
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
+    depends_on:
+      - php
     ports:
       - 80:80
       - 443:443
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
+      - phpsocket:/var/run
 
   php:
     build:
@@ -30,8 +33,14 @@ services:
     image: ${NAMESPACE}/php_${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     working_dir: ${WORKDIR_SERVER}
+    depends_on:
+      - mysql
+      - mailhog
+      - elasticsearch
+      - redis
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
+      - phpsocket:/var/run
 
   elasticsearch:
     image: elasticsearch:5.6-alpine
@@ -74,6 +83,7 @@ services:
       - 8025:8025
 
 volumes:
+  phpsocket:
   mysql_data:
     driver: local
   app_data:

@@ -21,9 +21,6 @@ services:
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - phpsocket:/var/run
-    networks:
-      - backend
-      - frontend
 
   php:
     build:
@@ -45,8 +42,6 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
       - phpsocket:/var/run
       - redissocket:/var/redis
-    networks:
-      - backend
 
   elasticsearch:
     image: elasticsearch:5.6-alpine
@@ -69,8 +64,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
-    networks:
-      - backend
 
   redis:
     build:
@@ -86,8 +79,6 @@ services:
       net.core.somaxconn: '1024'
     volumes:
       - redissocket:/var/redis
-    networks:
-      - backend
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -96,15 +87,6 @@ services:
       - 1025
     ports:
       - 8025:8025
-    networks:
-      - backend
-      - frontend
-
-networks:
-  frontend:
-    driver: bridge
-  backend:
-    driver: bridge
 
 volumes:
   redissocket:

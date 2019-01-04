@@ -3,8 +3,6 @@ composer global require hirak/prestissimo
 
 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.2.7 .
 
-    composer require predis/predis
-
 composer require smile/elasticsuite
 
 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;
@@ -43,7 +41,7 @@ bin/magento indexer:reindex;
 
 bin/magento cache:clean;
 
-
+composer require predis/predis
 composer require --dev msp/devtools
 composer require --dev mage2tv/magento-cache-clean
 composer require splendidinternet/mage2-locale-de-de

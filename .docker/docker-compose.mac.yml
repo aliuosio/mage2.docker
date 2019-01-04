@@ -13,6 +13,7 @@ services:
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
+    restart: always
     depends_on:
       - php
     ports:
@@ -33,6 +34,7 @@ services:
     image: ${NAMESPACE}/php_${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     working_dir: ${WORKDIR_SERVER}
+    restart: always
     depends_on:
       - mysql
       - mailhog
@@ -58,6 +60,7 @@ services:
     #image: osiolaliu/mysql
     container_name: ${NAMESPACE}_mysql
     image: ${NAMESPACE}/mysql
+    restart: always
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
     environment:
@@ -77,6 +80,7 @@ services:
     #image: osiolaliu/redis
     container_name: ${NAMESPACE}_redis
     image: ${NAMESPACE}/redis
+    restart: always
     ports:
       - 6379:6379
     sysctls:
@@ -88,6 +92,7 @@ services:
   mailhog:
     image: mailhog/mailhog:latest
     container_name: ${NAMESPACE}_mailhog
+    restart: always
     expose:
       - 1025
     ports:

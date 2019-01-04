@@ -36,7 +36,8 @@ RUN apk update && apk upgrade \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng \
-    aria2 \
+    zip \
+    tzdata \
     libpng-dev \
     && set -xe \
     && apk add --update \
@@ -66,7 +67,8 @@ RUN apk update && apk upgrade \
     soap \
     sockets \
     pcntl \
-    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone \
     && pecl channel-update pecl.php.net \
     && pecl install -o -f redis xdebug \
     && rm -rf /tmp/pear \
@@ -77,4 +79,6 @@ RUN apk update && apk upgrade \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && wget https://files.magerun.net/n98-magerun2.phar \
     && mv n98-magerun2.phar /usr/local/bin/n98-magerun2.phar \
-    && chmod +x /usr/local/bin/n98-magerun2.phar
+    && chmod +x /usr/local/bin/n98-magerun2.phar  \
+    && apk del tzdata \
+    && rm -rf /var/cache/apk/*

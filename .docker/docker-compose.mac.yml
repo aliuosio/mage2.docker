@@ -83,6 +83,7 @@ services:
       net.core.somaxconn: '1024'
     volumes:
       - redissocket:/var/redis
+      - redis_data:/data
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -96,6 +97,8 @@ volumes:
   phpsocket:
   mysqlsocket:
   redissocket:
+  redis_data:
+    driver: local
   mysql_data:
     driver: local
   app_data:

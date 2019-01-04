@@ -21,7 +21,8 @@ bin/magento setup:install \
     --db-user=app \
     --db-password=app \
     --backend-frontname=admin \
-    --base-url=http://app.doc/ \
+    --base-url=https://app.doc/ \
+    --base-url-secure=https://app.doc/ \
     --language=de_DE \
     --timezone=Europe/Berlin \
     --currency=EUR \
@@ -31,6 +32,8 @@ bin/magento setup:install \
     --admin-user=admin \
     --admin-password=admin123 \
     --use-rewrites=1 \
+    --use-secure=1 \
+    --use-secure-admin=1 \
     --cleanup-database \
     --use-sample-data
 

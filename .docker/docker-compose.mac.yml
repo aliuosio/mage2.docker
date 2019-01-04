@@ -81,8 +81,6 @@ services:
     container_name: ${NAMESPACE}_redis
     image: ${NAMESPACE}/redis
     restart: always
-    ports:
-      - 6379:6379
     sysctls:
       net.core.somaxconn: '1024'
     volumes:

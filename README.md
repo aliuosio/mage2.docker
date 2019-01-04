@@ -40,3 +40,6 @@
     
 ### All outgoing mails are sent to MailHog
     https://<SHOP_URI>:8025
+
+### Todo
+* add let's encrypt container to generate certs for valid domain servers

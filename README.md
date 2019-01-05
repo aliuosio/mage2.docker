@@ -13,11 +13,11 @@
 ## start docker (!! on OSX !!)
     cd .docker
     docker-sync start
-    docker-compose -f docker-compose.mac.yml up --build
+    docker-compose -f docker-compose.mac.yml up -d
 
 ## start docker
     cd .docker
-    docker-compose up --build
+    docker-compose up -d
     
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php_<PHP_VERSION_SET> bash

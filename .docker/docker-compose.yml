@@ -53,7 +53,7 @@ services:
     #  args:
     #    USER: ${USER}
     image: osioaliu/mysql
-    #container_name: ${NAMESPACE}_mysql
+    container_name: ${NAMESPACE}_mysql
     #image: ${NAMESPACE}/mysql
     restart: always
     ports:
@@ -90,13 +90,13 @@ services:
       - 1025
     ports:
       - 8025:8025
-#
-#  elasticsearch:
-#    image: elasticsearch:5.6-alpine
-#    container_name: ${NAMESPACE}_elasticsearch
-#    ports:
-#      - 9200:9200
-#      - 9300:9300
+
+  elasticsearch:
+    image: elasticsearch:5.6-alpine
+    container_name: ${NAMESPACE}_elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
 
 volumes:
   phpsocket:

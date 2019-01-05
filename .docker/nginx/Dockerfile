@@ -1,5 +1,7 @@
 FROM nginx:alpine
 
+MAINTAINER Osiozekhai Aliu
+
 ARG USER
 ARG SHOP_URI
 ARG WORKDIR_SERVER

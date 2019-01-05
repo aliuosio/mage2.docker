@@ -1,5 +1,7 @@
 FROM redis:alpine
 
+MAINTAINER Osiozekhai Aliu
+
 ARG USER
 
 ENV USER=${USER}

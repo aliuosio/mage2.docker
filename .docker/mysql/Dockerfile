@@ -1,5 +1,7 @@
 FROM mysql:5.7
 
+MAINTAINER Osiozekhai Aliu
+
 ARG USER
 
 ENV USER=${USER}

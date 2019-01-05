@@ -3,15 +3,15 @@ version: "3.7"
 services:
 
   nginx:
-    #build:
-    #  context: ./nginx
-    #  args:
-    #    USER: ${USER}
-    #    WORKDIR_SERVER: ${WORKDIR_SERVER}
-    #    SHOP_URI: ${SHOP_URI}
-    image: osioaliu/nginx
+    build:
+      context: ./nginx
+      args:
+        USER: ${USER}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
+    #image: osioaliu/nginx
     container_name: ${NAMESPACE}_nginx
-    #image: ${NAMESPACE}/nginx
+    image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
     restart: always
     depends_on:
@@ -24,14 +24,14 @@ services:
       - phpsocket:/var/run
 
   php:
-    #build:
-    #  context: ./php
-    #  args:
-    #    PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
-    #    USER: ${USER}
-    #    WORKDIR_SERVER: ${WORKDIR_SERVER}
-    image: osioaliu/php_7.1
-    #image: ${NAMESPACE}/php_${PHP_VERSION_SET}
+    build:
+      context: ./php
+      args:
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+        USER: ${USER}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+    #image: osioaliu/php_7.1
+    image: ${NAMESPACE}/php_${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     working_dir: ${WORKDIR_SERVER}
     restart: always
@@ -40,7 +40,7 @@ services:
       - redis
     links:
       - mailhog
-    # - elasticsearch
+      - elasticsearch
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - phpsocket:/var/run
@@ -48,13 +48,13 @@ services:
       - mysqlsocket:/var/run/mysqld
 
   mysql:
-    #build:
-    #  context: ./mysql
-    #  args:
-    #    USER: ${USER}
-    image: osioaliu/mysql
+    build:
+      context: ./mysql
+      args:
+        USER: ${USER}
+    #image: osioaliu/mysql
     container_name: ${NAMESPACE}_mysql
-    #image: ${NAMESPACE}/mysql
+    image: ${NAMESPACE}/mysql
     restart: always
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
@@ -64,23 +64,23 @@ services:
       MYSQL_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql:cached
       - mysqlsocket:/var/run/mysqld
 
   redis:
-    #build:
-    #  context: ./redis
-    #  args:
-    #    USER: ${USER}
-    image: osioaliu/redis
+    build:
+      context: ./redis
+      args:
+        USER: ${USER}
+    # image: osioaliu/redis
     container_name: ${NAMESPACE}_redis
-    #image: ${NAMESPACE}/redis
+    image: ${NAMESPACE}/redis
     restart: always
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
       - redissocket:/var/redis
-      - redis_data:/data
+      - redis_data:/data:cached
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -92,16 +92,26 @@ services:
       - 8025:8025
 
   elasticsearch:
-    image: elasticsearch:5.6-alpine
+    build:
+      context: ./elasticsearch
+    image: ${NAMESPACE}/elasticsearch
+    #image: osioaliu/elasticsearch
     container_name: ${NAMESPACE}_elasticsearch
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - 9200:9200
       - 9300:9300
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data:cached
 
 volumes:
   phpsocket:
   mysqlsocket:
   redissocket:
+  elastic_data:
+    driver: local
   redis_data:
     driver: local
   mysql_data:

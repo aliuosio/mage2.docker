@@ -3,15 +3,15 @@ version: "3.7"
 services:
 
   nginx:
-    build:
-      context: ./nginx
-      args:
-        USER: ${USER}
-        WORKDIR_SERVER: ${WORKDIR_SERVER}
-        SHOP_URI: ${SHOP_URI}
-    #image: osioaliu/nginx
+    #build:
+    #  context: ./nginx
+    #  args:
+    #    USER: ${USER}
+    #    WORKDIR_SERVER: ${WORKDIR_SERVER}
+    #    SHOP_URI: ${SHOP_URI}
+    image: osioaliu/nginx
     container_name: ${NAMESPACE}_nginx
-    image: ${NAMESPACE}/nginx
+    #image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
     restart: always
     depends_on:
@@ -24,42 +24,37 @@ services:
       - phpsocket:/var/run
 
   php:
-    build:
-      context: ./php
-      args:
-        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
-        USER: ${USER}
-        WORKDIR_SERVER: ${WORKDIR_SERVER}
-    #image: osiolaliu/php_7.1
-    image: ${NAMESPACE}/php_${PHP_VERSION_SET}
+    #build:
+    #  context: ./php
+    #  args:
+    #    PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+    #    USER: ${USER}
+    #    WORKDIR_SERVER: ${WORKDIR_SERVER}
+    image: osioaliu/php_7.1
+    #image: ${NAMESPACE}/php_${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     working_dir: ${WORKDIR_SERVER}
     restart: always
     depends_on:
       - mysql
-      - mailhog
       - redis
+    links:
+      - mailhog
+    # - elasticsearch
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - phpsocket:/var/run
       - redissocket:/var/redis
       - mysqlsocket:/var/run/mysqld
 
-#  elasticsearch:
-#    image: elasticsearch:5.6-alpine
-#    container_name: ${NAMESPACE}_elasticsearch
-#    ports:
-#      - 9200:9200
-#      - 9300:9300
-
   mysql:
-    build:
-      context: ./mysql
-      args:
-        USER: ${USER}
-    #image: osiolaliu/mysql
-    container_name: ${NAMESPACE}_mysql
-    image: ${NAMESPACE}/mysql
+    #build:
+    #  context: ./mysql
+    #  args:
+    #    USER: ${USER}
+    image: osioaliu/mysql
+    #container_name: ${NAMESPACE}_mysql
+    #image: ${NAMESPACE}/mysql
     restart: always
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
@@ -73,13 +68,13 @@ services:
       - mysqlsocket:/var/run/mysqld
 
   redis:
-    build:
-      context: ./redis
-      args:
-        USER: ${USER}
-    #image: osiolaliu/redis
+    #build:
+    #  context: ./redis
+    #  args:
+    #    USER: ${USER}
+    image: osioaliu/redis
     container_name: ${NAMESPACE}_redis
-    image: ${NAMESPACE}/redis
+    #image: ${NAMESPACE}/redis
     restart: always
     sysctls:
       net.core.somaxconn: '1024'
@@ -95,6 +90,13 @@ services:
       - 1025
     ports:
       - 8025:8025
+#
+#  elasticsearch:
+#    image: elasticsearch:5.6-alpine
+#    container_name: ${NAMESPACE}_elasticsearch
+#    ports:
+#      - 9200:9200
+#      - 9300:9300
 
 volumes:
   phpsocket:

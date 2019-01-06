@@ -42,6 +42,7 @@ bin/magento indexer:reindex;
 
 bin/magento cache:clean;
 
+composer require smile/elasticsuite:2.6
 composer require predis/predis
 composer require --dev msp/devtools
 composer require --dev mage2tv/magento-cache-clean

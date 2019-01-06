@@ -6,6 +6,7 @@ MAINTAINER Osiozekhai Aliu
 
 ARG USER
 ARG WORKDIR_SERVER
+ARG INSTALL_MAGENTO
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
@@ -15,7 +16,6 @@ COPY conf/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
 # Update alpine
 RUN apk update && apk upgrade \
     && addgroup -g 3000 --system ${USER} \
@@ -77,8 +77,14 @@ RUN apk update && apk upgrade \
     && go get github.com/mailhog/mhsendmail \
     && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && chmod +x /usr/local/bin/composer \
     && wget https://files.magerun.net/n98-magerun2.phar \
     && mv n98-magerun2.phar /usr/local/bin/n98-magerun2.phar \
     && chmod +x /usr/local/bin/n98-magerun2.phar  \
-    && apk del tzdata \
     && rm -rf /var/cache/apk/*
+
+COPY conf/auth.json  /home/${USER}/.composer/
+COPY scripts/install-magento.sh  /home/${USER}/
+RUN chmod -R +x /home/${USER}/
+RUN chown -R ${USER}:${USER} /home/${USER}/
+RUN /home/${USER}/install-magento.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER

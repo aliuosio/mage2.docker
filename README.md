@@ -22,7 +22,7 @@
     docker-compose up -d
     
 ## to Install Magento2 when building php docker container
-set ``` install-magento2=true ``` in ``` .docker/.env ```
+set ``` INSTALL_MAGENTO ``` in ``` .docker/.env ```
     
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php_<PHP_VERSION_SET> bash

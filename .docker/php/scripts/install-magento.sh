@@ -37,11 +37,9 @@ if true = $1 ; then
             --use-secure=1 \
             --use-secure-admin=1 \
             --cleanup-database \
-            --use-sample-data
-            " -s /bin/sh $2
+            --use-sample-data" -s /bin/sh $2
 
     su -c "bin/magento setup:upgrade; \
            bin/magento indexer:reindex; \
-           bin/magento cache:clean;
-           " -s /bin/sh $2
+           bin/magento cache:clean;" -s /bin/sh $2
 fi

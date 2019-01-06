@@ -1,6 +1,6 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
 
-### Change settings under ```.docker/.env``` ###
+##### Change settings under ```.docker/.env```
 ##### Available 7.0, 7.1, 7.2 all based on php:alpine docker image
 ##### change Vars in .env file
 
@@ -13,11 +13,16 @@
 ## start docker (!! on OSX !!)
     cd .docker
     docker-sync start
-    docker-compose -f docker-compose.mac.yml up -d
+    docker-compose -f docker-compose.mac.yml up build
+    docker-compose up -d
 
 ## start docker
     cd .docker
+    docker-compose build
     docker-compose up -d
+    
+## to Install Magento2 when building php docker container
+``` install-magento2=true ``` in ``` .docker/.env ```
     
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php_<PHP_VERSION_SET> bash

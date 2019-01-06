@@ -16,6 +16,9 @@ COPY conf/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY conf/auth.json  /home/${USER}/.composer/
+COPY scripts/install-magento.sh  /home/${USER}/
+
 # Update alpine
 RUN apk update && apk upgrade \
     && addgroup -g 3000 --system ${USER} \
@@ -80,11 +83,8 @@ RUN apk update && apk upgrade \
     && chmod +x /usr/local/bin/composer \
     && wget https://files.magerun.net/n98-magerun2.phar \
     && mv n98-magerun2.phar /usr/local/bin/n98-magerun2.phar \
-    && chmod +x /usr/local/bin/n98-magerun2.phar  \
-    && rm -rf /var/cache/apk/*
-
-COPY conf/auth.json  /home/${USER}/.composer/
-COPY scripts/install-magento.sh  /home/${USER}/
-RUN chmod -R +x /home/${USER}/
-RUN chown -R ${USER}:${USER} /home/${USER}/
-RUN /home/${USER}/install-magento.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER
+    && chmod +x /usr/local/bin/n98-magerun2.phar \
+    && rm -rf /var/cache/apk/* \
+    && chmod -R +x /home/${USER}/ \
+    && chown -R ${USER}:${USER} /home/${USER}/ \
+    && /home/${USER}/install-magento.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER

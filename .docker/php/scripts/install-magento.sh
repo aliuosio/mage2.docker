@@ -9,7 +9,7 @@ if true = $1 ; then
 
     # su -c "composer require smile/elasticsuite:2.6" -s /bin/sh $2
 
-    su -c "composer predis/predis \
+    su -c "composer require predis/predis \
                 --dev msp/devtools \
                 --dev mage2tv/magento-cache-clean \
                 splendidinternet/mage2-locale-de-de;" -s /bin/sh $2

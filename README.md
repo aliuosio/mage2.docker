@@ -10,6 +10,8 @@
 ## Get Git Repository
     git clone https://github.com/aliuosio/mage2.docker.git
 
+# NOTE: if you want to run th magento 2 installer you need to copy the file auth.json.template to auth.json and set your credentials there
+
 ## start docker (!! on OSX !!)
     cd .docker
     docker-sync start

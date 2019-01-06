@@ -13,7 +13,7 @@
 ## start docker (!! on OSX !!)
     cd .docker
     docker-sync start
-    docker-compose -f docker-compose.mac.yml up build
+    docker-compose -f docker-compose.mac.yml build
     docker-compose up -d
 
 ## start docker

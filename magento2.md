@@ -33,8 +33,8 @@ bin/magento setup:install \
     --use-secure=1 \
     --use-secure-admin=1 \
     --cleanup-database \
-    --use-sample-data \
-    --es-hosts="elasticsearch:9200"
+    --es-hosts="elasticsearch:9200" \
+    --use-sample-data
 
 bin/magento setup:upgrade;
 

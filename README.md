@@ -5,10 +5,10 @@
 ##### change Vars in .env file
 
 ## Add Host Adress to your /etc/hosts
-    echo -e "0.0.0.0 app.doc" | sudo tee -a /etc/hosts
+    echo -e "0.0.0.0 <SHOP_URI>" | sudo tee -a /etc/hosts
 
 ## Get Git Repository
-    git clone git@github.com:aliuosio/docker-lamp.git
+    git clone https://github.com/aliuosio/mage2.docker.git
 
 ## start docker (!! on OSX !!)
     cd .docker

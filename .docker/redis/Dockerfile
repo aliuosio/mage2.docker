@@ -4,7 +4,6 @@ MAINTAINER Osiozekhai Aliu
 
 ARG USER
 
-ENV USER=${USER}
 ENV TZ=Europe/Berlin
 
 COPY conf/redis.conf /etc/redis.conf

@@ -6,10 +6,6 @@ ARG USER
 ARG SHOP_URI
 ARG WORKDIR_SERVER
 
-ENV WORKDIR_SERVER=${WORKDIR_SERVER}
-ENV SHOP_URI=${SHOP_URI}
-ENV USER=${USER}
-
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 

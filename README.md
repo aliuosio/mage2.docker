@@ -22,6 +22,7 @@
     docker-compose up -d
     
 call: https://app.doc in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
+#### DB Host Name is mysql
     
 ## to Install Magento2 when building php docker container
 set ``` INSTALL_MAGENTO ``` in ``` .docker/.env ```

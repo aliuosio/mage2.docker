@@ -5,7 +5,7 @@ if true = $1 ; then
     su -c "composer global require hirak/prestissimo" -s /bin/sh $2
     su -c "composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.2.7 ." -s /bin/sh $2
 
-    su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
+    #su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
 
     su -c "composer require smile/elasticsuite:2.6 \
                 predis/predis \
@@ -36,7 +36,6 @@ if true = $1 ; then
             --use-secure=1 \
             --use-secure-admin=1 \
             --cleanup-database \
-            --es-hosts="elasticsearch:9200" \
             --use-sample-data
             " -s /bin/sh $2
 

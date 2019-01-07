@@ -1,8 +1,8 @@
 {
     "http-basic": {
         "repo.magento.com": {
-            "username": "your access key fro magento 2 repro",
-            "password": "your access key fro magento 2 repro"
+         "username": "<public-key>",
+         "password": "<private-key>"
         }
     },
     "github-oauth": {

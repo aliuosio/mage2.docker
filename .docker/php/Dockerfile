@@ -17,8 +17,6 @@ COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json.template conf/auth.json* /home/${USER}/.composer/
 COPY docker-entrypoint.sh /home/${USER}/
 
-ADD https://files.magerun.net/n98-magerun2.phar /usr/local/bin/
-
 # Update alpine
 RUN apk update && apk upgrade \
     && apk add --no-cache --virtual build-dependencies \
@@ -67,6 +65,8 @@ RUN apk update && apk upgrade \
     && pecl install -o -f redis xdebug \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis \
+    && wget https://files.magerun.net/n98-magerun2.phar /usr/local/bin/ \
+    && mv n98-magerun2.phar /usr/local/bin/n98-magerun2.phar \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer \
     && chmod +x /usr/local/bin/n98-magerun2.phar \

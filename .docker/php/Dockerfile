@@ -85,7 +85,7 @@ RUN apk update && apk upgrade \
     && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail \
     && chown -R ${USER}:${USER} /home/${USER}/ \
     && rm -rf /var/cache/apk/* \
-    && /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER
+    && /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION
 
 # FROM scratch
 # COPY --from=0 / /

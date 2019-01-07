@@ -7,6 +7,7 @@ MAINTAINER Osiozekhai Aliu
 ARG USER
 ARG WORKDIR_SERVER
 ARG INSTALL_MAGENTO
+ARG INSTALL_MAGENTO_WITH_SAMPLE_DATA
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
@@ -94,5 +95,5 @@ COPY scripts/install-magento.sh  /home/${USER}/
 
 RUN chmod -R +x /home/${USER}/ \
     && chown -R ${USER}:${USER} /home/${USER}/ \
-    && /home/${USER}/install-magento.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER
+    && /home/${USER}/install-magento.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_WITH_SAMPLE_DATA
 # <!-- Magento 2 Setup Block //-->

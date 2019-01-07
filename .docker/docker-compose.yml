@@ -9,7 +9,6 @@ services:
         USER: ${USER}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         SHOP_URI: ${SHOP_URI}
-    #image: osioaliu/nginx
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
@@ -30,7 +29,6 @@ services:
         USER: ${USER}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         INSTALL_MAGENTO: ${INSTALL_MAGENTO}
-    #image: osioaliu/php_7.1
     image: ${NAMESPACE}/php_${PHP_VERSION_SET}_with-magento_${INSTALL_MAGENTO}
     container_name: ${NAMESPACE}_php
     working_dir: ${WORKDIR_SERVER}
@@ -51,7 +49,6 @@ services:
       context: ./mysql
       args:
         USER: ${USER}
-    #image: osioaliu/mysql
     container_name: ${NAMESPACE}_mysql
     image: ${NAMESPACE}/mysql
     ports:
@@ -70,7 +67,6 @@ services:
       context: ./redis
       args:
         USER: ${USER}
-    #image: osioaliu/redis
     container_name: ${NAMESPACE}_redis
     image: ${NAMESPACE}/redis
     sysctls:
@@ -90,7 +86,6 @@ services:
   elasticsearch:
     build: ./elasticsearch
     image: ${NAMESPACE}/elasticsearch
-    #image: osioaliu/elasticsearch
     container_name: ${NAMESPACE}_elasticsearch
     environment:
       - bootstrap.memory_lock=true

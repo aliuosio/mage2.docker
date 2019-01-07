@@ -84,8 +84,11 @@ services:
       - 8025:8025
 
   elasticsearch:
-    build: ./elasticsearch
-    image: ${NAMESPACE}/elasticsearch
+    build:
+      context: ./elasticsearch
+      args:
+        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+    image: ${NAMESPACE}/elasticsearch_${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     environment:
       - bootstrap.memory_lock=true

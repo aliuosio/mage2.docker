@@ -84,12 +84,13 @@ services:
       - 8025:8025
 
   elasticsearch:
-    build: ./elasticsearch
-    image: ${NAMESPACE}/elasticsearch
+    build:
+      context: ./elasticsearch
+      args:
+        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+        ELASTICSEARCH_IMAGE: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
+    image: ${NAMESPACE}/elasticsearch_${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
-    environment:
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ports:
       - 9200:9200
       - 9300:9300

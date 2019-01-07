@@ -28,7 +28,6 @@
     docker-compose up -d;
     
 ### call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
-### or ```docker exec -it -u <USER> <NAMESPACE>_php n98-magerun2.phar install``` 
     
 #### DB Host Name is mysql
     

@@ -30,7 +30,7 @@ services:
         USER: ${USER}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         INSTALL_MAGENTO: ${INSTALL_MAGENTO}
-    image: ${NAMESPACE}/php_${PHP_VERSION_SET}_with-magento_${INSTALL_MAGENTO}
+    image: ${NAMESPACE}/php:${PHP_VERSION_SET}_with-magento_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql

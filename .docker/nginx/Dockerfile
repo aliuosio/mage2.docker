@@ -9,8 +9,8 @@ ARG WORKDIR_SERVER
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 
-RUN apk update && apk upgrade \
-    && apk add --update bash openssl tzdata \
+RUN apk update && apk upgrade
+RUN apk add --update bash openssl tzdata \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
     && addgroup -g 3000 --system ${USER} \

@@ -4,11 +4,14 @@
 ##### Available 7.0, 7.1, 7.2 all based on php:alpine docker image
 ##### change Vars in .env file
 
-## Add Host Adress to your /etc/hosts
-    echo -e "0.0.0.0 <SHOP_URI>" | sudo tee -a /etc/hosts
-
 ## Get Git Repository
     git clone https://github.com/aliuosio/mage2.docker.git
+
+## Add Host Adress to your /etc/hosts
+    echo -e "0.0.0.0 <SHOP_URI>" | sudo tee -a /etc/hosts
+    
+## Customize (you must set project absolute folder path ```.docker/.env```)
+    WORKDIR
 
 # NOTE: if you want to run th magento 2 installer you need to copy the file auth.json.template to auth.json and set your credentials there
 

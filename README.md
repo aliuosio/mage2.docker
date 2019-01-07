@@ -26,7 +26,7 @@
     docker-compose build
     docker-compose up -d
     
-call: https:/<SHOP_URI> in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
+call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
 #### DB Host Name is mysql
     
 ## to Install Magento2 when building php docker container

@@ -84,12 +84,10 @@ services:
       - 8025:8025
 
   elasticsearch:
-    build:
-      context: ./elasticsearch
-      args:
-        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
-        ELASTICSEARCH_IMAGE: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
-    image: ${NAMESPACE}/elasticsearch_${ELASTICSEARCH_VERSION}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
+    command: >
+      bash -c "bin/elasticsearch-plugin install analysis-phonetic
+      && bin/elasticsearch-plugin install analysis-icu"
     container_name: ${NAMESPACE}_elasticsearch
     ports:
       - 9200:9200

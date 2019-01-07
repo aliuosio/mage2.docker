@@ -16,17 +16,18 @@
 # NOTE: if you want to run th magento 2 installer you need to copy the file auth.json.template to auth.json and set your credentials there
 
 ## start docker (!! on OSX !!)
-    cd .docker
-    docker-sync start
-    docker-compose -f docker-compose.mac.yml build
-    docker-compose up -d
+    cd .docker;
+    docker-sync start;
+    docker-compose -f docker-compose.mac.yml build;
+    docker-compose up -d;
 
 ## start docker
-    cd .docker
-    docker-compose build
-    docker-compose up -d
+    cd .docker;
+    docker-compose build;
+    docker-compose up -d;
     
-call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
+    call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
+    
 #### DB Host Name is mysql
     
 ## to Install Magento2 when building php docker container

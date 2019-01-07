@@ -16,21 +16,10 @@ COPY conf/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-COPY conf/auth.json  /home/${USER}/.composer/
-COPY scripts/install-magento.sh  /home/${USER}/
 
 # Update alpine
 RUN apk update && apk upgrade \
-    && addgroup -g 3000 --system ${USER} \
-    && adduser -u 3000 --system -D -G ${USER} ${USER} \
-    && mkdir ${WORKDIR_SERVER} \
-    && chown -R ${USER}:${USER} ${WORKDIR_SERVER} \
-    && chmod -R 755 ${WORKDIR_SERVER} \
-    && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/www.conf \
-    && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
     && apk add --no-cache --virtual build-dependencies \
-    go \
-    git \
     aria2 \
     libc-dev \
     bash \
@@ -76,15 +65,34 @@ RUN apk update && apk upgrade \
     && pecl install -o -f redis xdebug \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis \
-    && curl -Lsf 'https://storage.googleapis.com/golang/go1.11.2.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf - \
-    && go get github.com/mailhog/mhsendmail \
-    && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer \
     && wget https://files.magerun.net/n98-magerun2.phar \
     && mv n98-magerun2.phar /usr/local/bin/n98-magerun2.phar \
     && chmod +x /usr/local/bin/n98-magerun2.phar \
     && rm -rf /var/cache/apk/* \
-    && chmod -R +x /home/${USER}/ \
+    && addgroup -g 3000 --system ${USER} \
+    && adduser -u 3000 --system -D -G ${USER} ${USER} \
+    && mkdir ${WORKDIR_SERVER} \
+    && chown -R ${USER}:${USER} ${WORKDIR_SERVER} \
+    && chmod -R 755 ${WORKDIR_SERVER} \
+    && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/zz-docker.conf
+
+# <!-- mhsendmail Setup Block -->
+RUN apk update && apk upgrade \
+    && apk add --no-cache go git \
+    && rm -rf /var/cache/apk/* \
+    && curl -Lsf 'https://storage.googleapis.com/golang/go1.11.2.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf - \
+    && go get github.com/mailhog/mhsendmail \
+    && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
+# <!-- mhsendmail Setup Block -->
+
+# <!-- Magento 2 Setup Block -->
+COPY conf/auth.json  /home/${USER}/.composer/
+COPY scripts/install-magento.sh  /home/${USER}/
+
+RUN chmod -R +x /home/${USER}/ \
     && chown -R ${USER}:${USER} /home/${USER}/ \
     && /home/${USER}/install-magento.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER
+# <!-- Magento 2 Setup Block //-->

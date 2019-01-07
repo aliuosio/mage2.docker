@@ -56,3 +56,5 @@ set ``` INSTALL_MAGENTO ``` in ``` .docker/.env ```
 
 ### Todo
 * add let's encrypt container to generate certs for valid domain servers
+* add option to install certain magnto 2 version
+* add crontab script for magento 2

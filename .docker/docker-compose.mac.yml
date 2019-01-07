@@ -3,13 +3,13 @@ version: "3.7"
 services:
 
   nginx:
+    container_name: ${NAMESPACE}_nginx
     build:
       context: ./nginx
       args:
-        USER: ${USER}
-        WORKDIR_SERVER: ${WORKDIR_SERVER}
-        SHOP_URI: ${SHOP_URI}
-    container_name: ${NAMESPACE}_nginx
+      USER: ${USER}
+      WORKDIR_SERVER: ${WORKDIR_SERVER}
+      SHOP_URI: ${SHOP_URI}
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -22,15 +22,15 @@ services:
       - phpsocket:/var/run
 
   php:
+    container_name: ${NAMESPACE}_php
     build:
       context: ./php
       args:
-        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
-        USER: ${USER}
-        WORKDIR_SERVER: ${WORKDIR_SERVER}
-        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+      PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+      USER: ${USER}
+      WORKDIR_SERVER: ${WORKDIR_SERVER}
+      INSTALL_MAGENTO: ${INSTALL_MAGENTO}
     image: ${NAMESPACE}/php_${PHP_VERSION_SET}_with-magento_${INSTALL_MAGENTO}
-    container_name: ${NAMESPACE}_php
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql
@@ -45,11 +45,11 @@ services:
       - mysqlsocket:/var/run/mysqld
 
   mysql:
+    container_name: ${NAMESPACE}_mysql
     build:
       context: ./mysql
       args:
-        USER: ${USER}
-    container_name: ${NAMESPACE}_mysql
+      USER: ${USER}
     image: ${NAMESPACE}/mysql
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
@@ -63,11 +63,11 @@ services:
       - mysqlsocket:/var/run/mysqld
 
   redis:
+    container_name: ${NAMESPACE}_redis
     build:
       context: ./redis
       args:
-        USER: ${USER}
-    container_name: ${NAMESPACE}_redis
+      USER: ${USER}
     image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'
@@ -76,19 +76,19 @@ services:
       - redis_data:/data:cached
 
   mailhog:
-    image: mailhog/mailhog:latest
     container_name: ${NAMESPACE}_mailhog
+    image: mailhog/mailhog:latest
     expose:
       - 1025
     ports:
       - 8025:8025
 
   elasticsearch:
+    container_name: ${NAMESPACE}_elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
     command: >
       bash -c "bin/elasticsearch-plugin install analysis-phonetic
       && bin/elasticsearch-plugin install analysis-icu"
-    container_name: ${NAMESPACE}_elasticsearch
     ports:
       - 9200:9200
       - 9300:9300

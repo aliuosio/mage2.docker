@@ -27,7 +27,8 @@
     docker-compose build;
     docker-compose up -d;
     
-call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
+### call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
+### or ```docker exec -it -u <USER> <NAMESPACE>_php n98-magerun2.phar install``` 
     
 #### DB Host Name is mysql
     
@@ -35,17 +36,17 @@ call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true`
 set ``` INSTALL_MAGENTO ``` in ``` .docker/.env ```
     
 ### Login to PHP container (values set in .env)
-    docker exec -it -u <USER> <NAMESPACE>_php_<PHP_VERSION_SET> bash
+    docker exec -it -u <USER> <NAMESPACE>_php bash
     
 ### Login to Web Server container (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_nginx bash
     
 ### Use Composer (values set in .env)
-    docker exec -it -u <USER> <NAMESPACE>_php_<PHP_VERSION_SET> composer <command>
+    docker exec -it -u <USER> <NAMESPACE>_php composer <command>
 
     
 ### Use Magerun (values set in .env)
-    docker exec -it -u <USER> <NAMESPACE>_php_<PHP_VERSION_SET> n98-magerun2 shell
+    docker exec -it -u <USER> <NAMESPACE>_php n98-magerun2 shell
     
 ### Connect Sequel to MySQL (values set in .env)
     Host: <SHOP_URI>

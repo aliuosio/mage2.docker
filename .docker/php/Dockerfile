@@ -95,5 +95,5 @@ COPY scripts/install-magento.sh  /home/${USER}/
 
 RUN chmod -R +x /home/${USER}/ \
     && chown -R ${USER}:${USER} /home/${USER}/ \
-    && /home/${USER}/install-magento.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_WITH_SAMPLE_DATA
+    && /home/${USER}/install-magento.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER
 # <!-- Magento 2 Setup Block //-->

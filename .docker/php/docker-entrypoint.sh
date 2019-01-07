@@ -1,6 +1,7 @@
 #!/bin/bash -x
 
-if ["true" = $1]; then
+if [[ $1 = "true" ]]
+then
     cd $3;
     su -c "composer global require hirak/prestissimo;" -s /bin/sh $2
     su -c "composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition ." -s /bin/sh $2

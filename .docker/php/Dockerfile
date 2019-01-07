@@ -7,7 +7,6 @@ MAINTAINER Osiozekhai Aliu
 ARG USER
 ARG WORKDIR_SERVER
 ARG INSTALL_MAGENTO
-ARG INSTALL_MAGENTO_WITH_SAMPLE_DATA
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
@@ -16,7 +15,7 @@ ENV PATH /usr/local/go/bin:$PATH
 COPY conf/zz-docker.conf conf/www.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json.template conf/auth.json* /home/${USER}/.composer/
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint.sh /home/${USER}/
 
 ADD https://files.magerun.net/n98-magerun2.phar /usr/local/bin/
 
@@ -71,7 +70,7 @@ RUN apk update && apk upgrade \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer \
     && chmod +x /usr/local/bin/n98-magerun2.phar \
-    && chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && chmod +x /home/${USER}/docker-entrypoint.sh \
     && addgroup -g 3000 --system ${USER} \
     && adduser -u 3000 --system -D -G ${USER} ${USER} \
     && mkdir ${WORKDIR_SERVER} \
@@ -85,9 +84,8 @@ RUN apk update && apk upgrade \
     && go get github.com/mailhog/mhsendmail \
     && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail \
     && chown -R ${USER}:${USER} /home/${USER}/ \
-    && rm -rf /var/cache/apk/*
-
-CMD ["docker-entrypoint.sh", '${INSTALL_MAGENTO}', '${USER}', '${WORKDIR_SERVER}']
+    && rm -rf /var/cache/apk/* \
+    && /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER
 
 # FROM scratch
 # COPY --from=0 / /

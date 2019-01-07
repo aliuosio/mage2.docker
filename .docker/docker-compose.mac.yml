@@ -7,9 +7,9 @@ services:
     build:
       context: ./nginx
       args:
-      USER: ${USER}
-      WORKDIR_SERVER: ${WORKDIR_SERVER}
-      SHOP_URI: ${SHOP_URI}
+        USER: ${USER}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -26,10 +26,10 @@ services:
     build:
       context: ./php
       args:
-      PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
-      USER: ${USER}
-      WORKDIR_SERVER: ${WORKDIR_SERVER}
-      INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+        USER: ${USER}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
     image: ${NAMESPACE}/php_${PHP_VERSION_SET}_with-magento_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -49,7 +49,7 @@ services:
     build:
       context: ./mysql
       args:
-      USER: ${USER}
+        USER: ${USER}
     image: ${NAMESPACE}/mysql
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
@@ -67,7 +67,7 @@ services:
     build:
       context: ./redis
       args:
-      USER: ${USER}
+        USER: ${USER}
     image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'
@@ -87,8 +87,8 @@ services:
     container_name: ${NAMESPACE}_elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
     command: >
-      bash -c "bin/elasticsearch-plugin install analysis-phonetic
-      && bin/elasticsearch-plugin install analysis-icu"
+      bash -c "bin/elasticsearch-plugin install analysis-phonetic;
+      bin/elasticsearch-plugin install analysis-icu;"
     ports:
       - 9200:9200
       - 9300:9300

@@ -4,8 +4,9 @@
 ##### Available 7.0, 7.1, 7.2 all based on php:alpine docker image
 ##### change Vars in .env file
 
-## Get Git Repository
+## Get Source (Use git clone or composer require)
     git clone https://github.com/aliuosio/mage2.docker.git
+    composer require aliuosio/mage2.docker
 
 ## Add Host Adress to your /etc/hosts
     echo -e "0.0.0.0 <SHOP_URI>" | sudo tee -a /etc/hosts

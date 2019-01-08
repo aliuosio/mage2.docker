@@ -12,7 +12,7 @@
 ## Add Host Address to your /etc/hosts
     echo -e "0.0.0.0 <SHOP_URI>" | sudo tee -a /etc/hosts
 
-## Notes: MANDATORY
+### Notes: MANDATORY
 * if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set your credentials there
 * You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```) 
 
@@ -22,8 +22,8 @@
     docker-compose -f docker-compose.mac.yml build;
     docker-compose up -d;
 
-## Notes: OSX Users
-* if ```docker-sync``` is missing on your Mac go to (visit the docker-sync website to get it)[http://docker-sync.io/]
+### Notes: OSX Users
+* if ```docker-sync``` is missing on your Mac go to visit the [docker-sync](http://docker-sync.io/) website to get it
 
 ## start docker
     cd .docker;

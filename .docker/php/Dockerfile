@@ -2,7 +2,7 @@ ARG PHP_VERSION_SET_IMAGE
 
 FROM $PHP_VERSION_SET_IMAGE
 
-MAINTAINER Osiozekhai Aliu
+LABEL maintainer="Osiozekhai Aliu"
 
 ARG USER
 ARG WORKDIR_SERVER
@@ -11,17 +11,15 @@ ARG INSTALL_MAGENTO_VERSION
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
-ENV PATH /usr/local/go/bin:$PATH
 
 COPY conf/zz-docker.conf conf/www.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json.template conf/auth.json* /home/${USER}/.composer/
 COPY docker-entrypoint.sh /home/${USER}/
+COPY conf/crontab /crontab.${USER}
 
-# Update alpine
-RUN apk update && apk upgrade \
-    && apk add --no-cache --virtual build-dependencies \
-        aria2 \
+RUN apk update && apk upgrade
+RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \
         bash \
         libxslt-dev \
@@ -30,11 +28,9 @@ RUN apk update && apk upgrade \
         libjpeg-turbo-dev \
         libpng \
         zip \
-        tzdata \
         libpng-dev \
     && set -xe \
-    && apk add --no-cache \
-        icu \
+    && apk add --no-cache tzdata icu busybox-suid \
     && apk add --no-cache --virtual .php-deps \
         make \
     && apk add --no-cache --virtual .build-deps \
@@ -79,11 +75,10 @@ RUN apk update && apk upgrade \
     && chmod -R 755 ${WORKDIR_SERVER} \
     && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
-    && apk add --no-cache go git \
+    && sed -i "s#__WORKDIR_SERVER#${WORKDIR_SERVER}#g" /crontab.${USER} \
+    && apk del tzdata \
     && rm -rf /var/cache/apk/* \
-    && curl -Lsf 'https://storage.googleapis.com/golang/go1.11.2.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf - \
-    && go get github.com/mailhog/mhsendmail \
-    && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail \
     && chown -R ${USER}:${USER} /home/${USER}/ \
     && rm -rf /var/cache/apk/* \
+    && crontab -u ${USER} /crontab.${USER} \
     && /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION

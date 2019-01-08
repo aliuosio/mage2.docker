@@ -36,9 +36,6 @@ visit the [docker-sync](http://docker-sync.io/) website to get it
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php bash
     
-### Login to Web Server container (values set in .env)
-    docker exec -it -u <USER> <NAMESPACE>_nginx bash
-    
 ### Use Composer (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php composer <command>
 

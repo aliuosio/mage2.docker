@@ -23,7 +23,8 @@
     docker-compose up -d;
 
 ### Notes: OSX Users
-* if ```docker-sync``` is missing on your Mac go to visit the [docker-sync](http://docker-sync.io/) website to get it
+* if ```docker-sync``` is missing on your OSX. 
+visit the [docker-sync](http://docker-sync.io/) website to get it
 
 ## start docker
     cd .docker;

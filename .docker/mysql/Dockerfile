@@ -1,6 +1,6 @@
 FROM mysql:5.7
 
-MAINTAINER Osiozekhai Aliu
+LABEL maintainer="Osiozekhai Aliu"
 
 ARG USER
 

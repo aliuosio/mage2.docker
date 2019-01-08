@@ -1,6 +1,6 @@
 FROM redis:alpine
 
-MAINTAINER Osiozekhai Aliu
+LABEL maintainer="Osiozekhai Aliu"
 
 ARG USER
 

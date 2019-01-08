@@ -78,7 +78,6 @@ RUN apk add --no-cache --virtual build-dependencies \
     && sed -i "s#__WORKDIR_SERVER#${WORKDIR_SERVER}#g" /crontab.${USER} \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
-    && chown -R ${USER}:${USER} /home/${USER}/ \
-    && rm -rf /var/cache/apk/* \
     && crontab -u ${USER} /crontab.${USER} \
+    && chown -R ${USER}:${USER} /home/${USER}/ \
     && /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION

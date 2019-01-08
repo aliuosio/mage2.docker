@@ -66,7 +66,7 @@ services:
     container_name: ${NAMESPACE}_elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
     command: >
-      bash -c "bin/elasticsearch-plugin install analysis-phonetic;
+      bash -c "bin/elasticsearch-plugin install analysis-phonetic &&
       bin/elasticsearch-plugin install analysis-icu;"
     ports:
       - 9200:9200
@@ -85,4 +85,8 @@ volumes:
   mysql_data:
     driver: local
   app_data:
-    external: true
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${WORKDIR}"

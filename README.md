@@ -5,19 +5,16 @@
 ##### change Vars in .env file
 
 ## Get Source (Use git clone or composer require)
-    git clone https://github.com/aliuosio/mage2.docker.git
-    composer require aliuosio/mage2.docker
+``` git clone https://github.com/aliuosio/mage2.docker.git ```
+    or
+``` composer require aliuosio/mage2.docker ```
 
 ## Add Host Address to your /etc/hosts
     echo -e "0.0.0.0 <SHOP_URI>" | sudo tee -a /etc/hosts
 
-## Customize (you must set project absolute folder path ```.docker/.env```) MANDATORY
-    WORKDIR
-
 ## Notes: MANDATORY
 * if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set your credentials there
 * You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```) 
-    
 
 ## start docker (!! on OSX !!)
     cd .docker;

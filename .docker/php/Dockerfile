@@ -71,7 +71,6 @@ RUN apk add --no-cache --virtual build-dependencies \
     && addgroup -g 3000 --system ${USER} \
     && adduser -u 3000 --system -D -G ${USER} ${USER} \
     && mkdir ${WORKDIR_SERVER} \
-    && chown -R ${USER}:${USER} ${WORKDIR_SERVER} \
     && chmod -R 755 ${WORKDIR_SERVER} \
     && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \

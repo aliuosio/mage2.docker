@@ -8,15 +8,16 @@
     git clone https://github.com/aliuosio/mage2.docker.git
     composer require aliuosio/mage2.docker
 
-## Add Host Adress to your /etc/hosts (optional)
+## Add Host Address to your /etc/hosts
     echo -e "0.0.0.0 <SHOP_URI>" | sudo tee -a /etc/hosts
 
-*this is optional but you would have to set ```SHOP_URI``` to localhost in ```.docker/.env```
-    
-## Customize (you must set project absolute folder path ```.docker/.env```)
+## Customize (you must set project absolute folder path ```.docker/.env```) MANDATORY
     WORKDIR
 
-### NOTE: if you want to run th magento 2 installer you need to copy the file auth.json.template to auth.json and set your credentials there
+## Notes: MANDATORY
+* if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set your credentials there
+* You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```) 
+    
 
 ## start docker (!! on OSX !!)
     cd .docker;

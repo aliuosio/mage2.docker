@@ -45,14 +45,9 @@ visit the [docker-sync](http://docker-sync.io/) website to get it
 ### Use Magerun (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php n98-magerun2 shell
     
-### Connect Sequel to MySQL (values set in .env)
-    Host: <SHOP_URI>
-    User: root
-    Password: root
-    port: <DATABASE_PORT_EXTERNAL>
-    
 ### All outgoing mails are sent to MailHog
     https://<SHOP_URI>:8025
+* you have to configure the mageplaza smtp extension
 
 ### Todo
 * add let's encrypt/ssl key generator container to generate certs for valid domain servers

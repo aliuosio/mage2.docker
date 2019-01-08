@@ -1,8 +1,6 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
-
-##### Change settings under ```.docker/.env```
-##### Available 7.0, 7.1, 7.2 all based on php:alpine docker image
-##### change Vars in .env file
+* Change settings under ```.docker/.env```
+* Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
 
 ## Get Source (Use git clone or composer require)
 ``` git clone https://github.com/aliuosio/mage2.docker.git ```
@@ -14,7 +12,7 @@
 
 ### Notes: MANDATORY
 * if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set your credentials there
-* You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```) 
+* You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```
 
 ## start docker (!! on OSX !!)
     cd .docker;
@@ -23,7 +21,8 @@
     docker-compose up -d;
 
 ### Notes: OSX Users
-* if ```docker-sync``` is missing on your Mac go to visit the [docker-sync](http://docker-sync.io/) website to get it
+* if ```docker-sync``` is missing on your OSX. 
+visit the [docker-sync](http://docker-sync.io/) website to get it
 
 ## start docker
     cd .docker;
@@ -46,14 +45,9 @@
 ### Use Magerun (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php n98-magerun2 shell
     
-### Connect Sequel to MySQL (values set in .env)
-    Host: <SHOP_URI>
-    User: root
-    Password: root
-    port: <DATABASE_PORT_EXTERNAL>
-    
 ### All outgoing mails are sent to MailHog
     https://<SHOP_URI>:8025
+* you have to configure the mageplaza smtp extension
 
 ### Todo
 * add let's encrypt/ssl key generator container to generate certs for valid domain servers

@@ -4,6 +4,12 @@ services:
 
   nginx:
     container_name: ${NAMESPACE}_nginx
+    build:
+      context: ./nginx
+      args:
+        USER: ${USER}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -17,12 +23,20 @@ services:
 
   php:
     container_name: ${NAMESPACE}_php
-    image: ${NAMESPACE}/php:${PHP_VERSION_SET}_with-magento_${INSTALL_MAGENTO}
+    build:
+      context: ./php
+      args:
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+        USER: ${USER}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+    image: ${NAMESPACE}/php_${PHP_VERSION_SET}:magento-installed_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql
       - redis
-      - elasticsearch
+      #- elasticsearch
     links:
       - mailhog
     volumes:
@@ -33,6 +47,10 @@ services:
 
   mysql:
     container_name: ${NAMESPACE}_mysql
+    build:
+      context: ./mysql
+      args:
+        USER: ${USER}
     image: ${NAMESPACE}/mysql
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
@@ -47,6 +65,10 @@ services:
 
   redis:
     container_name: ${NAMESPACE}_redis
+    build:
+      context: ./redis
+      args:
+        USER: ${USER}
     image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'
@@ -62,31 +84,38 @@ services:
     ports:
       - 8025:8025
 
-  elasticsearch:
-    container_name: ${NAMESPACE}_elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
-    command: >
-      bash -c "bin/elasticsearch-plugin install analysis-phonetic &&
-      bin/elasticsearch-plugin install analysis-icu;"
-    ports:
-      - 9200:9200
-      - 9300:9300
-    volumes:
-      - elastic_data:/usr/share/elasticsearch/data:cached
+#  elasticsearch:
+#    restart: always
+#    container_name: ${NAMESPACE}_elasticsearch
+#    build:
+#      context: ./elasticsearch
+#      args:
+#        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+#    image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
+#    environment:
+#      - "ES_HEAP_SIZE=1G"
+#      - "cluster.name=docker-cluster"
+#      - "bootstrap.memory_lock=true"
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    ports:
+#      - 9200:9200
+#      - 9300:9300
+#    volumes:
+#      - elastic_data:/usr/share/elasticsearch/data:cached
 
 volumes:
   phpsocket:
   mysqlsocket:
   redissocket:
-  elastic_data:
-    driver: local
+  # elastic_data:
+  #  driver: local
   redis_data:
     driver: local
   mysql_data:
     driver: local
   app_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: "${WORKDIR}"
+    external: true

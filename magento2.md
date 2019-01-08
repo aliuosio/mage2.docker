@@ -1,3 +1,5 @@
+* if you install sampledata be sure to run ```composer update``` before running bin/magento setup:upgrade to install downloaded composer sampeldata packages
+
 ```
 composer global require hirak/prestissimo
 

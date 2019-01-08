@@ -31,7 +31,8 @@
     docker-compose up -d;
     
 ### call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
-    Database Host Name is: mysql (just like the docker conatainer is named under services in the docker-compose.yml)
+    Database Host Name is: mysql 
+* just like the docker container is named under services in the docker-compose.yml
     
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php bash

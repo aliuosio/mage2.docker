@@ -18,9 +18,12 @@
 
 ## start docker (!! on OSX !!)
     cd .docker;
-    docker-sync start;
+    docker-sync start; 
     docker-compose -f docker-compose.mac.yml build;
     docker-compose up -d;
+
+## Notes: OSX Users
+* if ```docker-sync``` is missing on your Mac go to (visit the docker-sync website to get it)[http://docker-sync.io/]
 
 ## start docker
     cd .docker;
@@ -29,9 +32,6 @@
     
 ### call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
     Database Host Name is: mysql (just like the docker conatainer is named under services in the docker-compose.yml)
-    
-## to Install Magento2 when building php docker container
-set ``` INSTALL_MAGENTO ``` in ``` .docker/.env ```
     
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php bash

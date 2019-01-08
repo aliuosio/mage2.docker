@@ -1,8 +1,6 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
-
-##### Change settings under ```.docker/.env```
-##### Available 7.0, 7.1, 7.2 all based on php:alpine docker image
-##### change Vars in .env file
+* Change settings under ```.docker/.env```
+* Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
 
 ## Get Source (Use git clone or composer require)
 ``` git clone https://github.com/aliuosio/mage2.docker.git ```

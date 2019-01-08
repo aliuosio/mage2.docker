@@ -7,6 +7,7 @@ MAINTAINER Osiozekhai Aliu
 ARG USER
 ARG WORKDIR_SERVER
 ARG INSTALL_MAGENTO
+ARG INSTALL_MAGENTO_VERSION
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
@@ -85,9 +86,4 @@ RUN apk update && apk upgrade \
     && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail \
     && chown -R ${USER}:${USER} /home/${USER}/ \
     && rm -rf /var/cache/apk/* \
-    && /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER
-
-# FROM scratch
-# COPY --from=0 / /
-
-# CMD ["/bin/bash"]
+    && /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION

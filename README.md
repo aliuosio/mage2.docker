@@ -8,13 +8,15 @@
     git clone https://github.com/aliuosio/mage2.docker.git
     composer require aliuosio/mage2.docker
 
-## Add Host Adress to your /etc/hosts
+## Add Host Adress to your /etc/hosts (optional)
     echo -e "0.0.0.0 <SHOP_URI>" | sudo tee -a /etc/hosts
+
+*this is optional but you would have to set ```SHOP_URI``` to localhost in ```.docker/.env```
     
 ## Customize (you must set project absolute folder path ```.docker/.env```)
     WORKDIR
 
-# NOTE: if you want to run th magento 2 installer you need to copy the file auth.json.template to auth.json and set your credentials there
+### NOTE: if you want to run th magento 2 installer you need to copy the file auth.json.template to auth.json and set your credentials there
 
 ## start docker (!! on OSX !!)
     cd .docker;
@@ -28,8 +30,7 @@
     docker-compose up -d;
     
 ### call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
-    
-#### DB Host Name is mysql
+    Database Host Name is: mysql (just like the docker conatainer is named under services in the docker-compose.yml)
     
 ## to Install Magento2 when building php docker container
 set ``` INSTALL_MAGENTO ``` in ``` .docker/.env ```
@@ -43,7 +44,6 @@ set ``` INSTALL_MAGENTO ``` in ``` .docker/.env ```
 ### Use Composer (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php composer <command>
 
-    
 ### Use Magerun (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php n98-magerun2 shell
     
@@ -57,5 +57,4 @@ set ``` INSTALL_MAGENTO ``` in ``` .docker/.env ```
     https://<SHOP_URI>:8025
 
 ### Todo
-* add crontab script for magento 2
-* add let's encrypt container to generate certs for valid domain servers
+* add let's encrypt/ssl key generator container to generate certs for valid domain servers

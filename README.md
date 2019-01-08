@@ -14,7 +14,7 @@
 
 ### Notes: MANDATORY
 * if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set your credentials there
-* You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```) 
+* You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```
 
 ## start docker (!! on OSX !!)
     cd .docker;

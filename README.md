@@ -36,18 +36,21 @@ visit the [docker-sync](http://docker-sync.io/) website to get it
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php bash
     
-### Login to Web Server container (values set in .env)
-    docker exec -it -u <USER> <NAMESPACE>_nginx bash
-    
 ### Use Composer (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php composer <command>
 
 ### Use Magerun (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php n98-magerun2 shell
     
-### All outgoing mails are sent to MailHog
+### All outgoing mails caught by MailHog
     https://<SHOP_URI>:8025
-* you have to configure the mageplaza smtp extension
 
-### Todo
-* add let's encrypt/ssl key generator container to generate certs for valid domain servers
+you have to configure the mageplaza smtp extension in Magento 2 Backend 
+```stores``` -> ```configuration```
+    
+    *SMTP* 
+    Host: mailhog
+    port: 1025
+
+### Todos
+* add let's encrypt/ssl key generator container to generate certificates for valid domains

@@ -80,4 +80,4 @@ RUN apk add --no-cache --virtual build-dependencies \
     && crontab -u ${USER} /crontab.${USER} \
     && chown -R ${USER}:${USER} /home/${USER}/
 
-RUN /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE-DATA
+RUN /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA

@@ -11,21 +11,13 @@
 if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set # - your credentials there
 You must set project absolute folder path ```WORKDIR``` in ```.docker/.env``` 
 
-## Start docker (!! on OSX !!)
-    cd .docker;
-    docker-sync start; 
-    docker-compose -f docker-compose.mac.yml build;
-    docker-compose up -d;
-
-> OSX Users:
-if ```docker-sync``` is missing on your OSX then 
-visit the http://docker-sync.io/ website to get it
-
 ## Start docker
     cd .docker;
+    docker-sync start; (!! on OSX only !!)
+    docker-compose -f docker-compose.mac.yml build;  (!! on OSX only !!)
     docker-compose build;
     docker-compose up -d;
-    
+
 > Notes  ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
     Database Host Name is: mysql 
 just like the docker container is named under services in the docker-compose.yml

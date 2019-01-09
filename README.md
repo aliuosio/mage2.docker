@@ -8,7 +8,7 @@
 ``` composer require aliuosio/mage2.docker ```
 
 > **mandatory**
-if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set # - your credentials there
+if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set your credentials there
 You must set project absolute folder path ```WORKDIR``` in ```.docker/.env``` 
 
 ## Start docker
@@ -21,7 +21,7 @@ You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```
 The Database Hostname is ``mysql``
 
 > For OSX Users:
-* if ```docker-sync``` is missing on your OSX then 
+if ```docker-sync``` is missing on your OSX then 
 visit the http://docker-sync.io/ website to get it
 
 ### Login to PHP container (values set in .env)

@@ -16,8 +16,5 @@ then
     su -c "composer config repositories.firegento_magesetup vcs git@github.com:firegento/firegento-magesetup2.git; \
        composer require firegento/magesetup2:dev-develop;" -s /bin/sh $2
 
-    su -c "bin/magento sampledata:deploy; \
-        bin/magento setup:upgrade; \
-        bin/magento indexer:reindex; \
-        bin/magento cache:clean;" -s /bin/sh $2
+    su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
 fi

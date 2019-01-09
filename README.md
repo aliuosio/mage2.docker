@@ -7,9 +7,6 @@
     or
 ``` composer require aliuosio/mage2.docker ```
 
-## Add Host Address to your /etc/hosts
-    echo -e "0.0.0.0 <SHOP_URI>" | sudo tee -a /etc/hosts
-
 ### Notes: MANDATORY
 * if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set your credentials there
 * You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```
@@ -21,8 +18,8 @@
     docker-compose up -d;
 
 ### Notes: OSX Users
-* if ```docker-sync``` is missing on your OSX. 
-visit the [docker-sync](http://docker-sync.io/) website to get it
+* if ```docker-sync``` is missing on your OSX then 
+visit the http://docker-sync.io/ website to get it
 
 ## start docker
     cd .docker;
@@ -32,7 +29,7 @@ visit the [docker-sync](http://docker-sync.io/) website to get it
 ### call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
     Database Host Name is: mysql 
 * just like the docker container is named under services in the docker-compose.yml
-    
+
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php bash
     
@@ -42,7 +39,7 @@ visit the [docker-sync](http://docker-sync.io/) website to get it
 ### Use Magerun (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php n98-magerun2 shell
     
-### All outgoing mails caught by MailHog
+### All outgoing mails caught by MailHog (values set in .env)
     https://<SHOP_URI>:8025
 
 you have to configure the mageplaza smtp extension in Magento 2 Backend 

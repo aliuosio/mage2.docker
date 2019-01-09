@@ -20,5 +20,4 @@ if [[ $1 = "true" ]]; then
     if [[ $5 = "true" ]]; then
         su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
     fi
-
 fi

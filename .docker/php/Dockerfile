@@ -8,6 +8,7 @@ ARG USER
 ARG WORKDIR_SERVER
 ARG INSTALL_MAGENTO
 ARG INSTALL_MAGENTO_VERSION
+ARG INSTALL_SAMPLE_DATA
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
@@ -30,7 +31,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         zip \
         libpng-dev \
     && set -xe \
-    && apk add --no-cache tzdata icu busybox-suid \
+    && apk add --no-cache tzdata icu git busybox-suid \
     && apk add --no-cache --virtual .php-deps \
         make \
     && apk add --no-cache --virtual .build-deps \
@@ -78,5 +79,6 @@ RUN apk add --no-cache --virtual build-dependencies \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && crontab -u ${USER} /crontab.${USER} \
-    && chown -R ${USER}:${USER} /home/${USER}/ \
-    && /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION
+    && chown -R ${USER}:${USER} /home/${USER}/
+
+RUN /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA

@@ -2,37 +2,29 @@
 * Change settings under ```.docker/.env```
 * Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
 
-## Get Source (Use git clone or composer require)
+## Get Source
 ``` git clone https://github.com/aliuosio/mage2.docker.git ```
     or
 ``` composer require aliuosio/mage2.docker ```
 
-## Add Host Address to your /etc/hosts
-    echo -e "0.0.0.0 <SHOP_URI>" | sudo tee -a /etc/hosts
+> **mandatory**
+if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set your credentials there
+You must set project absolute folder path ```WORKDIR``` in ```.docker/.env``` 
 
-### Notes: MANDATORY
-* if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set your credentials there
-* You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```
-
-## start docker (!! on OSX !!)
+## Start docker
     cd .docker;
-    docker-sync start; 
-    docker-compose -f docker-compose.mac.yml build;
-    docker-compose up -d;
+    docker-sync start; # on OSX only
+    docker-compose -f docker-compose.mac.yml build; # on OSX only
+    docker-compose build; # on linux only
+    docker-compose up -d; 
 
-### Notes: OSX Users
-* if ```docker-sync``` is missing on your OSX. 
-visit the [docker-sync](http://docker-sync.io/) website to get it
+> Call: https://localhost in your browser to configure Magento 2.
+The Database Hostname is ```mysql```
 
-## start docker
-    cd .docker;
-    docker-compose build;
-    docker-compose up -d;
-    
-### call: ```https:/<SHOP_URI>``` in Browser if you set the ```INSTALL_MAGENTO=true``` to configure magento 2
-    Database Host Name is: mysql 
-* just like the docker container is named under services in the docker-compose.yml
-    
+> For OSX Users:
+if ```docker-sync``` is missing on your OSX then 
+visit the http://docker-sync.io/ website to get it
+
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php bash
     
@@ -42,15 +34,17 @@ visit the [docker-sync](http://docker-sync.io/) website to get it
 ### Use Magerun (values set in .env)
     docker exec -it -u <USER> <NAMESPACE>_php n98-magerun2 shell
     
-### All outgoing mails caught by MailHog
+### All outgoing mails caught by MailHog (values set in .env)
     https://<SHOP_URI>:8025
 
-you have to configure the mageplaza smtp extension in Magento 2 Backend 
-```stores``` -> ```configuration```
+### Configure the mageplaza SMTP extension:
+In Magento 2 Backend ```stores``` -> ```configuration``` -> ```Mageplaza Extensions```
     
-    *SMTP* 
+    Enable Mageplaza SMTP: yes
     Host: mailhog
     port: 1025
+    
+> mandatory settings
 
 ### Todos
 * add let's encrypt/ssl key generator container to generate certificates for valid domains

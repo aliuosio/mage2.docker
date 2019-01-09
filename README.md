@@ -37,7 +37,9 @@ visit the http://docker-sync.io/ website to get it
 ### All outgoing mails caught by MailHog (values set in .env)
     https://<SHOP_URI>:8025
 
-### You have to configure the mageplaza smtp extension in Magento 2 Backend ```stores``` -> ```configuration```
+### Configure the mageplaza SMTP extension:
+In Magento 2 Backend ```stores``` -> ```configuration```
+    
     SMTP
     Host: mailhog
     port: 1025

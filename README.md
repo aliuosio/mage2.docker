@@ -13,9 +13,9 @@ You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```
 
 ## Start docker
     cd .docker;
-    docker-sync start; # (on OSX only)
-    docker-compose -f docker-compose.mac.yml build; # (on OSX only)
-    docker-compose build; # (on linux only)
+    docker-sync start; # on OSX only
+    docker-compose -f docker-compose.mac.yml build; # on OSX only
+    docker-compose build; # on linux only
     docker-compose up -d; 
 
 > Call: https://localhost in your browser to configure Magento 2.

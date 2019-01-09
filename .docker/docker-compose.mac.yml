@@ -4,12 +4,12 @@ services:
 
   nginx:
     container_name: ${NAMESPACE}_nginx
-    #build:
-    #  context: ./nginx
-    #  args:
-    #    USER: ${USER}
-    #    WORKDIR_SERVER: ${WORKDIR_SERVER}
-    #    SHOP_URI: ${SHOP_URI}
+    build:
+      context: ./nginx
+      args:
+        USER: ${USER}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -23,14 +23,14 @@ services:
 
   php:
     container_name: ${NAMESPACE}_php
-    #build:
-    #  context: ./php
-    #  args:
-    #    PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
-    #    USER: ${USER}
-    #    WORKDIR_SERVER: ${WORKDIR_SERVER}
-    #    INSTALL_MAGENTO: ${INSTALL_MAGENTO}
-    #    INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+    build:
+      context: ./php
+      args:
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+        USER: ${USER}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
     image: ${NAMESPACE}/php_${PHP_VERSION_SET}:magento-installed_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -47,10 +47,10 @@ services:
 
   mysql:
     container_name: ${NAMESPACE}_mysql
-    #build:
-    #  context: ./mysql
-    #  args:
-    #    USER: ${USER}
+    build:
+      context: ./mysql
+      args:
+        USER: ${USER}
     image: ${NAMESPACE}/mysql
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
@@ -65,10 +65,10 @@ services:
 
   redis:
     container_name: ${NAMESPACE}_redis
-    #build:
-    #  context: ./redis
-    #  args:
-    #    USER: ${USER}
+    build:
+      context: ./redis
+      args:
+        USER: ${USER}
     image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'

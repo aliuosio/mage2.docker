@@ -39,7 +39,7 @@ visit the http://docker-sync.io/ website to get it
 
 > You have to configure the mageplaza smtp extension in Magento 2 Backend ```stores``` -> ```configuration```
     
-    *SMTP* 
+    SMTP
     Host: mailhog
     port: 1025
 

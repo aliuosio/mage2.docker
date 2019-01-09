@@ -18,8 +18,8 @@ You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```
     docker-compose build; # (on linux only)
     docker-compose up -d; 
 
-*Call ``https://localhost``* in your browser to configure Magento 2.
-The Database Hostname is ``mysql``
+> Call: ```https://localhost``` in your browser to configure Magento 2.
+The Database Hostname is ```mysql```
 
 > For OSX Users:
 if ```docker-sync``` is missing on your OSX then 

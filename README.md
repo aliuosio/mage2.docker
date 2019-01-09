@@ -38,11 +38,13 @@ visit the http://docker-sync.io/ website to get it
     https://<SHOP_URI>:8025
 
 ### Configure the mageplaza SMTP extension:
-In Magento 2 Backend ```stores``` -> ```configuration```
+In Magento 2 Backend ```stores``` -> ```configuration``` -> ```Mageplaza Extensions```
     
-    SMTP
+    Enable Mageplaza SMTP: yes
     Host: mailhog
     port: 1025
+    
+> mandatory settings
 
 ### Todos
 * add let's encrypt/ssl key generator container to generate certificates for valid domains

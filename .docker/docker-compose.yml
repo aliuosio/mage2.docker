@@ -36,7 +36,7 @@ services:
     depends_on:
       - mysql
       - redis
-      #- elasticsearch
+      - elasticsearch
     links:
       - mailhog
     volumes:
@@ -79,40 +79,25 @@ services:
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
-    expose:
-      - 1025
     ports:
       - 8025:8025
 
-#  elasticsearch:
-#    restart: always
-#    container_name: ${NAMESPACE}_elasticsearch
-#    build:
-#      context: ./elasticsearch
-#      args:
-#        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
-#    image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
-#    environment:
-#      - "ES_HEAP_SIZE=1G"
-#      - "cluster.name=docker-cluster"
-#      - "bootstrap.memory_lock=true"
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#    ports:
-#      - 9200:9200
-#      - 9300:9300
-#    volumes:
-#      - elastic_data:/usr/share/elasticsearch/data:cached
+  elasticsearch:
+    container_name: ${NAMESPACE}_elasticsearch
+    build:
+      context: ./elasticsearch
+      args:
+        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+    image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
 
 volumes:
   phpsocket:
   mysqlsocket:
   redissocket:
-  # elastic_data:
-  #  driver: local
+  elastic_data:
+    driver: local
   redis_data:
     driver: local
   mysql_data:

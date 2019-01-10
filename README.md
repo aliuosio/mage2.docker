@@ -7,9 +7,10 @@
     or
 ``` composer require aliuosio/mage2.docker ```
 
-> **mandatory**
-if you want to run th magento 2 installer you need to copy the file ```auth.json.template``` to ```auth.json``` and set your credentials there
-You must set project absolute folder path ```WORKDIR``` in ```.docker/.env``` 
+> **Mandatory**
+* if you want to run th magento 2 installer you need to copy the file 
+```auth.json.template``` to ```auth.json``` and set your credentials there.
+* You must set project absolute folder path ```WORKDIR``` in ```.docker/.env``` 
 
 ## Start docker
     cd .docker;

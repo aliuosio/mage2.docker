@@ -79,6 +79,8 @@ services:
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
+    expose:
+      - 1025
     ports:
       - 8025:8025
 
@@ -89,15 +91,8 @@ services:
       args:
         ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
     volumes:
-      - ./elasticsearchdata:/usr/share/elasticsearch/data
+      - elastic_data:/usr/share/elasticsearch/data
 
 volumes:
   phpsocket:

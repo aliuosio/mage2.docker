@@ -79,6 +79,8 @@ services:
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
+    expose:
+      - 1025
     ports:
       - 8025:8025
 

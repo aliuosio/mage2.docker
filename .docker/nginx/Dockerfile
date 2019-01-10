@@ -26,7 +26,7 @@ RUN apk add --update bash openssl tzdata \
         -out /etc/nginx/ssl/cert.pem \
         -days 365 \
         -nodes \
-        -subj /CN=localhost \
+        -subj /CN=${SHOP_URI} \
     && openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
     && sed -i "s#__user#${USER}#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /etc/nginx/conf.d/default.conf \

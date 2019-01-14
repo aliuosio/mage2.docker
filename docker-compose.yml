@@ -5,9 +5,9 @@ services:
   nginx:
     container_name: ${NAMESPACE}_nginx
     build:
-      context: ./nginx
+      context: ./.docker/nginx
       args:
-        USER: ${USER}
+        USERNAME: ${USERNAME}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         SHOP_URI: ${SHOP_URI}
     image: ${NAMESPACE}/nginx
@@ -24,10 +24,10 @@ services:
   php:
     container_name: ${NAMESPACE}_php
     build:
-      context: ./php
+      context: ./.docker/php
       args:
         PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
-        USER: ${USER}
+        USERNAME: ${USERNAME}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         INSTALL_MAGENTO: ${INSTALL_MAGENTO}
         INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
@@ -48,15 +48,15 @@ services:
   mysql:
     container_name: ${NAMESPACE}_mysql
     build:
-      context: ./mysql
+      context: ./.docker/mysql
       args:
-        USER: ${USER}
+        USERNAME: ${USERNAME}
     image: ${NAMESPACE}/mysql
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
     environment:
       MYSQL_DATABASE: ${DATABASE}
-      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_USER: ${DATABASE_USERNAME}
       MYSQL_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
     volumes:
@@ -66,9 +66,9 @@ services:
   redis:
     container_name: ${NAMESPACE}_redis
     build:
-      context: ./redis
+      context: ./.docker/redis
       args:
-        USER: ${USER}
+        USERNAME: ${USERNAME}
     image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'
@@ -87,7 +87,7 @@ services:
   elasticsearch:
     container_name: ${NAMESPACE}_elasticsearch
     build:
-      context: ./elasticsearch
+      context: ./.docker/elasticsearch
       args:
         ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}

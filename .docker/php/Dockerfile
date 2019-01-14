@@ -4,7 +4,7 @@ FROM $PHP_VERSION_SET_IMAGE
 
 LABEL maintainer="Osiozekhai Aliu"
 
-ARG USER
+ARG USERNAME
 ARG WORKDIR_SERVER
 ARG INSTALL_MAGENTO
 ARG INSTALL_MAGENTO_VERSION
@@ -15,9 +15,9 @@ ENV TZ=Europe/Berlin
 
 COPY conf/zz-docker.conf conf/www.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
-COPY conf/auth.json.template conf/auth.json* /home/${USER}/.composer/
-COPY docker-entrypoint.sh /home/${USER}/
-COPY conf/crontab /crontab.${USER}
+COPY conf/auth.json.template conf/auth.json* /home/${USERNAME}/.composer/
+COPY docker-entrypoint.sh /home/${USERNAME}/
+COPY conf/crontab /crontab.${USERNAME}
 
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies \
@@ -67,17 +67,17 @@ RUN apk add --no-cache --virtual build-dependencies \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer \
     && chmod +x /usr/local/bin/n98-magerun2.phar \
-    && chmod +x /home/${USER}/docker-entrypoint.sh \
-    && addgroup -g 3000 --system ${USER} \
-    && adduser -u 3000 --system -D -G ${USER} ${USER} \
+    && chmod +x /home/${USERNAME}/docker-entrypoint.sh \
+    && addgroup -g 3000 --system ${USERNAME} \
+    && adduser -u 3000 --system -D -G ${USERNAME} ${USERNAME} \
     && mkdir ${WORKDIR_SERVER} \
     && chmod -R 755 ${WORKDIR_SERVER} \
-    && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/www.conf \
-    && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
-    && sed -i "s#__WORKDIR_SERVER#${WORKDIR_SERVER}#g" /crontab.${USER} \
+    && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
+    && sed -i "s#__WORKDIR_SERVER#${WORKDIR_SERVER}#g" /crontab.${USERNAME} \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
-    && crontab -u ${USER} /crontab.${USER} \
-    && chown -R ${USER}:${USER} /home/${USER}/
+    && crontab -u ${USERNAME} /crontab.${USERNAME} \
+    && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 
-RUN /home/${USER}/docker-entrypoint.sh $INSTALL_MAGENTO $USER $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA
+RUN /home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA

@@ -2,7 +2,7 @@ FROM redis:alpine
 
 LABEL maintainer="Osiozekhai Aliu"
 
-ARG USER
+ARG USERNAME
 
 ENV TZ=Europe/Berlin
 
@@ -10,8 +10,8 @@ COPY conf/redis.conf /etc/redis.conf
 
 RUN apk update && apk upgrade
 RUN apk add --update bash \
-    && addgroup -g 3000 --system ${USER} \
-    && adduser -u 3000 --system -D -G ${USER} ${USER} \
+    && addgroup -g 3000 --system ${USERNAME} \
+    && adduser -u 3000 --system -D -G ${USERNAME} ${USERNAME} \
     && echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \

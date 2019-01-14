@@ -14,7 +14,6 @@ To run magento 2 installer copy the file
 You must set project absolute folder path ```WORKDIR``` in ```.docker/.env``` 
 
 ## Start docker
-    cd .docker;
     docker-sync start; # on OSX only
     docker-compose -f docker-compose.mac.yml build; # on OSX only
     docker-compose build; # on linux only
@@ -28,13 +27,13 @@ Call: https://localhost in your browser to configure Magento 2.
 The Database Hostname is ```mysql```
 
 ### Login to PHP container (values set in .env)
-    docker exec -it -u <USER> <NAMESPACE>_php bash
+    docker exec -it -u <USERNAME> <NAMESPACE>_php bash
     
 ### Use Composer (values set in .env)
-    docker exec -it -u <USER> <NAMESPACE>_php composer <command>
+    docker exec -it -u <USERNAME> <NAMESPACE>_php composer <command>
 
 ### Use Magerun (values set in .env)
-    docker exec -it -u <USER> <NAMESPACE>_php n98-magerun2 shell
+    docker exec -it -u <USERNAME> <NAMESPACE>_php n98-magerun2 shell
     
 ### All outgoing mails caught by MailHog (values set in .env)
     https://<SHOP_URI>:8025

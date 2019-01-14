@@ -93,6 +93,8 @@ services:
     image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
       - xpack.security.enabled=false
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 

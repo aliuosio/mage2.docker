@@ -53,7 +53,6 @@ RUN apk add --no-cache --virtual build-dependencies \
         opcache \
         xsl \
         zip \
-        mcrypt \
         soap \
         sockets \
         pcntl \

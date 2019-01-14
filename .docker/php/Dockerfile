@@ -31,7 +31,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         zip \
         libpng-dev \
     && set -xe \
-    && apk add --no-cache tzdata icu git busybox-suid \
+    && apk add --no-cache tzdata icu \
     && apk add --no-cache --virtual .php-deps \
         make \
     && apk add --no-cache --virtual .build-deps \

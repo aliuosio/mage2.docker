@@ -36,7 +36,7 @@ services:
     depends_on:
       - mysql
       - redis
-      # - elasticsearch
+      - elasticsearch
     links:
       - mailhog
     volumes:
@@ -90,7 +90,7 @@ services:
       args:
         ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
-   container_name: ${NAMESPACE}_elasticsearch
+    container_name: ${NAMESPACE}_elasticsearch
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true

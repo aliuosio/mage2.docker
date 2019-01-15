@@ -36,7 +36,7 @@ services:
     depends_on:
       - mysql
       - redis
-      # - elasticsearch
+      - elasticsearch
     links:
       - mailhog
     volumes:
@@ -91,23 +91,23 @@ services:
         ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
-      environment:
-        - cluster.name=docker-cluster
-        - bootstrap.memory_lock=true
-        - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
-      ulimits:
-        memlock:
-          soft: -1
-          hard: -1
-        nofile:
-          soft: 65536
-          hard: 65536
-      cap_add:
-        - IPC_LOCK
-      volumes:
-        - elastic_data:/usr/share/elasticsearch/data
-      ports:
-        - 9200:9200
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
 
 volumes:
   phpsocket:

@@ -31,7 +31,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         zip \
         libpng-dev \
     && set -xe \
-    && apk add --no-cache git tzdata icu \
+    && apk add --no-cache git tzdata icu imagemagick-dev imagemagick \
     && apk add --no-cache --virtual .php-deps \
         make \
     && apk add --no-cache --virtual .build-deps \
@@ -59,7 +59,7 @@ RUN apk add --no-cache --virtual build-dependencies \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis xdebug \
+    && pecl install -o -f redis xdebug imagick \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis \
     && curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun2.phar \
@@ -77,6 +77,4 @@ RUN apk add --no-cache --virtual build-dependencies \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && crontab -u ${USERNAME} /crontab.${USERNAME} \
-    && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
-
-RUN /home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA
+    && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}

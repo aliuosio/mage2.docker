@@ -99,11 +99,6 @@ services:
       memlock:
         soft: -1
         hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    cap_add:
-      - IPC_LOCK
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
     ports:

@@ -32,7 +32,7 @@ services:
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         INSTALL_MAGENTO: ${INSTALL_MAGENTO}
         INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
-    image: ${NAMESPACE}/php_${PHP_VERSION_SET}:magento-installed_${INSTALL_MAGENTO}
+    image: ${NAMESPACE}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
     #image: osioaliu/php_${PHP_VERSION_SET}:magento-installed_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
     depends_on:

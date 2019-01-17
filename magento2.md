@@ -15,12 +15,12 @@ bin/magento sampledata:deploy
 
 bin/magento setup:install \
     --db-host=mysql \
-    --db-name=app \
-    --db-user=app \
-    --db-password=app \
+    --db-name=mage2 \
+    --db-user=mage2 \
+    --db-password=mage2 \
     --backend-frontname=admin \
-    --base-url=https://app.doc/ \
-    --base-url-secure=https://app.doc/ \
+    --base-url=https://mage2.doc/ \
+    --base-url-secure=https://mage2.doc/ \
     --language=de_DE \
     --timezone=Europe/Berlin \
     --currency=EUR \
@@ -33,7 +33,6 @@ bin/magento setup:install \
     --use-secure=1 \
     --use-secure-admin=1 \
     --cleanup-database \
-    --es-hosts="elasticsearch:9200" \
     --use-sample-data
 
 bin/magento setup:upgrade;

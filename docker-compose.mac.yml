@@ -4,14 +4,14 @@ services:
 
   nginx:
     container_name: ${NAMESPACE}_nginx
-    #build:
-    #  context: ./.docker/nginx
-    #  args:
-    #    USERNAME: ${USERNAME}
-    #    WORKDIR_SERVER: ${WORKDIR_SERVER}
-    #    SHOP_URI: ${SHOP_URI}
-    #image: ${NAMESPACE}/nginx
-    image: osioaliu/nginx
+    build:
+      context: ./.docker/nginx
+      args:
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
+    image: ${NAMESPACE}/nginx
+    #image: osioaliu/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - php
@@ -24,16 +24,16 @@ services:
 
   php:
     container_name: ${NAMESPACE}_php
-    #build:
-    #  context: ./.docker/php
-    #  args:
-    #    PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
-    #    USERNAME: ${USERNAME}
-    #    WORKDIR_SERVER: ${WORKDIR_SERVER}
-    #    INSTALL_MAGENTO: ${INSTALL_MAGENTO}
-    #    INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
-    #image: ${NAMESPACE}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
-    image: osioaliu/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
+    build:
+      context: ./.docker/php
+      args:
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+    image: ${NAMESPACE}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
+    #image: osioaliu/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql
@@ -50,12 +50,12 @@ services:
 
   mysql:
     container_name: ${NAMESPACE}_mysql
-    #build:
-    #  context: ./.docker/mysql
-    #  args:
-    #    USERNAME: ${USERNAME}
-    #image: ${NAMESPACE}/mysql
-    image: osioaliu/mysql
+    build:
+      context: ./.docker/mysql
+      args:
+        USERNAME: ${USERNAME}
+    image: ${NAMESPACE}/mysql
+    #image: osioaliu/mysql
     ports:
       - ${DATABASE_PORT_EXTERNAL}:3306
     environment:
@@ -69,12 +69,12 @@ services:
 
   redis:
     container_name: ${NAMESPACE}_redis
-    #build:
-    #  context: ./.docker/redis
-    #  args:
-    #   USERNAME: ${USERNAME}
-    #image: ${NAMESPACE}/redis
-    image: osioaliu/redis
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+    image: ${NAMESPACE}/redis
+    #image: osioaliu/redis
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
@@ -93,13 +93,12 @@ services:
     build:
       context: ./.docker/elasticsearch
       args:
-        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+        ELASTICSEARCH_VERSION:
     image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     environment:
-      - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1

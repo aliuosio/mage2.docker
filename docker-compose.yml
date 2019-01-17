@@ -23,9 +23,9 @@ services:
       - phpsocket:/var/run
       - ssl_data:/etc/nginx/ssl
     environment:
-      - VIRTUAL_HOST=dev-hh.de
-      - LETSENCRYPT_HOST=mage2.dev-hh.de
-      - LETSENCRYPT_EMAIL=aliu@dev-hh.de
+      - VIRTUAL_HOST=${DOMAIN}
+      - LETSENCRYPT_HOST=${SUB_DOMAIN}
+      - LETSENCRYPT_EMAIL=${MAIL}
 
   php:
     container_name: ${NAMESPACE}_php

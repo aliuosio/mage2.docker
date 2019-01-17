@@ -93,13 +93,12 @@ services:
     build:
       context: ./.docker/elasticsearch
       args:
-        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+        ELASTICSEARCH_VERSION:
     image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     environment:
-      - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1

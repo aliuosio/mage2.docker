@@ -9,6 +9,10 @@
 
 ## Mandatory Settings
 
+    0.0.0.0 mage2.doc
+
+> set host entry in ```/etc/hosts``` 
+
 To run magento 2 installer copy the file
 ```auth.json.template``` to ```auth.json``` and set your credentials there.
 You must set project absolute folder path ```WORKDIR``` in ```.docker/.env``` 

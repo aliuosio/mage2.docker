@@ -51,7 +51,6 @@ services:
       - phpsocket:/var/run
       - redissocket:/var/redis
       - mysqlsocket:/var/run/mysqld
-    #command: ["su -c "/home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA""]
 
   mysql:
     container_name: ${NAMESPACE}_mysql

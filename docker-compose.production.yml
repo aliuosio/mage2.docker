@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    volumes:
+      - ssl_data:/etc/nginx/ssl
+      
+volumes:
+  lets_encrypt_data:
+    driver: local

@@ -15,8 +15,8 @@ if [[ $1 = "true" ]]; then
        --dev mage2tv/magento-cache-clean \
        splendidinternet/mage2-locale-de-de;" -s /bin/sh $2
 
-    su -c "composer config repositories.firegento_magesetup vcs git@github.com:firegento/firegento-magesetup2.git; \
-       composer require firegento/magesetup2:dev-develop;" -s /bin/sh $2
+    #su -c "composer config repositories.firegento_magesetup vcs git@github.com:firegento/firegento-magesetup2.git; \
+    #   composer require firegento/magesetup2:dev-develop;" -s /bin/sh $2
 
     su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
 fi

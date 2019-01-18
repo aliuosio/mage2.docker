@@ -24,7 +24,7 @@ services:
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - phpsocket:/var/run
-      - ssl_data:/etc/nginx/ssl
+      - lets_encrypt_data:/etc/nginx/ssl
     environment:
       - VIRTUAL_HOST=${DOMAIN}
       - LETSENCRYPT_HOST=${SUB_DOMAIN}
@@ -119,7 +119,7 @@ volumes:
   phpsocket:
   mysqlsocket:
   redissocket:
-  ssl_data:
+  lets_encrypt_data:
     driver: local
   elastic_data:
     driver: local

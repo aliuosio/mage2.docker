@@ -14,6 +14,7 @@ services:
         AUTH_USER: ${AUTH_USER}
         AUTH_PASS: ${AUTH_PASS}
     image: ${NAMESPACE}/nginx
+    restart: always
     #image: ${DOCKER_REGISTRY}/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:

@@ -16,6 +16,7 @@ COPY conf/default.conf /etc/nginx/conf.d/default.conf
 
 RUN apk update && apk upgrade
 RUN apk add --update bash openssl tzdata \
+    && ln -sf /usr/share/zoneinfo/Etc/UTC  /etc/localtime \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
     && addgroup -g 3000 --system ${USERNAME} \

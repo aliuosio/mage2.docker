@@ -10,6 +10,9 @@ services:
         USERNAME: ${USERNAME}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         SHOP_URI: ${SHOP_URI}
+        AUTH_CONFIG: ${AUTH_CONFIG}
+        AUTH_USER: ${AUTH_USER}
+        AUTH_PASS: ${AUTH_PASS}
     image: ${NAMESPACE}/nginx
     #image: ${DOCKER_REGISTRY}/nginx
     working_dir: ${WORKDIR_SERVER}
@@ -21,17 +24,24 @@ services:
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - phpsocket:/var/run
+      - ssl_data:/etc/nginx/ssl
+    environment:
+      - VIRTUAL_HOST=${DOMAIN}
+      - LETSENCRYPT_HOST=${SUB_DOMAIN}
+      - LETSENCRYPT_EMAIL=${MAIL}
 
   php:
     container_name: ${NAMESPACE}_php
     build:
       context: ./.docker/php
       args:
-        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.7
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
         USERNAME: ${USERNAME}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         INSTALL_MAGENTO: ${INSTALL_MAGENTO}
         INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
     #image: ${DOCKER_REGISTRY}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
@@ -46,7 +56,6 @@ services:
       - phpsocket:/var/run
       - redissocket:/var/redis
       - mysqlsocket:/var/run/mysqld
-    #command: ["su -c "/home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA""]
 
   mysql:
     container_name: ${NAMESPACE}_mysql
@@ -56,8 +65,6 @@ services:
         USERNAME: ${USERNAME}
     image: ${NAMESPACE}/mysql
     #image: ${DOCKER_REGISTRY}/mysql
-    ports:
-      - ${DATABASE_PORT_EXTERNAL}:3306
     environment:
       MYSQL_DATABASE: ${DATABASE}
       MYSQL_USER: ${DATABASE_USERNAME}
@@ -112,6 +119,8 @@ volumes:
   phpsocket:
   mysqlsocket:
   redissocket:
+  ssl_data:
+    driver: local
   elastic_data:
     driver: local
   redis_data:

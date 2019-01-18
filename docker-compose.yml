@@ -35,11 +35,13 @@ services:
     build:
       context: ./.docker/php
       args:
-        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.8
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.7
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
         USERNAME: ${USERNAME}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         INSTALL_MAGENTO: ${INSTALL_MAGENTO}
         INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
     #image: ${DOCKER_REGISTRY}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
@@ -63,8 +65,6 @@ services:
         USERNAME: ${USERNAME}
     image: ${NAMESPACE}/mysql
     #image: ${DOCKER_REGISTRY}/mysql
-    ports:
-      - ${DATABASE_PORT_EXTERNAL}:3306
     environment:
       MYSQL_DATABASE: ${DATABASE}
       MYSQL_USER: ${DATABASE_USERNAME}

@@ -10,6 +10,9 @@ services:
         USERNAME: ${USERNAME}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         SHOP_URI: ${SHOP_URI}
+        AUTH_CONFIG: ${AUTH_CONFIG}
+        AUTH_USER: ${AUTH_USER}
+        AUTH_PASS: ${AUTH_PASS}
     image: ${NAMESPACE}/nginx
     #image: ${DOCKER_REGISTRY}/nginx
     working_dir: ${WORKDIR_SERVER}

@@ -5,6 +5,9 @@ LABEL maintainer="Osiozekhai Aliu"
 ARG USERNAME
 ARG SHOP_URI
 ARG WORKDIR_SERVER
+ARG AUTH_CONFIG
+ARG AUTH_USER
+ARG AUTH_PASS
 
 ENV TZ=Europe/Berlin
 
@@ -35,3 +38,8 @@ RUN apk add --update bash openssl tzdata \
     && sed -i "s#__shop_uri#${SHOP_URI}#g" /etc/nginx/conf.d/default.conf \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*
+
+RUN if [ "$AUTH_CONFIG" = "true" ]; then \
+        printf "${AUTH_USER}:$(openssl passwd -crypt ${AUTH_PASS})\n" >> /etc/nginx/.htpasswd; \
+        sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default.conf; \
+    fi

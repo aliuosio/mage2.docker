@@ -54,6 +54,16 @@ The Database Hostname is ```mysql```
         
     # restart webserver
     docker-compose kill -s SIGHUP nginx
+    
+>**Renewal** (Quote: https://devsidestory.com/lets-encrypt-with-docker/)  
+Let’s Encrypt certificates are valid for 3 months,  
+they’d have to be renewed periodically with the following command:  
+    
+    # renew certificates which are expiring in less than 30 days,
+    docker-compose run --rm letsencrypt letsencrypt renew 
+    
+    # restart webserver
+    docker-compose kill -s SIGHUP nginx
 
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USERNAME> <NAMESPACE>_php bash

@@ -24,6 +24,10 @@ RUN apk add --update bash openssl tzdata \
     && chown -R ${USERNAME}:${USERNAME} ${WORKDIR_SERVER} \
     && chmod -R 755 ${WORKDIR_SERVER} \
     && mkdir -p /etc/letsencrypt/live/${SHOP_URI} \
+    && openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+        -keyout /etc/letsencrypt/live/${SHOP_URI}/privkey.pem \
+        -out /etc/letsencrypt/live/${SHOP_URI}/fullchain.pem \
+        -subj /CN=${SHOP_URI} \
     && sed -i "s#__user#${USERNAME}#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /etc/nginx/conf.d/default.conf \
     && sed -i "s#__shop_uri#${SHOP_URI}#g" /etc/nginx/conf.d/default.conf \

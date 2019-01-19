@@ -66,7 +66,6 @@ Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 > “You’ve got to bring some to get some”      
 
 ### Todos
-* add let's encrypt/ssl key generator container to generate certificates for valid domains
 * setup functioning elasticsearch container for magento 2.3
 * ability to setup all PHP minor Versions under 7 (7.0, 7.1, 7.2 builds should work)
 * add ssl_dhparam to nginx vhost config

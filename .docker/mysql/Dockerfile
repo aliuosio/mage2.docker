@@ -13,10 +13,6 @@ RUN addgroup --gid 3000 --system ${USERNAME} \
     && adduser --uid 3000 --system --disabled-login --disabled-password --gid 3000 ${USERNAME} \
     && sed -i "s#__user#${USERNAME}#g" /etc/mysql/conf.d/dev.cnf \
     && chown -R ${USERNAME} /var/lib/mysql \
-    && ln -sf /usr/share/zoneinfo/Etc/$TZ  /etc/localtime \
-    && echo $TZ > /etc/timezone \
-    && dpkg-reconfigure -f noninteractive tzdata \
-    && apt-get purge -y tzdata \
-    && apt-get clean \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && rm -rf /var/lib/apt/lists/*
 

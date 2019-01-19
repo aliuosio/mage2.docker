@@ -4,21 +4,23 @@ services:
 
   nginx:
     container_name: ${NAMESPACE}_nginx
-    #build:
-    #  context: ./.docker/nginx
-    #  args:
-    #    USERNAME: ${USERNAME}
-    #    WORKDIR_SERVER: ${WORKDIR_SERVER}
-    #    SHOP_URI: ${SHOP_URI}
-    #    AUTH_CONFIG: ${AUTH_CONFIG}
-    #    AUTH_USER: ${AUTH_USER}
-    #    AUTH_PASS: ${AUTH_PASS}
-    #image: ${NAMESPACE}/nginx
+    build:
+      context: ./.docker/nginx
+      args:
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
+        AUTH_CONFIG: ${AUTH_CONFIG}
+        AUTH_USER: ${AUTH_USER}
+        AUTH_PASS: ${AUTH_PASS}
+    image: ${NAMESPACE}/nginx
     restart: always
-    image: osioaliu/nginx
+    #image: osioaliu/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - php
+    links:
+      - letsencrypt
     ports:
       - 80:80
       - 443:443
@@ -34,12 +36,12 @@ services:
 
   letsencrypt:
     container_name: ${NAMESPACE}_letsencrypt
-    #build:
-    #  context: ./.docker/letsencrypt
-    #  args:
-    #    SHOP_URI: ${SHOP_URI}
-    #image: ${NAMESPACE}/letsencrypt
-    image: osioaliu/letsencrypt
+    build:
+      context: ./.docker/letsencrypt
+      args:
+        SHOP_URI: ${SHOP_URI}
+    image: ${NAMESPACE}/letsencrypt
+    #image: osioaliu/letsencrypt
     command: /bin/true
     volumes:
       - letsencrypt_certs:/etc/letsencrypt
@@ -47,18 +49,18 @@ services:
 
   php:
     container_name: ${NAMESPACE}_php
-    #build:
-    #  context: ./.docker/php
-    #  args:
-    #    PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.7
-    #    PHP_VERSION_SET: ${PHP_VERSION_SET}
-    #    USERNAME: ${USERNAME}
-    #    WORKDIR_SERVER: ${WORKDIR_SERVER}
-    #    INSTALL_MAGENTO: ${INSTALL_MAGENTO}
-    #    INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
-    #    INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
-    #image: ${NAMESPACE}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
-    image: osioaliu/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
+    build:
+      context: ./.docker/php
+      args:
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.7
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
+    image: ${NAMESPACE}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
+    #image: osioaliu/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql
@@ -74,12 +76,12 @@ services:
 
   mysql:
     container_name: ${NAMESPACE}_mysql
-    #build:
-    #  context: ./.docker/mysql
-    #  args:
-    #    USERNAME: ${USERNAME}
-    #image: ${NAMESPACE}/mysql
-    image: osioaliu/mysql
+    build:
+      context: ./.docker/mysql
+      args:
+        USERNAME: ${USERNAME}
+    image: ${NAMESPACE}/mysql
+    #image: osioaliu/mysql
     environment:
       MYSQL_DATABASE: ${DATABASE}
       MYSQL_USER: ${DATABASE_USERNAME}
@@ -91,12 +93,12 @@ services:
 
   redis:
     container_name: ${NAMESPACE}_redis
-    #build:
-    #  context: ./.docker/redis
-    # args:
-    #   USERNAME: ${USERNAME}
-    #image: ${NAMESPACE}/redis
-    image: osioaliu/redis
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+    image: ${NAMESPACE}/redis
+    #image: osioaliu/redis
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
@@ -112,16 +114,15 @@ services:
       - 8025:8025
 
   elasticsearch:
-    #build:
-    #  context: ./.docker/elasticsearch
-    #  args:
-    #    ELASTICSEARCH_VERSION:
-    #image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
-    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
+    build:
+      context: ./.docker/elasticsearch
+      args:
+        ELASTICSEARCH_VERSION:
+    image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     environment:
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
       memlock:
         soft: -1
@@ -132,8 +133,8 @@ services:
       - 9200:9200
 
 volumes:
-  letsencrypt_certs: ~
-  letsencrypt_www: ~
+  letsencrypt_certs: {}
+  letsencrypt_www: {}
   phpsocket:
   mysqlsocket:
   redissocket:

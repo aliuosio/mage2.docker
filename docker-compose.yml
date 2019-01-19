@@ -14,8 +14,7 @@ services:
         AUTH_USER: ${AUTH_USER}
         AUTH_PASS: ${AUTH_PASS}
     image: ${NAMESPACE}/nginx
-    restart: always
-    #image: ${DOCKER_REGISTRY}/nginx
+    #image: osioaliu/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - php
@@ -32,18 +31,18 @@ services:
       - LETSENCRYPT_HOST=${SUB_DOMAIN}
       - LETSENCRYPT_EMAIL=${MAIL}
 
-  letsencrypt:
-    container_name: ${NAMESPACE}_letsencrypt
-    build:
-      context: ./.docker/letsencrypt
-      args:
-        SHOP_URI: ${SHOP_URI}
-    image: ${NAMESPACE}/letsencrypt
-    #image: ${DOCKER_REGISTRY}/letsencrypt
-    command: /bin/true
-    volumes:
-      - letsencrypt_certs:/etc/letsencrypt
-      - letsencrypt_www:/var/www/letsencrypt
+#  letsencrypt:
+#    container_name: ${NAMESPACE}_letsencrypt
+#    build:
+#      context: ./.docker/letsencrypt
+#      args:
+#        SHOP_URI: ${SHOP_URI}
+#    image: ${NAMESPACE}/letsencrypt
+#    #image: osioaliu/letsencrypt
+#    command: /bin/true
+#    volumes:
+#      - letsencrypt_certs:/etc/letsencrypt
+#      - letsencrypt_www:/var/www/letsencrypt
 
   php:
     container_name: ${NAMESPACE}_php
@@ -58,7 +57,7 @@ services:
         INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
         INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
-    #image: ${DOCKER_REGISTRY}/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
+    #image: osioaliu/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql
@@ -79,7 +78,9 @@ services:
       args:
         USERNAME: ${USERNAME}
     image: ${NAMESPACE}/mysql
-    #image: ${DOCKER_REGISTRY}/mysql
+    expose:
+      - 3306
+    #image: osioaliu/mysql
     environment:
       MYSQL_DATABASE: ${DATABASE}
       MYSQL_USER: ${DATABASE_USERNAME}
@@ -96,7 +97,7 @@ services:
       args:
        USERNAME: ${USERNAME}
     image: ${NAMESPACE}/redis
-    #image: ${DOCKER_REGISTRY}/redis
+    #image: osioaliu/redis
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
@@ -120,7 +121,7 @@ services:
     container_name: ${NAMESPACE}_elasticsearch
     environment:
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
       memlock:
         soft: -1
@@ -131,8 +132,8 @@ services:
       - 9200:9200
 
 volumes:
-  letsencrypt_certs: ~
-  letsencrypt_www: ~
+  letsencrypt_certs: {}
+  letsencrypt_www: {}
   phpsocket:
   mysqlsocket:
   redissocket:

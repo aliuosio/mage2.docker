@@ -16,6 +16,7 @@ RUN addgroup --gid 3000 --system ${USERNAME} \
     && ln -sf /usr/share/zoneinfo/Etc/$TZ  /etc/localtime \
     && echo $TZ > /etc/timezone \
     && dpkg-reconfigure -f noninteractive tzdata \
+    && apt-get purge -y tzdata \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

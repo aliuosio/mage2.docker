@@ -1,7 +1,16 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
 * Change settings under ```.docker/.env```  
-* Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file  
+* Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
 
+## Features
++ set project directory to where ever you want
++ set Shop URI
++ set Elasticsearchversion
++ install magento 2
++ install magento 2 sample data
++ set http authentication
+> features can be enabled in .env
+    
 ## Get Source
 ``` git clone https://github.com/aliuosio/mage2.docker.git ```
     or

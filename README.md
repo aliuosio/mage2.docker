@@ -9,7 +9,16 @@
 + install magento 2
 + install magento 2 sample data
 + set http authentication
++ use letsencrypt for valid ssl certificates
 > features can be enabled in .env
+
+## Docker Services
+    + Elastcisearch
+    + letsencrypt
+    + mysql
+    + nginx
+    + php
+    + redis
     
 ## Get Source
 ``` git clone https://github.com/aliuosio/mage2.docker.git ```

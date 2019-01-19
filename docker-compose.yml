@@ -25,11 +25,25 @@ services:
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - phpsocket:/var/run
-      - lets_encrypt_data:/etc/nginx/ssl
+      - letsencrypt_certs:/etc/nginx/ssl
+      - letsencrypt_www:/var/www/letsencrypt
     environment:
       - VIRTUAL_HOST=${DOMAIN}
       - LETSENCRYPT_HOST=${SUB_DOMAIN}
       - LETSENCRYPT_EMAIL=${MAIL}
+
+  letsencrypt:
+    container_name: ${NAMESPACE}_letsencrypt
+    image: ${NAMESPACE}/letsencrypt
+    #image: ${DOCKER_REGISTRY}/letsencrypt
+    build:
+      context: ./.docker/letsencrypt
+      args:
+        SHOP_URI: ${SHOP_URI}
+    command: /bin/true
+    volumes:
+      - letsencrypt_certs:/etc/nginx/ssl
+      - letsencrypt_www:/var/www/letsencrypt
 
   php:
     container_name: ${NAMESPACE}_php
@@ -117,11 +131,11 @@ services:
       - 9200:9200
 
 volumes:
+  letsencrypt_certs: ~
+  letsencrypt_www: ~
   phpsocket:
   mysqlsocket:
   redissocket:
-  lets_encrypt_data:
-    driver: local
   elastic_data:
     driver: local
   redis_data:

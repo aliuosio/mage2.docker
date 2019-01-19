@@ -24,16 +24,7 @@ RUN apk add --update bash openssl tzdata \
     && mkdir ${WORKDIR_SERVER} \
     && chown -R ${USERNAME}:${USERNAME} ${WORKDIR_SERVER} \
     && chmod -R 755 ${WORKDIR_SERVER} \
-    && mkdir /etc/nginx/ssl \
-    && openssl req \
-        -x509 \
-        -newkey rsa:2048 \
-        -keyout /etc/nginx/ssl/key.pem \
-        -out /etc/nginx/ssl/cert.pem \
-        -days 365 \
-        -nodes \
-        -subj /CN=${SHOP_URI} \
-    && openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
+    && mkdir -p /etc/nginx/ssl \
     && sed -i "s#__user#${USERNAME}#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /etc/nginx/conf.d/default.conf \
     && sed -i "s#__shop_uri#${SHOP_URI}#g" /etc/nginx/conf.d/default.conf \

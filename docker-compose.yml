@@ -40,6 +40,7 @@ services:
         SHOP_URI: ${SHOP_URI}
     image: ${NAMESPACE}/letsencrypt
     #image: ${DOCKER_REGISTRY}/letsencrypt
+    restart: always
     command: /bin/true
     volumes:
       - letsencrypt_certs:/etc/letsencrypt

@@ -28,9 +28,14 @@ To run magento 2 installer copy the file
 You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```   
 
 ## Start docker
-    docker-sync start; # on OSX only
-    docker-compose -f docker-compose.mac.yml -d; # on OSX only
-    docker-compose up -d; # on linux only
+    # Linux
+    docker-compose build;
+    docker-compose -d;
+    
+    # MacOS
+    docker-sync start;
+    docker-compose -f docker-compose.mac.yml build;
+    docker-compose -f docker-compose.mac.yml -d;
     
 > For OSX Users:
 if ```docker-sync``` is missing on your OSX then 
@@ -39,6 +44,26 @@ visit the http://docker-sync.io/ website to get it
 ## Magento 2 Konfiguration
 Call: https://localhost in your browser to configure Magento 2.  
 The Database Hostname is ```mysql```  
+
+## SSL Certificate registration
+    # register certificate
+    docker-compose run --rm letsencrypt \
+        letsencrypt certonly --webroot \
+        --email <your_email-address> --agree-tos \
+        -w /var/www/letsencrypt -d <subdomian or domain only: my.example.com>
+        
+    # restart webserver
+    docker-compose kill -s SIGHUP nginx
+    
+>**Renewal** (Quote: https://devsidestory.com/lets-encrypt-with-docker/)  
+Let’s Encrypt certificates are valid for 3 months,  
+they’d have to be renewed periodically with the following command:  
+    
+    # renew certificates which are expiring in less than 30 days,
+    docker-compose run --rm letsencrypt letsencrypt renew 
+    
+    # restart webserver
+    docker-compose kill -s SIGHUP nginx
 
 ### Login to PHP container (values set in .env)
     docker exec -it -u <USERNAME> <NAMESPACE>_php bash

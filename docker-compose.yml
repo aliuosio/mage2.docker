@@ -31,18 +31,18 @@ services:
       - LETSENCRYPT_HOST=${SUB_DOMAIN}
       - LETSENCRYPT_EMAIL=${MAIL}
 
-#  letsencrypt:
-#    container_name: ${NAMESPACE}_letsencrypt
-#    build:
-#      context: ./.docker/letsencrypt
-#      args:
-#        SHOP_URI: ${SHOP_URI}
-#    image: ${NAMESPACE}/letsencrypt
-#    #image: osioaliu/letsencrypt
-#    command: /bin/true
-#    volumes:
-#      - letsencrypt_certs:/etc/letsencrypt
-#      - letsencrypt_www:/var/www/letsencrypt
+  letsencrypt:
+    container_name: ${NAMESPACE}_letsencrypt
+    build:
+      context: ./.docker/letsencrypt
+      args:
+        SHOP_URI: ${SHOP_URI}
+    image: ${NAMESPACE}/letsencrypt
+    #image: osioaliu/letsencrypt
+    command: /bin/true
+    volumes:
+      - letsencrypt_certs:/etc/letsencrypt
+      - letsencrypt_www:/var/www/letsencrypt
 
   php:
     container_name: ${NAMESPACE}_php

@@ -4,13 +4,13 @@
 
 ## Features
 + set project directory to where ever you want
-+ setup valid ssl certificate with letsmcrypt container
++ setup valid SSL certificates with letsmcrypt container
 + set Shop URI
-+ set Elasticsearchversion
++ set Elasticsearch Version
 + install magento 2
 + install magento 2 sample data
-+ set http authentication
-+ use letsencrypt for valid ssl certificates
++ http basic authentication
++ use mysql, redis and php over sockets instead of ports for faster data exchange
 > features can be enabled in .env
 
 ## Get Source

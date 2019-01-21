@@ -106,14 +106,9 @@ services:
 
   memcached:
     container_name: ${NAMESPACE}_memcached
-    build:
-      context: ./.docker/redis
-      args:
-        USERNAME: ${USERNAME}
     image: memcached:alpine
     volumes:
       - memcached_socket:/var/run/
-      - redis_data:/data:cached
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog
@@ -143,8 +138,9 @@ services:
       - 9200:9200
 
 volumes:
-  letsencrypt_certs: {}
-  letsencrypt_www: {}
+  letsencrypt_certs:
+  letsencrypt_www:
+  memcached_socket:
   php_socket:
   mysql_socket:
   redis_socket:

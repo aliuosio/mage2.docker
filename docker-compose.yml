@@ -26,10 +26,6 @@ services:
       - php_socket:/var/run
       - letsencrypt_certs:/etc/nginx/certs
       - letsencrypt_www:/var/www/letsencrypt
-    environment:
-      - VIRTUAL_HOST=${DOMAIN}
-      - LETSENCRYPT_HOST=${SUB_DOMAIN}
-      - LETSENCRYPT_EMAIL=${MAIL}
 
   letsencrypt:
     container_name: ${NAMESPACE}_letsencrypt

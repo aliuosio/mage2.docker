@@ -23,7 +23,7 @@ services:
       - 443:443
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
-      - phpsocket:/var/run
+      - php_socket:/var/run
       - letsencrypt_certs:/etc/nginx/certs
       - letsencrypt_www:/var/www/letsencrypt
     environment:
@@ -67,9 +67,9 @@ services:
       - mailhog
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
-      - phpsocket:/var/run
-      - redissocket:/var/redis
-      - mysqlsocket:/var/run/mysqld
+      - php_socket:/var/run
+      - redis_socket:/var/redis
+      - mysql_socket:/var/run/mysqld
 
   mysql:
     container_name: ${NAMESPACE}_mysql
@@ -88,7 +88,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql:cached
-      - mysqlsocket:/var/run/mysqld
+      - mysql_socket:/var/run/mysqld
 
   redis:
     container_name: ${NAMESPACE}_redis
@@ -101,7 +101,18 @@ services:
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-      - redissocket:/var/redis
+      - redis_socket:/var/redis
+      - redis_data:/data:cached
+
+  memcached:
+    container_name: ${NAMESPACE}_memcached
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+    image: memcached:alpine
+    volumes:
+      - memcached_socket:/var/run/
       - redis_data:/data:cached
 
   mailhog:
@@ -134,9 +145,9 @@ services:
 volumes:
   letsencrypt_certs: {}
   letsencrypt_www: {}
-  phpsocket:
-  mysqlsocket:
-  redissocket:
+  php_socket:
+  mysql_socket:
+  redis_socket:
   elastic_data:
     driver: local
   redis_data:

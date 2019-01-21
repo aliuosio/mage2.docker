@@ -32,7 +32,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         zip \
         libpng-dev \
     && set -xe \
-    && apk add --no-cache git tzdata icu imagemagick-dev imagemagick bc \
+    && apk add --no-cache git tzdata icu imagemagick-dev imagemagick bc libmemcached-dev \
     && apk add --no-cache --virtual .php-deps \
         make \
     && apk add --no-cache --virtual .build-deps \
@@ -60,8 +60,8 @@ RUN apk add --no-cache --virtual build-dependencies \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis xdebug imagick \
-    && docker-php-ext-enable imagick redis \
+    && pecl install -o -f redis xdebug imagick memcached \
+    && docker-php-ext-enable redis xdebug imagick memcached  \
     && rm -rf /tmp/pear \
     && curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun2.phar \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -77,6 +77,7 @@ RUN apk add --no-cache --virtual build-dependencies \
     && sed -i "s#__WORKDIR_SERVER#${WORKDIR_SERVER}#g" /crontab.${USERNAME} \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
+    && rm -rf /tmp/pear \
     && crontab -u ${USERNAME} /crontab.${USERNAME} \
     && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 

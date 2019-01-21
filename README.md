@@ -4,7 +4,8 @@
 
 ## Features
 + set project directory to where ever you want
-+ set PHP minor Versions under 7 (7.0, 7.1, 7.2)
++ set PHP minor Versions under 7 (7.0, 7.1, 7.2, 7.3)
+> Magento 2.3 at this point does not work with PHP 7.3
 + setup valid SSL certificates with letsmcrypt container
 + on secure ssl_ciphers enabled
 + uses openssl dhparam 

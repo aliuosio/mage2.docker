@@ -109,5 +109,5 @@ Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 ### Todos
 + setup functioning elasticsearch container for magento 2.3
 + varnish container
-+ nginx with pagespeed installed
++ nginx with pagespeed module
 + magento 2 cronjob

@@ -8,17 +8,26 @@
 + setup valid SSL certificates with letsmcrypt container
 + on secure ssl_ciphers enabled
 + uses openssl dhparam 
-+ set Shop URI
 + set Elasticsearch Version
 + both PHP GD and PHP Imagick are installed
 + PHP Xdebug enabled
 + PHP Opcache enabled
-+ PHP redis enabled (predis as composer Package and PHP ext-phpiredis)
++ PHP redis enabled
 + install magento 2
 + install magento 2 sample data
 + http basic authentication
 + use mysql, redis and php over sockets instead of ports for faster data exchange
 > features can be enabled in .env
+
+## Docker Containers 
++ Elasticsearch
++ letsencrypt
++ mysql
++ nginx
++ php
++ redis
++ memcached
++ mailhog
 
 ## Get Source
 ``` git clone https://github.com/aliuosio/mage2.docker.git ```

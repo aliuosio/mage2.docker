@@ -40,6 +40,3 @@ RUN if [ "$AUTH_CONFIG" = "true" ]; then \
         printf "${AUTH_USER}:$(openssl passwd -crypt ${AUTH_PASS})\n" >> /etc/nginx/.htpasswd; \
         sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default.conf; \
     fi
-
-RUN <(curl -f -L -sS https://ngxpagespeed.com/install) \
-         --nginx-version latest

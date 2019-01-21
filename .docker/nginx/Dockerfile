@@ -15,7 +15,7 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 
 RUN apk update && apk upgrade
-RUN apk add --update bash openssl tzdata \
+RUN apk add --update bash openssl tzdata curl \
     && ln -sf /usr/share/zoneinfo/Etc/$TZ  /etc/localtime \
     && echo $TZ > /etc/timezone \
     && addgroup -g 3000 --system ${USERNAME} \
@@ -25,11 +25,11 @@ RUN apk add --update bash openssl tzdata \
     && chmod -R 755 ${WORKDIR_SERVER} \
     && mkdir -p /etc/letsencrypt/live/${SHOP_URI} \
     && mkdir -p /etc/nginx/ssl \
-    && openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    && openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
         -keyout /etc/letsencrypt/live/${SHOP_URI}/privkey.pem \
         -out /etc/letsencrypt/live/${SHOP_URI}/fullchain.pem \
         -subj /CN=${SHOP_URI} \
-    && openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
+    && openssl dhparam -out /etc/nginx/ssl/dhparam.pem 4096 \
     && sed -i "s#__user#${USERNAME}#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /etc/nginx/conf.d/default.conf \
     && sed -i "s#__shop_uri#${SHOP_URI}#g" /etc/nginx/conf.d/default.conf \
@@ -40,3 +40,6 @@ RUN if [ "$AUTH_CONFIG" = "true" ]; then \
         printf "${AUTH_USER}:$(openssl passwd -crypt ${AUTH_PASS})\n" >> /etc/nginx/.htpasswd; \
         sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default.conf; \
     fi
+
+RUN <(curl -f -L -sS https://ngxpagespeed.com/install) \
+         --nginx-version latest

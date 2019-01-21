@@ -4,9 +4,14 @@
 
 ## Features
 + set project directory to where ever you want
++ set PHP minor Versions under 7 (7.0, 7.1, 7.2)
 + setup valid SSL certificates with letsmcrypt container
 + set Shop URI
 + set Elasticsearch Version
++ both PHP GD and PHP Imagick are installed
++ PHP Xdebug enabled
++ PHP Opcache enabled
++ PHP redis enabled (predis as composer Package and PHP ext-phpiredis)
 + install magento 2
 + install magento 2 sample data
 + http basic authentication
@@ -90,10 +95,8 @@ In Magento 2 Backend ```stores``` -> ```configuration``` -> ```Mageplaza Extensi
 ### Contribute
 Please Contribute by creating a fork of this repository.  
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
-> “You’ve got to bring some to get some”      
 
 ### Todos
 * setup functioning elasticsearch container for magento 2.3
-* ability to setup all PHP minor Versions under 7 (7.0, 7.1, 7.2 builds should work)
 * add ssl_dhparam to nginx vhost config
-* magento 2 cronjobs
+* magento 2 cronjob

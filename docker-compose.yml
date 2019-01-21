@@ -49,7 +49,7 @@ services:
     build:
       context: ./.docker/php
       args:
-        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine3.7
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
         PHP_VERSION_SET: ${PHP_VERSION_SET}
         USERNAME: ${USERNAME}
         WORKDIR_SERVER: ${WORKDIR_SERVER}

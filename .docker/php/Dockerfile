@@ -9,6 +9,7 @@ ARG WORKDIR_SERVER
 ARG INSTALL_MAGENTO
 ARG INSTALL_MAGENTO_VERSION
 ARG INSTALL_SAMPLE_DATA
+ARG PHP_VERSION_SET
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
@@ -24,14 +25,14 @@ RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \
         bash \
         libxslt-dev \
-        libmcrypt-dev \
         freetype-dev \
         libjpeg-turbo-dev \
         libpng \
+        libzip-dev \
         zip \
         libpng-dev \
     && set -xe \
-    && apk add --no-cache git tzdata icu imagemagick-dev imagemagick \
+    && apk add --no-cache git tzdata icu imagemagick-dev imagemagick bc \
     && apk add --no-cache --virtual .php-deps \
         make \
     && apk add --no-cache --virtual .build-deps \
@@ -78,5 +79,10 @@ RUN apk add --no-cache --virtual build-dependencies \
     && rm -rf /var/cache/apk/* \
     && crontab -u ${USERNAME} /crontab.${USERNAME} \
     && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
+
+RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
+        apk add --no-cache libmcrypt-dev \
+        && docker-php-ext-install mcrypt; \
+    fi
 
 RUN /home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA

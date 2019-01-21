@@ -22,12 +22,12 @@
 ## Docker Containers 
 + Elasticsearch
 + letsencrypt
++ mailhog
++ memcached
 + mysql
 + nginx
 + php
 + redis
-+ memcached
-+ mailhog
 
 ## Get Source
 ``` git clone https://github.com/aliuosio/mage2.docker.git ```
@@ -36,8 +36,7 @@
 
 ## Mandatory Settings
 
-    0.0.0.0 mage2.doc
-
+    echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts
 > set host entry in ```/etc/hosts``` 
 
 To run magento 2 installer copy the file  

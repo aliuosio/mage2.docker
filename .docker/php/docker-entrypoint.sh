@@ -1,8 +1,7 @@
 #!/bin/bash -x
 
-su -c "composer global require hirak/prestissimo" -s /bin/sh $2
-
 if [[ $1 = "true" ]]; then
+    su -c "composer global require hirak/prestissimo" -s /bin/sh $2
     cd $3;
     su -c "composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$4 ." -s /bin/sh $2
     su -c "mkdir -p var/composer_home" -s /bin/sh $2

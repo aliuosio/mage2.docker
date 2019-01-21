@@ -8,7 +8,6 @@ ENV TZ=Europe/Berlin
 
 COPY conf/dev.cnf /etc/mysql/conf.d/dev.cnf
 
-RUN apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove -y
 RUN addgroup --gid 3000 --system ${USERNAME} \
     && adduser --uid 3000 --system --disabled-login --disabled-password --gid 3000 ${USERNAME} \
     && sed -i "s#__user#${USERNAME}#g" /etc/mysql/conf.d/dev.cnf \

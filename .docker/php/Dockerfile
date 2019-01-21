@@ -60,7 +60,7 @@ RUN apk add --no-cache --virtual build-dependencies \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis xdebug imagick memcached \
+    && pecl install -o -f redis xdebug-2.7 imagick memcached \
     && docker-php-ext-enable redis xdebug imagick memcached  \
     && rm -rf /tmp/pear \
     && curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun2.phar \

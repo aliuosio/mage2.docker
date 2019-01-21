@@ -1,11 +1,13 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
-* Change settings under ```.docker/.env```  
-* Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
++ Change settings under ```.docker/.env```  
++ Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
 
 ## Features
 + set project directory to where ever you want
 + set PHP minor Versions under 7 (7.0, 7.1, 7.2)
 + setup valid SSL certificates with letsmcrypt container
++ on secure ssl_ciphers enabled
++ uses openssl dhparam 
 + set Shop URI
 + set Elasticsearch Version
 + both PHP GD and PHP Imagick are installed
@@ -97,6 +99,7 @@ Please Contribute by creating a fork of this repository.
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 ### Todos
-* setup functioning elasticsearch container for magento 2.3
-* add ssl_dhparam to nginx vhost config
-* magento 2 cronjob
++ setup functioning elasticsearch container for magento 2.3
++ varnish container
++ nginx with pagespeed installed
++ magento 2 cronjob

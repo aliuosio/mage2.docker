@@ -16,6 +16,6 @@ RUN apt-get update \
   && echo $TZ > /etc/timezone \
   && dpkg-reconfigure -f noninteractive tzdata \
   && apt-get purge -y tzdata \
-  && apt-get autoremove -y \
+  && apt-get -y autoremove\
   && rm -rf /var/lib/apt/lists/*
 

@@ -86,7 +86,7 @@ RUN if [ "$XDEBUG_ENABLE" = "true" ]; then \
 
 RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         apk add --no-cache libmcrypt-dev \
-        && docker-php-ext-install mcrypt; \
+        && docker-php-ext-install mcrypt
     fi
 
 RUN apk del tzdata \

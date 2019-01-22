@@ -53,6 +53,7 @@ services:
         INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
         INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
         XDEBUG_ENABLE: ${XDEBUG_ENABLE}
+        XDEBUG_HOST_IP: ${XDEBUG_HOST_IP}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
     #image: osioaliu/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}

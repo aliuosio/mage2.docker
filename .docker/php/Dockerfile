@@ -11,6 +11,7 @@ ARG INSTALL_MAGENTO_VERSION
 ARG INSTALL_SAMPLE_DATA
 ARG PHP_VERSION_SET
 ARG XDEBUG_ENABLE
+ARG XDEBUG_HOST_IP
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
@@ -79,18 +80,14 @@ RUN apk add --no-cache --virtual build-dependencies \
     && crontab -u ${USERNAME} /crontab.${USERNAME} \
     && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 
-RUN if [ "$XDEBUG_ENABLE" = "true" ]; then \
-        pecl install -o -f xdebug-2.7 \
-        && docker-php-ext-enable xdebug
+RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then apk add --no-cache libmcrypt-dev \
+        && docker-php-ext-install mcrypt; \
     fi
 
-RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
-        apk add --no-cache libmcrypt-dev \
-        && docker-php-ext-install mcrypt
+RUN if [ "$XDEBUG_ENABLE" = "true" ]; then pecl install -o -f xdebug-2.7 \
+        && docker-php-ext-enable xdebug \
+        && sed -i "s#__xdebug_host#${XDEBUG_HOST_IP}#g" /usr/local/etc/php/conf.d/xdebug.ini; \
     fi
 
-RUN apk del tzdata \
-    && rm -rf /var/cache/apk/* \
-    && rm -rf /tmp/pear
-
+RUN apk del tzdata && rm -rf /var/cache/apk/* && rm -rf /tmp/pear
 RUN /home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA

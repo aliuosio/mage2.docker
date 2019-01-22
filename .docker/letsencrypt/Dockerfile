@@ -11,7 +11,7 @@ RUN apt-get update \
   && openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -keyout /etc/letsencrypt/live/${SHOP_URI}/privkey.pem \
     -out /etc/letsencrypt/live/${SHOP_URI}/fullchain.pem \
-    -subj /CN=${SHOP_URI}
+    -subj /CN=${SHOP_URI} \
   && ln -sf /usr/share/zoneinfo/Etc/$TZ  /etc/localtime \
   && echo $TZ > /etc/timezone \
   && dpkg-reconfigure -f noninteractive tzdata \

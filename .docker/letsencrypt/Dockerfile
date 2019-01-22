@@ -5,7 +5,7 @@ ARG SHOP_URI
 ENV TZ=Europe/Berlin
 
 RUN apt-get update
-RUN apt-get install -y --force-yes letsencrypt -t jessie-backports \
+RUN apt-get install letsencrypt -t jessie-backports \
     && mkdir -p /etc/letsencrypt/live/${SHOP_URI} \
     && openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
         -keyout /etc/letsencrypt/live/${SHOP_URI}/privkey.pem \

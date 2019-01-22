@@ -37,6 +37,6 @@ max_connections=10000
 innodb_use_native_aio = ON
 explicit_defaults_for_timestamp = 1
 
-bind-address = 127.0.0.1
+# bind-address = 127.0.0.1
 
 performance_schema = ON

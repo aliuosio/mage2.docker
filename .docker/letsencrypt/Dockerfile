@@ -3,9 +3,9 @@ FROM debian:jessie-backports
 ARG SHOP_URI
 ENV TZ=Europe/Berlin
 
-RUN apt-get update \
+RUN apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y \
   && apt-get install -y letsencrypt -t jessie-backports \
-  && apt-get clean \
+  && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/* \
   && mkdir -p /etc/letsencrypt/live/${SHOP_URI} \
   && openssl req -x509 -nodes -days 365 -newkey rsa:2048 \

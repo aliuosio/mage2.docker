@@ -1,34 +1,41 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
-+ Change settings under ```.docker/.env```  
-+ Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
+* Change settings under ```.docker/.env```  
+* Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
 
 ## Features
-+ set project directory to where ever you want
-+ set PHP minor Versions under 7 (7.0, 7.1, 7.2, 7.3)
+* set project directory to where ever you want
+* set PHP minor Versions under 7 (7.0, 7.1, 7.2, 7.3)
 > Magento 2.3 at this point does not work with PHP 7.3
-+ setup valid SSL certificates with letsmcrypt container
-+ on secure ssl_ciphers enabled
-+ uses openssl dhparam 
-+ set Elasticsearch Version
-+ both PHP GD and PHP Imagick are installed
-+ PHP Xdebug enabled
-+ PHP Opcache enabled
-+ PHP redis enabled
-+ install magento 2
-+ install magento 2 sample data
-+ http basic authentication
-+ use mysql, redis and php over sockets instead of ports for faster data exchange
+* setup valid SSL certificates with letsmcrypt container
+* Xdebug enable
+* on secure ssl_ciphers enabled
+* uses openssl dhparam 
+* set Elasticsearch Version
+* both PHP GD and PHP Imagick are installed
+* PHP Xdebug enabled
+* PHP Opcache enabled
+* PHP redis enabled
+* install magento 2
+* install magento 2 sample data
+* Extra Composer Packages:  
+hirak/prestissimo  
+msp/devtools  
+mage2tv/magento-cache-clean  
+mageplaza/module-smtp  
+splendidinternet/mage2-locale-de-de
+* http basic authentication
+* use mysql, redis and php over sockets instead of ports for faster data exchange
 > features can be enabled in .env
 
 ## Docker Containers 
-+ Elasticsearch
-+ letsencrypt
-+ mailhog
-+ memcached
-+ mysql
-+ nginx
-+ php
-+ redis
+* Elasticsearch
+* letsencrypt
+* mailhog
+* memcached
+* mysql
+* nginx
+* php
+* redis
 
 ## Get Source
 ``` git clone https://github.com/aliuosio/mage2.docker.git ```
@@ -108,7 +115,7 @@ Please Contribute by creating a fork of this repository.
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 ### Todos
-+ setup functioning elasticsearch container for magento 2.3
-+ varnish container
-+ nginx with pagespeed module
-+ magento 2 cronjob
+* setup functioning elasticsearch container for magento 2.3
+* varnish container
+* nginx with pagespeed module
+* magento 2 cronjob

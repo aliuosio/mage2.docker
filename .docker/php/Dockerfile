@@ -10,6 +10,8 @@ ARG INSTALL_MAGENTO
 ARG INSTALL_MAGENTO_VERSION
 ARG INSTALL_SAMPLE_DATA
 ARG PHP_VERSION_SET
+ARG XDEBUG_ENABLE
+ARG XDEBUG_HOST_IP
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=Europe/Berlin
@@ -60,8 +62,8 @@ RUN apk add --no-cache --virtual build-dependencies \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis xdebug-2.7 imagick memcached \
-    && docker-php-ext-enable redis xdebug imagick memcached  \
+    && pecl install -o -f redis imagick memcached \
+    && docker-php-ext-enable redis imagick memcached  \
     && rm -rf /tmp/pear \
     && curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun2.phar \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -75,15 +77,17 @@ RUN apk add --no-cache --virtual build-dependencies \
     && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
     && sed -i "s#__WORKDIR_SERVER#${WORKDIR_SERVER}#g" /crontab.${USERNAME} \
-    && apk del tzdata \
-    && rm -rf /var/cache/apk/* \
-    && rm -rf /tmp/pear \
     && crontab -u ${USERNAME} /crontab.${USERNAME} \
     && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 
-RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
-        apk add --no-cache libmcrypt-dev \
+RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then apk add --no-cache libmcrypt-dev \
         && docker-php-ext-install mcrypt; \
     fi
 
+RUN if [ "$XDEBUG_ENABLE" = "true" ]; then pecl install -o -f xdebug-2.7 \
+        && docker-php-ext-enable xdebug \
+        && sed -i "s#__xdebug_host#${XDEBUG_HOST_IP}#g" /usr/local/etc/php/conf.d/xdebug.ini; \
+    fi
+
+RUN apk del tzdata && rm -rf /var/cache/apk/* && rm -rf /tmp/pear
 RUN /home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA

@@ -7,6 +7,7 @@
 + set PHP minor Versions under 7 (7.0, 7.1, 7.2, 7.3)
 > Magento 2.3 at this point does not work with PHP 7.3
 + setup valid SSL certificates with letsmcrypt container
++ Xdebug enable
 + on secure ssl_ciphers enabled
 + uses openssl dhparam 
 + set Elasticsearch Version
@@ -16,6 +17,13 @@
 + PHP redis enabled
 + install magento 2
 + install magento 2 sample data
++ Extra Composer Packages:  
+hirak/prestissimo  
+msp/devtools  
+mage2tv/magento-cache-clean  
+mageplaza/module-smtp  
+splendidinternet/mage2-locale-de-de  
+
 + http basic authentication
 + use mysql, redis and php over sockets instead of ports for faster data exchange
 > features can be enabled in .env

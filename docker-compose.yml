@@ -117,12 +117,9 @@ services:
       - 8025:8025
 
   elasticsearch:
-    build:
-      context: ./.docker/elasticsearch
-      args:
-        ELASTICSEARCH_VERSION:
-    image: ${NAMESPACE}/elasticsearch:${ELASTICSEARCH_VERSION}
-    container_name: ${NAMESPACE}_elasticsearch
+    build: ./.docker/elasticsearch
+    image: ${NAMESPACE}/elasticsearch:5.2
+    container_name: ${NAMESPACE}_elasticsearch_5.2
     environment:
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"

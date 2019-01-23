@@ -22,7 +22,6 @@ msp/devtools
 mage2tv/magento-cache-clean  
 mageplaza/module-smtp  
 splendidinternet/mage2-locale-de-de
-igorludgero/warmcache
 * http basic authentication
 * use mysql, redis and php over sockets instead of ports for faster data exchange
 > features can be enabled in .env

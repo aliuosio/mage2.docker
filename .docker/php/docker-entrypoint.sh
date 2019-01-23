@@ -7,7 +7,7 @@ if [[ $1 = "true" ]]; then
     su -c "mkdir -p var/composer_home" -s /bin/sh $2
     su -c "chown -R $2:$2 ../" -s /bin/sh $2
     su -c "cp ../.composer/auth.json $3/var/composer_home/auth.json" -s /bin/sh $2
-    su -c "composer require mageplaza/module-smtp splendidinternet/mage2-locale-de-de;" -s /bin/sh $2
+    su -c "composer require igorludgero/warmcache mageplaza/module-smtp splendidinternet/mage2-locale-de-de;" -s /bin/sh $2
 
     su -c "composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;" -s /bin/sh $2
 

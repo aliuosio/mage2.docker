@@ -16,12 +16,13 @@
 * PHP redis enabled
 * install magento 2
 * install magento 2 sample data
-* Extra Composer Packages:  
+* Extra Composer Packages (if Magento 2 Installer is used):
 hirak/prestissimo  
 msp/devtools  
 mage2tv/magento-cache-clean  
 mageplaza/module-smtp  
 splendidinternet/mage2-locale-de-de
+igorludgero/warmcache
 * http basic authentication
 * use mysql, redis and php over sockets instead of ports for faster data exchange
 > features can be enabled in .env
@@ -123,6 +124,5 @@ Please Contribute by creating a fork of this repository.
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 ### Todos
-* varnish container
 * nginx with pagespeed module
 * magento 2 cronjob

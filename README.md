@@ -106,6 +106,8 @@ In Magento 2 Backend ```stores``` -> ```configuration``` -> ```Mageplaza Extensi
     Enable Mageplaza SMTP: yes
     Host: mailhog
     port: 1025
+    Protocol: None	
+    Authentication: PLAIN
     
 > mandatory settings
 

@@ -100,8 +100,15 @@ they’d have to be renewed periodically with the following command:
 ### All outgoing mails caught by MailHog (values set in .env)
     https://<SHOP_URI>:8025
 
+### Configure the Elasticsearch:
+In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Catalog``` -> ```Catalog``` -> ```Tab: Catalog Search```
+    
+    Search Engine: Elasticsearch 5.0+
+    Elasticsearch Server Hostname: elasticsearch
+    Elasticsearch Server Port: 9200
+
 ### Configure the mageplaza SMTP extension:
-In Magento 2 Backend ```stores``` -> ```configuration``` -> ```Mageplaza Extensions```
+In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensions```
     
     Enable Mageplaza SMTP: yes
     Host: mailhog

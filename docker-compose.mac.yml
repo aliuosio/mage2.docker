@@ -127,8 +127,6 @@ services:
       memlock:
         soft: -1
         hard: -1
-    volumes:
-      - elastic_data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
 
@@ -140,10 +138,7 @@ volumes:
   mysql_socket:
   redis_socket:
   elastic_data:
-    driver: local
   redis_data:
-    driver: local
   mysql_data:
-    driver: local
   app_data:
     external: true

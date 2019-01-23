@@ -138,13 +138,9 @@ volumes:
   mysql_socket:
   redis_socket:
   elastic_data:
-    driver: local
   redis_data:
-    driver: local
   mysql_data:
-    driver: local
   app_data:
-    driver: local
     driver_opts:
       type: none
       o: bind

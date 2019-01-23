@@ -122,6 +122,7 @@ services:
     container_name: ${NAMESPACE}_elasticsearch_5.2
     environment:
       - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
       memlock:

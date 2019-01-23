@@ -4,13 +4,12 @@
 
 ## Features
 * set project directory to where ever you want
-* set PHP minor Versions under 7 (7.0, 7.1, 7.2, 7.3)
+* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3)
 > Magento 2.3 at this point does not work with PHP 7.3
 * setup valid SSL certificates with letsmcrypt container
 * Xdebug enable
 * on secure ssl_ciphers enabled
 * uses openssl dhparam 
-* set Elasticsearch Version
 * both PHP GD and PHP Imagick are installed
 * PHP Xdebug enabled
 * PHP Opcache enabled
@@ -115,7 +114,6 @@ Please Contribute by creating a fork of this repository.
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 ### Todos
-* setup functioning elasticsearch container for magento 2.3
 * varnish container
 * nginx with pagespeed module
 * magento 2 cronjob

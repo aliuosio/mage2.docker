@@ -19,7 +19,6 @@ services:
     depends_on:
       - php
     ports:
-      - 80:80
       - 443:443
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated

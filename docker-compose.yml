@@ -19,7 +19,6 @@ services:
     depends_on:
       - php
     ports:
-      - 80:80
       - 443:443
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
@@ -128,8 +127,6 @@ services:
       memlock:
         soft: -1
         hard: -1
-    volumes:
-      - elastic_data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
 

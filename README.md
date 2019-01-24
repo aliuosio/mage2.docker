@@ -1,6 +1,6 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
 * Change settings under ```.docker/.env```  
-* Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
+* Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image
 
 ## Features
 * set project directory to where ever you want (as variable option)
@@ -80,6 +80,7 @@ visit the http://docker-sync.io/ website to get it
 ## Magento 2 Konfiguration
 Call: https://mage2.doc in your browser to configure Magento 2.  
 The Database Hostname is ```mysql```  
+See MySQL settings in ```.env``` for user, password and dbname 
 
 ## SSL Certificate registration
     # register certificate

@@ -16,7 +16,6 @@
 * **PHP redis** enabled
 * **install magento 2** as variable option
 * **install magento 2 sample data** as variable option
-* **Cronjob** ist setup if Magento 2 Install option was choosen
 * **Extra Composer Packages** (if Magento 2 Installer is used):  
 * permissions are set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  
 [hirak/prestissimo](https://github.com/hirak/prestissimo)  

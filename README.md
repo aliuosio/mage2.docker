@@ -2,6 +2,7 @@
 * Change settings under ```.docker/.env```  
 * Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image
 
+
 ## Features
 * set project directory to where ever you want (as variable option)
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as variable option  

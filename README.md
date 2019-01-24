@@ -3,19 +3,20 @@
 * Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
 
 ## Features
-* set project directory to where ever you want
-* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3)
+* set project directory to where ever you want (variable option)
+* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) variable option
 > Magento 2.3 at this point does not work with PHP 7.3
 * setup valid SSL certificates with letsmcrypt container
-* Xdebug enable
+* Xdebug enable variable option
 * on secure ssl_ciphers enabled
 * uses openssl dhparam 
 * both PHP GD and PHP Imagick are installed
 * PHP Xdebug enabled
 * PHP Opcache enabled
 * PHP redis enabled
-* install magento 2
-* install magento 2 sample data
+* install magento 2 variable option
+* install magento 2 sample data  variable option
+* 
 * Extra Composer Packages (if Magento 2 Installer is used):
 hirak/prestissimo  
 msp/devtools  

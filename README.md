@@ -78,7 +78,7 @@ if ```docker-sync``` is missing on your OSX then
 visit the http://docker-sync.io/ website to get it
 
 #### Magento 2 Cronjobs activation (values set in .env)
-    docker exec -it -u <USERNAME> <NAMESPACE>_php ./bin/magento cron:install
+    docker exec -it <NAMESPACE>_php ./bin/magento cron:install
 
 ## Magento 2 Konfiguration
 Call: https://mage2.doc in your browser to configure Magento 2.  

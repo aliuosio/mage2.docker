@@ -18,6 +18,8 @@ if [[ $1 = "true" ]]; then
         su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
     fi
 
-    su -c "find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;  ;
-         find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \; " -s /bin/sh $2
+    su -c " find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
+            find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
+            sudo chown -R :$2.
+            chmod u+x bin/magento" -s /bin/sh $2
 fi

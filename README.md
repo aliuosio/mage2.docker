@@ -140,4 +140,4 @@ Please Contribute by creating a fork of this repository.
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 #### License
-[MIT License](LICENSE.txt)
+[MIT License](LICENSE)

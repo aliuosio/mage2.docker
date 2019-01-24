@@ -41,6 +41,13 @@ splendidinternet/mage2-locale-de-de
 Using **Git**
     
     git clone https://github.com/aliuosio/mage2.docker.git
+    
+Already have a Magento 2 project setup with **Git**
+
+    git submodule add https://github.com/aliuosio/mage2.docker.git 
+    
+    # to get updates afterwards
+    git submodule update --remote
       
 Using **Composer**  
     
@@ -70,7 +77,7 @@ if ```docker-sync``` is missing on your OSX then
 visit the http://docker-sync.io/ website to get it
 
 ## Magento 2 Konfiguration
-Call: https://localhost in your browser to configure Magento 2.  
+Call: https://mage2.doc in your browser to configure Magento 2.  
 The Database Hostname is ```mysql```  
 
 ## SSL Certificate registration

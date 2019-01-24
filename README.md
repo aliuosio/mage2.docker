@@ -7,6 +7,7 @@
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as variable option  
 (Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid SSL certificates with letsmcrypt container
+* Nginx with http2 protocol enabled
 * Xdebug enable as variable option
 * on secure ssl_ciphers enabled
 * uses openssl dhparam 
@@ -138,8 +139,5 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
 Please Contribute by creating a fork of this repository.  
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
-#### Licence
-[GNU General Public License, version 3 (GPLv3)](http://opensource.org/licenses/gpl-3.0)
-
-#### Copyright
-(c) 2019 Osiozekhai Aliu
+#### License
+[MIT License](LICENSE)

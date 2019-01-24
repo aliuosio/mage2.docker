@@ -75,8 +75,6 @@ services:
     image: ${NAMESPACE}/mysql
     expose:
       - 3306
-    env_file:
-      - .env
     volumes:
       - mysql_data:/var/lib/mysql:cached
       - mysql_socket:/var/run/mysqld

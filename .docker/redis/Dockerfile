@@ -3,6 +3,7 @@ FROM redis:alpine
 LABEL maintainer="Osiozekhai Aliu"
 
 ARG USERNAME
+ARG TZ
 
 COPY conf/redis.conf /etc/redis.conf
 

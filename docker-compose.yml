@@ -7,6 +7,7 @@ services:
     build:
       context: ./.docker/nginx
       args:
+        TZ: ${TZ}
         USERNAME: ${USERNAME}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         SHOP_URI: ${SHOP_URI}
@@ -43,6 +44,7 @@ services:
     build:
       context: ./.docker/php
       args:
+        TZ: ${TZ}
         PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
         PHP_VERSION_SET: ${PHP_VERSION_SET}
         USERNAME: ${USERNAME}
@@ -73,9 +75,15 @@ services:
       context: ./.docker/mysql
       args:
         USERNAME: ${USERNAME}
+        TZ: ${TZ}
     image: ${NAMESPACE}/mysql
     expose:
-      - 3306
+        - 3306
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql:cached
       - mysql_socket:/var/run/mysqld
@@ -86,6 +94,7 @@ services:
       context: ./.docker/redis
       args:
        USERNAME: ${USERNAME}
+       TZ: ${TZ}
     image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'

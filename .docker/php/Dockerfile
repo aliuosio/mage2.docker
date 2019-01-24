@@ -12,6 +12,7 @@ ARG INSTALL_SAMPLE_DATA
 ARG PHP_VERSION_SET
 ARG XDEBUG_ENABLE
 ARG XDEBUG_HOST_IP
+ARG TZ
 
 COPY conf/zz-docker.conf conf/www.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/

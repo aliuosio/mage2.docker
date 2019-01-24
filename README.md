@@ -38,11 +38,11 @@ splendidinternet/mage2-locale-de-de
 * redis
 
 ## Get Source
-Using git
+Using **Git**
     
     git clone https://github.com/aliuosio/mage2.docker.git
       
-Using composer  
+Using **Composer**  
     
     composer require aliuosio/mage2.docker
 

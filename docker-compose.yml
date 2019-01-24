@@ -65,6 +65,7 @@ services:
       - mailhog
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
+      - php_crontabs:/etc/crontabs
       - php_socket:/var/run
       - redis_socket:/var/redis
       - mysql_socket:/var/run/mysqld
@@ -130,6 +131,7 @@ services:
       - 9200:9200
 
 volumes:
+  php_crontabs:
   letsencrypt_certs:
   letsencrypt_www:
   memcached_socket:

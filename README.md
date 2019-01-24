@@ -1,5 +1,5 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
-* Change settings under ```.docker/.env```  
+* Change settings under ```.env``` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image
 
 
@@ -56,10 +56,13 @@ Using **Composer**
     composer require aliuosio/mage2.docker
 
 ## Mandatory Settings
+    
+    cp .env.template .env
+
     # the domain mage2.doc is saved to your /etc/hosts file
     echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts
     
-You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```  
+You must set project absolute folder path ```WORKDIR``` in ```.env```  
 
 > To run magento 2 installer copy the file  
 ```.docker/php/conf/auth.json.template``` to ```.docker/php/conf/auth.json``` and set your credentials there.  

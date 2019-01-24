@@ -4,8 +4,6 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG USERNAME
 
-ENV TZ=Europe/Berlin
-
 COPY conf/redis.conf /etc/redis.conf
 
 RUN apk update && apk upgrade

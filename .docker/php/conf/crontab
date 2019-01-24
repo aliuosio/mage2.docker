@@ -1,3 +1,0 @@
-* * * * * /usr/local/bin/php __WORKDIR_SERVER/bin/magento cron:run >> __WORKDIR_SERVER/var/log/magento.cron.log
-* * * * * /usr/local/bin/php __WORKDIR_SERVER/update/cron.php >> __WORKDIR_SERVER/var/log/update.cron.log
-* * * * * /usr/local/bin/php __WORKDIR_SERVER/bin/magento setup:cron:run >> __WORKDIR_SERVER/var/log/setup.cron.log

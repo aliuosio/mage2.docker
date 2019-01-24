@@ -119,13 +119,13 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
     
 > mandatory settings
 
-### Contribute
-Please Contribute by creating a fork of this repository.  
-Follow the instructions here: https://help.github.com/articles/fork-a-repo/
-
 ### Todos
 * nginx with pagespeed module
 * magento 2 cronjob
+
+### Contribute
+Please Contribute by creating a fork of this repository.  
+Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 ### Licence
 [GNU General Public License, version 3 (GPLv3)](http://opensource.org/licenses/gpl-3.0)

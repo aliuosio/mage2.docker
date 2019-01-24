@@ -110,8 +110,6 @@ services:
     build: ./.docker/elasticsearch
     image: ${NAMESPACE}/elasticsearch:5.2
     container_name: ${NAMESPACE}_elasticsearch_5.2
-    env_file:
-      - .env
     ulimits:
       memlock:
         soft: -1

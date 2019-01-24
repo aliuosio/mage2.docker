@@ -14,7 +14,6 @@ services:
         AUTH_USER: ${AUTH_USER}
         AUTH_PASS: ${AUTH_PASS}
     image: ${NAMESPACE}/nginx
-    #image: osioaliu/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - php
@@ -34,7 +33,6 @@ services:
       args:
         SHOP_URI: ${SHOP_URI}
     image: ${NAMESPACE}/letsencrypt
-    #image: osioaliu/letsencrypt
     command: /bin/true
     volumes:
       - letsencrypt_certs:/etc/letsencrypt
@@ -55,7 +53,6 @@ services:
         XDEBUG_ENABLE: ${XDEBUG_ENABLE}
         XDEBUG_HOST_IP: ${XDEBUG_HOST_IP}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
-    #image: osioaliu/php:${PHP_VERSION_SET}_magento-installed_${INSTALL_MAGENTO}
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql
@@ -78,7 +75,6 @@ services:
     image: ${NAMESPACE}/mysql
     expose:
       - 3306
-    #image: osioaliu/mysql
     environment:
       MYSQL_DATABASE: ${DATABASE}
       MYSQL_USER: ${DATABASE_USERNAME}
@@ -95,7 +91,6 @@ services:
       args:
        USERNAME: ${USERNAME}
     image: ${NAMESPACE}/redis
-    #image: osioaliu/redis
     sysctls:
       net.core.somaxconn: '1024'
     volumes:

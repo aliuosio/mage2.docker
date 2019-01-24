@@ -38,9 +38,13 @@ splendidinternet/mage2-locale-de-de
 * redis
 
 ## Get Source
-``` git clone https://github.com/aliuosio/mage2.docker.git ```
-    or
-``` composer require aliuosio/mage2.docker ```
+Using git
+    
+    git clone https://github.com/aliuosio/mage2.docker.git
+      
+Using composer  
+    
+    composer require aliuosio/mage2.docker
 
 ## Mandatory Settings
 
@@ -89,26 +93,26 @@ they’d have to be renewed periodically with the following command:
     # restart webserver
     docker-compose kill -s SIGHUP nginx
 
-### Login to PHP container (values set in .env)
+#### Login to PHP container (values set in .env)
     docker exec -it -u <USERNAME> <NAMESPACE>_php bash
     
-### Use Composer (values set in .env)
+#### Use Composer (values set in .env)
     docker exec -it -u <USERNAME> <NAMESPACE>_php composer <command>
 
-### Use Magerun (values set in .env)
+#### Use Magerun (values set in .env)
     docker exec -it -u <USERNAME> <NAMESPACE>_php n98-magerun2 shell
     
-### All outgoing mails caught by MailHog (values set in .env)
+#### All outgoing mails caught by MailHog (values set in .env)
     https://<SHOP_URI>:8025
 
-### Configure the Elasticsearch:
+#### Configure the Elasticsearch:
 In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Catalog``` -> ```Catalog``` -> ```Tab: Catalog Search```
     
     Search Engine: Elasticsearch 5.0+
     Elasticsearch Server Hostname: elasticsearch
     Elasticsearch Server Port: 9200
 
-### Configure the mageplaza SMTP extension:
+#### Configure the mageplaza SMTP extension:
 In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensions```
     
     Enable Mageplaza SMTP: yes
@@ -119,16 +123,16 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
     
 > mandatory settings
 
-### Todos
+#### Todos
 * nginx with pagespeed module
 * magento 2 cronjob
 
-### Contribute
+#### Contribute
 Please Contribute by creating a fork of this repository.  
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
-### Licence
+#### Licence
 [GNU General Public License, version 3 (GPLv3)](http://opensource.org/licenses/gpl-3.0)
 
-### Copyright
+#### Copyright
 (c) 2019 Osiozekhai Aliu

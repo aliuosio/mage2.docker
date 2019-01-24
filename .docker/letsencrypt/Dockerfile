@@ -1,9 +1,9 @@
-FROM debian:jessie-backports
+FROM debian:stretch-backports
 
 ARG SHOP_URI
 
 RUN apt-get update \
-  && apt-get install -y letsencrypt -t jessie-backports \
+  && apt-get install -y letsencrypt -t stretch-backports \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && mkdir -p /etc/letsencrypt/live/${SHOP_URI} \

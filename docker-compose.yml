@@ -4,16 +4,6 @@ services:
 
   nginx:
     container_name: ${NAMESPACE}_nginx
-    build:
-      context: ./.docker/nginx
-      args:
-        TZ: ${TZ}
-        USERNAME: ${USERNAME}
-        WORKDIR_SERVER: ${WORKDIR_SERVER}
-        SHOP_URI: ${SHOP_URI}
-        AUTH_CONFIG: ${AUTH_CONFIG}
-        AUTH_USER: ${AUTH_USER}
-        AUTH_PASS: ${AUTH_PASS}
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -29,10 +19,6 @@ services:
 
   letsencrypt:
     container_name: ${NAMESPACE}_letsencrypt
-    build:
-      context: ./.docker/letsencrypt
-      args:
-        SHOP_URI: ${SHOP_URI}
     image: ${NAMESPACE}/letsencrypt
     command: /bin/true
     volumes:
@@ -41,20 +27,6 @@ services:
 
   php:
     container_name: ${NAMESPACE}_php
-    build:
-      context: ./.docker/php
-      args:
-        TZ: ${TZ}
-        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
-        PHP_VERSION_SET: ${PHP_VERSION_SET}
-        USERNAME: ${USERNAME}
-        WORKDIR_SERVER: ${WORKDIR_SERVER}
-        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
-        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
-        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
-        XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-        XDEBUG_HOST_IP: ${XDEBUG_HOST_IP}
-        FIREGENTO_MAGESETUP: ${FIREGENTO_MAGESETUP}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -72,11 +44,6 @@ services:
 
   mysql:
     container_name: ${NAMESPACE}_mysql
-    build:
-      context: ./.docker/mysql
-      args:
-        USERNAME: ${USERNAME}
-        TZ: ${TZ}
     image: ${NAMESPACE}/mysql
     expose:
         - 3306
@@ -92,11 +59,6 @@ services:
 
   redis:
     container_name: ${NAMESPACE}_redis
-    build:
-      context: ./.docker/redis
-      args:
-       USERNAME: ${USERNAME}
-       TZ: ${TZ}
     image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'
@@ -119,7 +81,6 @@ services:
       - 8025:8025
 
   elasticsearch:
-    build: ./.docker/elasticsearch
     image: ${NAMESPACE}/elasticsearch:5.2
     container_name: ${NAMESPACE}_elasticsearch_5.2
     ulimits:

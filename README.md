@@ -60,7 +60,7 @@ Using **Composer**
 > set host entry in ```/etc/hosts``` 
 
 To run magento 2 installer copy the file  
-```auth.json.template``` to ```auth.json``` and set your credentials there.  
+```.docker/php/conf/auth.json.template``` to ```.docker/php/conf/auth.json``` and set your credentials there.  
 You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```   
 
 ## Start docker

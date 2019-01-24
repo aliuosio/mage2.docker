@@ -56,13 +56,13 @@ Using **Composer**
     composer require aliuosio/mage2.docker
 
 ## Mandatory Settings
-
+    # the domain mage2.doc is saved to your /etc/hosts file
     echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts
-> set host entry in ```/etc/hosts``` 
+    
+You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```  
 
-To run magento 2 installer copy the file  
+> To run magento 2 installer copy the file  
 ```.docker/php/conf/auth.json.template``` to ```.docker/php/conf/auth.json``` and set your credentials there.  
-You must set project absolute folder path ```WORKDIR``` in ```.docker/.env```   
 
 ## Start docker
     # Linux

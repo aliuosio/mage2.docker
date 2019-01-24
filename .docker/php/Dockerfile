@@ -17,7 +17,6 @@ COPY conf/zz-docker.conf conf/www.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json.template conf/auth.json* /home/${USERNAME}/.composer/
 COPY docker-entrypoint.sh /home/${USERNAME}/
-COPY conf/crontab /crontab.${USERNAME}
 
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies \
@@ -73,8 +72,6 @@ RUN apk add --no-cache --virtual build-dependencies \
     && chmod -R 755 ${WORKDIR_SERVER} \
     && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
-    && sed -i "s#__WORKDIR_SERVER#${WORKDIR_SERVER}#g" /crontab.${USERNAME} \
-    && crontab -u ${USERNAME} /crontab.${USERNAME} \
     && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 
 RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then apk add --no-cache libmcrypt-dev \

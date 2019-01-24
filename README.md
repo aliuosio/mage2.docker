@@ -125,3 +125,9 @@ Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 ### Todos
 * nginx with pagespeed module
 * magento 2 cronjob
+
+### Licence
+[GNU General Public License, version 3 (GPLv3)](http://opensource.org/licenses/gpl-3.0)
+
+### Copyright
+(c) 2019 Osiozekhai Aliu

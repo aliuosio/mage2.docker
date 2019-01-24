@@ -9,8 +9,6 @@ ARG AUTH_CONFIG
 ARG AUTH_USER
 ARG AUTH_PASS
 
-ENV TZ=Europe/Berlin
-
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 

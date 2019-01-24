@@ -4,8 +4,6 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG USERNAME
 
-ENV TZ=Europe/Berlin
-
 COPY conf/dev.cnf /etc/mysql/conf.d/dev.cnf
 
 RUN addgroup --gid 3000 --system ${USERNAME} \

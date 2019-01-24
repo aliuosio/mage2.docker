@@ -3,20 +3,20 @@
 * Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image in ```.docker/.env``` file
 
 ## Features
-* set project directory to where ever you want
-* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3)
-> Magento 2.3 at this point does not work with PHP 7.3
+* set project directory to where ever you want (as variable option)
+* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as variable option  
+(Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid SSL certificates with letsmcrypt container
-* Xdebug enable
+* Xdebug enable as variable option
 * on secure ssl_ciphers enabled
 * uses openssl dhparam 
 * both PHP GD and PHP Imagick are installed
-* PHP Xdebug enabled
+* PHP Xdebug as variable option
 * PHP Opcache enabled
 * PHP redis enabled
-* install magento 2
-* install magento 2 sample data
-* Extra Composer Packages (if Magento 2 Installer is used):
+* install magento 2 as variable option
+* install magento 2 sample data as variable option
+* Extra Composer Packages (if Magento 2 Installer is used):  
 hirak/prestissimo  
 msp/devtools  
 mage2tv/magento-cache-clean  
@@ -24,6 +24,7 @@ mageplaza/module-smtp
 splendidinternet/mage2-locale-de-de
 * http basic authentication
 * use mysql, redis and php over sockets instead of ports for faster data exchange
+* added firegento magesetup as variable option
 > features can be enabled in .env
 
 ## Docker Containers 
@@ -118,10 +119,16 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
     
 > mandatory settings
 
+### Todos
+* nginx with pagespeed module
+* magento 2 cronjob
+
 ### Contribute
 Please Contribute by creating a fork of this repository.  
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
-### Todos
-* nginx with pagespeed module
-* magento 2 cronjob
+### Licence
+[GNU General Public License, version 3 (GPLv3)](http://opensource.org/licenses/gpl-3.0)
+
+### Copyright
+(c) 2019 Osiozekhai Aliu

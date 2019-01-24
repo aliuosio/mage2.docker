@@ -13,9 +13,6 @@ ARG PHP_VERSION_SET
 ARG XDEBUG_ENABLE
 ARG XDEBUG_HOST_IP
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV TZ=Europe/Berlin
-
 COPY conf/zz-docker.conf conf/www.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json.template conf/auth.json* /home/${USERNAME}/.composer/
@@ -90,4 +87,4 @@ RUN if [ "$XDEBUG_ENABLE" = "true" ]; then pecl install -o -f xdebug-2.7 \
     fi
 
 RUN apk del tzdata && rm -rf /var/cache/apk/* && rm -rf /tmp/pear
-RUN /home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA
+RUN /home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA $FIREGENTO_MAGESETUP

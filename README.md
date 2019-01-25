@@ -20,6 +20,7 @@
 * **Extra Composer Packages** (if Magento 2 Installer is used):  
 * permissions are set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  
 [hirak/prestissimo](https://github.com/hirak/prestissimo)  
+[justbetter/magento2-image-optimizer](https://github.com/justbetter/magento2-image-optimizer)  
 [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools)
 [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean)    
 [mageplaza/module-smtp](https://github.com/mageplaza/magento-2-smtp)    

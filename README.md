@@ -86,6 +86,10 @@ Call: https://mage2.doc in your browser to configure Magento 2.
 The Database Hostname is ```mysql```  
 See MySQL settings in ```.env``` for user, password and dbname 
 
+### to use sockets to connect with redis, php and mysql
+    
+    cp env.php.template <WORKDIR>/app/etc/env.php
+
 #### Magento 2 Cronjobs activation (values set in .env)
     docker exec -it <NAMESPACE>_php ./bin/magento cron:install
 > works only after Magento 2 configuration

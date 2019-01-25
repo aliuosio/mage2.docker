@@ -15,7 +15,7 @@ if [[ $1 = "true" ]]; then
     su -c "cp ../.composer/auth.json $3/var/composer_home/auth.json" -s /bin/sh $2
 
     # SMTP Module, German locale
-    su -c "composer require mageplaza/module-smtp splendidinternet/mage2-locale-de-de;" -s /bin/sh $2
+    su -c "composer require 77justbetter/magento2-image-optimizer mageplaza/module-smtp splendidinternet/mage2-locale-de-de;" -s /bin/sh $2
 
     # debug tools magento
     su -c "composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;" -s /bin/sh $2

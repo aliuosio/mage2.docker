@@ -78,16 +78,16 @@ services:
         USERNAME: ${USERNAME}
         TZ: ${TZ}
     image: ${NAMESPACE}/mysql
-    expose:
-        - 3306
+    ports:
+      - 3306:3306
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - mysql_data:/var/lib/mysql:cached
-      - mysql_socket:/var/run/mysqld
+      - mysql_data:/var/lib/mysql
+      - mysql_socket:/var/run/
       - ./db-dumps:/docker-entrypoint-initdb.d
 
   redis:
@@ -102,7 +102,7 @@ services:
       net.core.somaxconn: '1024'
     volumes:
       - redis_socket:/var/redis
-      - redis_data:/data:cached
+      - redis_data:/data
 
   memcached:
     container_name: ${NAMESPACE}_memcached
@@ -122,6 +122,10 @@ services:
     build: ./.docker/elasticsearch
     image: ${NAMESPACE}/elasticsearch:5.2
     container_name: ${NAMESPACE}_elasticsearch_5.2
+    environment:
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
       memlock:
         soft: -1

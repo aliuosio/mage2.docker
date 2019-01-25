@@ -31,7 +31,18 @@ RUN apk add --no-cache --virtual build-dependencies \
         zip \
         libpng-dev \
     && set -xe \
-    && apk add --no-cache git tzdata icu imagemagick-dev imagemagick bc libmemcached-dev \
+    && apk add --no-cache \
+        jpegoptim \
+        optipng \
+        pngquant \
+        gifsicle \
+        git \
+        tzdata \
+        icu \
+        imagemagick-dev \
+        imagemagick \
+        bc \
+        libmemcached-dev \
     && apk add --no-cache --virtual .php-deps \
         make \
     && apk add --no-cache --virtual .build-deps \

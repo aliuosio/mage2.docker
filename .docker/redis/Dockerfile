@@ -1,0 +1,21 @@
+FROM redis:alpine
+
+LABEL maintainer="Osiozekhai Aliu"
+
+ARG USERNAME
+ARG TZ
+
+COPY conf/redis.conf /etc/redis.conf
+
+RUN apk update && apk upgrade
+RUN apk add --update bash \
+    && addgroup -g 3000 --system ${USERNAME} \
+    && adduser -u 3000 --system -D -G ${USERNAME} ${USERNAME} \
+    && echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf \
+    && ln -sf /usr/share/zoneinfo/Etc/UTC  /etc/localtime \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone \
+    && apk del tzdata \
+    && rm -rf /var/cache/apk/*
+
+CMD /usr/local/bin/redis-server /etc/redis.conf

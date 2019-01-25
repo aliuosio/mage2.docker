@@ -88,6 +88,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql:cached
       - mysql_socket:/var/run/mysqld
+      - ./db-dumps:/docker-entrypoint-initdb.d
 
   redis:
     container_name: ${NAMESPACE}_redis

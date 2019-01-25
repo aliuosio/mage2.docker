@@ -124,7 +124,7 @@ they’d have to be renewed periodically with the following command:
     docker exec -it -u <USERNAME> <NAMESPACE>_php n98-magerun2 shell
     
 #### All outgoing mails caught by MailHog (values set in .env)
-    http://<SHOP_URI>:8025
+    http://mage2.doc:8025
 
 #### Configure the Elasticsearch:
 In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Catalog``` -> ```Catalog``` -> ```Tab: Catalog Search```

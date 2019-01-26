@@ -4,30 +4,34 @@
 
 
 ## Features
-* set project directory to where ever you want (as variable option)
-* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as variable option  
+* set project directory to where ever you want (as configurable option)
+* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
 (Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx with **http2** protocol enabled
 * on secure ssl_ciphers enabled
 * uses openssl dhparam 
 * both **PHP GD and PHP Imagick** are installed
-* **PHP Xdebug** as variable option
+* **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled
-* **install magento 2** as variable option
-* **install magento 2 sample data** as variable option
-* **Extra Composer Packages** (if Magento 2 Installer is used):  
-* permissions are set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  
-[hirak/prestissimo](https://github.com/hirak/prestissimo)  
-[justbetter/magento2-image-optimizer](https://github.com/justbetter/magento2-image-optimizer)  
-[msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools)
-[mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean)    
-[mageplaza/module-smtp](https://github.com/mageplaza/magento-2-smtp)    
-[splendidinternet/mage2-locale-de-de](https://github.com/splendidinternet/Magento2_German_LocalePack_de_DE)  
-[firegento/magesetup](https://github.com/firegento/firegento-magesetup) as variable option
+* Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle
+* **install magento 2** as configurable option
+* **install magento 2 sample data** as configurable option
+* permissions are set after magento 2 install  
+following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  
 * **http basic authentication**
 * **use mysql, redis and php over sockets** instead of ports for faster data container exchange
+* **Extra Composer Packages** (if Magento 2 Installer is used):  
+    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer parallel install plugin for faster downloads    
+    * [justbetter/magento2-image-optimizer](https://github.com/justbetter/magento2-image-optimizer) Easily optimize images using PHP using bin/magento console  
+    * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
+    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) replacement for bin/magento cache:clean with file watcher      
+    * [mageplaza/module-smtp](https://github.com/mageplaza/magento-2-smtp) Magento 2 SMTP Extension  
+    * [firegento/magesetup](https://github.com/firegento/firegento-magesetup) as configurable option.    
+    MageSetup configures a shop for a national market:  
+    Currently supported countries: Austria, France, Germany, Italy, Russia, Switzerland, United Kingdom. More to follow.  
+    
 > features can be enabled in .env
 
 ## Docker Containers 
@@ -65,9 +69,6 @@ Using **Composer**
     
 You must set project absolute folder path ```WORKDIR``` in ```.env```  
 
-> To run magento 2 installer copy the file  
-```.docker/php/conf/auth.json.template``` to ```.docker/php/conf/auth.json``` and set your credentials there.  
-
 ## Start docker
     # Linux
     docker-compose build;
@@ -76,7 +77,7 @@ You must set project absolute folder path ```WORKDIR``` in ```.env```
     # MacOS
     docker-sync start;
     docker-compose -f docker-compose.mac.yml build;
-    docker-compose -f docker-compose.mac.yml -d;
+    docker-compose -f docker-compose.mac.yml -d;  
     
 > For OSX Users:
 if ```docker-sync``` is missing on your OSX then 
@@ -85,14 +86,15 @@ visit the http://docker-sync.io/ website to get it
 ## Magento 2 Konfiguration
 Call: https://mage2.doc in your browser to configure Magento 2.  
 The Database Hostname is ```mysql```  
-See MySQL settings in ```.env``` for user, password and dbname 
+See MySQL settings in ```.env``` for user, password and dbname before install 
 
 ### to use sockets to connect with redis, php and mysql
     
     cp env.php.template <WORKDIR>/app/etc/env.php
 
 #### Magento 2 Cronjobs activation (values set in .env)
-    docker exec -it <NAMESPACE>_php ./bin/magento cron:install
+    docker exec -it <NAMESPACE>_php ./bin/magento cron:install  
+    
 > works only after Magento 2 configuration
 
 ## SSL Certificate registration
@@ -103,7 +105,7 @@ See MySQL settings in ```.env``` for user, password and dbname
         -w /var/www/letsencrypt -d <subdomian or domain only: my.example.com>
         
     # restart webserver
-    docker-compose kill -s SIGHUP nginx
+    docker-compose kill -s SIGHUP nginx  
     
 >**Renewal** (Quote: https://devsidestory.com/lets-encrypt-with-docker/)  
 Let’s Encrypt certificates are valid for 3 months,  
@@ -141,12 +143,13 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
     Host: mailhog
     port: 1025
     Protocol: None	
-    Authentication: PLAIN
+    Authentication: PLAIN  
     
 > mandatory settings
 
 #### Todos
 * nginx with pagespeed module
+* Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

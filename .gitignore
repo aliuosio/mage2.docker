@@ -1,4 +1,3 @@
 .idea/
-.docker/php/conf/auth.json
 /htdocs/*
 .env

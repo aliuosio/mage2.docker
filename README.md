@@ -78,7 +78,7 @@ You must set project absolute folder path ```WORKDIR``` in ```.env```
     # MacOS
     docker-sync start;
     docker-compose -f docker-compose.mac.yml build;
-    docker-compose -f docker-compose.mac.yml -d;
+    docker-compose -f docker-compose.mac.yml -d;  
     
 > For OSX Users:
 if ```docker-sync``` is missing on your OSX then 
@@ -94,7 +94,8 @@ See MySQL settings in ```.env``` for user, password and dbname before install
     cp env.php.template <WORKDIR>/app/etc/env.php
 
 #### Magento 2 Cronjobs activation (values set in .env)
-    docker exec -it <NAMESPACE>_php ./bin/magento cron:install
+    docker exec -it <NAMESPACE>_php ./bin/magento cron:install  
+    
 > works only after Magento 2 configuration
 
 ## SSL Certificate registration
@@ -105,7 +106,7 @@ See MySQL settings in ```.env``` for user, password and dbname before install
         -w /var/www/letsencrypt -d <subdomian or domain only: my.example.com>
         
     # restart webserver
-    docker-compose kill -s SIGHUP nginx
+    docker-compose kill -s SIGHUP nginx  
     
 >**Renewal** (Quote: https://devsidestory.com/lets-encrypt-with-docker/)  
 Let’s Encrypt certificates are valid for 3 months,  
@@ -143,7 +144,7 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
     Host: mailhog
     port: 1025
     Protocol: None	
-    Authentication: PLAIN
+    Authentication: PLAIN  
     
 > mandatory settings
 

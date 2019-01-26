@@ -68,9 +68,6 @@ Using **Composer**
     
 You must set project absolute folder path ```WORKDIR``` in ```.env```  
 
-> To run magento 2 installer copy the file  
-```.docker/php/conf/auth.json.template``` to ```.docker/php/conf/auth.json``` and set your credentials there.  
-
 ## Start docker
     # Linux
     docker-compose build;

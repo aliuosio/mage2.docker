@@ -32,6 +32,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [firegento/magesetup](https://github.com/firegento/firegento-magesetup) as variable option.    
     MageSetup configures a shop for a national market:  
     Currently supported countries: Austria, France, Germany, Italy, Russia, Switzerland, United Kingdom. More to follow.  
+    
 > features can be enabled in .env
 
 ## Docker Containers 

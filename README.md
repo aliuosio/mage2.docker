@@ -9,6 +9,9 @@
 (Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx with **http2** protocol enabled
+* Nginx uses **Pagespeed** Module
+* **Nginx Header Config** passes at https://securityheaders.com/
+* **Server Signature excluded**: Nginx Version Nummer and PHP Usage do not show up in Response Headers
 * on secure ssl_ciphers enabled
 * uses openssl dhparam 
 * both **PHP GD and PHP Imagick** are installed
@@ -148,7 +151,7 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
 > mandatory settings
 
 #### Todos
-* nginx with pagespeed module
+* ~~nginx with pagespeed module~~
 * Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 
 #### Contribute

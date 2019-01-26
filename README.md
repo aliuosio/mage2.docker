@@ -25,9 +25,10 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
 [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) replacement for bin/magento cache:clean with file watcher      
 [mageplaza/module-smtp](https://github.com/mageplaza/magento-2-smtp) Magento 2 SMTP Extension  
-[splendidinternet/mage2-locale-de-de](https://github.com/splendidinternet/Magento2_German_LocalePack_de_DE) German LocalePack de_DE    
-[firegento/magesetup](https://github.com/firegento/firegento-magesetup) as variable option.  
-MageSetup configures a shop for a national market
+Language Packs as varibale option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES)  
+[firegento/magesetup](https://github.com/firegento/firegento-magesetup) as variable option.    
+MageSetup configures a shop for a national market:  
+Currently supported countries: Austria, France, Germany, Italy, Russia, Switzerland, United Kingdom. More to follow.  
 * **http basic authentication**
 * **use mysql, redis and php over sockets** instead of ports for faster data container exchange
 > features can be enabled in .env

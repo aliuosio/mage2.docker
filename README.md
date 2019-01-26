@@ -15,6 +15,7 @@
 * **PHP Xdebug** as variable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled
+* Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle
 * **install magento 2** as variable option
 * **install magento 2 sample data** as variable option
 * permissions are set after magento 2 install  

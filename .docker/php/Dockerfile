@@ -28,9 +28,10 @@ RUN apk add --no-cache --virtual build-dependencies \
         freetype-dev \
         libjpeg-turbo-dev \
         libpng \
-        libzip-dev \
-        zip \
         libpng-dev \
+        libzip-dev \
+        unzip \
+        zip \
     && set -xe \
     && apk add --no-cache \
         jpegoptim \
@@ -64,7 +65,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         pdo_mysql \
         opcache \
         xsl \
-        unzip \
+        zip \
         soap \
         sockets \
         pcntl \

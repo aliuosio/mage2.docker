@@ -9,6 +9,7 @@
 (Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx with **http2** protocol enabled
+* **Nginx Header Config** passes at https://securityheaders.com/
 * on secure ssl_ciphers enabled
 * uses openssl dhparam 
 * both **PHP GD and PHP Imagick** are installed

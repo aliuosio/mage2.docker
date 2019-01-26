@@ -10,6 +10,7 @@
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx with **http2** protocol enabled
 * **Nginx Header Config** passes at https://securityheaders.com/
+* **Server Signature excluded**: Nginx Version Nummer and PHP Usage do not show up in Response Headers
 * on secure ssl_ciphers enabled
 * uses openssl dhparam 
 * both **PHP GD and PHP Imagick** are installed

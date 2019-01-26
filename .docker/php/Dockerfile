@@ -64,7 +64,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         pdo_mysql \
         opcache \
         xsl \
-        zip \
+        unzip \
         soap \
         sockets \
         pcntl \

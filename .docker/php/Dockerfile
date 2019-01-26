@@ -13,6 +13,7 @@ ARG PHP_VERSION_SET
 ARG XDEBUG_ENABLE
 ARG XDEBUG_HOST_IP
 ARG TZ
+ARG LOCALE
 
 COPY conf/zz-docker.conf conf/www.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
@@ -95,5 +96,8 @@ RUN if [ "$XDEBUG_ENABLE" = "true" ]; then pecl install -o -f xdebug-2.7 \
         && sed -i "s#__xdebug_host#${XDEBUG_HOST_IP}#g" /usr/local/etc/php/conf.d/xdebug.ini; \
     fi
 
-RUN apk del tzdata && rm -rf /var/cache/apk/* && rm -rf /tmp/pear
-RUN /home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA $FIREGENTO_MAGESETUP
+RUN apk del tzdata \
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /tmp/pear
+
+RUN /home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA $FIREGENTO_MAGESETUP $LOCALE

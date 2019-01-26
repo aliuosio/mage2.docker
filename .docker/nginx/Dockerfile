@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM pagespeed/nginx-pagespeed:ngx1.15
 
 LABEL maintainer="Osiozekhai Aliu"
 
@@ -24,6 +24,7 @@ RUN apk add --update bash openssl tzdata curl unzip \
     && chmod -R 755 ${WORKDIR_SERVER} \
     && mkdir -p /etc/letsencrypt/live/${SHOP_URI} \
     && mkdir -p /etc/nginx/ssl \
+    && mkdir -p /var/cache/ngx_pagespeed \
     && openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
         -keyout /etc/letsencrypt/live/${SHOP_URI}/privkey.pem \
         -out /etc/letsencrypt/live/${SHOP_URI}/fullchain.pem \

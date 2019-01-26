@@ -4,20 +4,20 @@
 
 
 ## Features
-* set project directory to where ever you want (as variable option)
-* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as variable option  
+* set project directory to where ever you want (as configurable option)
+* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
 (Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx with **http2** protocol enabled
 * on secure ssl_ciphers enabled
 * uses openssl dhparam 
 * both **PHP GD and PHP Imagick** are installed
-* **PHP Xdebug** as variable option
+* **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled
 * Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle
-* **install magento 2** as variable option
-* **install magento 2 sample data** as variable option
+* **install magento 2** as configurable option
+* **install magento 2 sample data** as configurable option
 * permissions are set after magento 2 install  
 following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  
 * **http basic authentication**
@@ -28,8 +28,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) replacement for bin/magento cache:clean with file watcher      
     * [mageplaza/module-smtp](https://github.com/mageplaza/magento-2-smtp) Magento 2 SMTP Extension  
-    * Language Packs as varibale option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
-    * [firegento/magesetup](https://github.com/firegento/firegento-magesetup) as variable option.    
+    * [firegento/magesetup](https://github.com/firegento/firegento-magesetup) as configurable option.    
     MageSetup configures a shop for a national market:  
     Currently supported countries: Austria, France, Germany, Italy, Russia, Switzerland, United Kingdom. More to follow.  
     
@@ -150,6 +149,7 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
 
 #### Todos
 * nginx with pagespeed module
+* Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

@@ -85,7 +85,7 @@ visit the http://docker-sync.io/ website to get it
 ## Magento 2 Konfiguration
 Call: https://mage2.doc in your browser to configure Magento 2.  
 The Database Hostname is ```mysql```  
-See MySQL settings in ```.env``` for user, password and dbname 
+See MySQL settings in ```.env``` for user, password and dbname before install 
 
 ### to use sockets to connect with redis, php and mysql
     

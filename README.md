@@ -149,7 +149,8 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
 #### Todos
 * ~~nginx with pagespeed module~~
 * ~~create seperate containers for redis session and cache~~
-* fix file permissions and ownershio between containers and docker host
+* create seperate containers for cronjob and image optimization
+* fix file permissions and ownership between containers and docker host
 * move Magento 2 specific tools and config to docker-entrypoint.sh
 * Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 

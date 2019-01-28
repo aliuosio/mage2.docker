@@ -8,12 +8,8 @@
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
 (Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid **SSL certificates** with letsmcrypt container
-* Nginx with **http2** protocol enabled
 * Nginx uses **Pagespeed** Module
 * **Nginx Header Config** passes at https://securityheaders.com/
-* **Server Signature excluded**: Nginx Version Nummer and PHP Usage do not show up in Response Headers
-* on secure ssl_ciphers enabled
-* uses openssl dhparam 
 * both **PHP GD and PHP Imagick** are installed
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled

@@ -37,16 +37,13 @@ explicit_defaults_for_timestamp = 1
 performance_schema = ON
 
 
-innodb_thread_concurrency = 2 * [numberofCPUs] + 2
+innodb_thread_concurrency = 18
 innodb_flush_log_at_trx_commit = 2
-thread_concurrency = [number of CPUs] * 3
 thread_cache_size = 32
-table_cache = 1024
 query_cache_size = 64M
 query_cache_limit = 2M
 join_buffer_size = 8M
 tmp_table_size = 256M
-key_buffer = 32M
 innodb_autoextend_increment=512
 max_allowed_packet = 16M
 max_heap_table_size = 256M
@@ -55,5 +52,4 @@ read_rnd_buffer_size = 16M
 bulk_insert_buffer_size = 64M
 myisam_sort_buffer_size = 128M
 myisam_max_sort_file_size = 10G
-myisam_max_extra_sort_file_size = 10G
 myisam_repair_threads = 1

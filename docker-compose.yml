@@ -74,6 +74,27 @@ services:
       - redis_session_socket:/var/redis/session
       - mysql_socket:/var/run/mysqld/
 
+  cron:
+    container_name: ${NAMESPACE}_cron
+    build:
+      context: ./.docker/cron
+      args:
+        USERNAME: ${USERNAME}
+        PHP_VERSION_SET : ${PHP_VERSION_SET}
+        NAMESPACE : ${NAMESPACE}
+        WORKDIR_SERVER : ${WORKDIR_SERVER}
+    image: ${NAMESPACE}/cron:${PHP_VERSION_SET}-fpm-alpine
+    working_dir: ${WORKDIR_SERVER}
+    depends_on:
+      - php
+    volumes:
+      - app_data:${WORKDIR_SERVER}:delegated
+      - php_crontabs:/etc/crontabs
+      - php_socket:/var/run
+      - redis_cache_socket:/var/redis/cache
+      - redis_session_socket:/var/redis/session
+      - mysql_socket:/var/run/mysqld/
+
   mysql:
     container_name: ${NAMESPACE}_mysql
     build:
@@ -123,12 +144,6 @@ services:
     volumes:
       - redis_session_socket:/var/redis/session/
       - redis_session_data:/data
-
-#  memcached:
-#    container_name: ${NAMESPACE}_memcached
-#    image: memcached:alpine
-#    volumes:
-#      - memcached_socket:/var/run/
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog

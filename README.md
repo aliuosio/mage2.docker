@@ -37,7 +37,6 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * Elasticsearch
 * letsencrypt
 * mailhog
-* memcached
 * mysql
 * nginx
 * php

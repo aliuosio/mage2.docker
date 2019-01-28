@@ -89,7 +89,7 @@ See MySQL settings in ```.env``` for user, password and dbname before install
 
 ### to use sockets to connect with redis, php and mysql
     
-    cp env.php.template <WORKDIR>/app/etc/env.php
+    cp env.php.sample <WORKDIR>/app/etc/env.php
 
 #### Magento 2 Cronjobs activation (values set in .env)
     docker exec -it <NAMESPACE>_php ./bin/magento cron:install  
@@ -158,4 +158,4 @@ Please Contribute by creating a fork of this repository.
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 #### License
-[MIT License](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

@@ -22,15 +22,20 @@ services:
       file: docker-compose.yml
       service: mysql
 
-  redis:
+  redis_cache:
     extends:
       file: docker-compose.yml
-      service: redis
+      service: redis_cache
 
-  memcached:
+  redis_session:
     extends:
       file: docker-compose.yml
-      service: memcached
+      service: redis_session
+
+#  memcached:
+#    extends:
+#      file: docker-compose.yml
+#      service: memcached
 
   mailhog:
     extends:

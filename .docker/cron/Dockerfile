@@ -17,8 +17,6 @@ RUN rm -rf /var/spool/cron/crontabs \
     && sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /crontab/root \
     && sed -i "s#__user#${USERNAME}#g" /crontab/root \
     && cp -f /crontab/root /var/spool/cron/crontabs/
-    # && echo "${USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
-    # && chmod 0440 /etc/sudoers.d/${USERNAME}
 
 ENTRYPOINT ["crond"]
-CMD ["-f", "-d", "8"]
+CMD ["-d", "8"]

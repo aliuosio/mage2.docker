@@ -80,10 +80,10 @@ RUN apk add --no-cache --virtual build-dependencies \
     && chmod +x /usr/local/bin/composer \
     && chmod +x /usr/local/bin/n98-magerun2.phar \
     && chmod +x /home/${USERNAME}/docker-entrypoint.sh \
-    && addgroup -g 3000 -S ${USERNAME} \
-    && adduser -u 3000 -S -D -G ${USERNAME} ${USERNAME} \
+    && addgroup -g 1000 -S ${USERNAME} \
+    && adduser -u 1000 -S -D -G ${USERNAME} ${USERNAME} \
     && mkdir ${WORKDIR_SERVER} \
-    && chmod -R 755 ${WORKDIR_SERVER} \
+    && chmod -R 775 ${WORKDIR_SERVER} \
     && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
     && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/

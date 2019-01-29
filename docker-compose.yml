@@ -4,6 +4,16 @@ services:
 
   nginx:
     container_name: ${NAMESPACE}_nginx
+    build:
+      context: ./.docker/nginx
+      args:
+        TZ: ${TZ}
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
+        AUTH_CONFIG: ${AUTH_CONFIG}
+        AUTH_USER: ${AUTH_USER}
+        AUTH_PASS: ${AUTH_PASS}
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -20,6 +30,10 @@ services:
 
   letsencrypt:
     container_name: ${NAMESPACE}_letsencrypt
+    build:
+      context: ./.docker/letsencrypt
+      args:
+        SHOP_URI: ${SHOP_URI}
     image: ${NAMESPACE}/letsencrypt
     command: /bin/true
     volumes:
@@ -28,11 +42,27 @@ services:
 
   php:
     container_name: ${NAMESPACE}_php
+    build:
+      context: ./.docker/php
+      args:
+        TZ: ${TZ}
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
+        XDEBUG_ENABLE: ${XDEBUG_ENABLE}
+        XDEBUG_HOST_IP: ${XDEBUG_HOST_IP}
+        FIREGENTO_MAGESETUP: ${FIREGENTO_MAGESETUP}
+        LOCALE: ${LOCALE}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql
-      - redis
+      - redis_cache
+      - redis_session
       - elasticsearch
     links:
       - mailhog
@@ -40,11 +70,37 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_crontabs:/etc/crontabs
       - php_socket:/var/run
-      - redis_socket:/var/redis
+      - redis_cache_socket:/var/redis/cache
+      - redis_session_socket:/var/redis/session
+      - mysql_socket:/var/run/mysqld/
+
+  cron:
+    container_name: ${NAMESPACE}_cron
+    build:
+      context: ./.docker/cron
+      args:
+        USERNAME: ${USERNAME}
+        PHP_VERSION_SET : ${PHP_VERSION_SET}
+        NAMESPACE : ${NAMESPACE}
+        WORKDIR_SERVER : ${WORKDIR_SERVER}
+    image: ${NAMESPACE}/cron:${PHP_VERSION_SET}-fpm-alpine
+    working_dir: ${WORKDIR_SERVER}
+    depends_on:
+      - php
+    volumes:
+      - app_data:${WORKDIR_SERVER}:delegated
+      - php_crontabs:/etc/crontabs
+      - redis_cache_socket:/var/redis/cache
+      - redis_session_socket:/var/redis/session
       - mysql_socket:/var/run/mysqld/
 
   mysql:
     container_name: ${NAMESPACE}_mysql
+    build:
+      context: ./.docker/mysql
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
     image: ${NAMESPACE}/mysql
     ports:
       - 3306:3306
@@ -58,20 +114,35 @@ services:
       - mysql_socket:/var/run/mysqld/
       - .docker/mysql/db-dumps:/docker-entrypoint-initdb.d
 
-  redis:
-    container_name: ${NAMESPACE}_redis
-    image: ${NAMESPACE}/redis
+  redis_cache:
+    container_name: ${NAMESPACE}_redis_cache
+    build:
+      context: ./.docker/redis
+      args:
+       USERNAME: ${USERNAME}
+       TZ: ${TZ}
+       SOCKET: 'cache'
+    image: ${NAMESPACE}/redis:cache
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-      - redis_socket:/var/redis
-      - redis_data:/data
+      - redis_cache_socket:/var/redis/cache/
+      - redis_cache_data:/data
 
-  memcached:
-    container_name: ${NAMESPACE}_memcached
-    image: memcached:alpine
+  redis_session:
+    container_name: ${NAMESPACE}_redis_session
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+        SOCKET: 'session'
+    image: ${NAMESPACE}/redis:session
+    sysctls:
+      net.core.somaxconn: '1024'
     volumes:
-      - memcached_socket:/var/run/
+      - redis_session_socket:/var/redis/session/
+      - redis_session_data:/data
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog
@@ -82,6 +153,7 @@ services:
       - 8025:8025
 
   elasticsearch:
+    build: ./.docker/elasticsearch
     image: ${NAMESPACE}/elasticsearch:5.2
     container_name: ${NAMESPACE}_elasticsearch_5.2
     environment:
@@ -104,9 +176,11 @@ volumes:
   memcached_socket:
   php_socket:
   mysql_socket:
-  redis_socket:
+  redis_cache_socket:
+  redis_session_socket:
   elastic_data:
-  redis_data:
+  redis_cache_data:
+  redis_session_data:
   mysql_data:
   app_data:
     driver_opts:

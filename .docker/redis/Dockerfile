@@ -4,11 +4,14 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG USERNAME
 ARG TZ
+ARG SOCKET
 
 COPY conf/redis.conf /etc/redis.conf
 
 RUN apk update && apk upgrade
 RUN apk add --update bash \
+    && mkdir -p /var/redis/${SOCKET}/ \
+    && sed -i "s#__socket#${SOCKET}#g" /etc/redis.conf \
     && addgroup -g 3000 --system ${USERNAME} \
     && adduser -u 3000 --system -D -G ${USERNAME} ${USERNAME} \
     && echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf \

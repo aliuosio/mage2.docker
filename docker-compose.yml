@@ -154,9 +154,10 @@ services:
       - 8025:8025
 
   elasticsearch:
-    build: ./.docker/elasticsearch
-    args:
-      TZ: ${TZ}
+    build:
+      context: ./.docker/elasticsearch
+      args:
+        TZ: ${TZ}
     image: ${NAMESPACE}/elasticsearch:5.2
     container_name: ${NAMESPACE}_elasticsearch
     environment:

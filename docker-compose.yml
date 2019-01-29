@@ -90,7 +90,6 @@ services:
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_crontabs:/etc/crontabs
-      - php_socket:/var/run
       - redis_cache_socket:/var/redis/cache
       - redis_session_socket:/var/redis/session
       - mysql_socket:/var/run/mysqld/

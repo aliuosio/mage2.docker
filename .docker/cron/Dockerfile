@@ -13,5 +13,3 @@ COPY conf/crontab /crontab.${USERNAME}
 
 RUN sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /crontab.${USERNAME} \
     && crontab -u ${USERNAME} /crontab.${USERNAME}
-
-#CMD ['crond']

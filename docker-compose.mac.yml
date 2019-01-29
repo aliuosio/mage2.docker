@@ -17,6 +17,11 @@ services:
       file: docker-compose.yml
       service: php
 
+  cron:
+    extends:
+      file: docker-compose.yml
+      service: cron
+
   mysql:
     extends:
       file: docker-compose.yml
@@ -31,11 +36,6 @@ services:
     extends:
       file: docker-compose.yml
       service: redis_session
-
-#  memcached:
-#    extends:
-#      file: docker-compose.yml
-#      service: memcached
 
   mailhog:
     extends:

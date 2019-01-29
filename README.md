@@ -1,6 +1,6 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
 * Change settings under ```.env``` in root folder  
-* Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image
+* Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
 
 ## Features
@@ -149,9 +149,10 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
 * ~~nginx with pagespeed module~~
 * ~~create seperate containers for redis session and cache~~
 * create seperate containers for cronjob and image optimization
-* fix file permissions and ownership between containers and docker host
+* ~~fix file permissions and ownership between containers and docker host~~
 * move Magento 2 specific tools and config to docker-entrypoint.sh
 * Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
+* secure socket connection between containers
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

@@ -72,18 +72,18 @@ RUN apk add --no-cache --virtual build-dependencies \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis imagick memcached \
-    && docker-php-ext-enable redis imagick memcached  \
+    && pecl install -o -f redis imagick \
+    && docker-php-ext-enable redis imagick \
     && rm -rf /tmp/pear \
     && curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun2.phar \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer \
     && chmod +x /usr/local/bin/n98-magerun2.phar \
     && chmod +x /home/${USERNAME}/docker-entrypoint.sh \
-    && addgroup -g 3000 -S ${USERNAME} \
-    && adduser -u 3000 -S -D -G ${USERNAME} ${USERNAME} \
+    && addgroup -g 1000 -S ${USERNAME} \
+    && adduser -u 1000 -S -D -G ${USERNAME} ${USERNAME} \
     && mkdir ${WORKDIR_SERVER} \
-    && chmod -R 755 ${WORKDIR_SERVER} \
+    && chmod -R 775 ${WORKDIR_SERVER} \
     && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
     && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/

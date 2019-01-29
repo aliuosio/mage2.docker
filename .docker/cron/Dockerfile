@@ -8,8 +8,9 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG USERNAME
 ARG WORKDIR_SERVER
+ARG CRON_TYPE
 
-COPY conf/crontab /crontab/root
+COPY conf/crontab_${CRON_TYPE} /crontab/root
 
 RUN apk add --no-cache --update shadow busybox-suid
 RUN rm -rf /var/spool/cron/crontabs \
@@ -19,4 +20,4 @@ RUN rm -rf /var/spool/cron/crontabs \
     && cp -f /crontab/root /var/spool/cron/crontabs/
 
 ENTRYPOINT ["crond"]
-CMD ["-f", "-S", "-d", "8"]
+CMD ["-f", "-S", "-d", "4"]

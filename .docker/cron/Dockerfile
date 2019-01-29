@@ -8,8 +8,16 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG USERNAME
 ARG WORKDIR_SERVER
+ARG CRON_TYPE
 
-COPY conf/crontab /crontab.${USERNAME}
+COPY conf/crontab_${CRON_TYPE} /crontab/root
 
-RUN sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /crontab.${USERNAME} \
-    && crontab -u ${USERNAME} /crontab.${USERNAME}
+RUN apk add --no-cache --update shadow busybox-suid
+RUN rm -rf /var/spool/cron/crontabs \
+    && mkdir -m 0644 -p /var/spool/cron/crontabs \
+    && sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /crontab/root \
+    && sed -i "s#__user#${USERNAME}#g" /crontab/root \
+    && cp -f /crontab/root /var/spool/cron/crontabs/
+
+ENTRYPOINT ["crond"]
+CMD ["-f"]

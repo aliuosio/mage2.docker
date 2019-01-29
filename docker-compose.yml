@@ -78,10 +78,12 @@ services:
     build:
       context: ./.docker/cron
       args:
+        TZ: ${TZ}
         USERNAME: ${USERNAME}
         PHP_VERSION_SET : ${PHP_VERSION_SET}
         NAMESPACE : ${NAMESPACE}
         WORKDIR_SERVER : ${WORKDIR_SERVER}
+        CRON_TYPE : magento
     image: ${NAMESPACE}/cron:${PHP_VERSION_SET}-fpm-alpine
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -153,8 +155,10 @@ services:
 
   elasticsearch:
     build: ./.docker/elasticsearch
+    args:
+      TZ: ${TZ}
     image: ${NAMESPACE}/elasticsearch:5.2
-    container_name: ${NAMESPACE}_elasticsearch_5.2
+    container_name: ${NAMESPACE}_elasticsearch
     environment:
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false

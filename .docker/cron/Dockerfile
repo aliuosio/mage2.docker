@@ -20,4 +20,4 @@ RUN rm -rf /var/spool/cron/crontabs \
     && cp -f /crontab/root /var/spool/cron/crontabs/
 
 ENTRYPOINT ["crond"]
-CMD ["-f"]
+CMD ["-f", "-d", "6"]

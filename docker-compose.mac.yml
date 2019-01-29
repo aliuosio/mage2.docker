@@ -22,6 +22,11 @@ services:
       file: docker-compose.yml
       service: cron
 
+  image_optimizer:
+    extends:
+      file: docker-compose.yml
+      service: cron
+
   mysql:
     extends:
       file: docker-compose.yml

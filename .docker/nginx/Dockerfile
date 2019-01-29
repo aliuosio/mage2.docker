@@ -17,8 +17,8 @@ RUN apk update && apk upgrade
 RUN apk add --update bash openssl tzdata curl unzip \
     && ln -sf /usr/share/zoneinfo/Etc/$TZ  /etc/localtime \
     && echo $TZ > /etc/timezone \
-    && addgroup -g 3000 --system ${USERNAME} \
-    && adduser -u 3000 --system -D -G ${USERNAME} ${USERNAME} \
+    && addgroup -g 1000 --system ${USERNAME} \
+    && adduser -u 1000 --system -D -G ${USERNAME} ${USERNAME} \
     && mkdir ${WORKDIR_SERVER} \
     && chown -R ${USERNAME}:${USERNAME} ${WORKDIR_SERVER} \
     && chmod -R 755 ${WORKDIR_SERVER} \

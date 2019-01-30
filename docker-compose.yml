@@ -86,7 +86,6 @@ services:
         CRON_TYPE : magento
     image: ${NAMESPACE}/cron:${PHP_VERSION_SET}-fpm-alpine
     working_dir: ${WORKDIR_SERVER}
-    restart: always
     depends_on:
       - php
     volumes:
@@ -108,7 +107,6 @@ services:
         WORKDIR_SERVER : ${WORKDIR_SERVER}
         CRON_TYPE : images
     image: ${NAMESPACE}/image-optimizer:${PHP_VERSION_SET}-fpm-alpine
-    restart: always
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - php
@@ -172,7 +170,6 @@ services:
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
-    restart: always
     expose:
       - 1025
     ports:

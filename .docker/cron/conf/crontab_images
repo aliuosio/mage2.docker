@@ -1,1 +1,1 @@
-55 15 * * * su - __user -c "/usr/local/bin/php __working_dir/bin/magento j:i:o"
+55 15 * * * su - __user -c "/usr/local/bin/php __working_dir/bin/magento j:i:o" >> __working_dir/var/log/image-optimizer.cron.log

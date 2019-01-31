@@ -1,5 +1,5 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
-* Change settings under ```.env``` in root folder  
+* Change settings under `.env` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
 
@@ -67,7 +67,7 @@ Using **Composer**
     # the domain mage2.doc is saved to your /etc/hosts file
     echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts
     
-You must set project absolute folder path ```WORKDIR``` in ```.env```  
+You must set project absolute folder path `WORKDIR` in `.env`  
 
 ## Start docker
     # Linux
@@ -80,13 +80,13 @@ You must set project absolute folder path ```WORKDIR``` in ```.env```
     docker-compose -f docker-compose.mac.yml -d;  
     
 > For OSX Users:
-if ```docker-sync``` is missing on your OSX then 
+if `docker-sync` is missing on your OSX then 
 visit the http://docker-sync.io/ website to get it
 
 ## Magento 2 Konfiguration
 Call: https://mage2.doc in your browser to configure Magento 2.  
-The Database Hostname is ```mysql```  
-See MySQL settings in ```.env``` for user, password and dbname before install 
+The Database Hostname is `mysql`  
+See MySQL settings in `.env` for user, password and dbname before install 
 
 ### to use sockets to connect with redis, php and mysql
     
@@ -130,7 +130,7 @@ they’d have to be renewed periodically with the following command:
     http://mage2.doc:8025
 
 #### Configure the Elasticsearch:
-In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Catalog``` -> ```Catalog``` -> ```Tab: Catalog Search```
+In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `Tab: Catalog Search`
     
     Search Engine: Elasticsearch 5.0+
     Elasticsearch Server Hostname: elasticsearch
@@ -138,7 +138,7 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Catalog``` -> ```
 > You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
 
 #### Configure the mageplaza SMTP extension:
-In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensions```
+In Magento 2 Backend `stores` -> `Configuration` -> `Mageplaza Extensions`
     
     Enable Mageplaza SMTP: yes
     Host: mailhog

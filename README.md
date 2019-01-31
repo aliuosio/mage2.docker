@@ -135,6 +135,7 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Catalog``` -> ```
     Search Engine: Elasticsearch 5.0+
     Elasticsearch Server Hostname: elasticsearch
     Elasticsearch Server Port: 9200
+> You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
 
 #### Configure the mageplaza SMTP extension:
 In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensions```

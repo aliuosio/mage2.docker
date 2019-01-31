@@ -20,7 +20,6 @@ services:
       - php
     ports:
       - 80:80
-      - 8080:8080
       - 443:443
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
@@ -61,7 +60,8 @@ services:
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql
-      - redis
+      - redis_cache
+      - redis_session
       - elasticsearch
     links:
       - mailhog
@@ -69,7 +69,52 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_crontabs:/etc/crontabs
       - php_socket:/var/run
-      - redis_socket:/var/redis
+      - redis_cache_socket:/var/redis/cache
+      - redis_session_socket:/var/redis/session
+      - mysql_socket:/var/run/mysqld/
+
+  cron:
+    container_name: ${NAMESPACE}_cron
+    build:
+      context: ./.docker/cron
+      args:
+        TZ: ${TZ}
+        USERNAME: ${USERNAME}
+        PHP_VERSION_SET : ${PHP_VERSION_SET}
+        NAMESPACE : ${NAMESPACE}
+        WORKDIR_SERVER : ${WORKDIR_SERVER}
+        CRON_TYPE : magento
+    image: ${NAMESPACE}/cron:${PHP_VERSION_SET}-fpm-alpine
+    working_dir: ${WORKDIR_SERVER}
+    depends_on:
+      - php
+    volumes:
+      - app_data:${WORKDIR_SERVER}:delegated
+      - php_crontabs:/etc/crontabs
+      - redis_cache_socket:/var/redis/cache
+      - redis_session_socket:/var/redis/session
+      - mysql_socket:/var/run/mysqld/
+
+  image_optimizer:
+    container_name: ${NAMESPACE}_image-optimizer
+    build:
+      context: ./.docker/cron
+      args:
+        TZ: ${TZ}
+        USERNAME: ${USERNAME}
+        PHP_VERSION_SET : ${PHP_VERSION_SET}
+        NAMESPACE : ${NAMESPACE}
+        WORKDIR_SERVER : ${WORKDIR_SERVER}
+        CRON_TYPE : images
+    image: ${NAMESPACE}/image-optimizer:${PHP_VERSION_SET}-fpm-alpine
+    working_dir: ${WORKDIR_SERVER}
+    depends_on:
+      - php
+    volumes:
+      - app_data:${WORKDIR_SERVER}:delegated
+      - php_crontabs:/etc/crontabs
+      - redis_cache_socket:/var/redis/cache
+      - redis_session_socket:/var/redis/session
       - mysql_socket:/var/run/mysqld/
 
   mysql:
@@ -92,25 +137,35 @@ services:
       - mysql_socket:/var/run/mysqld/
       - .docker/mysql/db-dumps:/docker-entrypoint-initdb.d
 
-  redis:
-    container_name: ${NAMESPACE}_redis
+  redis_cache:
+    container_name: ${NAMESPACE}_redis_cache
     build:
       context: ./.docker/redis
       args:
        USERNAME: ${USERNAME}
        TZ: ${TZ}
-    image: ${NAMESPACE}/redis
+       SOCKET: 'cache'
+    image: ${NAMESPACE}/redis:cache
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-      - redis_socket:/var/redis
-      - redis_data:/data
+      - redis_cache_socket:/var/redis/cache/
+      - redis_cache_data:/data
 
-  memcached:
-    container_name: ${NAMESPACE}_memcached
-    image: memcached:alpine
+  redis_session:
+    container_name: ${NAMESPACE}_redis_session
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+        SOCKET: 'session'
+    image: ${NAMESPACE}/redis:session
+    sysctls:
+      net.core.somaxconn: '1024'
     volumes:
-      - memcached_socket:/var/run/
+      - redis_session_socket:/var/redis/session/
+      - redis_session_data:/data
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog
@@ -121,9 +176,12 @@ services:
       - 8025:8025
 
   elasticsearch:
-    build: ./.docker/elasticsearch
+    build:
+      context: ./.docker/elasticsearch
+      args:
+        TZ: ${TZ}
     image: ${NAMESPACE}/elasticsearch:5.2
-    container_name: ${NAMESPACE}_elasticsearch_5.2
+    container_name: ${NAMESPACE}_elasticsearch
     environment:
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false
@@ -144,9 +202,11 @@ volumes:
   memcached_socket:
   php_socket:
   mysql_socket:
-  redis_socket:
+  redis_cache_socket:
+  redis_session_socket:
   elastic_data:
-  redis_data:
+  redis_cache_data:
+  redis_session_data:
   mysql_data:
   app_data:
     driver_opts:

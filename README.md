@@ -1,6 +1,6 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
 * Change settings under ```.env``` in root folder  
-* Change PHP Versions 7.0, 7.1, 7.2 all based on php:alpine docker image
+* Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
 
 ## Features
@@ -8,12 +8,8 @@
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
 (Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid **SSL certificates** with letsmcrypt container
-* Nginx with **http2** protocol enabled
 * Nginx uses **Pagespeed** Module
 * **Nginx Header Config** passes at https://securityheaders.com/
-* **Server Signature excluded**: Nginx Version Nummer and PHP Usage do not show up in Response Headers
-* on secure ssl_ciphers enabled
-* uses openssl dhparam 
 * both **PHP GD and PHP Imagick** are installed
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
@@ -38,10 +34,11 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 > features can be enabled in .env
 
 ## Docker Containers 
+* Magento Cronjobs
 * Elasticsearch
+* Image Optimizer
 * letsencrypt
 * mailhog
-* memcached
 * mysql
 * nginx
 * php
@@ -93,7 +90,7 @@ See MySQL settings in ```.env``` for user, password and dbname before install
 
 ### to use sockets to connect with redis, php and mysql
     
-    cp env.php.template <WORKDIR>/app/etc/env.php
+    cp env.php.sample <WORKDIR>/app/etc/env.php
 
 #### Magento 2 Cronjobs activation (values set in .env)
     docker exec -it <NAMESPACE>_php ./bin/magento cron:install  
@@ -152,11 +149,16 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
 
 #### Todos
 * ~~nginx with pagespeed module~~
+* ~~create seperate containers for redis session and cache~~
+* ~~create seperate containers for cronjob and image optimization~~
+* ~~fix file permissions and ownership between containers and docker host~~
+* move Magento 2 specific tools and config to docker-entrypoint.sh
 * Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
+* secure socket connection between containers
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 #### License
-[MIT License](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

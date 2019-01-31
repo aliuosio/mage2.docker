@@ -1,7 +1,7 @@
 {
     "name": "aliuosio/mage2.docker",
     "type": "Docker",
-    "description": "Magento 2 - Docker (OSX and Linux) with nginx-http2, php, mailhog, redis and elasticsearch (mainly Alpine Images used). There is an example env.php.template to use all containers via sockets",
+    "description": "Magento 2 - Docker (OSX and Linux) with nginx-http2, php, mailhog, redis and elasticsearch (mainly Alpine Images used). There is an example env.php.sample to use all containers via sockets",
     "keywords": ["Docker","Container", "Magento 2"],
     "homepage": "https://aliuosio.github.io/mage2.docker",
     "license": "MIT",

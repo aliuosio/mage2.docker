@@ -137,17 +137,6 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     Elasticsearch Server Port: 9200
 > You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
 
-#### Configure the mageplaza SMTP extension:
-In Magento 2 Backend `stores` -> `Configuration` -> `Mageplaza Extensions`
-    
-    Enable Mageplaza SMTP: yes
-    Host: mailhog
-    port: 1025
-    Protocol: None	
-    Authentication: PLAIN  
-    
-> mandatory settings
-
 #### Todos
 * ~~nginx with pagespeed module~~
 * ~~create seperate containers for redis session and cache~~

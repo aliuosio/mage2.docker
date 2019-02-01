@@ -63,6 +63,9 @@ Using **Composer**
 ## Mandatory Settings
     
     cp .env.template .env
+    
+    # set your keys from magento.com to install magento 2 
+    cp .docker/php/conf/auth.json.template .docker/php/conf/auth.json
 
     # the domain mage2.doc is saved to your /etc/hosts file
     echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts

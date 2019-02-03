@@ -205,15 +205,9 @@ volumes:
   redis_cache_socket:
   redis_session_socket:
   mysql_data:
-  elastic_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  redis_cache_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   redis_session_data:
+  elastic_data:
+  redis_cache_data:
     driver_opts:
       type: tmpfs
       device: tmpfs

@@ -147,6 +147,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * ~~create seperate containers for cronjob and image optimization~~
 * ~~fix file permissions and ownership between containers and docker host~~
 * move Magento 2 specific tools and config to docker-entrypoint.sh
+* add apache as alternative webserver
 
 #### Bugs
 * set timezone in containers

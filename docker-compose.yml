@@ -26,6 +26,7 @@ services:
       - php_socket:/var/run/php
       - letsencrypt_certs:/etc/nginx/certs
       - letsencrypt_www:/var/www/letsencrypt
+      - pagespeed_cache:/var/cache/ngx_pagespeed
 
   letsencrypt:
     container_name: ${NAMESPACE}_letsencrypt
@@ -208,6 +209,10 @@ volumes:
   redis_cache_data:
   redis_session_data:
   mysql_data:
+  pagespeed_cache:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
   app_data:
     driver_opts:
       type: none

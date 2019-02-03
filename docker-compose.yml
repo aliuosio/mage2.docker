@@ -23,34 +23,9 @@ services:
       - 443:443
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
-      - php_socket:/var/run
+      - php_socket:/var/run/php
       - letsencrypt_certs:/etc/nginx/certs
       - letsencrypt_www:/var/www/letsencrypt
-
-#  apache:
-#    container_name: ${NAMESPACE}_nginx
-#    build:
-#      context: ./.docker/apache
-#      args:
-#        TZ: ${TZ}
-#        USERNAME: ${USERNAME}
-#        WORKDIR_SERVER: ${WORKDIR_SERVER}
-#        SHOP_URI: ${SHOP_URI}
-#        AUTH_CONFIG: ${AUTH_CONFIG}
-#        AUTH_USER: ${AUTH_USER}
-#        AUTH_PASS: ${AUTH_PASS}
-#    image: ${NAMESPACE}/apache
-#    working_dir: ${WORKDIR_SERVER}
-#    depends_on:
-#      - php
-#    ports:
-#      - 80:80
-#      - 443:443
-#    volumes:
-#      - app_data:${WORKDIR_SERVER}:delegated
-#      - php_socket:/var/run
-#      - letsencrypt_certs:/etc/nginx/certs
-#      - letsencrypt_www:/var/www/letsencrypt
 
   letsencrypt:
     container_name: ${NAMESPACE}_letsencrypt
@@ -93,7 +68,7 @@ services:
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_crontabs:/etc/crontabs
-      - php_socket:/var/run
+      - php_socket:/var/run/php
       - redis_cache_socket:/var/redis/cache
       - redis_session_socket:/var/redis/session
       - mysql_socket:/var/run/mysqld/

@@ -152,7 +152,6 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * set timezone in containers
 * Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 * secure socket connection between containers
-* fix pagespeed beacon
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

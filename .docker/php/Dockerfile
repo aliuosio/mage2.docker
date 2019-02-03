@@ -15,7 +15,7 @@ ARG XDEBUG_HOST_IP
 ARG TZ
 ARG LOCALE
 
-COPY conf/zz-docker.conf conf/www.conf /usr/local/etc/php-fpm.d/
+COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json.template conf/auth.json* /home/${USERNAME}/.composer/
 COPY docker-entrypoint.sh /home/${USERNAME}/
@@ -84,7 +84,6 @@ RUN apk add --no-cache --virtual build-dependencies \
     && adduser -u 1000 -S -D -G ${USERNAME} ${USERNAME} \
     && mkdir ${WORKDIR_SERVER} \
     && chmod -R 775 ${WORKDIR_SERVER} \
-    && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
     && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 

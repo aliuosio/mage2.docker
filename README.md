@@ -1,5 +1,5 @@
 # The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
-* Change settings under ```.env``` in root folder  
+* Change settings under `.env` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
 
@@ -63,11 +63,14 @@ Using **Composer**
 ## Mandatory Settings
     
     cp .env.template .env
+    
+    # set your keys from magento.com to install magento 2 
+    cp .docker/php/conf/auth.json.template .docker/php/conf/auth.json
 
     # the domain mage2.doc is saved to your /etc/hosts file
     echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts
     
-You must set project absolute folder path ```WORKDIR``` in ```.env```  
+You must set project absolute folder path `WORKDIR` in `.env`  
 
 ## Start docker
     # Linux
@@ -80,13 +83,13 @@ You must set project absolute folder path ```WORKDIR``` in ```.env```
     docker-compose -f docker-compose.mac.yml -d;  
     
 > For OSX Users:
-if ```docker-sync``` is missing on your OSX then 
+if `docker-sync` is missing on your OSX then 
 visit the http://docker-sync.io/ website to get it
 
 ## Magento 2 Konfiguration
 Call: https://mage2.doc in your browser to configure Magento 2.  
-The Database Hostname is ```mysql```  
-See MySQL settings in ```.env``` for user, password and dbname before install 
+The Database Hostname is `mysql`  
+See MySQL settings in `.env` for user, password and dbname before install 
 
 ### to use sockets to connect with redis, php and mysql
     
@@ -130,22 +133,12 @@ they’d have to be renewed periodically with the following command:
     http://mage2.doc:8025
 
 #### Configure the Elasticsearch:
-In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Catalog``` -> ```Catalog``` -> ```Tab: Catalog Search```
+In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `Tab: Catalog Search`
     
     Search Engine: Elasticsearch 5.0+
     Elasticsearch Server Hostname: elasticsearch
     Elasticsearch Server Port: 9200
-
-#### Configure the mageplaza SMTP extension:
-In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensions```
-    
-    Enable Mageplaza SMTP: yes
-    Host: mailhog
-    port: 1025
-    Protocol: None	
-    Authentication: PLAIN  
-    
-> mandatory settings
+> You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
 
 #### Todos
 * ~~nginx with pagespeed module~~
@@ -153,6 +146,10 @@ In Magento 2 Backend ```stores``` -> ```Configuration``` -> ```Mageplaza Extensi
 * ~~create seperate containers for cronjob and image optimization~~
 * ~~fix file permissions and ownership between containers and docker host~~
 * move Magento 2 specific tools and config to docker-entrypoint.sh
+* add apache as alternative webserver
+
+#### Bugs
+* set timezone in containers
 * Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 * secure socket connection between containers
 

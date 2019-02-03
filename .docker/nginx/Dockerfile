@@ -9,6 +9,7 @@ ARG AUTH_CONFIG
 ARG AUTH_USER
 ARG AUTH_PASS
 ARG TZ
+ARG PHP_VERSION_SET
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
@@ -33,6 +34,7 @@ RUN apk add --update bash openssl tzdata curl unzip \
     && sed -i "s#__user#${USERNAME}#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /etc/nginx/conf.d/default.conf \
     && sed -i "s#__shop_uri#${SHOP_URI}#g" /etc/nginx/conf.d/default.conf \
+    && sed -i "s#__php_version_set#${PHP_VERSION_SET}#g" /etc/nginx/conf.d/default.conf \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*
 

@@ -9,7 +9,6 @@
 (Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx uses **Pagespeed** Module
-* **Nginx Header Config** passes at https://securityheaders.com/
 * both **PHP GD and PHP Imagick** are installed
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
@@ -152,6 +151,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * set timezone in containers
 * Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 * secure socket connection between containers
+* **Nginx Header Config** passes at https://securityheaders.com/
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

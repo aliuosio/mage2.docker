@@ -34,10 +34,6 @@ RUN apk add --no-cache --virtual build-dependencies \
         zip \
     && set -xe \
     && apk add --no-cache \
-        jpegoptim \
-        optipng \
-        pngquant \
-        gifsicle \
         git \
         tzdata \
         icu \

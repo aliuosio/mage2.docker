@@ -12,12 +12,23 @@ ARG CRON_TYPE
 
 COPY conf/crontab_${CRON_TYPE} /crontab/root
 
-RUN apk add --no-cache --update shadow busybox-suid
+RUN apk add --no-cache --update \
+    shadow \
+    busybox-suid \
+    jpegoptim \
+    optipng \
+    pngquant \
+    gifsicle
+
 RUN rm -rf /var/spool/cron/crontabs \
     && mkdir -m 0644 -p /var/spool/cron/crontabs \
     && sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /crontab/root \
     && sed -i "s#__user#${USERNAME}#g" /crontab/root \
     && cp -f /crontab/root /var/spool/cron/crontabs/
+
+RUN apk del \
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /tmp/pear
 
 ENTRYPOINT ["crond"]
 CMD ["-f", "-d", "4"]

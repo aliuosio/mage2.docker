@@ -200,15 +200,23 @@ volumes:
   php_crontabs:
   letsencrypt_certs:
   letsencrypt_www:
-  memcached_socket:
   php_socket:
   mysql_socket:
   redis_cache_socket:
   redis_session_socket:
-  elastic_data:
-  redis_cache_data:
-  redis_session_data:
   mysql_data:
+  elastic_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  redis_cache_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  redis_session_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
   pagespeed_cache:
     driver_opts:
       type: tmpfs

@@ -13,6 +13,7 @@ ARG CRON_TYPE
 COPY conf/crontab_${CRON_TYPE} /crontab/root
 
 RUN apk add --no-cache --update \
+    bash \
     shadow \
     busybox-suid \
     jpegoptim \
@@ -26,8 +27,7 @@ RUN rm -rf /var/spool/cron/crontabs \
     && sed -i "s#__user#${USERNAME}#g" /crontab/root \
     && cp -f /crontab/root /var/spool/cron/crontabs/
 
-RUN apk del \
-    && rm -rf /var/cache/apk/* \
+RUN rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 
 ENTRYPOINT ["crond"]

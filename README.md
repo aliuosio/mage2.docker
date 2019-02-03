@@ -64,7 +64,8 @@ Using **Composer**
     
     cp .env.template .env
     
-    # set your credentials for repo.magemto.com hier  
+    # set your credentials for repo.magemto.com hier 
+    # (only necessaary if you use the magento 2 installer)
     cp .docker/php/conf/auth.json.template .docker/php/conf/auth.json
     
     # the domain mage2.doc is saved to your /etc/hosts file

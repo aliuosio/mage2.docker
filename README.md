@@ -146,12 +146,12 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * ~~create seperate containers for cronjob and image optimization~~
 * ~~fix file permissions and ownership between containers and docker host~~
 * move Magento 2 specific tools and config to docker-entrypoint.sh
+* add apache as alternative webserver
 
 #### Bugs
 * set timezone in containers
 * Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 * secure socket connection between containers
-* fix pagespeed beacon
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

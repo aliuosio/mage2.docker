@@ -2,16 +2,6 @@ version: "3.7"
 
 services:
 
-  yarn:
-    build:
-      context: ./.docker/yarn
-    container_name: ${NAMESPACE}_yarn
-    working_dir: ${WORKDIR_SERVER}
-    depends_on:
-      - nginx
-    volumes:
-      - app_data:${WORKDIR_SERVER}
-
   nginx:
     container_name: ${NAMESPACE}_nginx
     build:

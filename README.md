@@ -13,7 +13,6 @@
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled
-* **PWA Studio** as variable option
 * Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle
 * **install magento 2** as configurable option
 * **install magento 2 sample data** as configurable option
@@ -36,12 +35,10 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 ## Docker Containers 
 * Magento Cronjobs
 * Elasticsearch
-* Image Optimizer
 * letsencrypt
 * mailhog
 * mysql
 * nginx
-* node (yarn installed)
 * php
 * redis
 
@@ -150,6 +147,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * setup script for PHP Container to set IP for xdebug or Domain
 * add apache as alternative webserver
 * clean up alpinne packages after build
+* PWA Studio as variable option
 
 #### Bugs
 * set timezone in containers

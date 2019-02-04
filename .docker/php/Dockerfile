@@ -14,6 +14,8 @@ ARG XDEBUG_ENABLE
 ARG XDEBUG_HOST_IP
 ARG TZ
 ARG LOCALE
+ARG PWA
+ARG SHOP_URI
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
@@ -96,4 +98,11 @@ RUN apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 
-RUN /home/${USERNAME}/docker-entrypoint.sh $INSTALL_MAGENTO $USERNAME $WORKDIR_SERVER $INSTALL_MAGENTO_VERSION $INSTALL_SAMPLE_DATA $FIREGENTO_MAGESETUP $LOCALE
+RUN /home/${USERNAME}/docker-entrypoint.sh \
+    $INSTALL_MAGENTO \
+    $USERNAME \
+    $WORKDIR_SERVER \
+    $INSTALL_MAGENTO_VERSION \
+    $INSTALL_SAMPLE_DATA \
+    $FIREGENTO_MAGESETUP \
+    $LOCALE

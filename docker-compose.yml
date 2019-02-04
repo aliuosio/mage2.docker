@@ -154,7 +154,7 @@ services:
       - redis_cache_data:/data
 
   redis_session:
-    #container_name: ${NAMESPACE}_redis_session
+    container_name: ${NAMESPACE}_redis_session
     build:
       context: ./.docker/redis
       args:

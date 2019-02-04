@@ -78,6 +78,7 @@ RUN apk add --no-cache --virtual build-dependencies \
     && chmod +x /home/${USERNAME}/docker-entrypoint.sh \
     && addgroup -g 1000 -S ${USERNAME} \
     && adduser -u 1000 -S -D -G ${USERNAME} ${USERNAME} \
+    && mkdir ${WORKDIR_SERVER} \
     && chmod -R 775 ${WORKDIR_SERVER} \
     && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
     && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/

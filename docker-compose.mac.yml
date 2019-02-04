@@ -2,6 +2,11 @@ version: "3.7"
 
 services:
 
+  yarn:
+    extends:
+      file: docker-compose.yml
+      service: yarn
+
   nginx:
     extends:
       file: docker-compose.yml

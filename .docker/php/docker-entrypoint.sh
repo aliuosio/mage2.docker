@@ -63,6 +63,8 @@ if [[ $1 = "true" ]]; then
         su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
     fi
 
+    su -c "composer require meanbee/magento2-webappmanifest" -s /bin/sh $2
+
     # set owner and user permissions on magento folders
     su -c " find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
             find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +

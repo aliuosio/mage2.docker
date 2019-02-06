@@ -2,3 +2,4 @@
 /htdocs/*
 .env
 /.docker/php/conf/auth.json
+/htdocs/pwa-studio/

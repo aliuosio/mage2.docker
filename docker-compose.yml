@@ -81,7 +81,6 @@ services:
         PHP_VERSION_SET : ${PHP_VERSION_SET}
         NAMESPACE : ${NAMESPACE}
         WORKDIR_SERVER : ${WORKDIR_SERVER}
-        CRON_TYPE : magento
     image: ${NAMESPACE}/cron:${PHP_VERSION_SET}-fpm-alpine
     working_dir: ${WORKDIR_SERVER}
     depends_on:
@@ -114,7 +113,7 @@ services:
       - .docker/mysql/db-dumps:/docker-entrypoint-initdb.d
 
   redis_cache:
-    #container_name: ${NAMESPACE}_redis_cache
+    container_name: ${NAMESPACE}_redis_cache
     build:
       context: ./.docker/redis
       args:

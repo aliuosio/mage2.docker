@@ -70,29 +70,24 @@ RUN apk add --no-cache --virtual build-dependencies \
     && pecl channel-update pecl.php.net \
     && pecl install -o -f redis imagick \
     && docker-php-ext-enable redis imagick \
-    && rm -rf /tmp/pear \
-    && curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun2.phar \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && chmod +x /usr/local/bin/composer \
-    && chmod +x /usr/local/bin/n98-magerun2.phar \
-    && chmod +x /home/${USERNAME}/docker-entrypoint.sh \
+    && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
     && addgroup -g 1000 -S ${USERNAME} \
     && adduser -u 1000 -S -D -G ${USERNAME} ${USERNAME} \
-    && mkdir ${WORKDIR_SERVER} \
-    && chmod -R 775 ${WORKDIR_SERVER} \
-    && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
-    && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
-
-RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then apk add --no-cache libmcrypt-dev \
+    && mkdir /home/${USERNAME}/html \
+    && chown -R  ${USERNAME}:${USERNAME} /home/${USERNAME} \
+    && chmod +x /home/${USERNAME}/docker-entrypoint.sh \
+    && \
+    if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
+        apk add --no-cache libmcrypt-dev \
         && docker-php-ext-install mcrypt; \
-    fi
-
-RUN if [ "$XDEBUG_ENABLE" = "true" ]; then pecl install -o -f xdebug-2.7 \
+    fi \
+    && \
+    if [ "$XDEBUG_ENABLE" = "true" ]; then pecl install -o -f xdebug-2.7 \
         && docker-php-ext-enable xdebug \
         && sed -i "s#__xdebug_host#${XDEBUG_HOST_IP}#g" /usr/local/etc/php/conf.d/xdebug.ini; \
-    fi
-
-RUN apk del tzdata \
+    fi \
+    && \
+    apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 

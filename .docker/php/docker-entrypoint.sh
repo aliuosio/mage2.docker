@@ -2,20 +2,27 @@
 
 if [[ $1 = "true" ]]; then
 
-    # composer downloader anddon to increase download speeds
+    # install composer
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && chmod +x /usr/local/bin/composer;
+
+    # composer downloader package to increase download speeds
     su -c "composer global require hirak/prestissimo" -s /bin/sh $2
 
     # go to magento root folder
     cd $3;
 
+    su -c "cp ../.composer/auth.json $3/var/composer_home/auth.json" -s /bin/sh $2
+
     # download magento
     su -c "composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$4 ." -s /bin/sh $2
-    su -c "mkdir -p var/composer_home" -s /bin/sh $2
-    su -c "chown -R $2:$2 ../" -s /bin/sh $2
-    su -c "cp ../.composer/auth.json $3/var/composer_home/auth.json" -s /bin/sh $2
 
     # debug tools magento
     su -c "composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;" -s /bin/sh $2
+
+    # install magerun2
+    su -c "curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun2.phar;
+        chmod +x /usr/local/bin/n98-magerun2.phar" -s /bin/sh $2
 
     # locales install
     case $7 in

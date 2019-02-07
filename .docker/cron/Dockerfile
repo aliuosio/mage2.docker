@@ -8,9 +8,8 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG USERNAME
 ARG WORKDIR_SERVER
-ARG CRON_TYPE
 
-COPY conf/crontab_${CRON_TYPE} /crontab/root
+COPY conf/crontab /crontab/root
 
 RUN apk add --no-cache --update \
     bash \

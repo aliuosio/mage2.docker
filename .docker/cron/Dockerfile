@@ -14,11 +14,7 @@ COPY conf/crontab /crontab/root
 RUN apk add --no-cache --update \
     bash \
     shadow \
-    busybox-suid \
-    jpegoptim \
-    optipng \
-    pngquant \
-    gifsicle
+    busybox-suid
 
 RUN rm -rf /var/spool/cron/crontabs \
     && mkdir -m 0644 -p /var/spool/cron/crontabs \

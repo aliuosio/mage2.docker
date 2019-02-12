@@ -1,4 +1,4 @@
-# The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
+# The Docker Nginx-percona-PHP-Redis-Elastic Setup
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
@@ -19,7 +19,7 @@
 * permissions are set after magento 2 install  
 following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  
 * **http basic authentication**
-* **use mysql, redis and php over sockets** instead of ports for faster data container exchange
+* **use percona, redis and php over sockets** instead of ports for faster data container exchange
 * **Extra Composer Packages** (if Magento 2 Installer is used):  
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer parallel install plugin for faster downloads    
     * [justbetter/magento2-image-optimizer](https://github.com/justbetter/magento2-image-optimizer) Easily optimize images using PHP using bin/magento console  
@@ -37,8 +37,8 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * Elasticsearch
 * letsencrypt
 * mailhog
-* mysql
 * nginx
+* percona
 * php
 * redis
 
@@ -84,10 +84,10 @@ visit the http://docker-sync.io/ website to get it
 
 ## Magento 2 Konfiguration
 Call: https://mage2.doc in your browser to configure Magento 2.  
-The Database Hostname is `mysql`  
-See MySQL settings in `.env` for user, password and dbname before install 
+The Database Hostname is `percona`  
+See percona settings in `.env` for user, password and dbname before install 
 
-### to use sockets to connect with redis, php and mysql
+### to use sockets to connect with redis, php and percona
     
     cp env.php.sample <WORKDIR>/app/etc/env.php
 

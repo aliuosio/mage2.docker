@@ -69,7 +69,7 @@ services:
       - php_socket:/var/run/php
       - redis_cache_socket:/var/redis/cache
       - redis_session_socket:/var/redis/session
-      - mysql_socket:/var/run/mysqld/
+      - percona_socket:/var/run/perconad/
 
   cron:
     container_name: ${NAMESPACE}_cron
@@ -90,36 +90,11 @@ services:
       - php_crontabs:/etc/crontabs
       - redis_cache_socket:/var/redis/cache
       - redis_session_socket:/var/redis/session
-      - mysql_socket:/var/run/mysqld/
-
-#  mysql:
-#    container_name: ${NAMESPACE}_mysql
-#    build:
-#      context: ./.docker/mysql
-#      args:
-#        USERNAME: ${USERNAME}
-#        TZ: ${TZ}
-#    image: ${NAMESPACE}/mysql
-#    ports:
-#      - 3306:3306
-#    environment:
-#      MYSQL_DATABASE: ${MYSQL_DATABASE}
-#      MYSQL_USER: ${MYSQL_USER}
-#      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-#    volumes:
-#      - mysql_data:/var/lib/mysql
-#      - mysql_socket:/var/run/mysqld/
-#      - .docker/mysql/db-dumps:/docker-entrypoint-initdb.d
+      - percona_socket:/var/run/perconad/
 
   percona:
     container_name: ${NAMESPACE}_percona
-    build:
-      context: ./.docker/percona
-      args:
-        USERNAME: ${USERNAME}
-        TZ: ${TZ}
-    image: ${NAMESPACE}/percona
+    image: percona:latest
     ports:
       - 3306:3306
     environment:
@@ -128,9 +103,8 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - mysql_data:/var/lib/mysql
-      - mysql_socket:/var/run/mysqld/
-      - .docker/percona/db-dumps:/docker-entrypoint-initdb.d
+      - percona_data:/var/lib/mysql
+      - percona_socket:/var/run/mysqld/
 
   redis_cache:
     container_name: ${NAMESPACE}_redis_cache
@@ -146,6 +120,21 @@ services:
     volumes:
       - redis_cache_socket:/var/redis/cache/
       - redis_cache_data:/data
+
+  redis_page_cache:
+    container_name: ${NAMESPACE}_redis_page_cache
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+        SOCKET: 'page_cache'
+    image: ${NAMESPACE}/redis:page_cache
+    sysctls:
+      net.core.somaxconn: '1024'
+    volumes:
+      - redis_page_cache_socket:/var/redis/page_cache/
+      - redis_page_cache_data:/data
 
   redis_session:
     container_name: ${NAMESPACE}_redis_session
@@ -195,13 +184,18 @@ volumes:
   letsencrypt_certs:
   letsencrypt_www:
   php_socket:
-  mysql_socket:
+  percona_socket:
   redis_cache_socket:
+  redis_page_cache_socket:
   redis_session_socket:
-  mysql_data:
+  percona_data:
   redis_session_data:
   elastic_data:
   redis_cache_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  redis_page_cache_data:
     driver_opts:
       type: tmpfs
       device: tmpfs

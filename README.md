@@ -91,9 +91,6 @@ See percona settings in `.env` for user, password and dbname before install
     
     cp env.php.sample <WORKDIR>/app/etc/env.php
 
-#### Magento 2 Cronjobs activation (values set in .env)
-    docker exec -it <NAMESPACE>_php ./bin/magento cron:install  
-    
 > works only after Magento 2 configuration
 
 ## SSL Certificate registration

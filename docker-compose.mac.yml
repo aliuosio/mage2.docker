@@ -3,68 +3,203 @@ version: "3.7"
 services:
 
   nginx:
-    extends:
-      file: docker-compose.yml
-      service: nginx
+    container_name: ${NAMESPACE}_nginx
+    build:
+      context: ./.docker/nginx
+      args:
+        TZ: ${TZ}
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
+        AUTH_CONFIG: ${AUTH_CONFIG}
+        AUTH_USER: ${AUTH_USER}
+        AUTH_PASS: ${AUTH_PASS}
+    image: ${NAMESPACE}/nginx
+    working_dir: ${WORKDIR_SERVER}
+    depends_on:
+      - php
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - app_data:${WORKDIR_SERVER}:delegated
+      - php_socket:/var/run/php
+      - letsencrypt_certs:/etc/nginx/certs
+      - letsencrypt_www:/var/www/letsencrypt
+      - pagespeed_cache:/var/cache/ngx_pagespeed
 
   letsencrypt:
-    extends:
-      file: docker-compose.yml
-      service: letsencrypt
+    container_name: ${NAMESPACE}_letsencrypt
+    build:
+      context: ./.docker/letsencrypt
+      args:
+        SHOP_URI: ${SHOP_URI}
+    image: ${NAMESPACE}/letsencrypt
+    command: /bin/true
+    volumes:
+      - letsencrypt_certs:/etc/letsencrypt
+      - letsencrypt_www:/var/www/letsencrypt
 
   php:
-    extends:
-      file: docker-compose.yml
-      service: php
+    container_name: ${NAMESPACE}_php
+    build:
+      context: ./.docker/php
+      args:
+        TZ: ${TZ}
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
+        XDEBUG_ENABLE: ${XDEBUG_ENABLE}
+        XDEBUG_HOST_IP: ${XDEBUG_HOST_IP}
+        FIREGENTO_MAGESETUP: ${FIREGENTO_MAGESETUP}
+        LOCALE: ${LOCALE}
+    image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
+    working_dir: ${WORKDIR_SERVER}
+    depends_on:
+      - percona
+    links:
+      - mailhog
+    volumes:
+      - app_data:${WORKDIR_SERVER}:delegated
+      - php_crontabs:/etc/crontabs
+      - php_socket:/var/run/php
+      - redis_cache_socket:/var/redis/cache
+      - redis_page_cache_socket:/var/redis/page_cache
+      - redis_session_socket:/var/redis/session
+      - percona_socket:/var/run/perconad/
 
   cron:
-    extends:
-      file: docker-compose.yml
-      service: cron
+    container_name: ${NAMESPACE}_cron
+    build:
+      context: ./.docker/cron
+      args:
+        TZ: ${TZ}
+        USERNAME: ${USERNAME}
+        PHP_VERSION_SET : ${PHP_VERSION_SET}
+        NAMESPACE : ${NAMESPACE}
+        WORKDIR_SERVER : ${WORKDIR_SERVER}
+    image: ${NAMESPACE}/cron:${PHP_VERSION_SET}-fpm-alpine
+    working_dir: ${WORKDIR_SERVER}
+    depends_on:
+      - php
+    volumes:
+      - app_data:${WORKDIR_SERVER}:delegated
+      - php_crontabs:/etc/crontabs
+      - redis_cache_socket:/var/redis/cache
+      - redis_session_socket:/var/redis/session
+      - percona_socket:/var/run/perconad/
 
-  image_optimizer:
-    extends:
-      file: docker-compose.yml
-      service: cron
-
-  mysql:
-    extends:
-      file: docker-compose.yml
-      service: mysql
+  percona:
+    container_name: ${NAMESPACE}_percona
+    image: percona:latest
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - percona_data:/var/lib/mysql
+      - percona_socket:/var/run/mysqld/
 
   redis_cache:
-    extends:
-      file: docker-compose.yml
-      service: redis_cache
+    container_name: ${NAMESPACE}_redis_cache
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+        SOCKET: 'cache'
+    image: ${NAMESPACE}/redis:cache
+    sysctls:
+      net.core.somaxconn: '1024'
+    volumes:
+      - redis_cache_socket:/var/redis/cache/
+      - redis_cache_data:/data
+
+  redis_page_cache:
+    container_name: ${NAMESPACE}_redis_page_cache
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+        SOCKET: 'page_cache'
+    image: ${NAMESPACE}/redis:page_cache
+    sysctls:
+      net.core.somaxconn: '1024'
+    volumes:
+      - redis_page_cache_socket:/var/redis/page_cache/
+      - redis_page_cache_data:/data
 
   redis_session:
-    extends:
-      file: docker-compose.yml
-      service: redis_session
+    container_name: ${NAMESPACE}_redis_session
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+        SOCKET: 'session'
+    image: ${NAMESPACE}/redis:session
+    sysctls:
+      net.core.somaxconn: '1024'
+    volumes:
+      - redis_session_socket:/var/redis/session/
+      - redis_session_data:/data
 
   mailhog:
-    extends:
-      file: docker-compose.yml
-      service: mailhog
+    container_name: ${NAMESPACE}_mailhog
+    image: mailhog/mailhog:latest
+    expose:
+      - 1025
+    ports:
+      - 8025:8025
 
   elasticsearch:
-    extends:
-      file: docker-compose.yml
-      service: elasticsearch
+    build:
+      context: ./.docker/elasticsearch
+      args:
+        TZ: ${TZ}
+    image: ${NAMESPACE}/elasticsearch:5.2
+    container_name: ${NAMESPACE}_elasticsearch
+    environment:
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
 
 volumes:
   php_crontabs:
   letsencrypt_certs:
   letsencrypt_www:
-  memcached_socket:
   php_socket:
-  mysql_socket:
+  percona_socket:
   redis_cache_socket:
+  redis_page_cache_socket:
   redis_session_socket:
+  percona_data:
+  redis_session_data:
   elastic_data:
   redis_cache_data:
-  redis_session_data:
-  mysql_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  redis_page_cache_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
   pagespeed_cache:
     driver_opts:
       type: tmpfs

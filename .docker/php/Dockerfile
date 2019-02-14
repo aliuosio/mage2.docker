@@ -30,8 +30,6 @@ RUN apk add --no-cache --virtual build-dependencies \
         libpng \
         libpng-dev \
         libzip-dev \
-        unzip \
-        zip \
     && set -xe \
     && apk add --no-cache \
         git \

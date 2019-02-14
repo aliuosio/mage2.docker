@@ -13,7 +13,7 @@
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled
-* Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle
+* ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~
 * **install magento 2** as configurable option
 * **install magento 2 sample data** as configurable option
 * permissions are set after magento 2 install  
@@ -91,9 +91,6 @@ See percona settings in `.env` for user, password and dbname before install
     
     cp env.php.sample <WORKDIR>/app/etc/env.php
 
-#### Magento 2 Cronjobs activation (values set in .env)
-    docker exec -it <NAMESPACE>_php ./bin/magento cron:install  
-    
 > works only after Magento 2 configuration
 
 ## SSL Certificate registration
@@ -149,6 +146,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 
 #### Bugs
 * fix OSX version
+* sampledata deploy error on `docker-compose build`
 * set timezone in containers
 * Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 * secure socket connection between containers

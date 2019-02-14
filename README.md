@@ -17,8 +17,8 @@
 * **install magento 2** as configurable option
 * **install magento 2 sample data** as configurable option
 * permissions are set after magento 2 install  
-following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  
-* **http basic authentication**
+following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  as configurable option
+* **http basic authentication** 
 * **use percona, redis and php over sockets** instead of ports for faster data container exchange
 * **Extra Composer Packages** (if Magento 2 Installer is used):  
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer parallel install plugin for faster downloads    

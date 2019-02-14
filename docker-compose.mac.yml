@@ -22,7 +22,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - app_data:${WORKDIR_SERVER}:delegated
+      - app_data:${WORKDIR_SERVER}
       - php_socket:/var/run/php
       - letsencrypt_certs:/etc/nginx/certs
       - letsencrypt_www:/var/www/letsencrypt
@@ -64,7 +64,7 @@ services:
     links:
       - mailhog
     volumes:
-      - app_data:${WORKDIR_SERVER}:delegated
+      - app_data:${WORKDIR_SERVER}
       - php_crontabs:/etc/crontabs
       - php_socket:/var/run/php
       - redis_cache_socket:/var/redis/cache
@@ -87,7 +87,7 @@ services:
     depends_on:
       - php
     volumes:
-      - app_data:${WORKDIR_SERVER}:delegated
+      - app_data:${WORKDIR_SERVER}
       - php_crontabs:/etc/crontabs
       - redis_cache_socket:/var/redis/cache
       - redis_session_socket:/var/redis/session

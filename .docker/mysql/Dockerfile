@@ -13,4 +13,5 @@ RUN addgroup --gid 1000 --system ${USERNAME} \
     && chown -R ${USERNAME} /var/lib/mysql \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
+    && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*

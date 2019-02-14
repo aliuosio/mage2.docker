@@ -12,7 +12,6 @@ ARG WORKDIR_SERVER
 COPY conf/crontab /crontab/root
 
 RUN apk add --no-cache --update \
-    bash \
     shadow \
     busybox-suid
 

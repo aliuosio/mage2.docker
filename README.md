@@ -114,7 +114,7 @@ they’d have to be renewed periodically with the following command:
     docker-compose kill -s SIGHUP nginx
 
 #### Login to PHP container (values set in .env)
-    docker exec -it -u <USERNAME> <NAMESPACE>_php bash
+    docker exec -it -u <USERNAME> <NAMESPACE>_php sh
     
 #### Use Composer (values set in .env)
     docker exec -it -u <USERNAME> <NAMESPACE>_php composer <command>
@@ -138,7 +138,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * ~~create seperate containers for redis session and cache~~
 * ~~create seperate containers for cronjob and image optimization~~
 * ~~fix file permissions and ownership between containers and docker host~~
-* move Magento 2 specific tools and config to docker-entrypoint.sh
+* move Magento 2 specific tools and config to docker-entrypoint.sh called in docker-compose.yml
 * setup script for PHP Container to set IP for xdebug or Domain
 * add apache as alternative webserver
 * clean up alpinne packages after build

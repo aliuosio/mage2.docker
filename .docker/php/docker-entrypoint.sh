@@ -1,6 +1,9 @@
-#!/bin/bash -x
+#!/bin/sh
 
 if [[ $1 = "true" ]]; then
+
+    # go to magento root folder
+    cd $3;
 
     # install composer
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -8,9 +11,6 @@ if [[ $1 = "true" ]]; then
 
     # composer downloader package to increase download speeds
     su -c "composer global require hirak/prestissimo" -s /bin/sh $2
-
-    # go to magento root folder
-    cd $3;
 
     su -c "cp ../.composer/auth.json $3/var/composer_home/auth.json" -s /bin/sh $2
 

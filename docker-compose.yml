@@ -70,7 +70,7 @@ services:
       - redis_cache_socket:/var/redis/cache
       - redis_page_cache_socket:/var/redis/page_cache
       - redis_session_socket:/var/redis/session
-      - percona_socket:/var/run/perconad/
+      - percona_socket:/var/run/mysqld/
 
   cron:
     container_name: ${NAMESPACE}_cron

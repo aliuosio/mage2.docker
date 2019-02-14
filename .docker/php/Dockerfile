@@ -17,13 +17,12 @@ ARG LOCALE
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
-COPY conf/auth.json.template conf/auth.json* /home/${USERNAME}/.composer/
-COPY docker-entrypoint.sh /home/${USERNAME}/
+COPY conf/auth.json.template conf/auth.json /home/${USERNAME}/.composer/
+COPY docker-entrypoint.sh /usr/local/bin/
 
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \
-        bash \
         libxslt-dev \
         freetype-dev \
         libjpeg-turbo-dev \
@@ -73,7 +72,7 @@ RUN apk add --no-cache --virtual build-dependencies \
     && adduser -u 1000 -S -D -G ${USERNAME} ${USERNAME} \
     && mkdir /home/${USERNAME}/html \
     && chown -R  ${USERNAME}:${USERNAME} /home/${USERNAME} \
-    && chmod +x /home/${USERNAME}/docker-entrypoint.sh \
+    && chmod +x /usr/local/bin/docker-entrypoint.sh \
     && \
     if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         apk add --no-cache libmcrypt-dev \
@@ -84,12 +83,11 @@ RUN apk add --no-cache --virtual build-dependencies \
         && docker-php-ext-enable xdebug \
         && sed -i "s#__xdebug_host#${XDEBUG_HOST_IP}#g" /usr/local/etc/php/conf.d/xdebug.ini; \
     fi \
-    && \
-    apk del tzdata \
+    && apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 
-RUN /home/${USERNAME}/docker-entrypoint.sh \
+RUN docker-entrypoint.sh \
     $INSTALL_MAGENTO \
     $USERNAME \
     $WORKDIR_SERVER \

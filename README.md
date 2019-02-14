@@ -13,7 +13,7 @@
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled
-* Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle
+* ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~
 * **install magento 2** as configurable option
 * **install magento 2 sample data** as configurable option
 * permissions are set after magento 2 install  

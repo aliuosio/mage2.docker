@@ -12,7 +12,7 @@ if [[ $1 = "true" ]]; then
     # composer downloader package to increase download speeds
     su -c "composer global require hirak/prestissimo" -s /bin/sh $2
 
-    su -c "cp ../.composer/auth.json $3/var/composer_home/auth.json" -s /bin/sh $2
+    su -c "cp /home/$2/.composer/auth.json /$3/var/composer_home/auth.json" -s /bin/sh $2
 
     # download magento
     su -c "composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$4 ." -s /bin/sh $2

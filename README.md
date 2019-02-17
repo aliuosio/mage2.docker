@@ -60,7 +60,7 @@ Using **Composer**
 
 ## Mandatory Settings
     
-    cp .env.template .env
+    cp .env.sample .env
     
     # set your keys from magento.com to install magento 2 
     cp .docker/php/conf/auth.json.template .docker/php/conf/auth.json

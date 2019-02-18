@@ -141,7 +141,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * move Magento 2 specific tools and config to docker-entrypoint.sh called in docker-compose.yml
 * setup script for PHP Container to set IP for xdebug or Domain
 * add apache as alternative webserver
-* clean up alpinne packages after build
+* clean up alpine packages after build
 * PWA Studio as variable option
 
 #### Bugs

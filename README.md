@@ -57,6 +57,7 @@ Already have a Magento 2 project setup with **Git**
 Using **Composer**  
     
     composer require aliuosio/mage2.docker
+    cd /vendor/aliuosio/mage2.docker
 
 ## Mandatory Settings
     

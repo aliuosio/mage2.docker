@@ -24,7 +24,7 @@ if [[ $1 = "true" ]]; then
     su -c "curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun2.phar;
         chmod +x /usr/local/bin/n98-magerun2.phar" -s /bin/sh $2
 
-    # locales install
+    # languages
     case $7 in
         de_DE)
             su -c "composer require splendidinternet/mage2-locale-de-de;" -s /bin/sh $2
@@ -47,13 +47,6 @@ if [[ $1 = "true" ]]; then
         pt_BR)
             su -c "composer require magento2translations/language_pt_br:dev-master;" -s /bin/sh $2
             ;;
-    esac
-
-    # generate static files for locale installed
-    case $7 in
-        de_DE|en_GB|fr_FR|it_IT|es_ES)
-        su -c "bin/magento setup:static-content:deploy -f $7;" -s /bin/sh $2
-        ;;
     esac
 
     # firegento magesetup install

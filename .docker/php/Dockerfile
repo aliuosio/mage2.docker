@@ -18,7 +18,6 @@ ARG LOCALE
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json.template conf/auth.json /home/${USERNAME}/.composer/
-COPY docker-entrypoint.sh /usr/local/bin/
 
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies \
@@ -86,12 +85,3 @@ RUN apk add --no-cache --virtual build-dependencies \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
-
-RUN docker-entrypoint.sh \
-    $INSTALL_MAGENTO \
-    $USERNAME \
-    $WORKDIR_SERVER \
-    $INSTALL_MAGENTO_VERSION \
-    $INSTALL_SAMPLE_DATA \
-    $FIREGENTO_MAGESETUP \
-    $LOCALE

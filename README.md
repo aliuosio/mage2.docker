@@ -76,7 +76,7 @@ You must set project absolute folder path `WORKDIR` in `.env`
     
     # MacOS
     docker-sync start;
-    docker-compose -f docker-compose.mac.yml up --build;
+    docker-compose -f docker-compose.osx.yml up --build;
     
 > For OSX Users:
 if `docker-sync` is missing on your OSX then 

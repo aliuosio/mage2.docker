@@ -1,16 +1,16 @@
 #!/bin/sh
 
+# install composer
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+&& chmod +x /usr/local/bin/composer;
+
+# composer downloader package to increase download speeds
+su -c "composer global require hirak/prestissimo" -s /bin/sh $2
+
 if [[ $1 = "true" ]]; then
 
     # go to magento root folder
     cd $3;
-
-    # install composer
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && chmod +x /usr/local/bin/composer;
-
-    # composer downloader package to increase download speeds
-    su -c "composer global require hirak/prestissimo" -s /bin/sh $2
 
     # download magento
     su -c "composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$4 ." -s /bin/sh $2

@@ -1,6 +1,9 @@
 # The Docker Nginx-Percona-PHP-Redis-Elastic Setup
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
+
+[See Demo Store](https://dev-hh.de)
+
 ## Features
 * alternative OSX docker-compose file using docker-sync for better perfomance
 * set project directory to where ever you want (as configurable option)

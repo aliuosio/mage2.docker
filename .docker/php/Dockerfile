@@ -28,9 +28,10 @@ RUN apk add --no-cache --virtual build-dependencies \
         libjpeg-turbo-dev \
         libpng \
         libpng-dev \
-        libzip-dev \
     && set -xe \
     && apk add --no-cache \
+        yarn \
+        bash \
         git \
         tzdata \
         icu \

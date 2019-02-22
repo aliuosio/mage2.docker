@@ -163,7 +163,8 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * ~~create seperate containers for redis session and cache~~
 * ~~create seperate containers for cronjob and image optimization~~
 * ~~fix file permissions and ownership between containers and docker host~~
-* ~~move Magento 2 specific tools and config to docker-entrypoint.sh called in docker-compose.yml~~
+* move Magento 2 specific tools and config to docker-entrypoint.sh called in docker-compose.yml
+* move xdebug install & config to docker-entrypoint.sh band install after magento 2 install and sampledata
 * test with mounts instead of volumes
 * setup script for PHP Container to set IP for xdebug or Domain
 * add apache as alternative webserver
@@ -174,7 +175,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 #### Bugs
 * ~~fix OSX version~~
 * cron jobs container not logging messages
-* sampledata deploy error on `docker-compose build`
+* ~~sampledata deploy error on docker-compose build~~
 * set timezone in containers
 * Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 * secure socket connection between containers

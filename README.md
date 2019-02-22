@@ -4,6 +4,24 @@
 
 [See Demo Store](https://dev-hh.de)
 
+## Table of Contents
+1. [Features](#features)
+1. [Docker Container Overview](#docker-container-overview)
+1. [Get Source](#get-source)
+1. [Mandatory Settings](#mandatory-settings)
+1. [Start docker](#start-docker)
+1. [Magento 2 Configuration](#magento-2-configuration)
+1. [SSL Certificate Registration](#ssl-certificate-registration)
+1. [PHP Container Usage](#php-container-usage)
+1. [Composer Usage](#composer-usage)
+1. [Magerun2 Usage](#magerun2-usage)
+1. [Mailhog Usage](#mailhog-usage)
+1. [Elasticsearch Usage](#elasticsearch-usage)
+1. [Todos](#todos)
+1. [Bugs](#bugs)
+1. [Contribute](#contribute)
+1. [License](#license)
+
 ## Features
 * alternative OSX docker-compose file using docker-sync for better perfomance
 * set project directory to where ever you want (as configurable option)
@@ -34,7 +52,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     
 > features can be enabled in .env
 
-## Docker Containers 
+## Docker Container Overview
 * Magento Cronjobs
 * Elasticsearch
 * letsencrypt
@@ -44,21 +62,6 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * php
 * redis
 
-## Table of Contents
-1. [Get Source](#Get-source)
-1. [Mandatory Settings](#mandatory-settings)
-1. [Start docker](#start-docker)
-1. [Magento 2 Configuration](#magento-2-configuration)
-1. [SSL Certificate Registration](#ssl-certificate-registration)
-1. [PHP Container Usage](#php-container-usage)
-1. [Composer Usage](#composer-usage)
-1. [Magerun2 Usage](#magerun2-usage)
-1. [Mailhog Usage](#mailhog-usage)
-1. [Elasticsearch Usage](#elasticsearch-usage)
-1. [Todos](#todos)
-1. [Bugs](#bugs)
-1. [Contribute](#contribute)
-1. [License](#license)
 
 ## Get Source
 Using **Git**

@@ -14,6 +14,7 @@ ARG XDEBUG_ENABLE
 ARG XDEBUG_HOST_IP
 ARG TZ
 ARG LOCALE
+ARG XDEBUG_ENABLE
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
@@ -28,9 +29,10 @@ RUN apk add --no-cache --virtual build-dependencies \
         libjpeg-turbo-dev \
         libpng \
         libpng-dev \
-        libzip-dev \
     && set -xe \
     && apk add --no-cache \
+        yarn \
+        bash \
         git \
         tzdata \
         icu \
@@ -79,7 +81,8 @@ RUN apk add --no-cache --virtual build-dependencies \
         && docker-php-ext-install mcrypt; \
     fi \
     && \
-    if [ "$XDEBUG_ENABLE" = "true" ]; then pecl install -o -f xdebug-2.7 \
+    if [ "$XDEBUG_ENABLE" = "true" ]; then \
+        pecl install -o -f xdebug-2.7 \
         && docker-php-ext-enable xdebug \
         && sed -i "s#__xdebug_host#${XDEBUG_HOST_IP}#g" /usr/local/etc/php/conf.d/xdebug.ini; \
     fi \

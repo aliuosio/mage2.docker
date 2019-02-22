@@ -1,27 +1,27 @@
 #!/bin/sh
 
+# install composer
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+&& chmod +x /usr/local/bin/composer;
+
+# install magerun2
+curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun2.phar;
+chmod +x /usr/local/bin/n98-magerun2.phar
+
+# composer downloader package to increase download speeds
+su -c "composer global require hirak/prestissimo" -s /bin/sh $2
+
 if [[ $1 = "true" ]]; then
 
     # go to magento root folder
     cd $3;
 
-    # install composer
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && chmod +x /usr/local/bin/composer;
-
-    # composer downloader package to increase download speeds
-    su -c "composer global require hirak/prestissimo" -s /bin/sh $2
-
     # download magento
-    su -c "composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$4 ." -s /bin/sh $2
-
-    su -c "cp /home/$2/.composer/auth.json $3/var/composer_home/auth.json" -s /bin/sh $2
-    # debug tools magento
-    su -c "composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;" -s /bin/sh $2
-
-    # install magerun2
-    su -c "curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun2.phar;
-        chmod +x /usr/local/bin/n98-magerun2.phar" -s /bin/sh $2
+    su -c "composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$4 .;
+    mkdir -p var/composer_home;
+    chown -R $2:$2 ../;
+    cp ../.composer/auth.json ./var/composer_home/auth.json;
+    composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;" -s /bin/sh $2
 
     # languages
     case $7 in
@@ -50,7 +50,7 @@ if [[ $1 = "true" ]]; then
 
     # firegento magesetup install
     if [[ $6 = "true" ]]; then
-        su -c "composer config repositories.firegento_magesetup vcs git@github.com:firegento/firegento-magesetup2.git; \
+        su -c "composer config repositories.firegento_magesetup vcs git@github.com:firegento/firegento-magesetup2.git;
             composer require firegento/magesetup2:dev-develop;" -s /bin/sh $2
     fi
 

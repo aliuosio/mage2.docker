@@ -40,16 +40,6 @@ services:
       - letsencrypt_certs:/etc/letsencrypt
       - letsencrypt_www:/var/www/letsencrypt
 
-  #  yarn:
-  #    container_name: ${NAMESPACE}_letsencrypt
-  #    build: .
-  #    ports:
-  #      - 3000:3000
-  #    volumes:
-  #      - app_data:/usr/src/app
-  #    entrypoint: ["sh", "-c"]
-  #    command: ["cp /tmp/yarn.lock yarn.lock & nodemon server.js & if [ '(tar -cf - /usr/local/share/.cache/yarn/v1 | crc32)' != '(tar -cf - .yarn_cache | crc32)' ]; then cp -r /usr/local/share/.cache/yarn/v1/. .yarn_cache/; fi"]
-
   php:
     container_name: ${NAMESPACE}_php
     build:
@@ -64,7 +54,6 @@ services:
         INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
         INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
         XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-        XDEBUG_HOST_IP: ${XDEBUG_HOST_IP}
         FIREGENTO_MAGESETUP: ${FIREGENTO_MAGESETUP}
         LOCALE: ${LOCALE}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
@@ -73,7 +62,6 @@ services:
       - percona
     links:
       - mailhog
-    command: ['docker-entrypoint.sh', '$INSTALL_MAGENTO', '$USERNAME', '$WORKDIR_SERVER', '$INSTALL_MAGENTO_VERSION', '$INSTALL_SAMPLE_DATA', '$FIREGENTO_MAGESETUP', '$LOCALE']
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_crontabs:/etc/crontabs

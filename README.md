@@ -169,6 +169,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * add apache as alternative webserver
 * clean up alpine packages after build
 * PWA Studio as variable option
+* set auth for elasticsearch
 
 #### Bugs
 * ~~fix OSX version~~

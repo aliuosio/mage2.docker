@@ -8,6 +8,9 @@
 1. [Features](#features)
 1. [Docker Container Overview](#docker-container-overview)
 1. [Get Source](#get-source)
+    * [Use Git](#use-git)
+    * [Use Git Submodule](#use-git-submodule)
+    * [Use Composer](#use-composer) 
 1. [Mandatory Settings](#mandatory-settings)
 1. [Start docker](#start-docker)
 1. [Magento 2 Configuration](#magento-2-configuration)
@@ -64,18 +67,18 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 
 ## Get Source
-Using **Git**
-    
+#### Use Git
+
     git clone https://github.com/aliuosio/mage2.docker.git
     
-Already have a Magento 2 project setup with **Git**
+#### Use Git Submodule
 
     git submodule add https://github.com/aliuosio/mage2.docker.git 
     
     # to get updates afterwards
     git submodule update --remote
       
-Using **Composer**  
+#### Use Composer  
     
     composer require aliuosio/mage2.docker
     cd /vendor/aliuosio/mage2.docker

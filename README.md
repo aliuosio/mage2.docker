@@ -44,6 +44,22 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * php
 * redis
 
+## Table of Contents
+1. [Get Source](#Get-source)
+1. [Mandatory Settings](#mandatory-settings)
+1. [Start docker](#start-docker)
+1. [Magento 2 Configuration](#magento-2-configuration)
+1. [SSL Certificate Registration](#ssl-certificate-registration)
+1. [PHP Container Usage](#php-container-usage)
+1. [Composer Usage](#composer-usage)
+1. [Magerun2 Usage](#magerun2-usage)
+1. [Mailhog Usage](#mailhog-usage)
+1. [Elasticsearch Usage](#elasticsearch-usage)
+1. [Todos](#todos)
+1. [Bugs](#bugs)
+1. [Contribute](#contribute)
+1. [License](#license)
+
 ## Get Source
 Using **Git**
     
@@ -85,7 +101,7 @@ You must set project absolute folder path `WORKDIR` in `.env`
 if `docker-sync` is missing on your OSX then 
 visit the http://docker-sync.io/ website to get it
 
-## Magento 2 Konfiguration
+## Magento 2 Configuration
 Call: https://mage2.doc in your browser to configure Magento 2.  
 The Database Hostname is `percona` or `/var/lib/mysql/mysql.sock` to use sockets
 See percona settings in `.env` for user, password and dbname before install 
@@ -96,7 +112,7 @@ See percona settings in `.env` for user, password and dbname before install
 
 > works only after Magento 2 configuration
 
-## SSL Certificate registration
+## SSL Certificate Registration
     # register certificate
     docker-compose run --rm letsencrypt \
         letsencrypt certonly --webroot \
@@ -116,19 +132,19 @@ they’d have to be renewed periodically with the following command:
     # restart webserver
     docker-compose kill -s SIGHUP nginx
 
-#### Login to PHP container (values set in .env)
+#### PHP Container Usage
     docker exec -it -u <USERNAME> <NAMESPACE>_php sh
     
-#### Use Composer (values set in .env)
+#### Composer Usage
     docker exec -it -u <USERNAME> <NAMESPACE>_php composer <command>
 
-#### Use Magerun (values set in .env)
+#### Magerun2 Usage
     docker exec -it -u <USERNAME> <NAMESPACE>_php n98-magerun2 shell
     
-#### All outgoing mails caught by MailHog (values set in .env)
+#### Mailhog Usage
     http://mage2.doc:8025
 
-#### Configure the Elasticsearch:
+#### Elasticsearch Usage:
 In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `Tab: Catalog Search`
     
     Search Engine: Elasticsearch 5.0+

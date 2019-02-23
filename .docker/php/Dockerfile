@@ -80,12 +80,6 @@ RUN apk add --no-cache --virtual build-dependencies \
         apk add --no-cache libmcrypt-dev \
         && docker-php-ext-install mcrypt; \
     fi \
-    && \
-    if [ "$XDEBUG_ENABLE" = "true" ]; then \
-        pecl install -o -f xdebug-2.7 \
-        && docker-php-ext-enable xdebug \
-        && sed -i "s#__xdebug_host#${XDEBUG_HOST_IP}#g" /usr/local/etc/php/conf.d/xdebug.ini; \
-    fi \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
@@ -97,4 +91,5 @@ RUN docker-entrypoint.sh \
     $INSTALL_MAGENTO_VERSION \
     $INSTALL_SAMPLE_DATA \
     $FIREGENTO_MAGESETUP \
-    $LOCALE
+    $LOCALE \
+    $XDEBUG_ENABLE

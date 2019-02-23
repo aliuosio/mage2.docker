@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# Xdebug Install and Configure
+if [[ $8 = "true" ]]; then
+    pecl install -o -f xdebug-2.7;
+    docker-php-ext-enable xdebug;
+    sed -i "s#__xdebug_host#TEST#g" /usr/local/etc/php/conf.d/xdebug.ini;
+fi
+
 # install composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 && chmod +x /usr/local/bin/composer;
@@ -9,7 +16,7 @@ curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun
 chmod +x /usr/local/bin/n98-magerun2.phar
 
 # composer downloader package to increase download speeds
-su -c "composer global require hirak/prestissimo" -s /bin/sh $2
+composer global require hirak/prestissimo
 
 if [[ $1 = "true" ]]; then
 
@@ -17,51 +24,52 @@ if [[ $1 = "true" ]]; then
     cd $3;
 
     # download magento
-    su -c "composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$4 .;
+    composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$4 .;
     mkdir -p var/composer_home;
-    chown -R $2:$2 ../;
     cp ../.composer/auth.json ./var/composer_home/auth.json;
-    composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;" -s /bin/sh $2
+    composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;
 
     # languages
     case $7 in
         de_DE)
-            su -c "composer require splendidinternet/mage2-locale-de-de;" -s /bin/sh $2
+            composer require splendidinternet/mage2-locale-de-de;
             ;;
         en_GB)
-            su -c "composer require cubewebsites/magento2-language-en-gb;" -s /bin/sh $2
+            composer require cubewebsites/magento2-language-en-gb;
             ;;
         fr_FR)
-            su -c "composer require mageplaza/magento-2-french-language-pack;" -s /bin/sh $2
+            composer require mageplaza/magento-2-french-language-pack;
             ;;
         it_IT)
-            su -c "composer require mageplaza/magento-2-italian-language-pack:dev-master;" -s /bin/sh $2
+            composer require mageplaza/magento-2-italian-language-pack:dev-master;
             ;;
         es_ES)
-            su -c "composer require mageplaza/magento-2-spanish-language-pack:dev-master;" -s /bin/sh $2
+            composer require mageplaza/magento-2-spanish-language-pack:dev-master;
             ;;
         pt_PT)
-            su -c "composer require mageplaza/magento-2-portuguese-language-pack:dev-master;" -s /bin/sh $2
+            composer require mageplaza/magento-2-portuguese-language-pack:dev-master;
             ;;
         pt_BR)
-            su -c "composer require magento2translations/language_pt_br:dev-master;" -s /bin/sh $2
+            composer require magento2translations/language_pt_br:dev-master;
             ;;
     esac
 
     # firegento magesetup install
     if [[ $6 = "true" ]]; then
-        su -c "composer config repositories.firegento_magesetup vcs git@github.com:firegento/firegento-magesetup2.git;
-            composer require firegento/magesetup2:dev-develop;" -s /bin/sh $2
+        composer config repositories.firegento_magesetup vcs git@github.com:firegento/firegento-magesetup2.git;
+        composer require firegento/magesetup2:dev-develop;
     fi
 
     # Magento Sample Data
     if [[ $5 = "true" ]]; then
-        su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
+        bin/magento sampledata:deploy;
     fi
 
     # set owner and user permissions on magento folders
-    su -c " find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
-            find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
-            chmod u+x bin/magento" -s /bin/sh $2
+    find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
+    find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
+    chmod u+x bin/magento
 
 fi
+
+chown -R $2:$2 /home/$2;

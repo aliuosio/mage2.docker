@@ -26,10 +26,10 @@
 1. [License](#license)
 
 ## Features
-* alternative OSX docker-compose file using docker-sync for better perfomance
+* alternative **OSX docker-compose** file using docker-sync **for better perfomance**
 * set project directory to where ever you want (as configurable option)
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
-(Magento 2.3 at this point does not work with PHP 7.3)
+(24.02.2019: Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx uses **Pagespeed** Module
 * both **PHP GD and PHP Imagick** are installed

@@ -1,5 +1,5 @@
 # The Docker Nginx-Percona-PHP-Redis-Elastic Setup
-> ##### Still looking for contributers
+> #### Still looking for contributers
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 

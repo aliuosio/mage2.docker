@@ -33,7 +33,7 @@
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx uses **Pagespeed** Module
 * both **PHP GD and PHP Imagick** are installed
-* **PHP Xdebug** as configurable option
+* ~~**PHP Xdebug** as configurable option~~
 * **PHP Opcache** enabled
 * **PHP redis** enabled
 * ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~
@@ -87,7 +87,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     
     cp .env.sample .env
     
-    # set your keys from magento.com to install magento 2 
+    # only needed if you want to install MAgento 2 on first build
     cp .docker/php/conf/auth.json.template .docker/php/conf/auth.json
 
     # the domain mage2.doc is saved to your /etc/hosts file
@@ -160,20 +160,21 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 
 #### Todos
 * ~~nginx with pagespeed module~~
-* ~~create seperate containers for redis session and cache~~
-* ~~create seperate containers for cronjob and image optimization~~
+* ~~create seperat containers for redis session and cache~~
+* ~~create seperat containers for cronjob and image optimization~~
 * ~~fix file permissions and ownership between containers and docker host~~
 * move Magento 2 specific tools and config to docker-entrypoint.sh called in docker-compose.yml
-* move xdebug install & config to docker-entrypoint.sh band install after magento 2 install and sampledata
+* ~~move xdebug install & config to docker-entrypoint.sh band install after magento 2 install and sampledata~~
 * test with mounts instead of volumes
 * setup script for PHP Container to set IP for xdebug or Domain
 * add apache as alternative webserver
 * clean up alpine packages after build
 * PWA Studio as variable option
-* set auth for elasticsearch
+* set authentification for elasticsearch
 
 #### Bugs
 * ~~fix OSX version~~
+* check that all commands function in docker-entrypoint.sh
 * cron jobs container not logging messages
 * ~~sampledata deploy error on docker-compose build~~
 * set timezone in containers

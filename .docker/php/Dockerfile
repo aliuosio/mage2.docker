@@ -14,10 +14,10 @@ ARG XDEBUG_ENABLE
 ARG XDEBUG_HOST_IP
 ARG TZ
 ARG LOCALE
-ARG XDEBUG_ENABLE
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
-COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
+COPY conf/php-ini-overrides.ini /usr/local/etc/php/
+COPY conf/xdebug.ini /usr/local/etc/php-fpm.d/
 COPY conf/auth.json.template conf/auth.json /home/$USERNAME/.composer/
 COPY docker-entrypoint.sh /usr/local/bin/
 
@@ -31,8 +31,6 @@ RUN apk add --no-cache --virtual build-dependencies \
         libpng-dev \
     && set -xe \
     && apk add --no-cache \
-        yarn \
-        bash \
         git \
         tzdata \
         icu \
@@ -92,4 +90,5 @@ RUN docker-entrypoint.sh \
     $INSTALL_SAMPLE_DATA \
     $FIREGENTO_MAGESETUP \
     $LOCALE \
-    $XDEBUG_ENABLE
+    $XDEBUG_ENABLE \
+    $XDEBUG_HOST_IP

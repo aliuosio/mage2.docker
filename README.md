@@ -173,6 +173,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * PWA Studio as variable option
 * set authentification for elasticsearch
 * add composer package magenerds/smtp
+* exchange splendidinternet/mage2-locale-de-de with magento2/magenerds_de_de
 
 #### Bugs
 * ~~fix OSX version~~

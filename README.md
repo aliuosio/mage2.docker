@@ -172,6 +172,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * clean up alpine packages after build
 * PWA Studio as variable option
 * set authentification for elasticsearch
+* add composer package magenerds/smtp
 
 #### Bugs
 * ~~fix OSX version~~

@@ -17,7 +17,7 @@ ARG LOCALE
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
-COPY conf/auth.json.template conf/auth.json /home/$USERNAME/.composer/
+COPY conf/auth.json /home/$USERNAME/.composer/
 COPY docker-entrypoint.sh /usr/local/bin/
 
 RUN apk update && apk upgrade

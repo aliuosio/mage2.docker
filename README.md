@@ -86,14 +86,18 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 ## Mandatory Settings
     
-    cp .env.sample .env
+    cp config_blueprints/.env.sample .env
     
     # only needed if you want to install MAgento 2 on first build
-    cp .docker/php/conf/auth.json.template .docker/php/conf/auth.json
+    cp config_blueprints/auth.json.sample .docker/php/conf/auth.json
 
     # the domain mage2.doc is saved to your /etc/hosts file
     echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts
     
+    # increase memory consumption (if you need the elastic container)
+    cp config_blueprints/10-docker-elasticsearch.conf /etc/sysctl.d/
+    sudo sysctl --system
+
 You must set project absolute folder path `WORKDIR` in `.env`  
 
 ## Start docker
@@ -115,7 +119,7 @@ See percona settings in `.env` for user, password and dbname before install
 
 ### to use sockets to connect with redis, php and percona
     
-    cp env.php.sample <WORKDIR>/app/etc/env.php
+    cp config_blueprints/env.php.sample <WORKDIR>/app/etc/env.php
 
 > works only after Magento 2 configuration
 
@@ -157,7 +161,6 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     Search Engine: Elasticsearch 5.0+
     Elasticsearch Server Hostname: elasticsearch
     Elasticsearch Server Port: 9200
-> You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
 
 #### Todos
 * ~~nginx with pagespeed module~~
@@ -172,8 +175,8 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * clean up alpine packages after build
 * PWA Studio as variable option
 * set authentification for elasticsearch
-* add composer package magenerds/smtp
-* exchange splendidinternet/mage2-locale-de-de with magento2/magenerds_de_de
+* add composer package [magenerds/smtp](https://github.com/magenerds/smtp)
+* exchange [splendidinternet/mage2-locale-de-de](https://github.com/splendidinternet/Magento2_German_LocalePack_de_DE) with [magento2/magenerds_de_de](https://github.com/magento2/magenerds_de_de)
 
 #### Bugs
 * ~~fix OSX version~~

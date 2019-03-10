@@ -88,15 +88,14 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     
     cp config_blueprints/.env.sample .env
     
-    # only needed if you want to install MAgento 2 on first build
+    # only needed if you want to install Magento 2 on first build
     cp config_blueprints/auth.json.sample .docker/php/conf/auth.json
 
     # the domain mage2.doc is saved to your /etc/hosts file
     echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts
     
-    # increase memory consumption (if you need the elastic container)
-    cp config_blueprints/10-docker-elasticsearch.conf /etc/sysctl.d/
-    sudo sysctl --system
+    # increase memory consumption for elastic container and restart
+    sysctl -w vm.max_map_count=262144
 
 You must set project absolute folder path `WORKDIR` in `.env`  
 
@@ -161,6 +160,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     Search Engine: Elasticsearch 5.0+
     Elasticsearch Server Hostname: elasticsearch
     Elasticsearch Server Port: 9200
+> You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
 
 #### Todos
 * ~~nginx with pagespeed module~~

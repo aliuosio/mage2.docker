@@ -184,9 +184,9 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * cron jobs container not logging messages
 * ~~sampledata deploy error on docker-compose build~~
 * set timezone in containers
-* Language Packs as configurable option (supported: de_DE, en_GB, fr_FR, it_IT, es_ES, pt_PT, pt_BR)  
 * secure socket connection between containers
 * Nginx Header Config passes at https://securityheaders.com/
+* increase vm max count for elasticsearch without system reboot
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

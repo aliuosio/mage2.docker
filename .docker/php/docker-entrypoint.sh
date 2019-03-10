@@ -24,31 +24,6 @@ if [[ $1 = "true" ]]; then
     composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;
     " -s /bin/sh $2
 
-    # languages
-    case $7 in
-        de_DE)
-            su -c "composer require splendidinternet/mage2-locale-de-de;" -s /bin/sh $2
-            ;;
-        en_GB)
-            su -c "composer require cubewebsites/magento2-language-en-gb;" -s /bin/sh $2
-            ;;
-        fr_FR)
-            su -c "composer require mageplaza/magento-2-french-language-pack;" -s /bin/sh $2
-            ;;
-        it_IT)
-            su -c "composer require mageplaza/magento-2-italian-language-pack:dev-master;" -s /bin/sh $2
-            ;;
-        es_ES)
-            su -c "composer require mageplaza/magento-2-spanish-language-pack:dev-master;" -s /bin/sh $2
-            ;;
-        pt_PT)
-            su -c "composer require mageplaza/magento-2-portuguese-language-pack:dev-master;" -s /bin/sh $2
-            ;;
-        pt_BR)
-            su -c "composer require magento2translations/language_pt_br:dev-master;" -s /bin/sh $2
-            ;;
-    esac
-
     # firegento magesetup install
     if [[ $6 = "true" ]]; then
         su -c "
@@ -68,6 +43,11 @@ if [[ $1 = "true" ]]; then
     find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
     chmod u+x bin/magento
     " -s /bin/sh $2
+fi
+
+# run composer update
+if [[ $10 = "true" ]]; then
+    su -c "composer update;" -s /bin/sh $2
 fi
 
 # Xdebug Install

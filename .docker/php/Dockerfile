@@ -90,4 +90,5 @@ RUN docker-entrypoint.sh \
     $FIREGENTO_MAGESETUP \
     $LOCALE \
     $XDEBUG_ENABLE \
-    $XDEBUG_HOST_IP
+    $XDEBUG_HOST_IP \
+    $COMPOSER_UPDATE_ON_START

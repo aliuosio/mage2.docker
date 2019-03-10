@@ -13,7 +13,7 @@ ARG PHP_VERSION_SET
 ARG XDEBUG_ENABLE
 ARG XDEBUG_HOST_IP
 ARG TZ
-ARG LOCALE
+ARG COMPOSER_UPDATE_ON_START
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/

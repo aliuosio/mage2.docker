@@ -177,6 +177,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * set authentification for elasticsearch
 * add composer package [magenerds/smtp](https://github.com/magenerds/smtp)
 * exchange [splendidinternet/mage2-locale-de-de](https://github.com/splendidinternet/Magento2_German_LocalePack_de_DE) with [magento2/magenerds_de_de](https://github.com/magento2/magenerds_de_de)
+* reduce the number of volumes
 
 #### Bugs
 * ~~fix OSX version~~

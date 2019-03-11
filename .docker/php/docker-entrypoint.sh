@@ -11,10 +11,15 @@ chmod +x /usr/local/bin/n98-magerun2.phar
 # composer downloader package to increase download speeds
 su -c "composer global require hirak/prestissimo" -s /bin/sh $2
 
-if [[ $1 = "true" ]]; then
+# go to magento root folder
+cd $3;
 
-    # go to magento root folder
-    cd $3;
+# run composer update
+if [[ $10 = "true" ]]; then
+    su -c "composer update;" -s /bin/sh $2
+fi
+
+if [[ $1 = "true" ]]; then
 
     # download magento
     su -c "
@@ -45,14 +50,9 @@ if [[ $1 = "true" ]]; then
     " -s /bin/sh $2
 fi
 
-# run composer update
-if [[ $10 = "true" ]]; then
-    su -c "composer update;" -s /bin/sh $2
-fi
-
 # Xdebug Install
 if [[ $8 = "true" ]]; then
-    pecl install -o -f xdebug-2.7;
+    pecl install -o -f xdebug;
     docker-php-ext-enable xdebug;
     sed -i "s#__xdebug_host#$9#g" /usr/local/etc/php/conf.d/xdebug.ini;
     rm -rf /tmp/pear;

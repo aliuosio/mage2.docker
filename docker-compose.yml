@@ -28,18 +28,6 @@ services:
       - letsencrypt_www:/var/www/letsencrypt
       - pagespeed_cache:/var/cache/ngx_pagespeed
 
-  letsencrypt:
-    container_name: ${NAMESPACE}_letsencrypt
-    build:
-      context: ./.docker/letsencrypt
-      args:
-        SHOP_URI: ${SHOP_URI}
-    image: ${NAMESPACE}/letsencrypt
-    command: /bin/true
-    volumes:
-      - letsencrypt_certs:/etc/letsencrypt
-      - letsencrypt_www:/var/www/letsencrypt
-
   php:
     container_name: ${NAMESPACE}_php
     build:
@@ -71,26 +59,6 @@ services:
       - redis_session_socket:/var/redis/session
       - percona_vol:/var/lib/mysql/
 
-  cron:
-    container_name: ${NAMESPACE}_cron
-    build:
-      context: ./.docker/cron
-      args:
-        TZ: ${TZ}
-        USERNAME: ${USERNAME}
-        PHP_VERSION_SET : ${PHP_VERSION_SET}
-        NAMESPACE : ${NAMESPACE}
-        WORKDIR_SERVER : ${WORKDIR_SERVER}
-    image: ${NAMESPACE}/cron:${PHP_VERSION_SET}-fpm-alpine
-    working_dir: ${WORKDIR_SERVER}
-    depends_on:
-      - php
-    volumes:
-      - app_data:${WORKDIR_SERVER}:delegated
-      - php_crontabs:/etc/crontabs
-      - redis_cache_socket:/var/redis/cache
-      - redis_session_socket:/var/redis/session
-
   percona:
     container_name: ${NAMESPACE}_percona
     image: percona:latest
@@ -118,21 +86,6 @@ services:
     volumes:
       - redis_cache_socket:/var/redis/cache/
       - redis_cache_data:/data
-
-  redis_page_cache:
-    container_name: ${NAMESPACE}_redis_page_cache
-    build:
-      context: ./.docker/redis
-      args:
-        USERNAME: ${USERNAME}
-        TZ: ${TZ}
-        SOCKET: 'page_cache'
-    image: ${NAMESPACE}/redis:page_cache
-    sysctls:
-      net.core.somaxconn: '1024'
-    volumes:
-      - redis_page_cache_socket:/var/redis/page_cache/
-      - redis_page_cache_data:/data
 
   redis_session:
     container_name: ${NAMESPACE}_redis_session
@@ -178,9 +131,6 @@ services:
       - 9200:9200
 
 volumes:
-  php_crontabs:
-  letsencrypt_certs:
-  letsencrypt_www:
   php_socket:
   redis_cache_socket:
   redis_page_cache_socket:

@@ -33,6 +33,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         git \
         tzdata \
         icu \
+        yarn \
         imagemagick-dev \
         imagemagick \
         bc \
@@ -82,13 +83,6 @@ RUN apk add --no-cache --virtual build-dependencies \
     && rm -rf /tmp/pear
 
 RUN docker-entrypoint.sh \
-    $INSTALL_MAGENTO \
     $USERNAME \
     $WORKDIR_SERVER \
-    $INSTALL_MAGENTO_VERSION \
-    $INSTALL_SAMPLE_DATA \
-    $FIREGENTO_MAGESETUP \
-    $LOCALE \
     $XDEBUG_ENABLE \
-    $XDEBUG_HOST_IP \
-    $COMPOSER_UPDATE_ON_START

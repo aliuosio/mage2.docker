@@ -58,6 +58,8 @@ services:
         FIREGENTO_MAGESETUP: ${FIREGENTO_MAGESETUP}
         COMPOSER_UPDATE_ON_START: ${COMPOSER_UPDATE_ON_START}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
+    sysctls:
+      net.core.somaxconn: '65536'
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - percona

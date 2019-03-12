@@ -13,7 +13,7 @@ ARG PHP_VERSION_SET
 ARG XDEBUG_ENABLE
 ARG XDEBUG_HOST_IP
 ARG TZ
-ARG COMPOSER_UPDATE_ON_START
+ARG LOCALE
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
@@ -83,6 +83,12 @@ RUN apk add --no-cache --virtual build-dependencies \
     && rm -rf /tmp/pear
 
 RUN docker-entrypoint.sh \
+    $INSTALL_MAGENTO \
     $USERNAME \
     $WORKDIR_SERVER \
+    $INSTALL_MAGENTO_VERSION \
+    $INSTALL_SAMPLE_DATA \
+    $FIREGENTO_MAGESETUP \
+    $LOCALE \
     $XDEBUG_ENABLE \
+    $XDEBUG_HOST_IP

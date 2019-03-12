@@ -38,7 +38,7 @@ if [[ $1 = "true" ]]; then
 fi
 
 # Xdebug Install
-if [[ $3 = "true" ]]; then
+if [[ $8 = "true" ]]; then
     pecl install -o -f xdebug;
     docker-php-ext-enable xdebug;
     sed -i "s#xdebug.remote_enable= 0#xdebug.remote_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini;

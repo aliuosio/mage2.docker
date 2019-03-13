@@ -67,6 +67,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - percona_vol:/var/lib/mysql/
+    user: "1000:50"
 
   redis_cache:
     #    build:

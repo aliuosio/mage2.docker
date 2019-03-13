@@ -51,8 +51,8 @@ services:
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_socket:/var/run/php
-      - redis_cache_socket:/var/redis/cache
-      - redis_session_socket:/var/redis/session
+      - redis_cache_socket:/var/redis
+      - redis_session_socket:/var/redis
       - percona_vol:/var/lib/mysql/
 
   percona:
@@ -79,7 +79,7 @@ services:
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-      - redis_cache_socket:/var/redis/cache/
+      - redis_cache_socket:/var/redis
       - redis_cache_data:/data
 
   redis_session:
@@ -93,7 +93,7 @@ services:
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-      - redis_session_socket:/var/redis/session/
+      - redis_session_socket:/var/redis
       - redis_session_data:/data
 
   mailhog:

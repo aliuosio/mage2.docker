@@ -10,7 +10,6 @@ COPY conf/redis.conf /etc/redis.conf
 
 RUN apk update && apk upgrade
 RUN mkdir -p /var/redis/${SOCKET}/ \
-    && sed -i "s#__socket#${SOCKET}#g" /etc/redis.conf \
     && addgroup -g 1000 --system ${USERNAME} \
     && adduser -u 1000 --system -D -G ${USERNAME} ${USERNAME} \
     && echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf \

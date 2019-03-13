@@ -47,22 +47,22 @@ services:
       net.core.somaxconn: '65536'
     working_dir: ${WORKDIR_SERVER}
     depends_on:
-      - percona
+      - mysql
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_socket:/var/run/php
       - redis_cache_socket:/var/redis
       - redis_session_socket:/var/redis
-      - percona_vol:/var/lib/mysql/
+      - mysql_vol:/var/lib/mysql/
 
-  percona:
+  mysql:
     build:
       context: ./.docker/mysql
       args:
         USERNAME: ${USERNAME}
         TZ: ${TZ}
-    container_name: ${NAMESPACE}_percona
-    image: percona:latest
+    container_name: ${NAMESPACE}_mysql
+    image: ${NAMESPACE}/mysql
     ports:
       - 3306:3306
     environment:
@@ -71,7 +71,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - percona_vol:/var/lib/mysql/
+      - mysql_vol:/var/lib/mysql/
 
   redis_cache:
     build:
@@ -131,7 +131,7 @@ services:
 
 volumes:
   php_socket:
-  percona_vol:
+  mysql_vol:
   redis_cache_socket:
   redis_session_socket:
   redis_cache_data:

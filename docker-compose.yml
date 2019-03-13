@@ -56,6 +56,11 @@ services:
       - percona_vol:/var/lib/mysql/
 
   percona:
+    build:
+      context: ./.docker/mysql
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
     container_name: ${NAMESPACE}_percona
     image: percona:latest
     ports:

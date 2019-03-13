@@ -3,16 +3,16 @@ version: "3.7"
 services:
 
   nginx:
-#    build:
-#      context: ./.docker/nginx
-#      args:
-#        TZ: ${TZ}
-#        USERNAME: ${USERNAME}
-#        WORKDIR_SERVER: ${WORKDIR_SERVER}
-#        SHOP_URI: ${SHOP_URI}
-#        AUTH_CONFIG: ${AUTH_CONFIG}
-#        AUTH_USER: ${AUTH_USER}
-#        AUTH_PASS: ${AUTH_PASS}
+    build:
+      context: ./.docker/nginx
+      args:
+        TZ: ${TZ}
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
+        AUTH_CONFIG: ${AUTH_CONFIG}
+        AUTH_USER: ${AUTH_USER}
+        AUTH_PASS: ${AUTH_PASS}
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
@@ -27,37 +27,42 @@ services:
       - pagespeed_cache:/var/cache/ngx_pagespeed
 
   php:
-#    build:
-#      context: ./.docker/php
-#      args:
-#        TZ: ${TZ}
-#        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
-#        PHP_VERSION_SET: ${PHP_VERSION_SET}
-#        USERNAME: ${USERNAME}
-#        WORKDIR_SERVER: ${WORKDIR_SERVER}
-#        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
-#        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
-#        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
-#        XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-#        XDEBUG_HOST_IP: ${XDEBUG_HOST_IP}
-#        COMPOSER_UPDATE_ON_START: ${COMPOSER_UPDATE_ON_START}
+    build:
+      context: ./.docker/php
+      args:
+        TZ: ${TZ}
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
+        XDEBUG_ENABLE: ${XDEBUG_ENABLE}
+        XDEBUG_HOST_IP: ${XDEBUG_HOST_IP}
+        COMPOSER_UPDATE_ON_START: ${COMPOSER_UPDATE_ON_START}
     container_name: ${NAMESPACE}_php
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: '65536'
     working_dir: ${WORKDIR_SERVER}
     depends_on:
-      - percona
+      - mysql
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_socket:/var/run/php
       - redis_cache_socket:/var/redis
       - redis_session_socket:/var/redis
-      - percona_vol:/var/lib/mysql/
+      - mysql_vol:/var/lib/mysql/
 
-  percona:
-    container_name: ${NAMESPACE}_percona
-    image: percona:latest
+  mysql:
+    build:
+      context: ./.docker/mysql
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+    container_name: ${NAMESPACE}_mysql
+    image: ${NAMESPACE}/mysql
     ports:
       - 3306:3306
     environment:
@@ -66,15 +71,14 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - percona_vol:/var/lib/mysql/
-    user: "1000:50"
+      - mysql_vol:/var/lib/mysql/
 
   redis_cache:
-#    build:
-#      context: ./.docker/redis
-#      args:
-#        USERNAME: ${USERNAME}
-#        TZ: ${TZ}
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
     container_name: ${NAMESPACE}_redis_cache
     image: ${NAMESPACE}/redis:cache
     sysctls:
@@ -84,11 +88,11 @@ services:
       - redis_cache_data:/data
 
   redis_session:
-#    build:
-#      context: ./.docker/redis
-#      args:
-#        USERNAME: ${USERNAME}
-#        TZ: ${TZ}
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
     container_name: ${NAMESPACE}_redis_session
     image: ${NAMESPACE}/redis:session
     sysctls:
@@ -106,10 +110,10 @@ services:
       - 8025:8025
 
   elasticsearch:
-#    build:
-#      context: ./.docker/elasticsearch
-#      args:
-#        TZ: ${TZ}
+    build:
+      context: ./.docker/elasticsearch
+      args:
+        TZ: ${TZ}
     container_name: ${NAMESPACE}_elasticsearch
     image: ${NAMESPACE}/elasticsearch:5.2
     environment:
@@ -127,7 +131,7 @@ services:
 
 volumes:
   php_socket:
-  percona_vol:
+  mysql_vol:
   redis_cache_socket:
   redis_session_socket:
   redis_cache_data:

@@ -34,6 +34,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         tzdata \
         icu \
         yarn \
+        npm \
         imagemagick-dev \
         imagemagick \
         bc \

@@ -49,8 +49,8 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [justbetter/magento2-image-optimizer](https://github.com/justbetter/magento2-image-optimizer) Easily optimize images using PHP using bin/magento console  
     * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) replacement for bin/magento cache:clean with file watcher      
-    * [mageplaza/module-smtp](https://github.com/mageplaza/magento-2-smtp) Magento 2 SMTP Extension  
-    * [firegento/magesetup](https://github.com/firegento/firegento-magesetup) as configurable option.    
+    * [magenerds/smtp](https://github.com/magenerds/smtp) Magento 2 SMTP Extension
+    
     MageSetup configures a shop for a national market:  
     Currently supported countries: Austria, France, Germany, Italy, Russia, Switzerland, United Kingdom. More to follow.  
     
@@ -175,7 +175,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * clean up alpine packages after build
 * PWA Studio as variable option
 * set authentification for elasticsearch
-* add composer package [magenerds/smtp](https://github.com/magenerds/smtp)
+* ~~add composer package [magenerds/smtp](https://github.com/magenerds/smtp)~~
 * exchange [splendidinternet/mage2-locale-de-de](https://github.com/splendidinternet/Magento2_German_LocalePack_de_DE) with [magento2/magenerds_de_de](https://github.com/magento2/magenerds_de_de)
 * reduce the number of volumes
 

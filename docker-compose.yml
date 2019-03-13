@@ -12,7 +12,7 @@ services:
 #        SHOP_URI: ${SHOP_URI}
 #        AUTH_CONFIG: ${AUTH_CONFIG}
 #        AUTH_USER: ${AUTH_USER}
-        AUTH_PASS: ${AUTH_PASS}
+#        AUTH_PASS: ${AUTH_PASS}
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}

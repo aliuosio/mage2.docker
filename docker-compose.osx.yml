@@ -13,8 +13,8 @@ services:
     #        AUTH_CONFIG: ${AUTH_CONFIG}
     #        AUTH_USER: ${AUTH_USER}
     #        AUTH_PASS: ${AUTH_PASS}
-    container_name: ${NAMESPACE}_nginx
-    image: ${NAMESPACE}/nginx
+    container_name: osioaliu_nginx
+    image: osioaliu/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - php
@@ -41,8 +41,8 @@ services:
     #        XDEBUG_ENABLE: ${XDEBUG_ENABLE}
     #        XDEBUG_HOST_IP: ${XDEBUG_HOST_IP}
     #        COMPOSER_UPDATE_ON_START: ${COMPOSER_UPDATE_ON_START}
-    container_name: ${NAMESPACE}_php
-    image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
+    container_name: osioaliu_php
+    image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: '65536'
     working_dir: ${WORKDIR_SERVER}
@@ -61,8 +61,8 @@ services:
     #      args:
     #        USERNAME: ${USERNAME}
     #        TZ: ${TZ}
-    container_name: ${NAMESPACE}_mysql
-    image: ${NAMESPACE}/mysql
+    container_name: osioaliu_mysql
+    image: osioaliu/mysql
     ports:
       - 3306:3306
     environment:
@@ -79,8 +79,8 @@ services:
     #      args:
     #        USERNAME: ${USERNAME}
     #        TZ: ${TZ}
-    container_name: ${NAMESPACE}_redis_cache
-    image: ${NAMESPACE}/redis:cache
+    container_name: osioaliu_redis_cache
+    image: osioaliu/redis:cache
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
@@ -93,8 +93,8 @@ services:
     #      args:
     #        USERNAME: ${USERNAME}
     #        TZ: ${TZ}
-    container_name: ${NAMESPACE}_redis_session
-    image: ${NAMESPACE}/redis:session
+    container_name: osioaliu_redis_session
+    image: osioaliu/redis:session
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
@@ -102,7 +102,7 @@ services:
       - redis_session_data:/data
 
   mailhog:
-    container_name: ${NAMESPACE}_mailhog
+    container_name: osioaliu_mailhog
     image: mailhog/mailhog:latest
     expose:
       - 1025
@@ -114,8 +114,8 @@ services:
     #      context: ./.docker/elasticsearch
     #      args:
     #        TZ: ${TZ}
-    container_name: ${NAMESPACE}_elasticsearch
-    image: ${NAMESPACE}/elasticsearch:5.2
+    container_name: osioaliu_elasticsearch
+    image: osioaliu/elasticsearch:5.2
     environment:
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false

@@ -4,8 +4,10 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG USERNAME
 ARG TZ
+ARG DB_DUMP
 
 COPY conf/dev.cnf /etc/mysql/conf.d/dev.cnf
+COPY $DB_DUMP/* /docker-entrypoint-initdb.d/
 
 RUN addgroup --gid 1000 --system ${USERNAME} \
     && adduser --uid 1000 --system --disabled-login --disabled-password --gid 1000 ${USERNAME} \

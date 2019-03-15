@@ -54,6 +54,7 @@ services:
       - redis_cache_socket:/var/redis
       - redis_session_socket:/var/redis
       - mysql_vol:/var/lib/mysql/
+      - mysqlsocket:/var/run/mysqld
 
   mysql:
     build:
@@ -61,6 +62,7 @@ services:
       args:
         USERNAME: ${USERNAME}
         TZ: ${TZ}
+        DB_DUMP: ${DB_DUMP}
     container_name: ${NAMESPACE}_mysql
     image: ${NAMESPACE}/mysql
     ports:
@@ -72,6 +74,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_vol:/var/lib/mysql/
+      - mysqlsocket:/var/run/mysqld
 
   redis_cache:
     build:
@@ -134,6 +137,7 @@ services:
 volumes:
   php_socket:
   mysql_vol:
+  mysqlsocket:
   redis_cache_socket:
   redis_session_socket:
   redis_cache_data:

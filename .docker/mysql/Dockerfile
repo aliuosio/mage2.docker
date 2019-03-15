@@ -4,6 +4,7 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG USERNAME
 ARG TZ
+ARG DB_DUMP
 
 COPY conf/dev.cnf /etc/mysql/conf.d/dev.cnf
 

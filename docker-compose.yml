@@ -53,8 +53,8 @@ services:
       - php_socket:/var/run/php
       - redis_cache_socket:/var/redis
       - redis_session_socket:/var/redis
-      - mysql_vol:/var/lib/mysql/
-      - mysqlsocket:/var/run/mysqld
+      - mysql_socket:/var/run/mysqld
+      - mysql_vol:/var/lib/mysql
 
   mysql:
     build:
@@ -73,7 +73,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_vol:/var/lib/mysql/
-      - mysqlsocket:/var/run/mysqld
+      - mysql_socket:/var/run/mysqld
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d/
 
   redis_cache:
@@ -137,9 +137,9 @@ services:
 volumes:
   php_socket:
   mysql_vol:
-  mysqlsocket:
   redis_cache_socket:
   redis_session_socket:
+  mysql_socket:
   redis_cache_data:
   redis_session_data:
   elastic_data:

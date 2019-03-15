@@ -62,7 +62,6 @@ services:
       args:
         USERNAME: ${USERNAME}
         TZ: ${TZ}
-        DB_DUMP: ${DB_DUMP}
     container_name: ${NAMESPACE}_mysql
     image: ${NAMESPACE}/mysql
     ports:

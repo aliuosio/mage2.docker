@@ -11,6 +11,10 @@ curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun
 # composer downloader package to increase download speeds
 su -c "composer global require hirak/prestissimo" -s /bin/sh $2
 
+if [[ $6 = "true" ]]; then
+    su -c "composer update" -s /bin/sh $2
+fi
+
 if [[ $1 = "true" ]]; then
 
     # go to magento root folder
@@ -24,25 +28,16 @@ if [[ $1 = "true" ]]; then
     composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;
     " -s /bin/sh $2
 
-    # Magento Sample Data
-    if [[ $5 = "true" ]]; then
-        su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
-    fi
-
-    # set owner and user permissions on magento folders
-    su -c "
-    find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
-    find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
-    chmod u+x bin/magento
-    " -s /bin/sh $2
 fi
 
-# Xdebug Install
-if [[ $8 = "true" ]]; then
-    pecl install -o -f xdebug;
-    docker-php-ext-enable xdebug;
-    sed -i "s#xdebug.remote_enable= 0#xdebug.remote_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini;
-    sed -i "s#xdebug.remote_autostart=0#xdebug.remote_autostart=1#g" /usr/local/etc/php/conf.d/xdebug.ini;
-    sed -i "s#__xdebug_host#$9#g" /usr/local/etc/php/conf.d/xdebug.ini;
-    rm -rf /tmp/pear;
+# Magento Sample Data
+if [[ $5 = "true" ]]; then
+    su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
 fi
+
+# set owner and user permissions on magento folders
+su -c "
+find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
+find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
+chmod u+x bin/magento;
+" -s /bin/sh $2

@@ -88,6 +88,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     cp config_blueprints/.env.sample .env
     
     # only needed if you want to install Magento 2 on first build
+    # the project folder has to be empty 
     cp config_blueprints/auth.json.sample .docker/php/conf/auth.json
 
     # the domain mage2.doc is saved to your /etc/hosts file

@@ -31,7 +31,6 @@ RUN apk add --no-cache --virtual build-dependencies \
         imagemagick-dev \
         imagemagick \
         bc \
-        libmemcached-dev \
     && apk add --no-cache --virtual .php-deps \
         make \
     && apk add --no-cache --virtual .build-deps \

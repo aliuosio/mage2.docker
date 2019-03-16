@@ -28,6 +28,10 @@ if [[ $1 = "true" ]]; then
     composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;
     " -s /bin/sh $2
 
+    # set owner and user permissions on magento folders
+    su -c "find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
+        find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
+        chmod u+x bin/magento;" -s /bin/sh $2
 fi
 
 # Magento Sample Data
@@ -35,9 +39,3 @@ if [[ $5 = "true" ]]; then
     su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
 fi
 
-# set owner and user permissions on magento folders
-su -c "
-find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
-find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
-chmod u+x bin/magento;
-" -s /bin/sh $2

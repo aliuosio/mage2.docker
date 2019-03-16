@@ -36,6 +36,10 @@ services:
         USERNAME: ${USERNAME}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         XDEBUG_ENABLE: ${XDEBUG_ENABLE}
+        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
+        COMPOSER_UPDATE_ON_START: ${COMPOSER_UPDATE_ON_START}
     container_name: ${NAMESPACE}_php
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
@@ -50,15 +54,6 @@ services:
       - redis_session_socket:/var/redis
       - mysql_socket:/var/run/mysqld
       - mysql_vol:/var/lib/mysql
-    entrypoint: ["docker-entrypoint.sh"]
-    command: [
-      "$INSTALL_MAGENTO",
-      "$USERNAME",
-      "$WORKDIR_SERVER",
-      "$INSTALL_MAGENTO_VERSION",
-      "$INSTALL_SAMPLE_DATA",
-      "$COMPOSER_UPDATE_ON_START"
-    ]
 
   mysql:
     build:
@@ -137,7 +132,6 @@ services:
       - elastic_data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-      - 9300:9300
 
 volumes:
   php_socket:

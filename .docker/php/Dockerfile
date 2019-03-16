@@ -9,11 +9,15 @@ ARG WORKDIR_SERVER
 ARG PHP_VERSION_SET
 ARG XDEBUG_ENABLE
 ARG TZ
+ARG INSTALL_MAGENTO
+ARG INSTALL_MAGENTO_VERSION
+ARG INSTALL_SAMPLE_DATA
+ARG COMPOSER_UPDATE_ON_START
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json /home/$USERNAME/.composer/
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY post-build.sh /usr/local/bin/
 
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies \
@@ -65,7 +69,7 @@ RUN apk add --no-cache --virtual build-dependencies \
     && adduser -u 1000 -S -D -G ${USERNAME} ${USERNAME} \
     && mkdir /home/${USERNAME}/html \
     && chown -R  ${USERNAME}:${USERNAME} /home/${USERNAME} \
-    && chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && chmod +x /usr/local/bin/post-build.sh \
     && \
     if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         apk add --no-cache libmcrypt-dev; \
@@ -75,10 +79,18 @@ RUN apk add --no-cache --virtual build-dependencies \
     if [[ $XDEBUG_ENABLE = "true" ]]; then \
         pecl install -o -f xdebug; \
         docker-php-ext-enable xdebug; \
-        sed -i "s#xdebug.remote_enable= 0#xdebug.remote_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini; \
-        sed -i "s#xdebug.remote_autostart=0#xdebug.remote_autostart=1#g" /usr/local/etc/php/conf.d/xdebug.ini; \
+        sed -i "s#xdebug.remote_enable=0#xdebug.remote_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini; \
         sed -i "s#__xdebug_host#$9#g" /usr/local/etc/php/conf.d/xdebug.ini; \
     fi \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
+
+RUN post-build.sh \
+    $INSTALL_MAGENTO \
+    $USERNAME \
+    $WORKDIR_SERVER \
+    $INSTALL_MAGENTO_VERSION \
+    $INSTALL_SAMPLE_DATA \
+    $COMPOSER_UPDATE_ON_START
+

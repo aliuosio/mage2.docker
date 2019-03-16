@@ -11,16 +11,15 @@ curl -L https://files.magerun.net/n98-magerun2.phar > /usr/local/bin/n98-magerun
 # composer downloader package to increase download speeds
 su -c "composer global require hirak/prestissimo" -s /bin/sh $2
 
+# go to magento root folder
+cd $3;
+
 if [[ $6 = "true" ]]; then
     su -c "composer update" -s /bin/sh $2
 fi
 
+# download magento 2
 if [[ $1 = "true" ]]; then
-
-    # go to magento root folder
-    cd $3;
-
-    # download magento
     su -c "
     composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$4 .;
     mkdir -p var/composer_home;
@@ -38,4 +37,3 @@ fi
 if [[ $5 = "true" ]]; then
     su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
 fi
-

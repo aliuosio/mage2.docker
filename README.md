@@ -34,7 +34,7 @@
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx uses **Pagespeed** Module
 * both **PHP GD and PHP Imagick** are installed
-* ~~**PHP Xdebug** as configurable option~~
+* **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled
 * ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~

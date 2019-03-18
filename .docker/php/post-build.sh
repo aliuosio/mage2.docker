@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [[ $7 = "true" ]]; then
+    HOST_IP=`/sbin/ip route | awk '/default/ { print $3 }'`
+    sed -i "s#__ip#$HOST_IP#g" /usr/local/etc/php/conf.d/xdebug.ini;
+fi
+
 # install composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 && chmod +x /usr/local/bin/composer;

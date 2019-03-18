@@ -95,8 +95,12 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts
     
     # increase memory consumption for elastic container and restart
-    sysctl -w vm.max_map_count=262144
+    Linux: sysctl -w vm.max_map_count=262144
+    OSX: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1
 
+Then configure the sysctl setting as you would for Linux:
+
+sysctl -w vm.max_map_count=262144
 You must set project absolute folder path `WORKDIR` in `.env`  
 
 ## Start docker

@@ -161,6 +161,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     Elasticsearch Server Hostname: elasticsearch
     Elasticsearch Server Port: 9200
 > You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
+> On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1
 
 #### Todos
 * ~~nginx with pagespeed module~~

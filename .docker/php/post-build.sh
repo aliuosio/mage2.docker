@@ -1,7 +1,8 @@
 #!/bin/sh
 
 if [[ $7 = "true" ]]; then
-    HOST_IP=`/sbin/ip route | awk '/default/ { print $3 }'`
+    #HOST_IP=`/sbin/ip route | awk '/default/ { print $3 }'`
+    HOST_IP=host.docker.internal
     sed -i "s#__ip#$HOST_IP#g" /usr/local/etc/php/conf.d/xdebug.ini;
 fi
 

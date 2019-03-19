@@ -1,5 +1,4 @@
 # The Docker Nginx-Mysql-PHP-Redis-Elastic Setup
-> #### Still looking for contributers
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
@@ -50,9 +49,6 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) replacement for bin/magento cache:clean with file watcher      
     
-    MageSetup configures a shop for a national market:  
-    Currently supported countries: Austria, France, Germany, Italy, Russia, Switzerland, United Kingdom. More to follow.  
-    
 > features can be enabled in .env
 
 ## Docker Container Overview
@@ -102,6 +98,7 @@ Then configure the sysctl setting as you would for Linux:
 
 sysctl -w vm.max_map_count=262144
 You must set project absolute folder path `WORKDIR` in `.env`  
+> turn off firewall if xdebug can't be reached (that shit almost costed me 4 hours that no will pay :-)
 
 ## Start docker
     # Linux
@@ -175,8 +172,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * move Magento 2 specific tools and config to docker-entrypoint.sh called in docker-compose.yml
 * ~~move xdebug install & config to docker-entrypoint.sh band install after magento 2 install and sampledata~~
 * test with mounts instead of volumes
-* setup script for PHP Container to set IP for xdebug or Domain
-* add apache as alternative webserver
+* ~~setup script for PHP Container to set IP for xdebug or Domain~~
 * clean up alpine packages after build
 * PWA Studio as variable option
 * set authentification for elasticsearch

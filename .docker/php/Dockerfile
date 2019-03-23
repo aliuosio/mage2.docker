@@ -21,6 +21,8 @@ COPY post-build.sh /usr/local/bin/
 
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies \
+        yarn \
+        npm \
         libc-dev \
         libxslt-dev \
         freetype-dev \

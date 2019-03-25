@@ -77,7 +77,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         apk add --no-cache libmcrypt-dev \
         && docker-php-ext-install mcrypt; \
     fi \
-    && \
+    && \    
     if [[ $XDEBUG_ENABLE = "true" ]]; then \
         pecl install -o -f xdebug \
         && docker-php-ext-enable xdebug \
@@ -94,6 +94,5 @@ RUN post-build.sh \
     $WORKDIR_SERVER \
     $INSTALL_MAGENTO_VERSION \
     $INSTALL_SAMPLE_DATA \
-    $COMPOSER_UPDATE_ON_START \
-    $XDEBUG_ENABLE
+    $COMPOSER_UPDATE_ON_START
 

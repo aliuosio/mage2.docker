@@ -21,8 +21,6 @@ COPY post-build.sh /usr/local/bin/
 
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies \
-        yarn \
-        npm \
         libc-dev \
         libxslt-dev \
         freetype-dev \
@@ -32,6 +30,7 @@ RUN apk add --no-cache --virtual build-dependencies \
     && set -xe \
     && apk add --no-cache \
         git \
+	yarn \
         tzdata \
         icu \
         imagemagick-dev \
@@ -77,7 +76,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         apk add --no-cache libmcrypt-dev \
         && docker-php-ext-install mcrypt; \
     fi \
-    && \    
+    && \
     if [[ $XDEBUG_ENABLE = "true" ]]; then \
         pecl install -o -f xdebug \
         && docker-php-ext-enable xdebug \
@@ -94,5 +93,5 @@ RUN post-build.sh \
     $WORKDIR_SERVER \
     $INSTALL_MAGENTO_VERSION \
     $INSTALL_SAMPLE_DATA \
-    $COMPOSER_UPDATE_ON_START
-
+    $COMPOSER_UPDATE_ON_START \
+    $XDEBUG_ENABLE

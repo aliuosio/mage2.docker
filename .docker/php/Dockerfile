@@ -30,7 +30,8 @@ RUN apk add --no-cache --virtual build-dependencies \
     && set -xe \
     && apk add --no-cache \
         git \
-	yarn \
+	    yarn \
+	    nano \
         tzdata \
         icu \
         imagemagick-dev \

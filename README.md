@@ -42,10 +42,9 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * **http basic authentication** 
 * **use mysql, redis and php over sockets** instead of ports for faster data container exchange
 * **Extra Composer Packages** (if Magento 2 Installer is used):  
-    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer parallel install plugin for faster downloads    
-    * ~~[justbetter/magento2-image-optimizer](https://github.com/justbetter/magento2-image-optimizer) Easily optimize images using PHP using bin/magento console  ~~
+    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
     * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
-    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) replacement for bin/magento cache:clean with file watcher      
+    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
     
 > features can be enabled in .env
 

@@ -42,10 +42,9 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * **http basic authentication** 
 * **use mysql, redis and php over sockets** instead of ports for faster data container exchange
 * **Extra Composer Packages** (if Magento 2 Installer is used):  
-    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer parallel install plugin for faster downloads    
-    * ~~[justbetter/magento2-image-optimizer](https://github.com/justbetter/magento2-image-optimizer) Easily optimize images using PHP using bin/magento console  ~~
+    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
     * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
-    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) replacement for bin/magento cache:clean with file watcher      
+    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
     
 > features can be enabled in .env
 
@@ -175,7 +174,6 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * PWA Studio as variable option
 * set authentification for elasticsearch
 * add composer package [magenerds/smtp](https://github.com/magenerds/smtp)
-* exchange [splendidinternet/mage2-locale-de-de](https://github.com/splendidinternet/Magento2_German_LocalePack_de_DE) with [magento2/magenerds_de_de](https://github.com/magento2/magenerds_de_de)
 * reduce the number of volumes
 
 #### Bugs

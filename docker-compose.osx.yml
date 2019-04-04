@@ -120,13 +120,13 @@ services:
       - redis_session_socket:/var/redis/session
       - redis_session_data:/data
 
-#  mailhog:
-#    container_name: ${NAMESPACE}_mailhog
-#    image: mailhog/mailhog:latest
-#    expose:
-#      - 1025
-#    ports:
-#      - 8025:8025
+  mailhog:
+    container_name: ${NAMESPACE}_mailhog
+    image: mailhog/mailhog:latest
+    expose:
+      - 1025
+    ports:
+      - 8025:8025
 
   elasticsearch:
     build:
@@ -149,18 +149,18 @@ services:
       - elastic_data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-#
-#  letsencrypt:
-#    container_name: ${NAMESPACE}_letsencrypt
-#    build:
-#      context: ./.docker/letsencrypt
-#      args:
-#        SHOP_URI: ${SHOP_URI}
-#    image: ${NAMESPACE}/letsencrypt
-#    command: /bin/true
-#    volumes:
-#      - letsencrypt_certs:/etc/letsencrypt
-#      - letsencrypt_www:/var/www/letsencrypt
+
+  letsencrypt:
+    container_name: ${NAMESPACE}_letsencrypt
+    build:
+      context: ./.docker/letsencrypt
+      args:
+        SHOP_URI: ${SHOP_URI}
+    image: ${NAMESPACE}/letsencrypt
+    command: /bin/true
+    volumes:
+      - letsencrypt_certs:/etc/letsencrypt
+      - letsencrypt_www:/var/www/letsencrypt
 
 volumes:
   php_socket:

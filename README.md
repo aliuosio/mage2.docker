@@ -45,8 +45,8 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
  
 * **Extra Composer Packages with Magento 2 Installer **
-      * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
-      * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
+    * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
+    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
     
 > features can be enabled in .env
 

@@ -41,8 +41,9 @@
 following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  as configurable option
 * **http basic authentication** 
 * **use mysql, redis and php over sockets** instead of ports for faster data container exchange
-* **Extra Composer Packages** (if Magento 2 Installer is used):  
+* **Extra Composer Packages**
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
+    (if Magento 2 Installer is used):  
     * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
     

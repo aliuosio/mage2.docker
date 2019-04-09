@@ -30,7 +30,7 @@ if [[ $1 = "true" ]]; then
     composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$4 .;
     mkdir -p var/composer_home;
     cp ../.composer/auth.json ./var/composer_home/auth.json;
-    composer require --dev msp/devtools --dev mage2tv/magento-cache-clean;
+    composer require --dev msp/devtools mage2tv/magento-cache-clean;
     " -s /bin/sh $2
 
     # set owner and user permissions on magento folders

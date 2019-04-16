@@ -80,25 +80,15 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 ## Mandatory Settings
     
-    cp config_blueprints/.env.sample .env
+    cp .docker/config_blueprints/.env.sample .env
     
-    # only needed if you want to install Magento 2 on first build
-    # the project folder has to be empty 
-    cp config_blueprints/auth.json.sample .docker/php/conf/auth.json
-
     # the domain mage2.doc is saved to your /etc/hosts file
     echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts
     
-    # increase memory consumption for elastic container and restart
-    Linux: sysctl -w vm.max_map_count=262144
-    OSX: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1
-
-Then configure the sysctl setting as you would for Linux:
-
-sysctl -w vm.max_map_count=262144
-You must set project absolute folder path `WORKDIR` in `.env`  
-> turn off firewall if xdebug can't be reached (that shit almost costed me 4 hours that no will pay :-)
-
+    # only needed if you want to install Magento 2 on first build
+    # the project folder has to be empty 
+    cp .docker/config_blueprints/auth.json.sample .docker/php/conf/auth.json
+    
 ## Start docker
     # Linux
     docker-compose up --build;

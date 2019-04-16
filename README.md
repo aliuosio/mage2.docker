@@ -51,7 +51,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 > features can be enabled in .env
 
 ## Docker Container Overview
-* Magento Cronjobs
+* ~~Magento Cronjobs
 * Elasticsearch
 * letsencrypt
 * mailhog

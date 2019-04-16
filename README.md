@@ -31,6 +31,7 @@
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx uses **Pagespeed** Module
 * both **PHP GD and PHP Imagick** are installed
+* nodejs any yarn for [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled

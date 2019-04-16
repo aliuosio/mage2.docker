@@ -13,6 +13,9 @@ ARG INSTALL_MAGENTO
 ARG INSTALL_MAGENTO_VERSION
 ARG INSTALL_SAMPLE_DATA
 ARG COMPOSER_UPDATE_ON_START
+ARG MYSQL_DATABASE
+ARG MYSQL_USER
+ARG MYSQL_PASSWORD
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
@@ -95,4 +98,8 @@ RUN post-build.sh \
     $INSTALL_MAGENTO_VERSION \
     $INSTALL_SAMPLE_DATA \
     $COMPOSER_UPDATE_ON_START \
-    $XDEBUG_ENABLE
+    $XDEBUG_ENABLE \
+    $MYSQL_DATABASE \
+    $MYSQL_USER \
+    $MYSQL_PASSWORD \
+    $SHOP_URI

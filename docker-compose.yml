@@ -94,6 +94,20 @@ services:
       - redis_cache_socket:/var/redis/cache
       - redis_cache_data:/data
 
+  redis_pagespeed_cache:
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+        SOCKET: 'redis_pagespeed_cache'
+    container_name: ${NAMESPACE}_redis_pagespeed_cache
+    image: ${NAMESPACE}/redis_pagespeed_cache
+    sysctls:
+      net.core.somaxconn: '1024'
+    volumes:
+      - redis_pagespeed_cache_data:/data
+
   redis_page_cache:
     build:
       context: ./.docker/redis
@@ -192,6 +206,10 @@ volumes:
       type: tmpfs
       device: tmpfs
   pagespeed_cache:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  redis_pagespeed_cache_data:
     driver_opts:
       type: tmpfs
       device: tmpfs

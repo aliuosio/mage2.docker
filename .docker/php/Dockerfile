@@ -22,7 +22,6 @@ COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json /home/$USERNAME/.composer/
 COPY post-build.sh /usr/local/bin/
 
-RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \
         libxslt-dev \

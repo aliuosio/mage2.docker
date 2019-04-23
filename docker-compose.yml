@@ -54,9 +54,6 @@ services:
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_socket:/var/run/php
-      - redis_cache_socket:/var/redis/cache
-      - redis_page_cache_socket:/var/redis/page_cache
-      - redis_session_socket:/var/redis/session
       - mysql_socket:/var/run/mysqld
 
   mysql:
@@ -85,13 +82,11 @@ services:
       args:
         USERNAME: ${USERNAME}
         TZ: ${TZ}
-        SOCKET: 'cache'
     container_name: ${NAMESPACE}_redis_cache
     image: ${NAMESPACE}/redis_cache
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-      - redis_cache_socket:/var/redis/cache
       - redis_cache_data:/data
 
   redis_pagespeed_cache:
@@ -100,7 +95,6 @@ services:
       args:
         USERNAME: ${USERNAME}
         TZ: ${TZ}
-        SOCKET: 'redis_pagespeed_cache'
     container_name: ${NAMESPACE}_redis_pagespeed_cache
     image: ${NAMESPACE}/redis_pagespeed_cache
     sysctls:
@@ -114,13 +108,11 @@ services:
       args:
         USERNAME: ${USERNAME}
         TZ: ${TZ}
-        SOCKET: 'page_cache'
     container_name: ${NAMESPACE}_redis_page_cache
     image: ${NAMESPACE}/redis_page_cache
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-      - redis_page_cache_socket:/var/redis/page_cache
       - redis_page_cache_data:/data
 
   redis_session:
@@ -129,13 +121,11 @@ services:
       args:
         USERNAME: ${USERNAME}
         TZ: ${TZ}
-        SOCKET: 'session'
     container_name: ${NAMESPACE}_redis_session
     image: ${NAMESPACE}/redis_session
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-      - redis_session_socket:/var/redis/session
       - redis_session_data:/data
 
   mailhog:
@@ -186,18 +176,6 @@ volumes:
       type: tmpfs
       device: tmpfs
   mysql_vol:
-  redis_cache_socket:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  redis_page_cache_socket:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  redis_session_socket:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   mysql_socket:
     driver_opts:
       type: tmpfs

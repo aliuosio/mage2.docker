@@ -41,7 +41,7 @@
 * permissions are set after magento 2 install  
 following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  as configurable option
 * **http basic authentication** 
-* **use mysql, redis and php over sockets** instead of ports for faster data container exchange
+* **use mysql, php over sockets** instead of ports for faster data container exchange
 * **Extra Composer Packages**
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
  
@@ -156,6 +156,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 
 #### Todos
 * handle magento 2 cronjobs per docker container or add job to php container
+* fix sockets for redis with magento 2
 * ~~nginx with pagespeed module~~
 * ~~create seperat containers for redis session and cache~~
 * ~~create seperat containers for cronjob and image optimization~~

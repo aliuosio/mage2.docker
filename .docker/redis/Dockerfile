@@ -6,10 +6,7 @@ ARG USERNAME
 ARG TZ
 ARG SOCKET
 
-COPY conf/redis.conf /etc/redis.conf
-
 RUN mkdir -p /var/redis/${SOCKET}/ \
-    && sed -i "s#__socket#${SOCKET}#g" /etc/redis.conf \
     && addgroup -g 1000 --system ${USERNAME} \
     && adduser -u 1000 --system -D -G ${USERNAME} ${USERNAME} \
     && echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf \
@@ -18,5 +15,3 @@ RUN mkdir -p /var/redis/${SOCKET}/ \
     && echo $TZ > /etc/timezone \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*
-
-CMD /usr/local/bin/redis-server /etc/redis.conf

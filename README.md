@@ -155,6 +155,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 > On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1
 
 #### Todos
+* handle magento 2 cronjobs per docker container or add job to php container
 * ~~nginx with pagespeed module~~
 * ~~create seperat containers for redis session and cache~~
 * ~~create seperat containers for cronjob and image optimization~~

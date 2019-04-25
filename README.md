@@ -171,7 +171,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * add composer package [magenerds/smtp](https://github.com/magenerds/smtp)
 * reduce the number of volumes
 * optimize pagespeed caching
-* use pagespeed with redis cache
+* ~~use pagespeed with redis cache~~
 
 #### Bugs
 * ~~fix OSX version~~

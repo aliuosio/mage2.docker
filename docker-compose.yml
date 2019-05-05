@@ -24,7 +24,7 @@ services:
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_socket:/var/run/php
-      - pagespeed_cache:/var/cache/ngx_pagespeed
+#      - pagespeed_cache:/var/cache/ngx_pagespeed
 
   php:
     build:
@@ -89,18 +89,18 @@ services:
     volumes:
       - redis_cache_data:/data
 
-  redis_pagespeed_cache:
-    build:
-      context: ./.docker/redis
-      args:
-        USERNAME: ${USERNAME}
-        TZ: ${TZ}
-    container_name: ${NAMESPACE}_redis_pagespeed_cache
-    image: ${NAMESPACE}/redis_pagespeed_cache
-    sysctls:
-      net.core.somaxconn: '1024'
-    volumes:
-      - redis_pagespeed_cache_data:/data
+#  redis_pagespeed_cache:
+#    build:
+#      context: ./.docker/redis
+#      args:
+#        USERNAME: ${USERNAME}
+#        TZ: ${TZ}
+#    container_name: ${NAMESPACE}_redis_pagespeed_cache
+#    image: ${NAMESPACE}/redis_pagespeed_cache
+#    sysctls:
+#      net.core.somaxconn: '1024'
+#    volumes:
+#      - redis_pagespeed_cache_data:/data
 
   redis_page_cache:
     build:
@@ -128,13 +128,13 @@ services:
     volumes:
       - redis_session_data:/data
 
-  mailhog:
-    container_name: ${NAMESPACE}_mailhog
-    image: mailhog/mailhog:latest
-    expose:
-      - 1025
-    ports:
-      - 8025:8025
+#  mailhog:
+#    container_name: ${NAMESPACE}_mailhog
+#    image: mailhog/mailhog:latest
+#    expose:
+#      - 1025
+#    ports:
+#      - 8025:8025
 
   elasticsearch:
     build:
@@ -158,17 +158,17 @@ services:
     ports:
       - 9200:9200
 
-  letsencrypt:
-    container_name: ${NAMESPACE}_letsencrypt
-    build:
-      context: ./.docker/letsencrypt
-      args:
-        SHOP_URI: ${SHOP_URI}
-    image: ${NAMESPACE}/letsencrypt
-    command: /bin/true
-    volumes:
-      - letsencrypt_certs:/etc/letsencrypt
-      - letsencrypt_www:/var/www/letsencrypt
+#  letsencrypt:
+#    container_name: ${NAMESPACE}_letsencrypt
+#    build:
+#      context: ./.docker/letsencrypt
+#      args:
+#        SHOP_URI: ${SHOP_URI}
+#    image: ${NAMESPACE}/letsencrypt
+#    command: /bin/true
+#    volumes:
+#      - letsencrypt_certs:/etc/letsencrypt
+#      - letsencrypt_www:/var/www/letsencrypt
 
 volumes:
   php_socket:
@@ -180,8 +180,8 @@ volumes:
     driver_opts:
       type: tmpfs
       device: tmpfs
-  letsencrypt_certs:
-  letsencrypt_www:
+#  letsencrypt_certs:
+#  letsencrypt_www:
   elastic_data:
   redis_cache_data:
     driver_opts:
@@ -195,14 +195,14 @@ volumes:
     driver_opts:
       type: tmpfs
       device: tmpfs
-  pagespeed_cache:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  redis_pagespeed_cache_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
+#  pagespeed_cache:
+#    driver_opts:
+#      type: tmpfs
+#      device: tmpfs
+#  redis_pagespeed_cache_data:
+#    driver_opts:
+#      type: tmpfs
+#      device: tmpfs
   app_data:
     driver_opts:
       type: none

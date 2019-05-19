@@ -81,14 +81,11 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 ## Mandatory Settings
     
+    # adjust for your needs
     cp .docker/config_blueprints/.env.sample .env
     
-    # the domain mage2.doc is saved to your /etc/hosts file
-    echo -e "0.0.0.0 mage2.doc" | sudo tee -a /etc/hosts
-    
-    # only needed if you want to install Magento 2 on first build
-    # the project folder has to be empty 
-    cp .docker/config_blueprints/auth.json.sample .docker/php/conf/auth.json
+    # the domain is saved to your /etc/hosts file
+    echo -e "0.0.0.0 <your_domain>" | sudo tee -a /etc/hosts
     
 ## Start docker
     # Linux

@@ -100,7 +100,7 @@ if `docker-sync` is missing on your OSX then
 visit the http://docker-sync.io/ website to get it
 
 ## Magento 2 Configuration
-Call: https://mage2.doc in your browser to configure Magento 2.  
+Call: https://<your_domain>in your browser to configure Magento 2.  
 The Database Hostname is `mysql` or `/var/lib/mysql/mysql.sock` to use sockets
 See mysql settings in `.env` for user, password and dbname before install 
 

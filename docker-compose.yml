@@ -3,8 +3,18 @@ version: "3.7"
 services:
 
   nginx:
-    container_name: osioaliu_nginx
-    image: osioaliu/nginx
+    build:
+      context: ./.docker/nginx
+      args:
+        TZ: ${TZ}
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        SHOP_URI: ${SHOP_URI}
+        AUTH_CONFIG: ${AUTH_CONFIG}
+        AUTH_USER: ${AUTH_USER}
+        AUTH_PASS: ${AUTH_PASS}
+    container_name: ${NAMESPACE}_nginx
+    image: ${NAMESPACE}/nginx
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - php
@@ -17,8 +27,25 @@ services:
       - pagespeed_cache:/var/cache/ngx_pagespeed
 
   php:
-    container_name: osioaliu_php
-    image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
+    build:
+      context: ./.docker/php
+      args:
+        TZ: ${TZ}
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
+        USERNAME: ${USERNAME}
+        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        XDEBUG_ENABLE: ${XDEBUG_ENABLE}
+        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
+        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
+        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
+        COMPOSER_UPDATE_ON_START: ${COMPOSER_UPDATE_ON_START}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        SHOP_URI: ${SHOP_URI}
+    container_name: ${NAMESPACE}_php
+    image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: '65536'
     working_dir: ${WORKDIR_SERVER}
@@ -30,8 +57,13 @@ services:
       - mysql_socket:/var/run/mysqld
 
   mysql:
-    container_name: osioaliu_mysql
-    image: osioaliu/mysql
+    build:
+      context: ./.docker/mysql
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+    container_name: ${NAMESPACE}_mysql
+    image: ${NAMESPACE}/mysql
     ports:
       - 3306:3306
     environment:
@@ -45,39 +77,59 @@ services:
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d/
 
   redis_cache:
-    container_name: osioaliu_redis_cache
-    image: osioaliu/redis_cache
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+    container_name: ${NAMESPACE}_redis_cache
+    image: ${NAMESPACE}/redis_cache
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
       - redis_cache_data:/data
 
   redis_pagespeed_cache:
-    container_name: osioaliu_redis_pagespeed_cache
-    image: osioaliu/redis_pagespeed_cache
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+    container_name: ${NAMESPACE}_redis_pagespeed_cache
+    image: ${NAMESPACE}/redis_pagespeed_cache
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
       - redis_pagespeed_cache_data:/data
 
   redis_page_cache:
-    container_name: osioaliu_redis_page_cache
-    image: osioaliu/redis_page_cache
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+    container_name: ${NAMESPACE}_redis_page_cache
+    image: ${NAMESPACE}/redis_page_cache
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
       - redis_page_cache_data:/data
 
   redis_session:
-    container_name: osioaliu_redis_session
-    image: osioaliu/redis_session
+    build:
+      context: ./.docker/redis
+      args:
+        USERNAME: ${USERNAME}
+        TZ: ${TZ}
+    container_name: ${NAMESPACE}_redis_session
+    image: ${NAMESPACE}/redis_session
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
       - redis_session_data:/data
 
   mailhog:
-    container_name: osioaliu_mailhog
+    container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
     expose:
       - 1025
@@ -85,8 +137,12 @@ services:
       - 8025:8025
 
   elasticsearch:
-    container_name: osioaliu_elasticsearch
-    image: osioaliu/elasticsearch:5.2
+    build:
+      context: ./.docker/elasticsearch
+      args:
+        TZ: ${TZ}
+    container_name: ${NAMESPACE}_elasticsearch
+    image: ${NAMESPACE}/elasticsearch:5.2
     environment:
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false
@@ -103,8 +159,12 @@ services:
       - 9200:9200
 
   letsencrypt:
-    container_name: osioaliu_letsencrypt
-    image: osioaliu/letsencrypt
+    container_name: ${NAMESPACE}_letsencrypt
+    build:
+      context: ./.docker/letsencrypt
+      args:
+        SHOP_URI: ${SHOP_URI}
+    image: ${NAMESPACE}/letsencrypt
     command: /bin/true
     volumes:
       - letsencrypt_certs:/etc/letsencrypt

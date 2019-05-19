@@ -1,4 +1,4 @@
-# The Docker Nginx-MySQL-PHP-Redis-Elastic Setup
+# The Docker Nginx(Pagespeed)-MySQL-PHP-Redis-Elastic Setup
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
@@ -29,7 +29,7 @@
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
 (24.02.2019: Magento 2.3 at this point does not work with PHP 7.3)
 * setup valid **SSL certificates** with letsmcrypt container
-* ~~Nginx uses **Pagespeed** Module~~
+* Nginx uses **Pagespeed** Module
 * both **PHP GD and PHP Imagick** are installed
 * nodejs any yarn for [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 * **PHP Xdebug** as configurable option

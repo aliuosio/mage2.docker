@@ -65,15 +65,8 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 ## Get Source
 #### Use Git
 
-    git clone https://github.com/aliuosio/mage2.docker.git
+    git clone https://github.com/aliuosio/<your_domain>ker.git
     
-#### Use Git Submodule
-
-    git submodule add https://github.com/aliuosio/mage2.docker.git 
-    
-    # to get updates afterwards
-    git submodule update --remote
-      
 #### Use Composer  
     
     composer require aliuosio/mage2.docker
@@ -86,6 +79,10 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     
     # the domain is saved to your /etc/hosts file
     echo -e "0.0.0.0 <your_domain>" | sudo tee -a /etc/hosts
+    
+    # only needed if you want to install Magento 2 on first build
+    # the project folder has to be empty 
+    cp config_blueprints/auth.json.sample .docker/php/conf/auth.json
     
 ## Start docker
     # Linux
@@ -140,7 +137,7 @@ they’d have to be renewed periodically with the following command:
     docker exec -it -u <USERNAME> <NAMESPACE>_php n98-magerun2 shell
     
 #### Mailhog Usage
-    http://mage2.doc:8025
+    http://<your_domain>:8025
 
 #### Elasticsearch Usage:
 In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `Tab: Catalog Search`

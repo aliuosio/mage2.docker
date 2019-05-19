@@ -19,6 +19,7 @@ ARG MYSQL_PASSWORD
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
+COPY conf/auth.json /home/$USERNAME/.composer/
 COPY post-build.sh /usr/local/bin/
 
 RUN apk add --no-cache --virtual build-dependencies \

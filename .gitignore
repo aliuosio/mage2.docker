@@ -1,6 +1,3 @@
 .idea/
-/htdocs/*
 .env
-/.docker/php/conf/auth.json
-/htdocs/pwa-studio/
-.docker-sync/
+auth.json

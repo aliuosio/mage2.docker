@@ -135,6 +135,7 @@ services:
       - 1025
     ports:
       - 8025:8025
+      - 1025:1025
 
   elasticsearch:
     build:
@@ -172,36 +173,15 @@ services:
 
 volumes:
   php_socket:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   mysql_vol:
   mysql_socket:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   letsencrypt_certs:
   letsencrypt_www:
   elastic_data:
   redis_cache_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   redis_page_cache_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   redis_session_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   pagespeed_cache:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   redis_pagespeed_cache_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   app_data:
     external: true

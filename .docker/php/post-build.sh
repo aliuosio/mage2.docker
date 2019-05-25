@@ -34,6 +34,7 @@ if [[ $1 = "true" ]]; then
     mkdir -p var/composer_home;
     cp ../.composer/auth.json ./var/composer_home/auth.json;
     composer require --dev msp/devtools mage2tv/magento-cache-clean;
+    composer require magenerds/smtp;
     " -s /bin/sh $2
 
     # set owner and user permissions on magento folders
@@ -42,26 +43,6 @@ if [[ $1 = "true" ]]; then
         find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
         chmod u+x bin/magento;" -s /bin/sh $2
 
- <<'END'
-	su -c "bin/magento setup:install \
-	    --db-host=mysql \
-	    --db-name=$8 \
-	    --db-user=$9 \
-	    --db-password=$10 \
-	    --backend-frontname=admin \
-	    --base-url=https://mage2.doc/ \
-	    --language=de_DE \
-	    --timezone=Europe/Berlin \
-	    --currency=EUR \
-	    --admin-lastname=Admin \
-	    --admin-firstname=Admin \
-	    --admin-email=admin@example.com \
-	    --admin-user=admin \
-	    --admin-password=admin123 \
-	    --cleanup-database \
-	    --use-rewrites=1 \
-	    --use-sample-data" -s /bin/sh $2
-END
 fi
 
 # Magento Sample Data

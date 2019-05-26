@@ -173,7 +173,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 
 #### Bugs
 * ~~fix OSX version~~
-* check that all commands function in post-build.sh
+* ~~check that all commands function in post-build.sh~~
 * cron jobs container not logging messages
 * ~~sampledata deploy error on docker-compose build~~
 * set timezone in containers

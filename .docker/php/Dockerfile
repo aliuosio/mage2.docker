@@ -20,8 +20,8 @@ ARG MYSQL_PASSWORD
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json /home/$USERNAME/.composer/
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
 
 RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \

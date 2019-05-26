@@ -3,8 +3,7 @@
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
 ## Description
-**This Setup installs the basic docker containers for Magento 2.3.0 and above.
-The magento 2 files and sample data can be downloaded also if the flags are set in `.env`**
+**This Setup installs the basic docker containers for Magento 2. The magento 2 files and sample data can be downloaded also if the flags are set in .env**
 
 ## Table of Contents
 1. [Features](#features)

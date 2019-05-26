@@ -170,16 +170,16 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * reduce the number of volumes
 * optimize pagespeed caching
 * ~~use pagespeed with redis cache~~
+* increase vm max count for elasticsearch without system reboot
+* Nginx Header Config passes at https://securityheaders.com/
+* set timezone in containers
+* secure socket connection between containers
+* add varnish container and configure with magento 2
 
 #### Bugs
 * ~~fix OSX version~~
 * ~~check that all commands function in post-build.sh~~
-* cron jobs container not logging messages
 * ~~sampledata deploy error on docker-compose build~~
-* set timezone in containers
-* secure socket connection between containers
-* Nginx Header Config passes at https://securityheaders.com/
-* increase vm max count for elasticsearch without system reboot
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

@@ -89,16 +89,3 @@ RUN apk add --no-cache --virtual build-dependencies \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
-
-RUN post-build.sh \
-    $INSTALL_MAGENTO \
-    $USERNAME \
-    $WORKDIR_SERVER \
-    $INSTALL_MAGENTO_VERSION \
-    $INSTALL_SAMPLE_DATA \
-    $COMPOSER_UPDATE_ON_START \
-    $XDEBUG_ENABLE \
-    $MYSQL_DATABASE \
-    $MYSQL_USER \
-    $MYSQL_PASSWORD \
-    $SHOP_URI

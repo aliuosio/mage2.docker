@@ -20,8 +20,8 @@ ARG MYSQL_PASSWORD
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json /home/$USERNAME/.composer/
-COPY docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
+COPY magento-install.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/magento-install.sh
 
 RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \
@@ -90,7 +90,4 @@ RUN apk add --no-cache --virtual build-dependencies \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 
-CMD ['php-fpm']
-
-ENTRYPOINT ['/docker-entrypoint.sh']
-CMD ['$INSTALL_MAGENTO','$USERNAME','$WORKDIR_SERVER', '$INSTALL_MAGENTO_VERSION', '$INSTALL_SAMPLE_DATA', '$COMPOSER_UPDATE_ON_START', '$XDEBUG_ENABLE', '$MYSQL_DATABASE', '$MYSQL_USER', '$MYSQL_PASSWORD', '$SHOP_URI']
+CMD ['magento-install.sh', '$INSTALL_MAGENTO','$USERNAME','$WORKDIR_SERVER', '$INSTALL_MAGENTO_VERSION', '$INSTALL_SAMPLE_DATA', '$COMPOSER_UPDATE_ON_START', '$XDEBUG_ENABLE', '$MYSQL_DATABASE', '$MYSQL_USER', '$MYSQL_PASSWORD', '$SHOP_URI']

@@ -159,7 +159,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * ~~create seperat containers for cronjob and image optimization~~
 * ~~fix file permissions and ownership between containers and docker host~~
 * ~~move Magento 2 specific tools and config to post-build.sh called in docker-compose.yml~~
-* ~~move xdebug install & config to docker-entrypoint.sh band install after magento 2 install and sampledata~~
+* ~~move xdebug install & config to magento-install.sh band install after magento 2 install and sampledata~~
 * test with mounts instead of volumes
 * ~~setup script for PHP Container to set IP for xdebug or Domain~~
 * clean up alpine packages after build

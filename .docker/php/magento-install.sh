@@ -73,5 +73,3 @@ fi
 	    --use-sample-data" -s /bin/sh $2
     echo 'Install Magento END';
 fi
-
-exec "$@"

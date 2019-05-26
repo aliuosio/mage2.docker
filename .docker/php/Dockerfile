@@ -90,4 +90,7 @@ RUN apk add --no-cache --virtual build-dependencies \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 
-CMD ["php-fpm", "-F"]
+CMD ['php-fpm']
+
+ENTRYPOINT ['/docker-entrypoint.sh']
+CMD ['$INSTALL_MAGENTO','$USERNAME','$WORKDIR_SERVER', '$INSTALL_MAGENTO_VERSION', '$INSTALL_SAMPLE_DATA', '$COMPOSER_UPDATE_ON_START', '$XDEBUG_ENABLE', '$MYSQL_DATABASE', '$MYSQL_USER', '$MYSQL_PASSWORD', '$SHOP_URI']

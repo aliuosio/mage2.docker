@@ -39,6 +39,7 @@ The magento 2 files and sample data can be downloaded also if the flags are set 
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled
+* [magenerds/smtp](https://github.com/magenerds/smtp) install
 * ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~
 * **install magento 2** as configurable option
 * **install magento 2 sample data** as configurable option
@@ -48,7 +49,6 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * **use mysql, php over sockets** instead of ports for faster data container exchange
 * **Extra Composer Packages**
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
- 
 * **Extra Composer Packages with Magento 2 Installer **
     * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
@@ -159,14 +159,14 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * ~~create seperat containers for redis session and cache~~
 * ~~create seperat containers for cronjob and image optimization~~
 * ~~fix file permissions and ownership between containers and docker host~~
-* move Magento 2 specific tools and config to post-build.sh called in docker-compose.yml
+* ~~move Magento 2 specific tools and config to post-build.sh called in docker-compose.yml~~
 * ~~move xdebug install & config to docker-entrypoint.sh band install after magento 2 install and sampledata~~
 * test with mounts instead of volumes
 * ~~setup script for PHP Container to set IP for xdebug or Domain~~
 * clean up alpine packages after build
 * PWA Studio as variable option
 * set authentification for elasticsearch
-* add composer package [magenerds/smtp](https://github.com/magenerds/smtp)
+* ~~add composer package [magenerds/smtp](https://github.com/magenerds/smtp)~~
 * reduce the number of volumes
 * optimize pagespeed caching
 * ~~use pagespeed with redis cache~~

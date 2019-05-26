@@ -55,7 +55,8 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_socket:/var/run/php
       - mysql_socket:/var/run/mysqld
-    command: ['post-build.sh', $INSTALL_MAGENTO,
+    entrypoint: docker-entrypoint.sh
+    command: [$INSTALL_MAGENTO,
               $USERNAME,
               $WORKDIR_SERVER,
               $INSTALL_MAGENTO_VERSION,

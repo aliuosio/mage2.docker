@@ -20,7 +20,8 @@ ARG MYSQL_PASSWORD
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json /home/$USERNAME/.composer/
-COPY post-build.sh /usr/local/bin/
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \
@@ -73,7 +74,6 @@ RUN apk add --no-cache --virtual build-dependencies \
     && adduser -u 1000 -S -D -G ${USERNAME} ${USERNAME} \
     && mkdir /home/${USERNAME}/html \
     && chown -R  ${USERNAME}:${USERNAME} /home/${USERNAME} \
-    && chmod +x /usr/local/bin/post-build.sh \
     && \
     if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         apk add --no-cache libmcrypt-dev \
@@ -89,3 +89,5 @@ RUN apk add --no-cache --virtual build-dependencies \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
+
+CMD ["php-fpm", "-F"]

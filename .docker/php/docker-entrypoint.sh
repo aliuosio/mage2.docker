@@ -44,3 +44,5 @@ if [[ $5 = "true" ]]; then
     su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
     echo 'Downloading Sample Data Done';
 fi
+
+exec "$@"

@@ -3,8 +3,7 @@
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
 ## Description
-**This Setup installs the basic docker containers for Magento 2.3.0 and above.
-The magento 2 files and sample data can be downloaded also if the flags are set in `.env`**
+**This Setup installs the basic docker containers for Magento 2. The magento 2 files and sample data can be downloaded also if the flags are set in .env**
 
 ## Table of Contents
 1. [Features](#features)
@@ -170,16 +169,16 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * reduce the number of volumes
 * optimize pagespeed caching
 * ~~use pagespeed with redis cache~~
+* increase vm max count for elasticsearch without system reboot
+* Nginx Header Config passes at https://securityheaders.com/
+* set timezone in containers
+* secure socket connection between containers
+* add varnish container and configure with magento 2
 
 #### Bugs
 * ~~fix OSX version~~
 * ~~check that all commands function in post-build.sh~~
-* cron jobs container not logging messages
 * ~~sampledata deploy error on docker-compose build~~
-* set timezone in containers
-* secure socket connection between containers
-* Nginx Header Config passes at https://securityheaders.com/
-* increase vm max count for elasticsearch without system reboot
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

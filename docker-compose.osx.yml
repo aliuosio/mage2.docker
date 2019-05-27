@@ -51,20 +51,19 @@ services:
     working_dir: ${WORKDIR_SERVER}
     depends_on:
       - mysql
-    entrypoint: ['magento-install.sh']
-    command: [
-      $INSTALL_MAGENTO,
-      $USERNAME,
-      $WORKDIR_SERVER,
-      $INSTALL_MAGENTO_VERSION,
-      $INSTALL_SAMPLE_DATA,
-      $COMPOSER_UPDATE_ON_START',
-      $XDEBUG_ENABLE,
-      $MYSQL_DATABASE,
-      $MYSQL_USER,
-      $MYSQL_PASSWORD,
-      $SHOP_URI
-    ]
+#    command: [magento-install.sh
+#      $INSTALL_MAGENTO,
+#      $USERNAME,
+#      $WORKDIR_SERVER,
+#      $INSTALL_MAGENTO_VERSION,
+#      $INSTALL_SAMPLE_DATA,
+#      $COMPOSER_UPDATE_ON_START,
+#      $XDEBUG_ENABLE,
+#      $MYSQL_DATABASE,
+#      $MYSQL_USER,
+#      $MYSQL_PASSWORD,
+#      $SHOP_URI
+#    ]
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_socket:/var/run/php

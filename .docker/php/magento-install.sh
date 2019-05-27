@@ -4,7 +4,7 @@ set -e
 
 if [[ $1 = "true" ]]; then
     echo 'Install Magento BEGIN';
-	su -c "cd $3; $3/bin/magento setup:install \
+	su -c "bin/magento setup:install \
 	    --db-host=mysql \
 	    --db-name=$8 \
 	    --db-user=$9 \

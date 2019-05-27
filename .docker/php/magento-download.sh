@@ -19,12 +19,6 @@ echo 'Composer downloader package to increase download speeds END';
 # go to magento root folder
 cd $3;
 
-if [[ $6 = "true" ]]; then
-    echo 'Composer install and update BEGIN';
-    su -c "composer install; composer update" -s /bin/sh $2
-    echo 'Composer install and update END';
-fi
-
 if [[ $1 = "true" ]]; then
 	echo 'Downloading Magento 2 BEGIN';
     su -c "
@@ -37,11 +31,6 @@ if [[ $1 = "true" ]]; then
     su -c "composer require magenerds/smtp magenerds/language-de_de;
     composer require --dev msp/devtools mage2tv/magento-cache-clean;
     " -s /bin/sh $2
-
-    echo 'Set owner and user permissions on magento folders';
-    su -c "find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
-        find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
-        chmod u+x bin/magento;" -s /bin/sh $2
     echo 'Downloading Magento 2 END';
 fi
 
@@ -49,4 +38,10 @@ if [[ $5 = "true" ]]; then
 	echo 'Downloading Sample Data BEGIN';
     su -c "bin/magento sampledata:deploy;" -s /bin/sh $2
     echo 'Downloading Sample Data END';
+fi
+
+if [[ $6 = "true" ]]; then
+    echo 'Composer install and update BEGIN';
+    su -c "composer install; composer update" -s /bin/sh $2
+    echo 'Composer install and update END';
 fi

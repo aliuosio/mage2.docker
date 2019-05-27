@@ -22,7 +22,7 @@ COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json /home/$USERNAME/.composer/
 COPY magento-download.sh /usr/local/bin/magento-download.sh
 RUN chmod +x /usr/local/bin/magento-download.sh
-COPY magento-install.sh /usr/local/bin/magento-install.sh
+COPY magento-download.sh /usr/local/bin/magento-install.sh
 RUN chmod +x /usr/local/bin/magento-install.sh
 
 RUN apk add --no-cache --virtual build-dependencies \
@@ -98,4 +98,9 @@ RUN magento-download.sh \
     $WORKDIR_SERVER \
     $INSTALL_MAGENTO_VERSION \
     $INSTALL_SAMPLE_DATA \
-    $COMPOSER_UPDATE_ON_START
+    $COMPOSER_UPDATE_ON_START \
+    $XDEBUG_ENABLE \
+    $MYSQL_DATABASE \
+    $MYSQL_USER \
+    $MYSQL_PASSWORD \
+    $SHOP_URI

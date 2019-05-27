@@ -10,7 +10,6 @@
 1. [Docker Container Overview](#docker-container-overview)
 1. [Get Source](#get-source)
    * [Use Git](#use-git)
-   * [Use Git Submodule](#use-git-submodule)
    * [Use Composer](#use-composer) 
 1. [Mandatory Settings](#mandatory-settings)
 1. [Start docker](#start-docker)

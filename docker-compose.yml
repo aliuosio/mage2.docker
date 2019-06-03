@@ -65,7 +65,7 @@ services:
     container_name: ${NAMESPACE}_mysql
     image: ${NAMESPACE}/mysql
     ports:
-      - 3306:3306
+      - ${MYSQL_DATABASE_EXTERNAL_POT}:3306
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}

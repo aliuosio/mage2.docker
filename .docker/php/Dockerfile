@@ -22,8 +22,6 @@ COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json /home/$USERNAME/.composer/
 COPY magento-download.sh /usr/local/bin/magento-download.sh
 RUN chmod +x /usr/local/bin/magento-download.sh
-COPY magento-download.sh /usr/local/bin/magento-install.sh
-RUN chmod +x /usr/local/bin/magento-install.sh
 
 RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \

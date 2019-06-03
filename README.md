@@ -5,26 +5,6 @@
 ## Description
 **This Setup installs the basic docker containers for Magento 2. The magento 2 files and sample data can be downloaded also if the flags are set in .env**
 
-## Table of Contents
-1. [Features](#features)
-1. [Docker Container Overview](#docker-container-overview)
-1. [Get Source](#get-source)
-   * [Use Git](#use-git)
-   * [Use Composer](#use-composer) 
-1. [Mandatory Settings](#mandatory-settings)
-1. [Start docker](#start-docker)
-1. [Magento 2 Configuration](#magento-2-configuration)
-1. [SSL Certificate Registration](#ssl-certificate-registration)
-1. [PHP Container Usage](#php-container-usage)
-1. [Composer Usage](#composer-usage)
-1. [Magerun2 Usage](#magerun2-usage)
-1. [Mailhog Usage](#mailhog-usage)
-1. [Elasticsearch Usage](#elasticsearch-usage)
-1. [Todos](#todos)
-1. [Bugs](#bugs)
-1. [Contribute](#contribute)
-1. [License](#license)
-
 ## Features
 * alternative **OSX docker-compose** file using docker-sync **for better perfomance**
 * set project directory to where ever you want (as configurable option)

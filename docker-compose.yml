@@ -171,6 +171,12 @@ services:
       - letsencrypt_certs:/etc/letsencrypt
       - letsencrypt_www:/var/www/letsencrypt
 
+  watchtower:
+    container_name: ${NAMESPACE}_watchtower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
 volumes:
   php_socket:
     driver_opts:

@@ -28,9 +28,8 @@ if [[ $1 = "true" ]]; then
     " -s /bin/sh $2
 
     echo 'Install Magento 2 Extra Packages';
-    su -c "composer require magenerds/language-de_de;
-    composer require --dev msp/devtools mage2tv/magento-cache-clean;
-    " -s /bin/sh $2
+    # su -c "composer require magenerds/language-de_de;" -s /bin/sh $2
+    su -c "composer require --dev msp/devtools mage2tv/magento-cache-clean;" -s /bin/sh $2
     echo 'Downloading Magento 2 END';
 fi
 

@@ -44,3 +44,9 @@ if [[ $6 = "true" ]]; then
     su -c "composer install; composer update" -s /bin/sh $2
     echo 'Composer install and update END';
 fi
+
+echo 'Set owner and user permissions on magento folders';
+su -c "find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
+find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
+chmod u+x bin/magento;" -s /bin/sh $2
+echo 'Downloading Magento 2 END';

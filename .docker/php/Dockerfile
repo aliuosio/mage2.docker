@@ -4,24 +4,21 @@ FROM $PHP_VERSION_SET_IMAGE
 
 LABEL maintainer="Osiozekhai Aliu"
 
+ARG INSTALL_MAGENTO_WITH_SAMPLE_DATA
 ARG USERNAME
 ARG WORKDIR_SERVER
 ARG PHP_VERSION_SET
 ARG XDEBUG_ENABLE
 ARG TZ
-ARG INSTALL_MAGENTO
-ARG INSTALL_MAGENTO_VERSION
-ARG INSTALL_SAMPLE_DATA
-ARG COMPOSER_UPDATE_ON_START
 ARG MYSQL_DATABASE
 ARG MYSQL_USER
 ARG MYSQL_PASSWORD
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
-COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY conf/auth.json /home/$USERNAME/.composer/
-COPY magento-download.sh /usr/local/bin/magento-download.sh
-RUN chmod +x /usr/local/bin/magento-download.sh
+COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
+COPY magento-install.sh /usr/local/bin/magento-install.sh
+RUN chmod +x /usr/local/bin/magento-install.sh
 
 RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \
@@ -89,16 +86,3 @@ RUN apk add --no-cache --virtual build-dependencies \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
-
-RUN magento-download.sh \
-    $INSTALL_MAGENTO \
-    $USERNAME \
-    $WORKDIR_SERVER \
-    $INSTALL_MAGENTO_VERSION \
-    $INSTALL_SAMPLE_DATA \
-    $COMPOSER_UPDATE_ON_START \
-    $XDEBUG_ENABLE \
-    $MYSQL_DATABASE \
-    $MYSQL_USER \
-    $MYSQL_PASSWORD \
-    $SHOP_URI

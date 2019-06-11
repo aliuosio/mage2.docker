@@ -4,8 +4,5 @@
          "username": "<public-key>",
          "password": "<private-key>"
         }
-    },
-    "github-oauth": {
-        "github.com": "your personal access token from github"
     }
 }

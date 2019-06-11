@@ -5,89 +5,28 @@
 ## Description
 **This Setup installs the basic docker containers for Magento 2. The magento 2 files and sample data can be downloaded also if the flags are set in .env**
 
-## Features
-* alternative **OSX docker-compose** file using docker-sync **for better perfomance**
-* set project directory to where ever you want (as configurable option)
-* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
-(24.02.2019: Magento 2.3 at this point does not work with PHP 7.3)
-* setup valid **SSL certificates** with letsmcrypt container
-* Nginx uses **Pagespeed** Module
-* both **PHP GD and PHP Imagick** are installed
-* nodejs any yarn for [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
-* **PHP Xdebug** as configurable option
-* **PHP Opcache** enabled
-* **PHP redis** enabled
-* [magenerds/smtp](https://github.com/magenerds/smtp) install
-* ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~
-* **install magento 2** as configurable option
-* **install magento 2 sample data** as configurable option
-* permissions are set after magento 2 install  
-following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  as configurable option
-* **http basic authentication** 
-* **use mysql, php over sockets** instead of ports for faster data container exchange
-* **Extra Composer Packages**
-    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
-* **Extra Composer Packages with Magento 2 Installer **
-    * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
-    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
-    
-> features can be enabled in .env
-
-## Docker Container Overview
-* ~~Magento Cronjobs~~
-* Elasticsearch
-* letsencrypt
-* mailhog
-* nginx
-* mysql
-* php
-* redis
-
-
 ## Get Source
 #### Use Git
 
-    git clone https://github.com/aliuosio/<your_domain>ker.git
-    
-#### Use Composer  
-    
-    composer require aliuosio/mage2.docker
-    cd /vendor/aliuosio/mage2.docker
+    git clone git@github.com:aliuosio/mage2.docker.git
 
-## Mandatory Settings
-    
-    # adjust for your needs
-    cp .docker/config_blueprints/.env.sample .env
-    
-    # the domain is saved to your /etc/hosts file
-    echo -e "0.0.0.0 <your_domain>" | sudo tee -a /etc/hosts
-    
-    # only needed if you want to install Magento 2 on first build
-    # the project folder has to be empty 
-    cp config_blueprints/auth.json.sample .docker/php/conf/auth.json
-    
 ## Start docker
     # Linux
     docker-compose up --build;
     
-    # OSX
+    # OSX (if docker-sync is missing install using: gem install docker-sync)
     docker-sync start;
     docker-compose -f docker-compose.osx.yml up --build;
-    
-> For OSX Users:
-if `docker-sync` is missing on your OSX then 
-visit the http://docker-sync.io/ website to get it
+     
 
 ## Magento 2 Configuration
-Call: https://<your_domain>in your browser to configure Magento 2.  
-The Database Hostname is `mysql` or `/var/lib/mysql/mysql.sock` to use sockets
-See mysql settings in `.env` for user, password and dbname before install 
+Call: `https://magento2.localhost` in your browser to configure Magento 2.  
+> Overwrite env.php in app/etc **after Magento 2 configuration** to use Redis for sessions and caching and MySQL over Sockets
 
-### to use sockets to connect with redis, php and mysql
-    
-    cp config_blueprints/env.php.sample <WORKDIR>/app/etc/env.php
 
-> works only after Magento 2 configuration
+
+# All Steps from here on are optional
+
 
 ## SSL Certificate Registration
     # register certificate
@@ -165,3 +104,44 @@ Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 #### License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+
+## Features
+* alternative **OSX docker-compose** file using docker-sync **for better perfomance**
+* set project directory to where ever you want (as configurable option)
+* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
+(24.02.2019: Magento 2.3 at this point does not work with PHP 7.3)
+* setup valid **SSL certificates** with letsmcrypt container
+* Nginx uses **Pagespeed** Module
+* both **PHP GD and PHP Imagick** are installed
+* nodejs any yarn for [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
+* **PHP Xdebug** as configurable option
+* **PHP Opcache** enabled
+* **PHP redis** enabled
+* [magenerds/smtp](https://github.com/magenerds/smtp) install
+* ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~
+* **install magento 2** as configurable option
+* **install magento 2 sample data** as configurable option
+* permissions are set after magento 2 install  
+following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  as configurable option
+* **http basic authentication** 
+* **use mysql, php over sockets** instead of ports for faster data container exchange
+* **Extra Composer Packages**
+    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
+* **Extra Composer Packages with Magento 2 Installer **
+    * [msp/devtools](https://github.com/magespecialist/m2-MSP_DevTools) DevTools for Magento2  
+    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
+    
+> features can be enabled in .env
+
+## Docker Container Overview
+* ~~Magento Cronjobs~~
+* Elasticsearch
+* letsencrypt
+* mailhog
+* nginx
+* mysql
+* php
+* redis
+

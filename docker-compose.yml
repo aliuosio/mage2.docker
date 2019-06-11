@@ -36,10 +36,7 @@ services:
         USERNAME: ${USERNAME}
         WORKDIR_SERVER: ${WORKDIR_SERVER}
         XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-        INSTALL_MAGENTO: ${INSTALL_MAGENTO}
-        INSTALL_MAGENTO_VERSION: ${INSTALL_MAGENTO_VERSION}
-        INSTALL_SAMPLE_DATA: ${INSTALL_SAMPLE_DATA}
-        COMPOSER_UPDATE_ON_START: ${COMPOSER_UPDATE_ON_START}
+        INSTALL_MAGENTO_WITH_SAMPLE_DATA: $INSTALL_MAGENTO_WITH_SAMPLE_DATA
         MYSQL_DATABASE: ${MYSQL_DATABASE}
         MYSQL_USER: ${MYSQL_USER}
         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -55,6 +52,8 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
       - php_socket:/var/run/php
       - mysql_socket:/var/run/mysqld
+    entrypoint: magento-install.sh
+    command: [$INSTALL_MAGENTO_WITH_SAMPLE_DATA, $USERNAME, $WORKDIR_SERVER]
 
   mysql:
     build:
@@ -214,4 +213,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: "${WORKDIR}"
+      device: $PWD/htdocs

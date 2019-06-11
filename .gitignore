@@ -1,3 +1,6 @@
 .idea/
-.env
-auth.json
+/htdocs/
+!/htdocs/app/code
+!/htdocs/app/design
+!/htdocs/composer.json
+!/htdocs/dev/

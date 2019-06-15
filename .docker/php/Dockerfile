@@ -17,8 +17,6 @@ ARG MYSQL_PASSWORD
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/auth.json /home/$USERNAME/.composer/
 COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
-COPY magento-install.sh /usr/local/bin/magento-install.sh
-RUN chmod +x /usr/local/bin/magento-install.sh
 
 RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \
@@ -30,8 +28,10 @@ RUN apk add --no-cache --virtual build-dependencies \
     && set -xe \
     && apk add --no-cache \
         git \
-	    yarn \
-	    nano \
+        unzip \
+        zip \
+  	    yarn \
+  	    nano \
         tzdata \
         icu \
         imagemagick-dev \
@@ -86,3 +86,6 @@ RUN apk add --no-cache --virtual build-dependencies \
     && apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && chmod +x /usr/local/bin/composer

@@ -8,21 +8,21 @@ services:
       args:
         TZ: ${TZ}
         USERNAME: ${USERNAME}
-        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        WORKDIR_SERVER: /home/${USERNAME}/html
         SHOP_URI: ${SHOP_URI}
         AUTH_CONFIG: ${AUTH_CONFIG}
         AUTH_USER: ${AUTH_USER}
         AUTH_PASS: ${AUTH_PASS}
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
-    working_dir: ${WORKDIR_SERVER}
+    working_dir: /home/${USERNAME}/html
     depends_on:
       - php
     ports:
-      - ${NGINX_SECURE_PORT}:443
-      - ${NGINX_UNSECURE_PORT}:80
+      - ${WEBSERVER_SECURE_PORT}:443
+      - ${WEBSERVER_UNSECURE_PORT}:80
     volumes:
-      - app_data:${WORKDIR_SERVER}:delegated
+      - app_data:/home/${USERNAME}/html:delegated
       - php_socket:/var/run/php
       - pagespeed_cache:/var/cache/ngx_pagespeed
 
@@ -34,9 +34,8 @@ services:
         PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
         PHP_VERSION_SET: ${PHP_VERSION_SET}
         USERNAME: ${USERNAME}
-        WORKDIR_SERVER: ${WORKDIR_SERVER}
+        WORKDIR_SERVER: /home/${USERNAME}/html
         XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-        INSTALL_MAGENTO_WITH_SAMPLE_DATA: $INSTALL_MAGENTO_WITH_SAMPLE_DATA
         MYSQL_DATABASE: ${MYSQL_DATABASE}
         MYSQL_USER: ${MYSQL_USER}
         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -45,15 +44,13 @@ services:
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: '65536'
-    working_dir: ${WORKDIR_SERVER}
+    working_dir: /home/${USERNAME}/html
     depends_on:
       - mysql
     volumes:
-      - app_data:${WORKDIR_SERVER}:delegated
+      - app_data:/home/${USERNAME}/html:delegated
       - php_socket:/var/run/php
       - mysql_socket:/var/run/mysqld
-    entrypoint: magento-install.sh
-    command: [$INSTALL_MAGENTO_WITH_SAMPLE_DATA, $USERNAME, $WORKDIR_SERVER]
 
   mysql:
     build:

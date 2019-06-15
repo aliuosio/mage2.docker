@@ -3,7 +3,7 @@
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
 ## Description
-**This Setup installs the basic docker containers for Magento 2. The magento 2 files and sample data can be downloaded also if the flags are set in .env**
+This Setup installs the basic docker containers for Magento 2. 
 
 ## Get Source
 #### Use Git
@@ -11,24 +11,35 @@
     git clone git@github.com:aliuosio/mage2.docker.git
 
 ## Start docker
+    
     # Linux
-    docker-compose up --build;
+    docker-compose build;
+    docker-compose up -d;
     
     # OSX (if docker-sync is missing install using: gem install docker-sync)
     docker-sync start;
-    docker-compose -f docker-compose.osx.yml up --build;
+    docker-compose -f docker-compose.osx.yml build;
+    docker-compose -f docker-compose.osx.yml up -d;
      
 
 ## Magento 2 Configuration
-Call: `https://magento2.localhost` in your browser to configure Magento 2.  
+    
+    # Install Magento 2
+     docker exec -it -u <USERNAME> <NAMESPACE>_php chmod +x ./install.sh
+     docker exec -it -u <USERNAME> <NAMESPACE>_php ./install.sh
+     
+> \<USERNAME\> \<NAMESPACE\> set in .env
+    
+Call: `https://mage2.localhost` in your browser.  
 > Overwrite env.php in app/etc **after Magento 2 configuration** to use Redis for sessions and caching and MySQL over Sockets
 
 
-
-# All Steps from here on are optional
-
-
+## PHP Container Usage
+    
+    docker exec -it -u <USERNAME> <NAMESPACE>_php sh
+    
 ## SSL Certificate Registration
+    
     # register certificate
     docker-compose run --rm letsencrypt \
         letsencrypt certonly --webroot \
@@ -49,15 +60,19 @@ they’d have to be renewed periodically with the following command:
     docker-compose kill -s SIGHUP nginx
 
 #### PHP Container Usage
+    
     docker exec -it -u <USERNAME> <NAMESPACE>_php sh
     
 #### Composer Usage
+    
     docker exec -it -u <USERNAME> <NAMESPACE>_php composer <command>
 
 #### Magerun2 Usage
+    
     docker exec -it -u <USERNAME> <NAMESPACE>_php n98-magerun2 shell
     
 #### Mailhog Usage
+    
     http://<your_domain>:8025
 
 #### Elasticsearch Usage:

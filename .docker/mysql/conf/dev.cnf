@@ -1,4 +1,10 @@
+[mysql]
+default-character-set=utf8mb4
+
 [mysqld]
+sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
 user=__user
 
 ft_min_word_len = 3
@@ -25,9 +31,8 @@ slow_query_log_file = /var/lib/mysql/mysql-slow.log
 # OTHER
 max_heap_table_size = 32M
 query_cache_type = 0
-table_open_cache = 64
 open_files_limit = 32000
-table_open_cache=32
+table_open_cache=64
 max_connections=10000
 innodb_use_native_aio = ON
 explicit_defaults_for_timestamp = 1
@@ -41,7 +46,7 @@ innodb_thread_concurrency = 18
 innodb_flush_log_at_trx_commit = 2
 thread_cache_size = 32
 query_cache_size = 64M
-query_cache_limit = 2M
+query_cache_limit = 4M
 join_buffer_size = 8M
 tmp_table_size = 256M
 innodb_autoextend_increment=512

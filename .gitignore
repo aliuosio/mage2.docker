@@ -1,6 +1,3 @@
 .idea/
-/htdocs/
-!/htdocs/app/code
-!/htdocs/app/design
+/htdocs/*
 !/htdocs/composer.json
-!/htdocs/dev/

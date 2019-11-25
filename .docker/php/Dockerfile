@@ -4,42 +4,41 @@ FROM $PHP_VERSION_SET_IMAGE
 
 LABEL maintainer="Osiozekhai Aliu"
 
-ARG INSTALL_MAGENTO_WITH_SAMPLE_DATA
-ARG USERNAME
 ARG WORKDIR_SERVER
 ARG PHP_VERSION_SET
 ARG XDEBUG_ENABLE
 ARG TZ
-ARG MYSQL_DATABASE
-ARG MYSQL_USER
-ARG MYSQL_PASSWORD
+ARG USER
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
-COPY conf/auth.json /home/$USERNAME/.composer/
-COPY conf/xdebug.ini conf/php-ini-overrides.ini /usr/local/etc/php/conf.d/
+COPY conf/xdebug.ini /usr/local/etc/php/conf.d/
+COPY conf/auth.json /home/$USER/.composer/
 
-RUN apk add --no-cache --virtual build-dependencies \
+RUN apk update && apk upgrade --available \
+    && apk add --virtual build-dependencies \
         libc-dev \
         libxslt-dev \
         freetype-dev \
         libjpeg-turbo-dev \
         libpng \
         libpng-dev \
+        libzip-dev \
     && set -xe \
-    && apk add --no-cache \
+    && apk add \
         git \
-        unzip \
-        zip \
-  	    yarn \
-  	    nano \
+        bash \
+        bash-completion \
+        shadow \
+	    nano \
         tzdata \
         icu \
         imagemagick-dev \
         imagemagick \
         bc \
-    && apk add --no-cache --virtual .php-deps \
+        yarn \
+    && apk add --virtual .php-deps \
         make \
-    && apk add --no-cache --virtual .build-deps \
+    && apk add --virtual .build-deps \
         $PHPIZE_DEPS \
         zlib-dev \
         icu-dev \
@@ -66,14 +65,13 @@ RUN apk add --no-cache --virtual build-dependencies \
     && pecl channel-update pecl.php.net \
     && pecl install -o -f redis imagick \
     && docker-php-ext-enable redis imagick \
-    && sed -i "s#__user#${USERNAME}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
-    && addgroup -g 1000 -S ${USERNAME} \
-    && adduser -u 1000 -S -D -G ${USERNAME} ${USERNAME} \
-    && mkdir /home/${USERNAME}/html \
-    && chown -R  ${USERNAME}:${USERNAME} /home/${USERNAME} \
+    && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
+    && addgroup -g 1000 -S ${USER} \
+    && adduser -u 1000 -S -D -G ${USER} ${USER} \
+    && mkdir $WORKDIR_SERVER \
     && \
     if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
-        apk add --no-cache libmcrypt-dev \
+        apk add libmcrypt-dev \
         && docker-php-ext-install mcrypt; \
     fi \
     && \
@@ -84,8 +82,11 @@ RUN apk add --no-cache --virtual build-dependencies \
         && sed -i "s#xdebug.remote_autostart=0#xdebug.remote_autostart=1#g" /usr/local/etc/php/conf.d/xdebug.ini; \
     fi \
     && apk del tzdata \
-    && rm -rf /var/cache/apk/* \
-    && rm -rf /tmp/pear
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && chmod +x /usr/local/bin/composer \
+    && chown -R ${USER}:${USER} /home/${USER} \
+    && chmod 775 $WORKDIR_SERVER \
+    && echo "export PATH=/home/${USER}/html/node_modules/.bin:\$PATH" >> /home/${USER}/.bash_profile
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && chmod +x /usr/local/bin/composer
+RUN rm -rf /var/cache/apk/* \
+    && rm -rf /tmp/pear

@@ -6,131 +6,100 @@ services:
     build:
       context: ./.docker/nginx
       args:
+        USER: ${USER}
         TZ: ${TZ}
-        USERNAME: ${USERNAME}
-        WORKDIR_SERVER: /home/${USERNAME}/html
+        WORKDIR_SERVER: /home/${USER}/html
         SHOP_URI: ${SHOP_URI}
         AUTH_CONFIG: ${AUTH_CONFIG}
         AUTH_USER: ${AUTH_USER}
         AUTH_PASS: ${AUTH_PASS}
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
-    working_dir: /home/${USERNAME}/html
+    working_dir: /home/${USER}/html
     depends_on:
       - php
+      - redis_pagespeed
     ports:
       - ${WEBSERVER_SECURE_PORT}:443
       - ${WEBSERVER_UNSECURE_PORT}:80
     volumes:
-      - app_data:/home/${USERNAME}/html:delegated
+      - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
-      - pagespeed_cache:/var/cache/ngx_pagespeed
+      - redis_pagespeed_data:/var/cache/ngx_pagespeed
 
   php:
     build:
       context: ./.docker/php
       args:
+        USER: ${USER}
         TZ: ${TZ}
         PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
         PHP_VERSION_SET: ${PHP_VERSION_SET}
-        USERNAME: ${USERNAME}
-        WORKDIR_SERVER: /home/${USERNAME}/html
+        WORKDIR_SERVER: /home/${USER}/html
         XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-        MYSQL_DATABASE: ${MYSQL_DATABASE}
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-        SHOP_URI: ${SHOP_URI}
     container_name: ${NAMESPACE}_php
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: '65536'
-    working_dir: /home/${USERNAME}/html
+    working_dir: /home/${USER}/html
     depends_on:
       - mysql
+      - redis
+      - elasticsearch
     volumes:
-      - app_data:/home/${USERNAME}/html:delegated
-      - php_socket:/var/run/php
-      - mysql_socket:/var/run/mysqld
+      - app_data:/home/${USER}/html:delegated
+      - php_socket:/var/run/php:cached
+      - mysql_socket:/var/run/mysqld:cached
+      - ${PWD}/.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
 
   mysql:
     build:
       context: ./.docker/mysql
       args:
-        USERNAME: ${USERNAME}
         TZ: ${TZ}
+        USER: ${USER}
     container_name: ${NAMESPACE}_mysql
     image: ${NAMESPACE}/mysql
-    ports:
-      - ${MYSQL_DATABASE_EXTERNAL_PORT}:3306
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - mysql_vol:/var/lib/mysql/
+      - mysql_data:/var/lib/mysql/
       - mysql_socket:/var/run/mysqld
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d/
 
-  redis_cache:
+  redis:
     build:
       context: ./.docker/redis
       args:
-        USERNAME: ${USERNAME}
         TZ: ${TZ}
-    container_name: ${NAMESPACE}_redis_cache
-    image: ${NAMESPACE}/redis_cache
+        USER: ${USER}
+    container_name: ${NAMESPACE}_redis
+    image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-      - redis_cache_data:/data
+      - redis_data:/data
 
-  redis_pagespeed_cache:
+  redis_pagespeed:
     build:
       context: ./.docker/redis
       args:
-        USERNAME: ${USERNAME}
         TZ: ${TZ}
-    container_name: ${NAMESPACE}_redis_pagespeed_cache
-    image: ${NAMESPACE}/redis_pagespeed_cache
+        USER: ${USER}
+    container_name: ${NAMESPACE}_redis_pagespeed
+    image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-      - redis_pagespeed_cache_data:/data
-
-  redis_page_cache:
-    build:
-      context: ./.docker/redis
-      args:
-        USERNAME: ${USERNAME}
-        TZ: ${TZ}
-    container_name: ${NAMESPACE}_redis_page_cache
-    image: ${NAMESPACE}/redis_page_cache
-    sysctls:
-      net.core.somaxconn: '1024'
-    volumes:
-      - redis_page_cache_data:/data
-
-  redis_session:
-    build:
-      context: ./.docker/redis
-      args:
-        USERNAME: ${USERNAME}
-        TZ: ${TZ}
-    container_name: ${NAMESPACE}_redis_session
-    image: ${NAMESPACE}/redis_session
-    sysctls:
-      net.core.somaxconn: '1024'
-    volumes:
-      - redis_session_data:/data
+      - redis_pagespeed_data:/data
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
-    expose:
-      - 1025
     ports:
-      - ${MAILHOG_PORT}:1025
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
@@ -152,20 +121,54 @@ services:
         hard: -1
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
 
-  letsencrypt:
-    container_name: ${NAMESPACE}_letsencrypt
+  host-settings:
     build:
-      context: ./.docker/letsencrypt
-      args:
-        SHOP_URI: ${SHOP_URI}
-    image: ${NAMESPACE}/letsencrypt
-    command: /bin/true
+      context: ./.docker/host-settings
+    container_name: ${NAMESPACE}_host-settings
+    image: ${NAMESPACE}/host-settings
+    restart: 'no'
+    privileged: true
     volumes:
-      - letsencrypt_certs:/etc/letsencrypt
-      - letsencrypt_www:/var/www/letsencrypt
+      - /proc/sys/vm:/mnt/vm
+
+
+#  apache:
+#    build:
+#      context: ./.docker/apache
+#      args:
+#        TZ: ${TZ}
+#        USER: ${USER}
+#        WORKDIR_SERVER: /home/${USER}/html
+#        SHOP_URI: ${SHOP_URI}
+#        AUTH_CONFIG: ${AUTH_CONFIG}
+#        AUTH_USER: ${AUTH_USER}
+#        AUTH_PASS: ${AUTH_PASS}
+#    container_name: ${NAMESPACE}_apache
+#    image: ${NAMESPACE}/apache
+#    working_dir: /home/${USER}/html
+#    depends_on:
+#      - php
+#    ports:
+#      - ${APACHE_SECURE_PORT}:443
+#      - ${APACHE_UNSECURE_PORT}:80
+#    volumes:
+#      - app_data:/home/${USER}/html:delegated
+#      - php_socket:/var/run/php:cached
+#      - ${PWD}/.docker/apache/conf/httpd-mpm.conf:/usr/local/apache/conf/extra/httpd-mpm.conf
+#      - ${PWD}/.docker/apache/etc/apache2/ssl:/etc/apache2/ssl
+
+#  letsencrypt:
+#    container_name: ${NAMESPACE}_letsencrypt
+#    build:
+#      context: ./.docker/letsencrypt
+#      args:
+#        SHOP_URI: ${SHOP_URI}
+#    image: ${NAMESPACE}/letsencrypt
+#    command: /bin/true
+#    volumes:
+#      - letsencrypt_certs:/etc/letsencrypt
+#      - letsencrypt_www:/var/www/letsencrypt
 
 #  watchtower:
 #    container_name: ${NAMESPACE}_watchtower
@@ -174,40 +177,28 @@ services:
 #      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
-  php_socket:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  mysql_vol:
-  mysql_socket:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  letsencrypt_certs:
-  letsencrypt_www:
-  elastic_data:
-  redis_cache_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  redis_page_cache_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  redis_session_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  pagespeed_cache:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  redis_pagespeed_cache_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   app_data:
     driver_opts:
       type: none
       o: bind
       device: $PWD/htdocs
+  php_socket:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  mysql_data:
+  mysql_socket:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  redis_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  redis_pagespeed_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  elastic_data:
+  # letsencrypt_certs:
+  # letsencrypt_www:

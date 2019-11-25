@@ -2,13 +2,13 @@ FROM pagespeed/nginx-pagespeed:ngx1.15
 
 LABEL maintainer="Osiozekhai Aliu"
 
-ARG USERNAME
 ARG SHOP_URI
 ARG WORKDIR_SERVER
 ARG AUTH_CONFIG
 ARG AUTH_USER
 ARG AUTH_PASS
 ARG TZ
+ARG USER
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
@@ -16,10 +16,10 @@ COPY conf/default.conf /etc/nginx/conf.d/default.conf
 RUN apk add --update openssl tzdata curl \
     && ln -sf /usr/share/zoneinfo/Etc/$TZ  /etc/localtime \
     && echo $TZ > /etc/timezone \
-    && addgroup -g 1000 --system ${USERNAME} \
-    && adduser -u 1000 --system -D -G ${USERNAME} ${USERNAME} \
+    && addgroup -g 1000 --system ${USER} \
+    && adduser -u 1000 --system -D -G ${USER} ${USER} \
     && mkdir ${WORKDIR_SERVER} \
-    && chown -R ${USERNAME}:${USERNAME} ${WORKDIR_SERVER} \
+    && chown -R ${USER}:${USER} ${WORKDIR_SERVER} \
     && chmod -R 755 ${WORKDIR_SERVER} \
     && mkdir -p /etc/letsencrypt/live/${SHOP_URI} \
     && mkdir -p /etc/nginx/ssl \
@@ -29,7 +29,7 @@ RUN apk add --update openssl tzdata curl \
         -out /etc/letsencrypt/live/${SHOP_URI}/fullchain.pem \
         -subj /CN=${SHOP_URI} \
     && openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
-    && sed -i "s#__user#${USERNAME}#g" /etc/nginx/nginx.conf \
+    && sed -i "s#__user#${USER}#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /etc/nginx/conf.d/default.conf \
     && sed -i "s#__shop_uri#${SHOP_URI}#g" /etc/nginx/conf.d/default.conf \
     && apk del tzdata \

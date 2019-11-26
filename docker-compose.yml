@@ -69,6 +69,8 @@ services:
       - mysql_data:/var/lib/mysql/
       - mysql_socket:/var/run/mysqld
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d/
+    ports:
+      - ${MYSQL_DATABASE_EXTERNAL_PORT}:3306
 
   redis:
     build:

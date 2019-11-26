@@ -95,12 +95,12 @@ magentoRefresh() {
 }
 
 mailHogConfig() {
-    if [[ -f $1 ]]; then
-        echo "Importing $1 START";
-        cat $1 | docker exec -i $2 mysql -u root -p$3 $4;
-        echo "Importing $1 END";
+    if [[ -f $1$2 ]]; then
+        echo "Importing $1$2 START";
+        cat $1$2 | docker exec -i $3 mysql -u root -p$4 $5;
+        echo "Importing $1$2 END";
     else
-        echo "$1 not found";
+        echo "$1$2 not found";
     fi;
 }
 
@@ -154,33 +154,34 @@ composerPackages \
     ${NAMESPACE}_php \
     ${SHOP_URI}
 
-#install \
-#    ${USER} \
-#    ${SHOP_URI} \
-#    ${NAMESPACE}_php \
-#    ${NAMESPACE} \
-#    ${MYSQL_USER} \
-#    ${MYSQL_PASSWORD}
-#
-#setDomain \
-#    ${NAMESPACE} \
-#    ${MYSQL_ROOT_PASSWORD} \
-#    ${NAMESPACE}_mysql \
-#    ${SHOP_URI}
-#
-#exchangeEnv
-#getMagerun ${SHOP_URI}
-#
-#mailHogConfig \
-#    ./.db_dump/install_post.sql \
-#    ${NAMESPACE}_mysql \
-#    ${MYSQL_ROOT_PASSWORD} \
-#    ${NAMESPACE}
-#
-#magentoRefresh \
-#    ${USER} \
-#    ${NAMESPACE}_php \
-#    ${SHOP_URI}
-#
-#permissionsSet \
-#    ${USER}
+install \
+    ${USER} \
+    ${SHOP_URI} \
+    ${NAMESPACE}_php \
+    ${NAMESPACE} \
+    ${MYSQL_USER} \
+    ${MYSQL_PASSWORD}
+
+setDomain \
+    ${NAMESPACE} \
+    ${MYSQL_ROOT_PASSWORD} \
+    ${NAMESPACE}_mysql \
+    ${SHOP_URI}
+
+exchangeEnv
+getMagerun ${SHOP_URI}
+
+mailHogConfig \
+    ${DUMP_FOLDER} \
+    ${INSTALL_POST} \
+    ${NAMESPACE}_mysql \
+    ${MYSQL_ROOT_PASSWORD} \
+    ${NAMESPACE}
+
+magentoRefresh \
+    ${USER} \
+    ${NAMESPACE}_php \
+    ${SHOP_URI}
+
+permissionsSet \
+    ${USER}

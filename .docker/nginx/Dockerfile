@@ -1,4 +1,4 @@
-FROM pagespeed/nginx-pagespeed:ngx1.15
+FROM pagespeed/nginx-pagespeed
 
 LABEL maintainer="Osiozekhai Aliu"
 

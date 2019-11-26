@@ -1,4 +1,4 @@
-# The Docker Nginx(Pagespeed)-MySQL-PHP-Redis-Elastic Setup
+# Magento 2 Docker Nginx(Pagespeed)-MySQL-PHP-Redis-Elastic Setup
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 
@@ -13,11 +13,18 @@ This Setup installs the basic docker containers
 
 ## Installation
     
+> copy `.docker/config_blueprints/auth.json.sample` to `.docker/php/conf/auth.json`
+> and enter your credentials for repo.magento.com
+
+> [Howto Link](https://devdocs.magento.com/guides/v2.3/install-gde/prereq/connect-auth.html) 
+     
     # Install Magento 2
     chmod +x ./install.sh
     ./install.sh
      
 > Modify settings in .env
+
+> See `.docker/config_blueprints/env.php.sample` to configure `htdocs/app/etc/env.php` to use redis as cache, page_cache and session storage after installation
 
 ## Backend in Browser
     https://mage2.localhost/admin

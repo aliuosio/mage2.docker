@@ -13,6 +13,7 @@ reMoveEnv() {
 }
 
 dockerRefresh() {
+    docker-compose down;
     docker-compose build;
     docker-compose up -d;
 }
@@ -79,8 +80,14 @@ install() {
         --use-rewrites=1;
 }
 
-exchangeEnv() {
-    cp ./.docker/config_blueprints/env.php.sample htdocs/app/etc/env.php
+mailHogConfig() {
+    if [[ -f $1$2 ]]; then
+        echo "Importing $1$2 START";
+        cat $1$2 | docker exec -i $3 mysql -u root -p$4 $5;
+        echo "Importing $1$2 END";
+    else
+        echo "$1$2 not found";
+    fi;
 }
 
 magentoRefresh() {
@@ -92,16 +99,6 @@ magentoRefresh() {
         docker exec -it -u $1 $2 bin/magento c:e full_page;
         docker exec -it -u $1 $2 bin/magento deploy:mode:set production;
     fi
-}
-
-mailHogConfig() {
-    if [[ -f $1$2 ]]; then
-        echo "Importing $1$2 START";
-        cat $1$2 | docker exec -i $3 mysql -u root -p$4 $5;
-        echo "Importing $1$2 END";
-    else
-        echo "$1$2 not found";
-    fi;
 }
 
 permissionsSet() {
@@ -168,15 +165,14 @@ setDomain \
     ${NAMESPACE}_mysql \
     ${SHOP_URI}
 
-exchangeEnv
 getMagerun ${SHOP_URI}
 
-mailHogConfig \
-    ${DUMP_FOLDER} \
-    ${INSTALL_POST} \
-    ${NAMESPACE}_mysql \
-    ${MYSQL_ROOT_PASSWORD} \
-    ${NAMESPACE}
+#mailHogConfig \
+#    ${DUMP_FOLDER} \
+#    ${INSTALL_POST} \
+#    ${NAMESPACE}_mysql \
+#    ${MYSQL_ROOT_PASSWORD} \
+#    ${NAMESPACE}
 
 magentoRefresh \
     ${USER} \

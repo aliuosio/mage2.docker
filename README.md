@@ -104,6 +104,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 #### Todos
 * added Elastcisearch config instructions to README.md
+* remove auth.json instructions and handling
 * Elasticsearch 6.8.5 Upgrade from 5.2 
 * handle magento 2 cronjobs per docker container or add job to php container
 * add extra container for LESS and SASS Generation containing yarn/nodejs

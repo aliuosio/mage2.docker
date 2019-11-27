@@ -9,7 +9,7 @@ This Setup installs the basic docker containers
 
 ## Get Source
 
-    git clone git@github.com:aliuosio/mage2.docker.git
+    git clone https://github.com/aliuosio/mage2.docker.git
 
 ## Installation
     

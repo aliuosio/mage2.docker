@@ -13,8 +13,11 @@ reMoveEnv() {
 }
 
 dockerRefresh() {
-    docker-compose build;
-     docker-compose up -d;
+    echo "docker-compose build";
+    docker-compose build
+
+    echo "docker-compose up -d";
+    docker-compose up -d
 }
 
 composerPackages() {

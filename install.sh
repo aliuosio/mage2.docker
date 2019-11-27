@@ -23,7 +23,6 @@ dockerRefresh() {
 composerPackages() {
     docker exec -it -u $1 $2 composer global require hirak/prestissimo;
     docker exec -it -u $1 $2 composer install;
-    docker exec -it -u $1 $2 composer update;
 
     if [[ $3 != *"local"* ]]; then # remove composer packages in require-dev block
         docker exec -it -u $1 $2 composer update --no-dev;

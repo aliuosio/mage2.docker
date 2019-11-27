@@ -132,6 +132,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 #### Bugs
 * ~~check that all commands function in post-build.sh~~
 * ~~sampledata deploy error on docker-compose build~~
+* on first run of install.sh the MySQL Container is not ready for connections
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  
@@ -139,7 +140,6 @@ Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 #### License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 
 ## Docker Container Overview
 * ~~Magento Cronjobs~~

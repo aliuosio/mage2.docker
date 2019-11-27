@@ -53,6 +53,8 @@ reCreateDB() {
 
     echo "CREATE DATABASE $1;";
     docker exec -it $3 mysql -u root -p$2 -e "${DB_CREATE}";
+
+    sleep 3
 }
 
 install() {

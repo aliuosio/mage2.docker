@@ -1,4 +1,4 @@
 .idea/
 /htdocs/*
 !/htdocs/composer.json
-/certs/*
+certs/*

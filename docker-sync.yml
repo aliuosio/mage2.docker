@@ -11,7 +11,7 @@ syncs:
     - "-ignore='Path .git'"
     - "-ignore='BelowPath .git'"
   letsencrypt_certs:
-    src: ${PWD}/certs
+    src: ${PWD}/.docker/certs
     sync_strategy: 'native_osx'
     sync_args:
       - "-prefer newer"

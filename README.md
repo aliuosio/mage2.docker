@@ -104,6 +104,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 #### Todos
 * simplify letsencrypt certificate embedding in nginx container
+* mailhog configuration in install.sh
 * added Elastcisearch config instructions to README.md
 * remove auth.json instructions and handling
 * Elasticsearch 6.8.5 Upgrade from 5.2 
@@ -117,13 +118,10 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * ~~fix file permissions and ownership between containers and docker host~~
 * ~~move Magento 2 specific tools and config to post-build.sh called in docker-compose.yml~~
 * ~~move xdebug install & config to magento-install.sh band install after magento 2 install and sampledata~~
-* test with mounts instead of volumes
 * ~~setup script for PHP Container to set IP for xdebug or Domain~~
 * clean up alpine packages after build
-* ~~add composer package [magenerds/smtp](https://github.com/magenerds/smtp)~~
-* reduce the number of volumes
 * optimize pagespeed caching
-* ~~use pagespeed with redis cache~~
+* use pagespeed with redis cache
 * increase vm max count for elasticsearch without system reboot
 * Nginx Header Config passes at https://securityheaders.com/
 * set timezone in containers

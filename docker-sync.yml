@@ -3,11 +3,17 @@ version: "2"
 options:
   verbose: true
 syncs:
-  #IMPORTANT: ensure this name is unique and does not match your other container names
   app_data:
-    src: ${WORKDIR}
+    src: ${PWD}/htdocs
     sync_strategy: 'native_osx'
     sync_args:
     - "-prefer newer"
     - "-ignore='Path .git'"
     - "-ignore='BelowPath .git'"
+  letsencrypt_certs:
+    src: ${PWD}/certs
+    sync_strategy: 'native_osx'
+    sync_args:
+      - "-prefer newer"
+      - "-ignore='Path .git'"
+      - "-ignore='BelowPath .git'"

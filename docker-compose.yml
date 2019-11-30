@@ -26,6 +26,8 @@ services:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
       - redis_pagespeed_data:/var/cache/ngx_pagespeed
+      - letsencrypt_certs:/etc/letsencrypt/${SHOP_URI}
+      - letsencrypt_www:/var/www/letsencrypt
 
   php:
     build:
@@ -143,7 +145,7 @@ services:
     image: ${NAMESPACE}/letsencrypt
     command: /bin/true
     volumes:
-      - letsencrypt_certs:/etc/letsencrypt
+      - letsencrypt_certs:/etc/letsencrypt/${SHOP_URI}
       - letsencrypt_www:/var/www/letsencrypt
 
 #  watchtower:
@@ -202,4 +204,8 @@ volumes:
       device: tmpfs
   elastic_data:
   letsencrypt_certs:
+    driver_opts:
+      type: none
+      o: bind
+      device: $PWD/certs
   letsencrypt_www:

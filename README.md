@@ -103,6 +103,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 
 #### Todos
+* simplify letsencrypt certificate embedding in nginx container
 * added Elastcisearch config instructions to README.md
 * remove auth.json instructions and handling
 * Elasticsearch 6.8.5 Upgrade from 5.2 
@@ -131,8 +132,8 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 #### Bugs
 * ~~check that all commands function in post-build.sh~~
-* ~~sampledata deploy error on docker-compose build~~
-* on first run of install.sh the MySQL Container is not ready for connections
+* ~~sampledata deploy error on docker-compose build
+* on first run of install.sh the MySQL Container is not ready for connections 
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

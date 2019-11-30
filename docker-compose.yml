@@ -26,7 +26,7 @@ services:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
       - redis_pagespeed_data:/var/cache/ngx_pagespeed
-      - letsencrypt_certs:/etc/letsencrypt/${SHOP_URI}
+      - letsencrypt_certs:/etc/letsencrypt
       - letsencrypt_www:/var/www/letsencrypt
 
   php:
@@ -145,7 +145,7 @@ services:
     image: ${NAMESPACE}/letsencrypt
     command: /bin/true
     volumes:
-      - letsencrypt_certs:/etc/letsencrypt/${SHOP_URI}
+      - letsencrypt_certs:/etc/letsencrypt
       - letsencrypt_www:/var/www/letsencrypt
 
 #  watchtower:

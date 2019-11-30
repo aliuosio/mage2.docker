@@ -134,6 +134,23 @@ services:
     volumes:
       - /proc/sys/vm:/mnt/vm
 
+  letsencrypt:
+    container_name: ${NAMESPACE}_letsencrypt
+    build:
+      context: ./.docker/letsencrypt
+      args:
+        SHOP_URI: ${SHOP_URI}
+    image: ${NAMESPACE}/letsencrypt
+    command: /bin/true
+    volumes:
+      - letsencrypt_certs:/etc/letsencrypt
+      - letsencrypt_www:/var/www/letsencrypt
+
+  watchtower:
+    container_name: ${NAMESPACE}_watchtower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 #  apache:
 #    build:
@@ -160,24 +177,6 @@ services:
 #      - ${PWD}/.docker/apache/conf/httpd-mpm.conf:/usr/local/apache/conf/extra/httpd-mpm.conf
 #      - ${PWD}/.docker/apache/etc/apache2/ssl:/etc/apache2/ssl
 
-#  letsencrypt:
-#    container_name: ${NAMESPACE}_letsencrypt
-#    build:
-#      context: ./.docker/letsencrypt
-#      args:
-#        SHOP_URI: ${SHOP_URI}
-#    image: ${NAMESPACE}/letsencrypt
-#    command: /bin/true
-#    volumes:
-#      - letsencrypt_certs:/etc/letsencrypt
-#      - letsencrypt_www:/var/www/letsencrypt
-
-#  watchtower:
-#    container_name: ${NAMESPACE}_watchtower
-#    image: containrrr/watchtower
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-
 volumes:
   app_data:
     driver_opts:
@@ -202,5 +201,5 @@ volumes:
       type: tmpfs
       device: tmpfs
   elastic_data:
-  # letsencrypt_certs:
-  # letsencrypt_www:
+  letsencrypt_certs:
+  letsencrypt_www:

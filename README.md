@@ -12,11 +12,6 @@ This Setup installs the basic docker containers
     git clone https://github.com/aliuosio/mage2.docker.git
 
 ## Installation
-    
-> copy `.docker/config_blueprints/auth.json.sample` to `.docker/php/conf/auth.json`
-> and enter your credentials for repo.magento.com
-
-> [Howto Link](https://devdocs.magento.com/guides/v2.3/install-gde/prereq/connect-auth.html) 
      
     # Install Magento 2
     chmod +x ./install.sh

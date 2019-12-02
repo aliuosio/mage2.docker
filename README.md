@@ -97,7 +97,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [vpietri/adm-quickdevbar] (https://github.com/vpietri/magento2-developer-quickdevbar)
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 
-#### Todos
+### Todos
 * simplify letsencrypt certificate embedding in nginx container
 * mailhog configuration in install.sh
 * added Elastcisearch config instructions to README.md
@@ -123,9 +123,10 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * secure socket connection between containers
 * add varnish container and configure with magento 2
 
-#### Bugs
+### Bugs
+* Nginx certificate location reference
 * ~~check that all commands function in post-build.sh~~
-* ~~sampledata deploy error on docker-compose build
+* ~~sampledata deploy error on docker-compose build~~
 * on first run of install.sh the MySQL Container is not ready for connections 
 
 #### Contribute

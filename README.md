@@ -73,6 +73,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 
 
 ## Features
+* Nginx uses http2
 * alternative **OSX docker-compose** file using docker-sync **for better perfomance**
 * set project directory to where ever you want (as configurable option)
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
@@ -98,10 +99,11 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 
 ### Todos
+* mount ssl certs to host directory to fix OSX SSL Localhost certificate bug
 * simplify letsencrypt certificate embedding in nginx container
 * mailhog configuration in install.sh
 * added Elastcisearch config instructions to README.md
-* remove auth.json instructions and handling
+* ~~remove auth.json instructions and handling~~
 * Elasticsearch 6.8.5 Upgrade from 5.2 
 * handle magento 2 cronjobs per docker container or add job to php container
 * add extra container for LESS and SASS Generation containing yarn/nodejs
@@ -134,7 +136,8 @@ Please Contribute by creating a fork of this repository.
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 #### License
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://openng.de
+source.org/licenses/MIT)
 
 ## Docker Container Overview
 * ~~Magento Cronjobs~~

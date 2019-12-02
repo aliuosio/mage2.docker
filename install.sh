@@ -49,11 +49,11 @@ reCreateDB() {
 
     echo "DROP DATABASE $1;";
     docker exec -it $3 mysql -u root -p$2 -e "${DB_DROP}";
+    sleep 5
 
     echo "CREATE DATABASE $1;";
     docker exec -it $3 mysql -u root -p$2 -e "${DB_CREATE}";
-
-    sleep 3
+    sleep 5
 }
 
 install() {
@@ -62,7 +62,7 @@ install() {
 
     echo "docker exec -it -u $1 $3 bin/magento setup:install";
     docker exec -it -u $1 $3 bin/magento setup:install \
-        --db-host=mysql \
+        --db-host=mariadb \
         --db-name=$4 \
         --db-user=$5 \
         --db-password=$6 \
@@ -147,7 +147,7 @@ dockerRefresh
 reCreateDB \
     ${NAMESPACE} \
     ${MYSQL_ROOT_PASSWORD} \
-    ${NAMESPACE}_mysql
+    ${NAMESPACE}_mariadb
 
 composerPackages \
     ${USER} \
@@ -165,7 +165,7 @@ install \
 setDomain \
     ${NAMESPACE} \
     ${MYSQL_ROOT_PASSWORD} \
-    ${NAMESPACE}_mysql \
+    ${NAMESPACE}_mariadb \
     ${SHOP_URI}
 
 getMagerun ${SHOP_URI}
@@ -173,7 +173,7 @@ getMagerun ${SHOP_URI}
 #mailHogConfig \
 #    ${DUMP_FOLDER} \
 #    ${INSTALL_POST} \
-#    ${NAMESPACE}_mysql \
+#    ${NAMESPACE}_mariadb \
 #    ${MYSQL_ROOT_PASSWORD} \
 #    ${NAMESPACE}
 

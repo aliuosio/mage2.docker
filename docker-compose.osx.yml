@@ -28,6 +28,7 @@ services:
       - redis_pagespeed_data:/var/cache/ngx_pagespeed
       - letsencrypt_certs:/etc/letsencrypt
       - letsencrypt_www:/var/www/letsencrypt
+    restart: unless-stopped
 
   php:
     build:
@@ -45,34 +46,29 @@ services:
       net.core.somaxconn: '65536'
     working_dir: /home/${USER}/html
     depends_on:
-      - mysql
+      - mariadb
       - redis
       - elasticsearch
     volumes:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php:cached
-      - mysql_socket:/var/run/mysqld:cached
+      - mariadb_socket:/var/run/mysqld:cached
       - ${PWD}/.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
 
-  mysql:
-    build:
-      context: ./.docker/mysql
-      args:
-        TZ: ${TZ}
-        USER: ${USER}
-    container_name: ${NAMESPACE}_mysql
-    image: ${NAMESPACE}/mysql
+  mariadb:
+    image: mariadb:latest
+    container_name: ${NAMESPACE}_mariadb
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - mysql_data:/var/lib/mysql/
-      - mysql_socket:/var/run/mysqld
-      - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d/
     ports:
-      - ${MYSQL_DATABASE_EXTERNAL_PORT}:3306
+      - 3306:3306
+    volumes:
+      - mariadb_socket:/var/run/mysqld
+      - mariadb_data:/var/lib/mysql/
+      - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d/
 
   redis:
     build:
@@ -186,8 +182,8 @@ volumes:
     driver_opts:
       type: tmpfs
       device: tmpfs
-  mysql_data:
-  mysql_socket:
+  mariadb_data:
+  mariadb_socket:
     driver_opts:
       type: tmpfs
       device: tmpfs

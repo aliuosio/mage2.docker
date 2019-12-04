@@ -62,11 +62,9 @@ reCreateDB() {
 
     echo "DROP DATABASE $1;";
     docker exec -it $3 mysql -u root -p$2 -e "${DB_DROP}";
-    sleep 5
 
     echo "CREATE DATABASE $1;";
     docker exec -it $3 mysql -u root -p$2 -e "${DB_CREATE}";
-    sleep 5
 }
 
 install() {
@@ -165,7 +163,7 @@ composerPackages \
 reCreateDB \
     ${NAMESPACE} \
     ${MYSQL_ROOT_PASSWORD} \
-    ${NAMESPACE}_mysql
+    ${NAMESPACE}_db
 
 install \
     ${USER} \
@@ -178,7 +176,7 @@ install \
 setDomain \
     ${NAMESPACE} \
     ${MYSQL_ROOT_PASSWORD} \
-    ${NAMESPACE}_mysql \
+    ${NAMESPACE}_db \
     ${SHOP_URI}
 
 exchangeEnv
@@ -188,7 +186,7 @@ getMagerun ${SHOP_URI}
 #mailHogConfig \
 #    ${DUMP_FOLDER} \
 #    ${INSTALL_POST} \
-#    ${NAMESPACE}_mysql \
+#    ${NAMESPACE}_db \
 #    ${MYSQL_ROOT_PASSWORD} \
 #    ${NAMESPACE}
 

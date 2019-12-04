@@ -12,7 +12,14 @@ reMoveEnv() {
     fi
 }
 
+exchangeEnv() {
+    cp ./.docker/config_blueprints/env.php.sample htdocs/app/etc/env.php
+}
+
 dockerRefresh() {
+
+    OS=$(uname -s)
+
     echo "docker-compose build";
     docker-compose build
 
@@ -62,7 +69,7 @@ install() {
 
     echo "docker exec -it -u $1 $3 bin/magento setup:install";
     docker exec -it -u $1 $3 bin/magento setup:install \
-        --db-host=mariadb \
+        --db-host=db \
         --db-name=$4 \
         --db-user=$5 \
         --db-password=$6 \
@@ -144,15 +151,15 @@ getLatestFromRepo
 reMoveEnv
 dockerRefresh
 
-reCreateDB \
-    ${NAMESPACE} \
-    ${MYSQL_ROOT_PASSWORD} \
-    ${NAMESPACE}_mariadb
-
 composerPackages \
     ${USER} \
     ${NAMESPACE}_php \
     ${SHOP_URI}
+
+reCreateDB \
+    ${NAMESPACE} \
+    ${MYSQL_ROOT_PASSWORD} \
+    ${NAMESPACE}_mysql
 
 install \
     ${USER} \
@@ -165,15 +172,17 @@ install \
 setDomain \
     ${NAMESPACE} \
     ${MYSQL_ROOT_PASSWORD} \
-    ${NAMESPACE}_mariadb \
+    ${NAMESPACE}_mysql \
     ${SHOP_URI}
+
+exchangeEnv
 
 getMagerun ${SHOP_URI}
 
 #mailHogConfig \
 #    ${DUMP_FOLDER} \
 #    ${INSTALL_POST} \
-#    ${NAMESPACE}_mariadb \
+#    ${NAMESPACE}_mysql \
 #    ${MYSQL_ROOT_PASSWORD} \
 #    ${NAMESPACE}
 

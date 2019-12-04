@@ -26,9 +26,8 @@ services:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
       - redis_pagespeed_data:/var/cache/ngx_pagespeed
-      - letsencrypt_certs:/etc/letsencrypt
+      - letsencrypt_certs:/etc/nginx/ssl
       - letsencrypt_www:/var/www/letsencrypt
-    restart: unless-stopped
 
   php:
     build:
@@ -46,25 +45,27 @@ services:
       net.core.somaxconn: '65536'
     working_dir: /home/${USER}/html
     depends_on:
-      - mariadb
+      - db
       - redis
       - elasticsearch
+    links:
+      - db
     volumes:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php:cached
       - mariadb_socket:/var/run/mysqld:cached
       - ${PWD}/.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
 
-  mariadb:
+  db:
     image: mariadb:latest
-    container_name: ${NAMESPACE}_mariadb
+    container_name: ${NAMESPACE}_db
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
-      - 3306:3306
+    expose:
+      - 3306
     volumes:
       - mariadb_socket:/var/run/mysqld
       - mariadb_data:/var/lib/mysql/
@@ -141,7 +142,7 @@ services:
     image: ${NAMESPACE}/letsencrypt
     command: /bin/true
     volumes:
-      - letsencrypt_certs:/etc/letsencrypt
+      - letsencrypt_certs:/etc/nginx/ssl
       - letsencrypt_www:/var/www/letsencrypt
 
 #  watchtower:
@@ -191,17 +192,7 @@ volumes:
       type: tmpfs
       device: tmpfs
   redis_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   redis_pagespeed_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   elastic_data:
   letsencrypt_certs:
-    driver_opts:
-      type: none
-      o: bind
-      device: $PWD/.docker/certs
   letsencrypt_www:

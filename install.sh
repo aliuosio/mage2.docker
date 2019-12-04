@@ -18,13 +18,19 @@ exchangeEnv() {
 
 dockerRefresh() {
 
-    OS=$(uname -s)
+    if [[ $(uname -s) == "Darwin" ]]; then
+        echo "docker-compose -f docker-compose.osx.yml build";
+        docker-compose -f docker-compose.osx.yml build
 
-    echo "docker-compose build";
-    docker-compose build
+        echo "docker-compose -f docker-compose.osx.yml up -d";
+        docker-compose -f docker-compose.osx.yml up -d;
+    else
+        echo "docker-compose build;";
+        docker-compose build;
 
-    echo "docker-compose up -d";
-    docker-compose up -d
+        echo "docker-compose up -d;";
+        docker-compose up -d;
+    fi;
 }
 
 composerPackages() {

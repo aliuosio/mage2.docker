@@ -31,7 +31,11 @@ This Setup installs the basic docker containers
     
 ## next startup after installation
 
+    Linux:
     docker-compose up -d
+    
+    OSX:
+    docker-compose -f docker-compose.osx.yml up -d
 
 ## PHP Container Usage
     

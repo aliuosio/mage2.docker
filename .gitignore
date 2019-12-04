@@ -2,3 +2,5 @@
 /htdocs/*
 !/htdocs/composer.json
 certs/*
+/.docker-sync/
+auth.json

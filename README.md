@@ -15,8 +15,7 @@ This Setup installs the basic docker containers
     
     > OSX only
     docker-sync start;
-    get it here before running the command:
-    [docker-sync.io](http://docker-sync.io)
+> get it here before running the command: [docker-sync.io](http://docker-sync.io)
          
     # Install Magento 2
     chmod +x ./install.sh

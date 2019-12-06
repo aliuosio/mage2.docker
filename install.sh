@@ -14,7 +14,8 @@ reMoveEnv() {
 
 SSlHostPathCreation() {
     if [ ! -d "$PWD/.docker/nginx/ssl" ]; then
-        mkdir $PWD/.docker/nginx/ssl
+        mkdir $PWD/.docker/nginx/ssl;
+        chown -R ${USER}:${USER} $PWD/.docker/nginx/ssl
     fi
 }
 

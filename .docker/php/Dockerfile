@@ -44,7 +44,6 @@ RUN apk update && apk upgrade --available \
         icu-dev \
         g++ \
     && docker-php-ext-configure gd \
-        --enable-gd-native-ttf \
         --with-freetype-dir=/usr/include/freetype2 \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu/ \
     && docker-php-ext-configure hash --with-mhash \

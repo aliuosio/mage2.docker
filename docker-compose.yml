@@ -195,4 +195,8 @@ volumes:
   redis_pagespeed_data:
   elastic_data:
   letsencrypt_certs:
+    driver_opts:
+      type: none
+      o: bind
+      device: $PWD/.docker/nginx/ssl
   letsencrypt_www:

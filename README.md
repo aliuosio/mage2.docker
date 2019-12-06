@@ -29,6 +29,7 @@ This Setup installs the basic docker containers
 ## Frontend in Browser
     https://mage2.localhost/
     
+> on OSX add the keys in `.docker/nginx/ssl`  to your keychain to use https in browser  
 ## next startup after installation
 
     Linux:

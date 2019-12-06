@@ -19,8 +19,6 @@ This Setup installs the basic docker containers
      
 > Modify settings in .env
 
-> See `.docker/config_blueprints/env.php.sample` to configure `htdocs/app/etc/env.php` to use redis as cache, page_cache and session storage after installation
-
 ## Backend in Browser
     https://mage2.localhost/admin
     User: admin

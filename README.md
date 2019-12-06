@@ -12,7 +12,10 @@ This Setup installs the basic docker containers
     git clone https://github.com/aliuosio/mage2.docker.git
 
 ## Installation
-     
+    
+    > OSX only
+    docker-sync start; 
+         
     # Install Magento 2
     chmod +x ./install.sh
     ./install.sh
@@ -34,7 +37,8 @@ This Setup installs the basic docker containers
     docker-compose up -d
     
     OSX:
-    docker-compose -f docker-compose.osx.yml up -d
+    docker-sync start;
+    docker-compose -f docker-compose.osx.yml up -d;
 
 ## PHP Container Usage
     

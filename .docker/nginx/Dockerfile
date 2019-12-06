@@ -41,3 +41,6 @@ RUN if [ "$AUTH_CONFIG" = "true" ]; then \
     fi
 
 RUN chown -R ${USER}:${USER} /etc/nginx/ssl/
+
+RUN chown -R ${USER}:${USER} /var/cache/ngx_pagespeed \
+    && chmod 755 -R /var/cache/ngx_pagespeed

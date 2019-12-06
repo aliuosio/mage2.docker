@@ -4,4 +4,5 @@
 certs/*
 /.docker-sync/
 auth.json
-/.docker/nginx/ssl/
+/.docker/nginx/ssl/*
+!/.docker/nginx/ssl/

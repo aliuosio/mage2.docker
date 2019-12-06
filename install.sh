@@ -12,6 +12,12 @@ reMoveEnv() {
     fi
 }
 
+SSlHostPathCreation() {
+    if [ ! -d "$PWD/.docker/nginx/ssl" ]; then
+        mkdir $PWD/.docker/nginx/ssl
+    fi
+}
+
 exchangeEnv() {
     cp ./.docker/config_blueprints/env.php.sample htdocs/app/etc/env.php
 }
@@ -152,6 +158,7 @@ setDomain() {
 . ${PWD}/.env;
 
 getLatestFromRepo
+SSlHostPathCreation
 reMoveEnv
 dockerRefresh
 

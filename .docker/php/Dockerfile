@@ -12,7 +12,6 @@ ARG USER
 
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini /usr/local/etc/php/conf.d/
-COPY conf/auth.json /home/$USER/.composer/
 
 RUN apk update && apk upgrade --available \
     && apk add --virtual build-dependencies \

@@ -108,6 +108,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 ### Todos
 * add prompt to install.sh for ssl or non-ssl config of nginx
+* add instructions to README for adding existing projects to this Docker Stack
 * add prompt o choose between nginx wiht pagespeed or apache without pagespeed
 * add pagespeed to apache if choosen
 * mount ssl certs to host directory to fix OSX SSL Localhost certificate bug

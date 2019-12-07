@@ -107,6 +107,9 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 
 ### Todos
+* add prompt to install.sh for ssl or non-ssl config of nginx
+* add prompt o choose between nginx wiht pagespeed or apache without pagespeed
+* add pagespeed to apache if choosen
 * mount ssl certs to host directory to fix OSX SSL Localhost certificate bug
 * simplify letsencrypt certificate embedding in nginx container
 * mailhog configuration in install.sh

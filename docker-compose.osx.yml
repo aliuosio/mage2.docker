@@ -192,5 +192,4 @@ volumes:
   redis_pagespeed_data:
   elastic_data:
   letsencrypt_certs:
-    external: true
   letsencrypt_www:

@@ -110,10 +110,10 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * add prompt to install.sh for ssl or non-ssl config of nginx
 * add instructions to README for adding existing projects to this Docker Stack
 * add prompt o choose between nginx wiht pagespeed or apache without pagespeed
-* add pagespeed to apache if choosen
+* add pagespeed to apache if chosen
 * mount ssl certs to host directory to fix OSX SSL Localhost certificate bug
 * simplify letsencrypt certificate embedding in nginx container
-* mailhog configuration in install.sh
+* add mailhog configuration to install.sh
 * added Elastcisearch config instructions to README.md
 * ~~remove auth.json instructions and handling~~
 * Elasticsearch 6.8.5 Upgrade from 5.2 

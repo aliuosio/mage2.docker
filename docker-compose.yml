@@ -1,5 +1,7 @@
 version: '3.7'
+
 services:
+
   nginx:
     build:
       context: ./.docker/nginx
@@ -143,6 +145,7 @@ services:
     volumes:
       - letsencrypt_certs:/etc/nginx/ssl
       - letsencrypt_www:/var/www/letsencrypt
+
 volumes:
   app_data:
     driver_opts:

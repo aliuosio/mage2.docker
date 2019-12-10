@@ -75,8 +75,10 @@ services:
       - elasticsearch
     links:
       - db
+    environment:
+      COMPOSER_CACHE_DIR: /home/${USER}/.composer
     volumes:
-      - ~/.composer:/home/${USER}/.composer
+      - ~/.cache/composer:/home/${USER}/.composer
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php:cached
       - mariadb_socket:/var/run/mysqld:cached

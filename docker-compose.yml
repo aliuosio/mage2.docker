@@ -81,10 +81,10 @@ services:
     container_name: ${NAMESPACE}_redis
     image: ${NAMESPACE}/redis
     sysctls:
-      net.core.somaxconn: 1024
+      net.core.somaxconn: '1024'
     volumes:
       - redis_data:/data
-      -
+
   redis_pagespeed:
     build:
       context: ./.docker/redis
@@ -94,7 +94,7 @@ services:
     container_name: ${NAMESPACE}_redis_pagespeed
     image: ${NAMESPACE}/redis
     sysctls:
-      net.core.somaxconn: 1024
+      net.core.somaxconn: '1024'
     volumes:
       - redis_pagespeed_data:/data
 
@@ -123,13 +123,13 @@ services:
         hard: -1
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
-      -
+
   host-settings:
     build:
       context: ./.docker/host-settings
     container_name: ${NAMESPACE}_host-settings
     image: ${NAMESPACE}/host-settings
-    restart: no
+    restart: 'no'
     privileged: true
     volumes:
       - /proc/sys/vm:/mnt/vm
@@ -147,22 +147,28 @@ services:
       - letsencrypt_www:/var/www/letsencrypt
 
 volumes:
+  mariadb_data:
+  elastic_data:
+  letsencrypt_certs:
+  letsencrypt_www:
+  php_socket:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  mariadb_socket:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  redis_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  redis_pagespeed_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
   app_data:
     driver_opts:
       type: none
       o: bind
       device: $PWD/htdocs
-  php_socket:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  mariadb_data: null
-  mariadb_socket:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  redis_data: null
-  redis_pagespeed_data: null
-  elastic_data: null
-  letsencrypt_certs: null
-  letsencrypt_www: null

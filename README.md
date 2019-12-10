@@ -12,9 +12,6 @@ This Setup installs the basic docker containers
     git clone https://github.com/aliuosio/mage2.docker.git
 
 ## Installation
-    
-    > OSX only
-    docker-sync start;
 > get it here before running the command: [docker-sync.io](http://docker-sync.io)
          
     # Install Magento 2
@@ -88,7 +85,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx uses **Pagespeed** Module
 * both **PHP GD and PHP Imagick** are installed
-* nodejs any yarn for [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
+* [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled

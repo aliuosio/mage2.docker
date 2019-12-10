@@ -11,7 +11,7 @@
         "sort-packages": true
     },
     "require": {
-        "magento/product-community-edition": "2.3.2",
+        "magento/product-community-edition": "2.3.3",
         "magepal/magento2-gmailsmtpapp": "^2.6"
     },
     "require-dev": {

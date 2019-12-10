@@ -10,7 +10,6 @@ RUN apk update && apk upgrade --available
 RUN ln -sf /usr/share/zoneinfo/Etc/UTC  /etc/localtime \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
-    && chmod -R 775 /data \
-    && chown redis:redis -R /data \
+    && chmod -R 777 /data \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*

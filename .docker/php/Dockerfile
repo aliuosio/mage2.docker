@@ -34,7 +34,6 @@ RUN apk update && apk upgrade --available \
         imagemagick-dev \
         imagemagick \
         bc \
-        yarn \
     && apk add --virtual .php-deps \
         make \
     && apk add --virtual .build-deps \
@@ -83,8 +82,7 @@ RUN apk update && apk upgrade --available \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer \
     && chown -R ${USER}:${USER} /home/${USER} \
-    && chmod 775 $WORKDIR_SERVER \
-    && echo "export PATH=/home/${USER}/html/node_modules/.bin:\$PATH" >> /home/${USER}/.bash_profile
+    && chmod 775 $WORKDIR_SERVER
 
 RUN rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear

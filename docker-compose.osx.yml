@@ -2,6 +2,31 @@ version: '3.7'
 
 services:
 
+  #  apache:
+  #    build:
+  #      context: ./.docker/apache
+  #      args:
+  #        TZ: ${TZ}
+  #        USER: ${USER}
+  #        WORKDIR_SERVER: /home/${USER}/html
+  #        SHOP_URI: ${SHOP_URI}
+  #        AUTH_CONFIG: ${AUTH_CONFIG}
+  #        AUTH_USER: ${AUTH_USER}
+  #        AUTH_PASS: ${AUTH_PASS}
+  #    container_name: ${NAMESPACE}_apache
+  #    image: ${NAMESPACE}/apache
+  #    working_dir: /home/${USER}/html
+  #    depends_on:
+  #      - php
+  #    ports:
+  #      - ${APACHE_SECURE_PORT}:443
+  #      - ${APACHE_UNSECURE_PORT}:80
+  #    volumes:
+  #      - app_data:/home/${USER}/html:delegated
+  #      - php_socket:/var/run/php:cached
+  #      - ${PWD}/.docker/apache/conf/httpd-mpm.conf:/usr/local/apache/conf/extra/httpd-mpm.conf
+  #      - ${PWD}/.docker/apache/etc/apache2/ssl:/etc/apache2/ssl
+
   nginx:
     build:
       context: ./.docker/nginx
@@ -152,8 +177,20 @@ volumes:
   letsencrypt_certs:
   letsencrypt_www:
   php_socket:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
   mariadb_socket:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
   redis_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
   redis_pagespeed_data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
   app_data:
     external: true

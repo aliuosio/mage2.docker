@@ -12,29 +12,24 @@ reMoveEnv() {
     fi
 }
 
-SSlHostPathCreation() {
-    if [ ! -d "$PWD/.docker/nginx/ssl" ]; then
-        mkdir $PWD/.docker/nginx/ssl;
-        chown -R ${USER}:${USER} $PWD/.docker/nginx/ssl
-    fi
-}
-
 exchangeEnv() {
     cp ./.docker/config_blueprints/env.php.sample htdocs/app/etc/env.php
 }
 
 dockerRefresh() {
+    echo "docker-compose build";
+    docker-compose build
 
     if [[ $(uname -s) == "Darwin" ]]; then
-        echo "docker-compose -f docker-compose.osx.yml build";
-        docker-compose -f docker-compose.osx.yml build
+        echo "gem install docker-sync";
+        gem install docker-sync;
+
+        echo "docker-sync start;";
+        docker-sync start;
 
         echo "docker-compose -f docker-compose.osx.yml up -d";
         docker-compose -f docker-compose.osx.yml up -d;
     else
-        echo "docker-compose build;";
-        docker-compose build;
-
         echo "docker-compose up -d;";
         docker-compose up -d;
     fi;
@@ -156,10 +151,21 @@ setDomain() {
     echo "URL Settings and Cookie Domain END";
 }
 
+Installer() {
+    echo -n "Do you want to use the Webserver with SSL (y/n)? "
+    read answer
+    if [[ $(uname -s) != "Darwin" ]]; then
+        if [ "$answer" != "${answer#[Yy]}" ] ;then
+            echo Yes
+        else
+            echo No
+        fi
+    fi
+}
+
 . ${PWD}/.env;
 
 getLatestFromRepo
-SSlHostPathCreation
 reMoveEnv
 dockerRefresh
 

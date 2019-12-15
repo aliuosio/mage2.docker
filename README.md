@@ -29,13 +29,8 @@ This Setup installs the basic docker containers
     
 > on OSX add the keys in `.docker/nginx/ssl`  to your keychain to use https in browser  
 ## next startup after reboot of Host
-
-    Linux:
+   
     docker-compose up -d
-    
-    OSX:
-    docker-sync start;
-    docker-compose -f docker-compose.osx.yml up -d;
 
 ## PHP Container Usage
     

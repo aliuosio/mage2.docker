@@ -24,19 +24,19 @@ dockerRefresh() {
     echo "docker-compose build";
     docker-compose build
 
-    if [[ $(uname -s) == "Darwin" ]]; then
-        echo "gem install docker-sync";
-        gem install docker-sync;
-
-        echo "docker-sync start;";
-        docker-sync start;
-
-        echo "docker-compose -f docker-compose.osx.yml up -d";
-        docker-compose -f docker-compose.osx.yml up -d;
-    else
+#    if [[ $(uname -s) == "Darwin" ]]; then
+#        echo "gem install docker-sync";
+#        gem install docker-sync;
+#
+#        echo "docker-sync start;";
+#        docker-sync start;
+#
+#        echo "docker-compose -f docker-compose.osx.yml up -d";
+#        docker-compose -f docker-compose.osx.yml up -d;
+#    else
         echo "docker-compose up -d;";
-        docker-compose up -d;
-    fi;
+#        docker-compose up -d;
+#    fi;
 }
 
 composerPackages() {

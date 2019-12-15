@@ -18,7 +18,7 @@ exchangeEnv() {
 
 dockerRefresh() {
     if [[ $(uname -s) == "Darwin" ]]; then
-        sed -i "s#SSL=true#SSL=false#g" ./.env
+        sed -i '' 's/SSL=true/SSL=false/g' ${PWD}/.env
     fi;
 
     echo "docker-compose build";

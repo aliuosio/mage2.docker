@@ -22,7 +22,17 @@ dockerRefresh() {
 
     if [[ $(uname -s) == "Darwin" ]]; then
         echo "gem install docker-sync";
-        gem install docker-sync;
+        gem install --user-install docker-sync;
+
+        if which ruby >/dev/null && which gem >/dev/null; then
+            PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+            if test -f ~/.bash_profile; then
+                source ~/.bash_profile
+            fi
+            if test -f ~/.bashrc; then
+                source ~/.bashrc
+            fi
+        fi
 
         echo "docker-sync start;";
         docker-sync start;

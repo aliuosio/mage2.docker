@@ -75,7 +75,7 @@ install() {
 
     echo "docker exec -it -u $1 $3 bin/magento setup:install";
     docker exec -it -u $1 $3 bin/magento setup:install \
-        --db-host=db \
+        --db-host=/var/run/mysqld/mysqld.sock \
         --db-name=$4 \
         --db-user=$5 \
         --db-password=$6 \
@@ -174,10 +174,10 @@ composerPackages \
     ${NAMESPACE}_php \
     ${SHOP_URI}
 
-reCreateDB \
-    ${NAMESPACE} \
-    ${MYSQL_ROOT_PASSWORD} \
-    ${NAMESPACE}_db
+#reCreateDB \
+#    ${NAMESPACE} \
+#    ${MYSQL_ROOT_PASSWORD} \
+#    ${NAMESPACE}_db
 
 install \
     ${USER} \

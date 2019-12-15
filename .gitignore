@@ -6,3 +6,5 @@ certs/*
 auth.json
 /.docker/nginx/ssl/*
 !/.docker/nginx/ssl/
+/.docker/redis/conf/*
+!/.docker/redis/conf/redis.conf

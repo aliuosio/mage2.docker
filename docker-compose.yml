@@ -78,6 +78,7 @@ services:
     environment:
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
     volumes:
+      - redis_data_socket:/var/run/redis
       - ~/.cache/composer:/home/${USER}/.composer
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php:cached
@@ -109,8 +110,11 @@ services:
     image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'
+    command: redis-server /etc/redis/redis.conf --appendonly yes
     volumes:
       - redis_data:/data
+      - redis_data_socket:/var/run/redis
+      - redis_data_conf:/etc/redis/
 
   redis_pagespeed:
     build:
@@ -190,6 +194,15 @@ volumes:
     driver_opts:
       type: tmpfs
       device: tmpfs
+  redis_data_socket:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  redis_data_conf:
+    driver_opts:
+      type: none
+      o: bind
+      device: $PWD/.docker/redis/conf
   redis_pagespeed_data:
     driver_opts:
       type: tmpfs

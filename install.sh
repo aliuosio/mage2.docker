@@ -75,7 +75,7 @@ install() {
 
     echo "docker exec -it -u $1 $3 bin/magento setup:install";
     docker exec -it -u $1 $3 bin/magento setup:install \
-        --db-host=/var/run/mysqld/mysqld.sock \
+        --db-host=db \
         --db-name=$4 \
         --db-user=$5 \
         --db-password=$6 \
@@ -195,8 +195,6 @@ setDomain \
 
 exchangeEnv
 
-getMagerun ${SHOP_URI}
-
 #mailHogConfig \
 #    ${DUMP_FOLDER} \
 #    ${INSTALL_POST} \
@@ -208,6 +206,8 @@ magentoRefresh \
     ${USER} \
     ${NAMESPACE}_php \
     ${SHOP_URI}
+
+getMagerun ${SHOP_URI}
 
 permissionsSet \
     ${USER}

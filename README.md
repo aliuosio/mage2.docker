@@ -12,7 +12,6 @@ This Setup installs the basic docker containers
     git clone https://github.com/aliuosio/mage2.docker.git
 
 ## Installation
-> get it here before running the command: [docker-sync.io](http://docker-sync.io)
          
     # Install Magento 2
     chmod +x ./install.sh
@@ -21,22 +20,17 @@ This Setup installs the basic docker containers
 > Modify settings in .env
 
 ## Backend in Browser
-    https://mage2.localhost/admin
+    https://mage2.localhost/admin (OSX: http://mage2.localhost/admin)
     User: admin
     Password: admin123
     
 ## Frontend in Browser
-    https://mage2.localhost/
+    https://mage2.localhost (OSX: http://mage2.localhost)
     
 > on OSX add the keys in `.docker/nginx/ssl`  to your keychain to use https in browser  
-## next startup after installation
-
-    Linux:
+## next startup after reboot of Host
+   
     docker-compose up -d
-    
-    OSX:
-    docker-sync start;
-    docker-compose -f docker-compose.osx.yml up -d;
 
 ## PHP Container Usage
     

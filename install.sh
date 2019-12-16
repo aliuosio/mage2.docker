@@ -32,22 +32,12 @@ dockerRefresh() {
         fi
         sed -i '' 's/SSL=true/SSL=false/g' ${PWD}/.env
     fi;
-    echo "docker-compose build";
+
+    echo "docker-compose build"
     docker-compose build
 
-#    if [[ $(uname -s) == "Darwin" ]]; then
-#        echo "gem install docker-sync";
-#        gem install docker-sync;
-#
-#        echo "docker-sync start;";
-#        docker-sync start;
-#
-#        echo "docker-compose -f docker-compose.osx.yml up -d";
-#        docker-compose -f docker-compose.osx.yml up -d;
-#    else
-        echo "docker-compose up -d;";
-#        docker-compose up -d;
-#    fi;
+    echo "docker-compose up -d"
+    docker-compose up -d
 }
 
 composerPackages() {

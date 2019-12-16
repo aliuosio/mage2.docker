@@ -8,7 +8,7 @@ getLatestFromRepo() {
 }
 reMoveEnv() {
     if [ -f htdocs/app/etc/env.php ]; then
-        rm htdocs/app/etc/env.php
+        rm -rf htdocs/app/etc/env.php
     fi
 }
 

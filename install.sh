@@ -204,7 +204,7 @@ permissionsSet() {
 setDomain() {
     SET_URL_SECURE="USE $1; UPDATE core_config_data SET value='https://$5/' WHERE path='web/secure/base_url';";
     SET_URL_UNSECURE="USE $1; UPDATE core_config_data SET value='http://$5/' WHERE path='web/unsecure/base_url';";
-    SET_URL_COOKIE="USE $1; UPDATE core_config_data SET value='$5' WHERE path='web/cookie/cookie_domain';";
+    SET_URL_COOKIE="USE $1; INSERT core_config_data(value, path) VALUES('$5', 'web/cookie/cookie_domain');";
 
     echo "URL Settings and Cookie Domain START";
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SECURE}";

@@ -8,12 +8,8 @@ getLatestFromRepo() {
 }
 
 createEnv() {
-    if [ ! -f ./.env ]; then
-        if [ -f ./.env.template ]; then
-            echo "cp ./.env.template ./.env";
-            cp ./.env.template ./.env
-        fi;
-    fi;
+    echo "cp ./.env.template ./.env";
+    cp ./.env.template ./.env
 }
 
 reMoveMagentoEnv() {

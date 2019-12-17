@@ -71,6 +71,8 @@ dockerRefresh() {
         echo "docker-compose up -d"
         docker-compose up -d;
     fi;
+
+    sleep 5
 }
 
 composerPackages() {

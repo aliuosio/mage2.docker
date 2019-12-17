@@ -32,6 +32,7 @@ services:
       context: ./.docker/nginx
       args:
         USER: ${USER}
+        SSL: ${SSL}
         TZ: ${TZ}
         WORKDIR_SERVER: /home/${USER}/html
         SHOP_URI: ${SHOP_URI}

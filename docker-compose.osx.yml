@@ -50,7 +50,6 @@ services:
     volumes:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
-      - redis_pagespeed_data:/var/cache/ngx_pagespeed
       - letsencrypt_certs:/etc/nginx/ssl
       - letsencrypt_www:/var/www/letsencrypt
 
@@ -82,7 +81,7 @@ services:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php:cached
       - mariadb_socket:/var/run/mysqld:cached
-      - ~/.cache/composer:/home/${USER}/.composer:delegated
+      - ~/.cache/composer:/home/${USER}/.composer:cached
       - ./.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
 
   db:
@@ -116,7 +115,6 @@ services:
     entrypoint: redis-server
     command: ["/etc/redis/redis.conf", "--appendonly", "yes"]
     volumes:
-      - redis_data:/data
       - redis_data_socket:/var/run/redis
       - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf
 
@@ -130,8 +128,6 @@ services:
     image: ${NAMESPACE}/redis
     sysctls:
       net.core.somaxconn: '1024'
-    volumes:
-      - redis_pagespeed_data:/data
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog
@@ -186,8 +182,6 @@ volumes:
   elastic_data:
   letsencrypt_certs:
   letsencrypt_www:
-  redis_data:
-  redis_pagespeed_data:
   php_socket:
   mariadb_socket:
   redis_data_socket:

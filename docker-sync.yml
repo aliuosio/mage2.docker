@@ -1,5 +1,4 @@
 version: "2"
-
 options:
   verbose: true
 syncs:

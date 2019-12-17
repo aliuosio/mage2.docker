@@ -108,17 +108,6 @@ getMagerun() {
     fi;
 }
 
-reCreateDB() {
-    DB_DROP="DROP DATABASE IF EXISTS $1";
-    DB_CREATE="CREATE DATABASE IF NOT EXISTS $1";
-
-    echo "docker exec -it $3 mysql -u root -p$2 -e '${DB_DROP}'";
-    docker exec -it $3 mysql -u root -p$2 -e '${DB_DROP}'
-
-    echo "docker exec -it $3 mysql -u root -p$2 -e '${DB_CREATE}'";
-    docker exec -it $3 mysql -u root -p$2 -e '${DB_CREATE}'
-}
-
 install() {
     echo "docker exec -it -u $1 $3 chmod +x bin/magento";
     docker exec -it -u $1 $3 chmod +x bin/magento
@@ -211,7 +200,7 @@ permissionsSet() {
 
         cd ..;
     end=`date +%s`
-    runtime=$((end-start))
+    runtime=$((end-start))  
 
     echo $runtime "Sec";
 }
@@ -235,7 +224,6 @@ createEnv
 . ${PWD}/.env;
 
 dockerRefresh
-reCreateDB ${NAMESPACE} ${MYSQL_ROOT_PASSWORD} ${NAMESPACE}_db
 composerPackages ${USER} ${NAMESPACE}_php ${SHOP_URI}
 install ${USER} ${SHOP_URI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD}
 setDomain ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}

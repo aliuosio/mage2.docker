@@ -56,9 +56,6 @@ dockerRefresh() {
         echo "sed -i '' 's/SSL=true/SSL=false/g' ${PWD}/.env";
         sed -i '' 's/SSL=true/SSL=false/g' ${PWD}/.env
 
-        echo "docker-compose -f docker-compose.osx.yml down -v --remove-orphans";
-        docker-compose -f docker-compose.osx.yml down -v --remove-orphans;
-
         echo "docker-sync start";
         docker-sync start;
 
@@ -68,9 +65,6 @@ dockerRefresh() {
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d;
     else
-        echo "docker-compose down -v --remove-orphans";
-        docker-compose down -v --remove-orphans;
-
         echo "docker-compose build"
         docker-compose build
 

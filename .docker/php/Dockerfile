@@ -87,4 +87,4 @@ RUN apk update && apk upgrade --available \
 RUN rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 
-COPY conf/composer.json ${WORKDIR_SERVER}/
+COPY conf/composer.json ${WORKDIR_SERVER}/composer.json

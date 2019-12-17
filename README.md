@@ -68,7 +68,7 @@ they’d have to be renewed periodically with the following command:
 #### Elasticsearch Usage:
 In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `Tab: Catalog Search`
     
-    Search Engine: Elasticsearch 5.0+
+    Search Engine: Elasticsearch 6.0+
     Elasticsearch Server Hostname: elasticsearch
     Elasticsearch Server Port: 9200
 > You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
@@ -106,15 +106,14 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * add instructions to README for adding existing projects to this Docker Stack
 * add prompt o choose between nginx wiht pagespeed or apache without pagespeed
 * add pagespeed to apache if chosen
-* mount ssl certs to host directory to fix OSX SSL Localhost certificate bug
 * simplify letsencrypt certificate embedding in nginx container
 * add mailhog configuration to install.sh
-* added Elastcisearch config instructions to README.md
+* ~~added Elastcisearch config instructions to README.md~~
 * ~~remove auth.json instructions and handling~~
-* Elasticsearch 6.8.5 Upgrade from 5.2 
+* ~~Elasticsearch 6.8.5 Upgrade from 5.2~~ 
 * handle magento 2 cronjobs per docker container or add job to php container
 * add extra container for LESS and SASS Generation containing yarn/nodejs
-* fix sockets for redis with magento 2
+* ~~fix sockets for redis with magento 2~~
 * using docker-entrypoint scripts to set user so the image can be more static
 * ~~nginx with pagespeed module~~
 * ~~create seperat containers for redis session and cache~~
@@ -123,10 +122,10 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * ~~move Magento 2 specific tools and config to post-build.sh called in docker-compose.yml~~
 * ~~move xdebug install & config to magento-install.sh band install after magento 2 install and sampledata~~
 * ~~setup script for PHP Container to set IP for xdebug or Domain~~
-* clean up alpine packages after build
+* ~~clean up alpine packages after build~~2
 * optimize pagespeed caching
-* use pagespeed with redis cache
-* increase vm max count for elasticsearch without system reboot
+* ~~use pagespeed with redis cache~~
+* ~~increase vm max count for elasticsearch without system reboot~~
 * Nginx Header Config passes at https://securityheaders.com/
 * set timezone in containers
 * secure socket connection between containers

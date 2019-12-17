@@ -217,6 +217,14 @@ setDomain() {
     echo "URL Settings and Cookie Domain END";
 }
 
+createHtdocs() {
+    if [[ ! -d htdocs ]]; then
+        echo "mkdir htdocs";
+        mkdir htdocs
+    fi
+}
+
+createHtdocs
 getLatestFromRepo
 reMoveMagentoEnv
 createEnv

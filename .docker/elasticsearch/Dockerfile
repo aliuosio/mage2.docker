@@ -1,9 +1,6 @@
-FROM ptanov/elasticsearch-5.2-cgroups2
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.5
 
 LABEL maintainer="Osiozekhai Aliu"
 
-ARG TZ
-
-RUN cd /usr/share/elasticsearch \
-    && bin/elasticsearch-plugin install analysis-phonetic \
-    && bin/elasticsearch-plugin install analysis-icu
+RUN elasticsearch-plugin install analysis-phonetic && \
+    elasticsearch-plugin install analysis-icu

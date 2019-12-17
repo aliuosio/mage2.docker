@@ -109,14 +109,14 @@ getMagerun() {
 }
 
 reCreateDB() {
-    DB_DROP="DROP DATABASE IF EXISTS $1;";
-    DB_CREATE="CREATE DATABASE IF NOT EXISTS $1;";
+    DB_DROP="DROP DATABASE IF EXISTS $1";
+    DB_CREATE="CREATE DATABASE IF NOT EXISTS $1";
 
-    echo "DROP DATABASE $1;";
-    docker exec -it $3 mysql -u root -p$2 -e "${DB_DROP}";
+    echo "docker exec -it $3 mysql -u root -p$2 -e '${DB_DROP}'";
+    docker exec -it $3 mysql -u root -p$2 -e '${DB_DROP}'
 
-    echo "CREATE DATABASE $1;";
-    docker exec -it $3 mysql -u root -p$2 -e "${DB_CREATE}";
+    echo "docker exec -it $3 mysql -u root -p$2 -e '${DB_CREATE}'";
+    docker exec -it $3 mysql -u root -p$2 -e '${DB_CREATE}'
 }
 
 install() {

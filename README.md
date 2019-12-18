@@ -89,12 +89,10 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * **PHP redis** enabled
 * Mailhog container installed with install.sh
 * ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~
-* **install magento 2** as configurable option
-* **install magento 2 sample data** as configurable option
 * permissions are set after magento 2 install  
 following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  as configurable option
 * **http basic authentication** 
-* **use mysql, php over sockets** instead of ports for faster data container exchange
+* **use MySQL, PHP and Redis over sockets** instead of ports for faster data container exchange
 * **Extra Composer Packages**
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
 * **Extra Composer Packages with Magento 2 Installer **  

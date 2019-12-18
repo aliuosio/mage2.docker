@@ -103,6 +103,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 ### Todos
 * ~~fix exchangeMagentoEnv on OSX due to docker-sync~~
+* add container for CSS Generation using LESS AND SASS
 * add prompt to install.sh for ssl or non-ssl config of nginx
 * add instructions to README for adding existing projects to this Docker Stack
 * add prompt o choose between nginx wiht pagespeed or apache without pagespeed

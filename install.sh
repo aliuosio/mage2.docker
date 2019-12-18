@@ -36,8 +36,8 @@ dockerRefresh() {
         echo "brew install eugenmayer/dockersync/unox";
         brew install eugenmayer/dockersync/unox;
 
-        echo "gem install --user-install docker-sync;";
-        gem install --user-install docker-sync;
+        echo "gem install docker-sync;";
+        sudo gem install docker-sync;
 
         if which ruby >/dev/null && which gem >/dev/null; then
             PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"

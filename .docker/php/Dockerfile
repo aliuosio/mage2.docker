@@ -81,10 +81,11 @@ RUN apk update && apk upgrade --available \
     && apk del tzdata \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer \
-    && chown -R ${USER}:${USER} /home/${USER} \
     && chmod 775 $WORKDIR_SERVER
 
 RUN rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 
 COPY conf/composer.json ${WORKDIR_SERVER}/composer.json
+
+RUN chown -R ${USER}:${USER} /home/${USER}

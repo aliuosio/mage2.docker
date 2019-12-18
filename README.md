@@ -102,7 +102,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 
 ### Todos
-* fix exchangeMagentoEnv on OSX due to docker-sync
+* ~~fix exchangeMagentoEnv on OSX due to docker-sync~~
 * add prompt to install.sh for ssl or non-ssl config of nginx
 * add instructions to README for adding existing projects to this Docker Stack
 * add prompt o choose between nginx wiht pagespeed or apache without pagespeed
@@ -133,10 +133,10 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * add varnish container and configure with magento 2
 
 ### Bugs
-* Nginx certificate location reference
+* ~~Nginx certificate location reference~~
 * ~~check that all commands function in post-build.sh~~
 * ~~sampledata deploy error on docker-compose build~~
-* on first run of install.sh the MySQL Container is not ready for connections 
+* ~~on first run of install.sh the MySQL Container is not ready for connections~~ 
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

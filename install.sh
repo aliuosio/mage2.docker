@@ -20,11 +20,7 @@ reMoveMagentoEnv() {
 }
 
 exchangeMagentoEnv() {
-    echo "mkdir -p htdocs/app/etc/;";
-    mkdir -p htdocs/app/etc/;
-
-    echo "cp ./.docker/config_blueprints/env.php.sample htdocs/app/etc/env.php";
-    cp ./.docker/config_blueprints/env.php.sample htdocs/app/etc/env.php
+        docker exec -it -u $1 $2 cp /home/$1/env.php /home/$1/html/app/etc/env.php
 }
 
 dockerRefresh() {
@@ -59,12 +55,18 @@ dockerRefresh() {
         echo "docker-sync start";
         docker-sync start;
 
+        echo "docker-compose -f docker-compose.osx.yml down"
+        docker-compose -f docker-compose.osx.yml down
+
         echo "docker-compose -f docker-compose.osx.yml build"
         docker-compose -f docker-compose.osx.yml build
 
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d;
     else
+        echo "docker-compose down"
+        docker-compose down
+
         echo "docker-compose build"
         docker-compose build
 
@@ -228,7 +230,7 @@ dockerRefresh
 composerPackages ${USER} ${NAMESPACE}_php ${SHOP_URI}
 install ${USER} ${SHOP_URI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD}
 setDomain ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
-exchangeMagentoEnv
+exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 magentoRefresh ${USER} ${NAMESPACE}_php ${SHOP_URI}
 getMagerun ${SHOP_URI}
 permissionsSet ${NAMESPACE}_php

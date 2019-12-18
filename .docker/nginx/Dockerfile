@@ -26,13 +26,13 @@ RUN apk add --update openssl tzdata curl \
     && mkdir -p /etc/letsencrypt/
 
 RUN if [ "$SSL" = "true" ]; then \
-        mkdir -p /etc/nginx/ssl; \
-        mkdir -p /var/cache/ngx_pagespeed; \
-        chown -R ${USER}:${USER} /etc/nginx/ssl/; \
-        chown -R ${USER}:${USER} /var/cache/ngx_pagespeed; \
-        chmod 755 -R /var/cache/ngx_pagespeed; \
-        openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=${SHOP_URI}; \
-        openssl dhparam -out /etc/nginx/dhparam.pem 2048; \
+        mkdir -p /etc/nginx/ssl \
+        && mkdir -p /var/cache/ngx_pagespeed \
+        && chown -R ${USER}:${USER} /etc/nginx/ssl/ \
+        && chown -R ${USER}:${USER} /var/cache/ngx_pagespeed \
+        && chmod 755 -R /var/cache/ngx_pagespeed \
+        && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=${SHOP_URI} \
+        && openssl dhparam -out /etc/nginx/dhparam.pem 2048; \
     fi
 
 RUN sed -i "s#__user#${USER}#g" /etc/nginx/nginx.conf \
@@ -43,7 +43,6 @@ RUN sed -i "s#__user#${USER}#g" /etc/nginx/nginx.conf \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*
 
-
 RUN if [ "$SSL" = "true" ]; then \
         sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf; \
     else \
@@ -51,6 +50,12 @@ RUN if [ "$SSL" = "true" ]; then \
     fi
 
 RUN if [ "$AUTH_CONFIG" = "true" ]; then \
-        printf "${AUTH_USER}:$(openssl passwd -crypt ${AUTH_PASS})\n" >> /etc/nginx/.htpasswd; \
-        sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default.conf; \
+        printf "${AUTH_USER}:$(openssl passwd -crypt ${AUTH_PASS})\n" >> /etc/nginx/.htpasswd \
+        && sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default.conf \
+        && sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default_ssl.conf; \
     fi
+
+COPY conf/env.php /home/${USER}/env.php
+
+RUN chown ${USER}:${USER} /home/${USER}/env.php \
+    && chmod 644 /home/${USER}/env.php;

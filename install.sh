@@ -183,18 +183,15 @@ permissionsSet() {
     echo "setting permissions... takes time... It took 90 sec the last time.";
 
     start=`date +%s`
-        cd htdocs;
+        echo "docker exec -it $1 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;";
+        docker exec -it $1 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;
 
-        echo "find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;";
-        find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;
+        echo "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;";
+        docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
 
-        echo "find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;";
-        find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
+        echo "docker exec -it $1 chmod 444 app/etc/env.php"
+        docker exec -it $1 chmod 444 app/etc/env.php;
 
-        echo "chmod 444 app/etc/env.php"
-        chmod 444 app/etc/env.php;
-
-        cd ..;
     end=`date +%s`
     runtime=$((end-start))  
 
@@ -234,4 +231,4 @@ setDomain ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_UR
 exchangeMagentoEnv
 magentoRefresh ${USER} ${NAMESPACE}_php ${SHOP_URI}
 getMagerun ${SHOP_URI}
-permissionsSet ${USER}
+permissionsSet ${NAMESPACE}_php

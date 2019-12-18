@@ -107,6 +107,14 @@ getMagerun() {
 }
 
 install() {
+    if [[ $7 == "true" ]]; then
+        url="https://$2/";
+        secure=1;
+    else
+        url="http://$2/";
+        secure=0;
+    fi
+
     echo "docker exec -it -u $1 $3 chmod +x bin/magento";
     docker exec -it -u $1 $3 chmod +x bin/magento
 
@@ -116,10 +124,10 @@ install() {
         --db-user=$5 \
         --db-password=$6 \
         --backend-frontname=admin \
-        --base-url=http://$2/ \
-        --base-url-secure=https://$2/ \
-        --use-secure=0 \
-        --use-secure-admin=0 \
+        --base-url=${url} \
+        --base-url-secure=${url} \
+        --use-secure=${secure} \
+        --use-secure-admin=${secure} \
         --language=de_DE \
         --timezone=Europe/Berlin \
         --currency=EUR \
@@ -127,7 +135,7 @@ install() {
         --admin-firstname=Admin \
         --admin-email=admin@example.com \
         --admin-user=admin \
-        --admin-password=admin123 \
+        --admin-password=admin123#T \
         --cleanup-database \
         --use-rewrites=1;";
     docker exec -it -u $1 $3 bin/magento setup:install \
@@ -136,10 +144,10 @@ install() {
         --db-user=$5 \
         --db-password=$6 \
         --backend-frontname=admin \
-        --base-url=http://$2/ \
-        --base-url-secure=https://$2/ \
-        --use-secure=0 \
-        --use-secure-admin=0 \
+        --base-url=${url} \
+        --base-url-secure=${url} \
+        --use-secure=${secure} \
+        --use-secure-admin=${secure} \
         --language=de_DE \
         --timezone=Europe/Berlin \
         --currency=EUR \
@@ -147,7 +155,7 @@ install() {
         --admin-firstname=Admin \
         --admin-email=admin@example.com \
         --admin-user=admin \
-        --admin-password=admin123 \
+        --admin-password=admin123#T \
         --cleanup-database \
         --use-rewrites=1;
 }
@@ -228,7 +236,7 @@ createEnv
 
 dockerRefresh
 composerPackages ${USER} ${NAMESPACE}_php ${SHOP_URI}
-install ${USER} ${SHOP_URI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD}
+install ${USER} ${SHOP_URI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 setDomain ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 magentoRefresh ${USER} ${NAMESPACE}_php ${SHOP_URI}

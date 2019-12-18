@@ -23,7 +23,7 @@ This Setup installs the basic docker containers
 ## Backend in Browser
     https://mage2.localhost/admin (OSX: http://mage2.localhost/admin)
     User: admin
-    Password: admin123
+    Password: admin123#T
     
 ## Frontend in Browser
     https://mage2.localhost (OSX: http://mage2.localhost)

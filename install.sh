@@ -199,8 +199,8 @@ permissionsSet() {
         echo "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;";
         docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
 
-        echo "docker exec -it $1 chmod 444 app/etc/env.php"
-        docker exec -it $1 chmod 444 app/etc/env.php;
+        echo "docker exec -it $1 chmod 644 app/etc/env.php"
+        docker exec -it $1 chmod 644 app/etc/env.php;
 
     end=`date +%s`
     runtime=$((end-start))  

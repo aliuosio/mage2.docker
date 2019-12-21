@@ -81,13 +81,12 @@ composerPackages() {
     echo "docker exec -it -u $1 $2 composer global require hirak/prestissimo;";
     docker exec -it -u $1 $2 composer global require hirak/prestissimo;
 
-    echo "docker exec -it -u $1 $2 composer install;";
-    docker exec -it -u $1 $2 composer install;
-
-    if [[ $3 != *"local"* ]]; then # remove composer packages in require-dev block
-        echo "docker exec -it -u $1 $2 composer update --no-dev;";
-        docker exec -it -u $1 $2 composer update --no-dev;
-    fi;
+    if [[ $3 == *"local"* ]]; then # remove composer packages in require-dev block
+        echo "docker exec -it -u $1 $2 composer install;";
+        docker exec -it -u $1 $2 composer install;
+    else
+        echo "docker exec -it -u $1 $2 composer install --no-dev;";
+    fi
 }
 
 getMagerun() {

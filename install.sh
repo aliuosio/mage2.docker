@@ -86,6 +86,7 @@ composerPackages() {
         docker exec -it -u $1 $2 composer install;
     else
         echo "docker exec -it -u $1 $2 composer install --no-dev;";
+        docker exec -it -u $1 $2 composer install --no-dev;
     fi
 }
 

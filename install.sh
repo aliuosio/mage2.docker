@@ -78,15 +78,21 @@ dockerRefresh() {
 }
 
 composerPackages() {
-    echo "docker exec -it -u $1 $2 composer global require hirak/prestissimo;";
+        echo "docker exec -it -u $1 $2 composer global require hirak/prestissimo;";
     docker exec -it -u $1 $2 composer global require hirak/prestissimo;
 
-    if [[ $3 == *"local"* ]]; then # remove composer packages in require-dev block
+    if [[ $3 == *"local"* ]]; then
         echo "docker exec -it -u $1 $2 composer install;";
         docker exec -it -u $1 $2 composer install;
+
+        echo "docker exec -it -u $1 $2 composer update;";
+        docker exec -it -u $1 $2 composer update;
     else
         echo "docker exec -it -u $1 $2 composer install --no-dev;";
         docker exec -it -u $1 $2 composer install --no-dev;
+
+        echo "docker exec -it -u $1 $2 composer update --no-dev;";
+        docker exec -it -u $1 $2 composer update --no-dev;
     fi
 }
 

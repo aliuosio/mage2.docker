@@ -29,9 +29,10 @@ before_install:
 
 script:
   - docker-slim version
-  - env $(cat .env.template) docker-compose up -d
+  - mv .env.template .env
+  - docker-compose up -d
   - docker-compose stop
-  - env $(cat .env.template) docker-compose -f docker-compose.osx.yml up -d
+  - docker-compose -f docker-compose.osx.yml up -d
   - docker-compose stop
   - docker images
 

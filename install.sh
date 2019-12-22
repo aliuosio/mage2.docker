@@ -215,9 +215,11 @@ permissionsSet() {
 }
 
 setDomain() {
-    SET_URL_SECURE="USE $1; UPDATE core_config_data SET value='https://$5/' WHERE path='web/secure/base_url';";
-    SET_URL_UNSECURE="USE $1; UPDATE core_config_data SET value='http://$5/' WHERE path='web/unsecure/base_url';";
-    SET_URL_COOKIE="USE $1; INSERT core_config_data(value, path) VALUES('$5', 'web/cookie/cookie_domain');";
+#INSERT INTO table (id, name, age) VALUES(1, "A", 19) ON DUPLICATE KEY UPDATE name="A", age=19
+
+    SET_URL_SECURE="USE $1; INSERT INTO core_config_data(value, path) VALUES('http://$5/', 'web/unsecure/base_url') ON DUPLICATE KEY UPDATE value='http://$5/', path='web/unsecure/base_url';";
+    SET_URL_UNSECURE="USE $1; INSERT INTO core_config_data(value, path) VALUES('https://$5/', 'web/secure/base_url') ON DUPLICATE KEY UPDATE value='https://$5/', path='web/secure/base_url';";
+    SET_URL_COOKIE="USE $1; INSERT core_config_data(value, path) VALUES('$5', 'web/cookie/cookie_domain') ON DUPLICATE KEY UPDATE value='$5', path='web/cookie/cookie_domain';";
 
     echo "URL Settings and Cookie Domain START";
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SECURE}";

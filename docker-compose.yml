@@ -151,7 +151,9 @@ services:
         hard: -1
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
-    command: ["elasticsearch-plugin", "install", "analysis-phonetic", "elasticsearch-plugin", "install", "analysis-icu"]
+    command: >
+      /bin/sh -c "./bin/elasticsearch-plugin install analysis-icu; ./bin/elasticsearch-plugin install analysis-phonetic; /usr/local/bin/docker-entrypoint.sh;"
+
 
   host-settings:
     container_name: ${NAMESPACE}_host-settings

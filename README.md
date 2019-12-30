@@ -6,7 +6,7 @@
 ## Description
 This Setup installs the basic docker containers 
 
-**(Nginx, PHP, MySQL, Redis, Elasticsearch, Mailhog)** for Magento 2. 
+**(Nginx, PHP, MariaDB, Redis, Elasticsearch, Mailhog)** for Magento 2. 
 
 ## Get Source
 
@@ -93,7 +93,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * permissions are set after magento 2 install  
 following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  as configurable option
 * **http basic authentication** 
-* **use MySQL, PHP and Redis over sockets** instead of ports for faster data container exchange
+* **use MariaDB, PHP and Redis over sockets** instead of ports for faster data container exchange
 * **Extra Composer Packages**
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
 * **Extra Composer Packages with Magento 2 Installer **  
@@ -113,7 +113,6 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * ~~remove auth.json instructions and handling~~
 * ~~Elasticsearch 6.8.5 Upgrade from 5.2~~ 
 * handle magento 2 cronjobs per docker container or add job to php container
-* add extra container for LESS and SASS Generation containing yarn/nodejs
 * ~~fix sockets for redis with magento 2~~
 * using docker-entrypoint scripts to set user so the image can be more static
 * ~~nginx with pagespeed module~~
@@ -136,7 +135,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * ~~Nginx certificate location reference~~
 * ~~check that all commands function in post-build.sh~~
 * ~~sampledata deploy error on docker-compose build~~
-* ~~on first run of install.sh the MySQL Container is not ready for connections~~ 
+* ~~on first run of install.sh the MariaDB Container is not ready for connections~~ 
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

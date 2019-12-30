@@ -1,4 +1,4 @@
-# Magento 2 OSX/Linux Docker Nginx(Pagespeed)-MySQL-PHP-Redis-Elastic Setup
+# Magento 2 OSX/Linux Docker Nginx(Pagespeed)-MySQL-PHP-Redis-Elastic Setup <a href="https://travis-ci.com/aliuosio/mage2.docker"><img src="https://img.shields.io/travis/aliuosio/mage2.docker.svg" /></a>
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
 

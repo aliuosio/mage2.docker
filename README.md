@@ -81,6 +81,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * alternative **OSX docker-compose** file using docker-sync **for better perfomance**
 * set project directory to where ever you want (as configurable option)
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
+* **node / yarn** is setup in PHP Container (Login into PHP Container for usage) 
 * setup valid **SSL certificates** with letsmcrypt container
 * Nginx uses **Pagespeed** Module
 * both **PHP GD and PHP Imagick** are installed
@@ -102,7 +103,6 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 ### Todos
 * ~~fix exchangeMagentoEnv on OSX due to docker-sync~~
-* add container for CSS Generation using LESS AND SASS
 * add prompt to install.sh for ssl or non-ssl config of nginx
 * add instructions to README for adding existing projects to this Docker Stack
 * add prompt o choose between nginx wiht pagespeed or apache without pagespeed
@@ -112,12 +112,10 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * ~~added Elastcisearch config instructions to README.md~~
 * ~~remove auth.json instructions and handling~~
 * ~~Elasticsearch 6.8.5 Upgrade from 5.2~~ 
-* handle magento 2 cronjobs per docker container or add job to php container
 * ~~fix sockets for redis with magento 2~~
 * using docker-entrypoint scripts to set user so the image can be more static
 * ~~nginx with pagespeed module~~
 * ~~create seperat containers for redis session and cache~~
-* ~~create seperat containers for cronjob and image optimization~~
 * ~~fix file permissions and ownership between containers and docker host~~
 * ~~move Magento 2 specific tools and config to post-build.sh called in docker-compose.yml~~
 * ~~move xdebug install & config to magento-install.sh band install after magento 2 install and sampledata~~

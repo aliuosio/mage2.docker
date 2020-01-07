@@ -64,7 +64,7 @@ services:
         PHP_VERSION_SET: ${PHP_VERSION_SET}
         WORKDIR_SERVER: /home/${USER}/html
         XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-    container_name: ${NAMESPACE}_php
+    container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536

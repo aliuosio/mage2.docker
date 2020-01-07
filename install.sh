@@ -242,10 +242,10 @@ createEnv
 . ${PWD}/.env;
 
 dockerRefresh
-composerPackages ${USER} ${NAMESPACE}_php ${SHOP_URI}
-install ${USER} ${SHOP_URI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
+composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
+install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 setDomain ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
-magentoRefresh ${USER} ${NAMESPACE}_php ${SHOP_URI}
+magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 getMagerun ${SHOP_URI}
-permissionsSet ${NAMESPACE}_php
+permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET}

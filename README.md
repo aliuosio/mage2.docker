@@ -39,7 +39,7 @@ This Setup installs the basic docker containers
 
 ## PHP Container Usage
     
-    docker exec -it -u $USER mage2_php bash
+    docker exec -it -u $USER mage2_php_7.2 bash
     
 ## SSL Certificate Registration
     

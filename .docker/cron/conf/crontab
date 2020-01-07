@@ -1,4 +1,0 @@
-*/1 * * * * su - __user -c "/usr/local/bin/php __working_dir/bin/magento cron:run" | grep -v "Ran jobs by schedule" >> __working_dir/var/log/magento.cron.log
-*/1 * * * * su - __user -c "/usr/local/bin/php __working_dir/update/cron.php" >> __working_dir/var/log/update.cron.log
-*/1 * * * * su - __user -c "/usr/local/bin/php __working_dir/bin/magento setup:cron:run" >> __working_dir/var/log/setup.cron.log
-*/1 * * * * chown -R __user:__user __working_dir/var/log/

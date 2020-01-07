@@ -52,9 +52,10 @@ This Setup installs the basic docker containers
     # restart webserver
     docker-compose kill -s SIGHUP nginx  
     
->**Renewal** (Quote: https://devsidestory.com/lets-encrypt-with-docker/)  
-Let’s Encrypt certificates are valid for 3 months,  
-they’d have to be renewed periodically with the following command:  
+> **Renewal** (Quote: https://devsidestory.com/lets-encrypt-with-docker/)
+> comment in the letsencrypt block in the docker-compose.yml or docker-compose.osx.yml on OSX.
+> Let’s Encrypt certificates are valid for 3 months,
+> they’d have to be renewed periodically with the following command:  
     
     # renew certificates which are expiring in less than 30 days,
     docker-compose run --rm letsencrypt letsencrypt renew 

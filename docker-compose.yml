@@ -164,17 +164,17 @@ services:
     volumes:
       - /proc/sys/vm:/mnt/vm
 
-  letsencrypt:
-    container_name: ${NAMESPACE}_letsencrypt
-    build:
-      context: ./.docker/letsencrypt
-      args:
-        SHOP_URI: ${SHOP_URI}
-    image: ${NAMESPACE}/letsencrypt
-    command: /bin/true
-    volumes:
-      - letsencrypt_certs:/etc/nginx/ssl
-      - letsencrypt_www:/var/www/letsencrypt
+#  letsencrypt:
+#    container_name: ${NAMESPACE}_letsencrypt
+#    build:
+#      context: ./.docker/letsencrypt
+#      args:
+#        SHOP_URI: ${SHOP_URI}
+#    image: ${NAMESPACE}/letsencrypt
+#    command: /bin/true
+#    volumes:
+#      - letsencrypt_certs:/etc/nginx/ssl
+#      - letsencrypt_www:/var/www/letsencrypt
 
 volumes:
   mariadb_data:

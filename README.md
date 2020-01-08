@@ -49,6 +49,11 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     
     Linux: docker-compose up -d
 
+## Install sample data
+
+    chmod +x sample-data.sh
+    ./sample-data.sh
+
 ## PHP Container Usage
     
     docker exec -it -u $USER mage2_php_7.2 bash

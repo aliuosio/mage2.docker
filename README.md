@@ -34,12 +34,12 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 > Modify settings in .env
 
 ## Backend in Browser
-    https://mage2.localhost/admin (OSX: http://mage2.localhost/admin)
+    http://mage2.localhost/admin
     User: admin
     Password: admin123#T
     
 ## Frontend in Browser
-    https://mage2.localhost (OSX: http://mage2.localhost)
+    http://mage2.localhost
     
 ## next startup after reboot of Host
    
@@ -58,7 +58,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     
     docker exec -it -u $USER mage2_php_7.2 bash
     
-## Elasticsearch Usage:
+## Elasticsearch Usage
 In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `Tab: Catalog Search`
     
     Search Engine: Elasticsearch 6.0+

@@ -2,6 +2,7 @@
 * small alpine images except for MariaDB and Elastic Search
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.0, 7.1, 7.2, 7.3 all based on php:alpine docker image
+* Contaners connect via sockets and not TCP/IP
 
 ## Description
 This Setup installs the basic docker containers 

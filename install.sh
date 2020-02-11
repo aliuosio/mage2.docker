@@ -78,7 +78,10 @@ dockerRefresh() {
 }
 
 composerPackages() {
-        echo "docker exec -it -u $1 $2 composer global require hirak/prestissimo;";
+    echo "docker exec -it $2 chown -R $1:$1 /home/$1;";
+    docker exec -it $2 chown -R $1:$1 /home/$1;
+
+    echo "docker exec -it -u $1 $2 composer global require hirak/prestissimo;";
     docker exec -it -u $1 $2 composer global require hirak/prestissimo;
 
     if [[ $3 == *"local"* ]]; then

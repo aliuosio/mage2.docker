@@ -50,7 +50,8 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     docker-sync start 
     (Open new Tab) docker-compose -f docker-compose.osx.yml up -d 
     
-    Linux: docker-compose up -d
+    Linux:
+    docker-compose up -d
 
 ## Install sample data
 

@@ -27,7 +27,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 
 ## Installation
     
-    cd mage2.docker.git
+    cd mage2.docker
     
     chmod +x ./install.sh
     

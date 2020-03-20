@@ -11,6 +11,7 @@ ARG TZ
 ARG USER
 ARG SSL
 
+COPY docker-entrypoint.sh /usr/local/bin/
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 COPY conf/default_ssl.conf /etc/nginx/conf.d/default_ssl.conf

@@ -11,7 +11,7 @@
         "sort-packages": true
     },
     "require": {
-        "magento/product-community-edition": "2.3.3",
+        "magento/product-community-edition": "2.3.4",
         "magepal/magento2-gmailsmtpapp": "^2.6",
         "doctrine/cache": "^1.8",
         "predis/predis": "^1.1"
@@ -64,7 +64,7 @@
             "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/"
         }
     },
-    "version": "2.3.3",
+    "version": "2.3.4",
     "minimum-stability": "stable",
     "repositories": {
         "0": {

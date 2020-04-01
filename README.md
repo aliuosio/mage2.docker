@@ -124,6 +124,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 
 ### Todos
 * ~~fix exchangeMagentoEnv on OSX due to docker-sync~~
+* add varnish container and configure with magento 2
 * add prompt to install.sh for ssl or non-ssl config of nginx
 * add instructions to README for adding existing projects to this Docker Stack
 * add prompt o choose between nginx wiht pagespeed or apache without pagespeed
@@ -148,7 +149,6 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * Nginx Header Config passes at https://securityheaders.com/
 * set timezone in containers
 * secure socket connection between containers
-* add varnish container and configure with magento 2
 
 ### Bugs
 * ~~Nginx certificate location reference~~

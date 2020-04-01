@@ -132,7 +132,6 @@ services:
     command: >
       /bin/sh -c "./bin/elasticsearch-plugin install analysis-icu; ./bin/elasticsearch-plugin install analysis-phonetic; /usr/local/bin/docker-entrypoint.sh;"
 
-
   host-settings:
     container_name: ${NAMESPACE}_host-settings
     image: alpine:latest
@@ -141,6 +140,17 @@ services:
     command: ["echo", "1", ">", "/mnt/vm/overcommit_memory;", "echo", "262144", ">", "/mnt/vm/max_map_count"]
     volumes:
       - /proc/sys/vm:/mnt/vm
+
+#  varnish:
+#    build:
+#      context: ./.docker/varnish
+#    environment:
+#      - VIRTUAL_HOST=mage2.localhost
+#      - VIRTUAL_PORT=443
+#    ports:
+#      - 443
+#    links:
+#      - nginx
 
 #  letsencrypt:
 #    container_name: ${NAMESPACE}_letsencrypt

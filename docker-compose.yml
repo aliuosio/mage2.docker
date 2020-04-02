@@ -26,8 +26,8 @@ services:
     volumes:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
-      - letsencrypt_certs:/etc/nginx/ssl
-      - letsencrypt_www:/var/www/letsencrypt
+      #- letsencrypt_certs:/etc/nginx/ssl
+      #- letsencrypt_www:/var/www/letsencrypt
 
   php:
     build:
@@ -61,7 +61,7 @@ services:
       - ./.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
 
   db:
-    image: mariadb:10.4.10
+    image: mariadb:10.5.2
     container_name: ${NAMESPACE}_db
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -116,7 +116,7 @@ services:
 
   elasticsearch:
     container_name: ${NAMESPACE}_elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.5
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.8
     environment:
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false
@@ -168,8 +168,8 @@ services:
 volumes:
   mariadb_data:
   elastic_data:
-  letsencrypt_certs:
-  letsencrypt_www:
+  #letsencrypt_certs:
+  #letsencrypt_www:
   php_socket:
   mariadb_socket:
   redis_data_socket:

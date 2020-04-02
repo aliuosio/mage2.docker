@@ -48,12 +48,6 @@ RUN if [ "$SSL" = "true" ]; then \
         sed -i "s#__default#default#g" /etc/nginx/nginx.conf; \
     fi
 
-RUN if [ "$AUTH_CONFIG" = "true" ]; then \
-        printf "${AUTH_USER}:$(openssl passwd -crypt ${AUTH_PASS})\n" >> /etc/nginx/.htpasswd \
-        && sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default.conf \
-        && sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default_ssl.conf; \
-    fi
-
 COPY conf/env.php /home/${USER}/env.php
 
 RUN chown ${USER}:${USER} /home/${USER}/env.php \

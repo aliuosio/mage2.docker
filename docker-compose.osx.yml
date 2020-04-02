@@ -53,10 +53,10 @@ services:
     environment:
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
     volumes:
-      - redis_data_socket:/var/run/redis:cached
+      - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
-      - php_socket:/var/run/php:cached
-      - mariadb_socket:/var/run/mysqld:cached
+      - php_socket:/var/run/php
+      - mariadb_socket:/var/run/mysqld
       - ~/.cache/composer:/home/${USER}/.composer
       - ./.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
 

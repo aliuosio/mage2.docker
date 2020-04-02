@@ -145,10 +145,10 @@ services:
 #      - letsencrypt_www:/var/www/letsencrypt
 
 volumes:
-  mariadb_data:
-  elastic_data:
   #letsencrypt_certs:
   #letsencrypt_www:
+  mariadb_data:
+  elastic_data:
   php_socket:
   mariadb_socket:
   redis_data_socket:

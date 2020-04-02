@@ -40,7 +40,6 @@ RUN if [ "$SSL" = "true" ]; then \
         && chown -R ${USER}:${USER} /var/cache/ngx_pagespeed \
         && chmod 755 -R /var/cache/ngx_pagespeed \
         && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=${SHOP_URI} \
-        && openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
         && sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf; \
     else \
         sed -i "s#__default#default#g" /etc/nginx/nginx.conf; \

@@ -20,7 +20,6 @@ Install [Docker](https://docs.docker.com/docker-for-windows/install/)
 **Linux:**
 Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
 
-
 ## Get Source
 
     git clone https://github.com/aliuosio/mage2.docker.git
@@ -34,7 +33,12 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     ./install.sh 
     (on osx open a new tab to run ./install.sh again)
     
-> Modify settings in .env
+> Modify settings in .env before running `./install.sh` if needed
+
+## to fix Redis Performance Issues
+
+    sudo sysctl vm.overcommit_memory=1;
+    echo never > /sys/kernel/mm/transparent_hugepage/enabled;
 
 ## Backend in Browser
     http://mage2.localhost/admin

@@ -35,11 +35,6 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     
 > Modify settings in .env before running `./install.sh` if needed
 
-## to fix Redis Performance Issues
-
-    sudo sysctl vm.overcommit_memory=1;
-    echo never > /sys/kernel/mm/transparent_hugepage/enabled;
-
 ## Backend in Browser
     http://mage2.localhost/admin
     User: admin
@@ -56,6 +51,13 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     
     Linux:
     docker-compose up -d
+
+## to fix Redis Performance Issues
+    sudo sysctl vm.overcommit_memory=1;
+    echo never > /sys/kernel/mm/transparent_hugepage/enabled;
+    
+## to fix ElasticSearch Performance Issues    
+    sudo sysctl vm.max_map_count=262144
 
 ## Install sample data
 

@@ -15,6 +15,9 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 COPY conf/default_ssl.conf /etc/nginx/conf.d/default_ssl.conf
 
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 RUN apk add --update openssl tzdata curl \
     && ln -sf /usr/share/zoneinfo/Etc/$TZ  /etc/localtime \
     && echo $TZ > /etc/timezone \
@@ -40,16 +43,9 @@ RUN if [ "$SSL" = "true" ]; then \
         && chown -R ${USER}:${USER} /var/cache/ngx_pagespeed \
         && chmod 755 -R /var/cache/ngx_pagespeed \
         && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=${SHOP_URI} \
-        && openssl dhparam -out /etc/nginx/dhparam.pem 2048 \
         && sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf; \
     else \
         sed -i "s#__default#default#g" /etc/nginx/nginx.conf; \
-    fi
-
-RUN if [ "$AUTH_CONFIG" = "true" ]; then \
-        printf "${AUTH_USER}:$(openssl passwd -crypt ${AUTH_PASS})\n" >> /etc/nginx/.htpasswd \
-        && sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default.conf \
-        && sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default_ssl.conf; \
     fi
 
 COPY conf/env.php /home/${USER}/env.php

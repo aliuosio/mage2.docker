@@ -13,6 +13,9 @@ ARG USER
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini /usr/local/etc/php/conf.d/
 
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 RUN apk update && apk upgrade --available \
     && apk add --virtual build-dependencies \
         libc-dev \
@@ -71,13 +74,6 @@ RUN apk update && apk upgrade --available \
     if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         apk add libmcrypt-dev \
         && docker-php-ext-install mcrypt; \
-    fi \
-    && \
-    if [[ $XDEBUG_ENABLE = "true" ]]; then \
-        pecl install -o -f xdebug \
-        && docker-php-ext-enable xdebug \
-        && sed -i "s#xdebug.remote_enable=0#xdebug.remote_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini \
-        && sed -i "s#xdebug.remote_autostart=0#xdebug.remote_autostart=1#g" /usr/local/etc/php/conf.d/xdebug.ini; \
     fi \
     && apk del tzdata \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \

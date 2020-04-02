@@ -11,9 +11,6 @@ services:
         TZ: ${TZ}
         WORKDIR_SERVER: /home/${USER}/html
         SHOP_URI: ${SHOP_URI}
-        AUTH_CONFIG: ${AUTH_CONFIG}
-        AUTH_USER: ${AUTH_USER}
-        AUTH_PASS: ${AUTH_PASS}
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
     working_dir: /home/${USER}/html
@@ -23,6 +20,11 @@ services:
     ports:
       - ${WEBSERVER_SECURE_PORT}:443
       - ${WEBSERVER_UNSECURE_PORT}:80
+    environment:
+      AUTH_CONFIG: ${AUTH_CONFIG}
+      AUTH_USER: ${AUTH_USER}
+      AUTH_PASS: ${AUTH_PASS}
+    entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php

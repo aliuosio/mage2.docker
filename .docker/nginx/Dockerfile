@@ -25,16 +25,6 @@ RUN apk add --update openssl tzdata curl \
     && chmod -R 755 ${WORKDIR_SERVER} \
     && mkdir -p /etc/letsencrypt/
 
-RUN if [ "$SSL" = "true" ]; then \
-        mkdir -p /etc/nginx/ssl \
-        && mkdir -p /var/cache/ngx_pagespeed \
-        && chown -R ${USER}:${USER} /etc/nginx/ssl/ \
-        && chown -R ${USER}:${USER} /var/cache/ngx_pagespeed \
-        && chmod 755 -R /var/cache/ngx_pagespeed \
-        && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=${SHOP_URI} \
-        && openssl dhparam -out /etc/nginx/dhparam.pem 2048; \
-    fi
-
 RUN sed -i "s#__user#${USER}#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#${WORKDIR_SERVER}#g" /etc/nginx/conf.d/default.conf \
     && sed -i "s#__shop_uri#${SHOP_URI}#g" /etc/nginx/conf.d/default.conf \
@@ -44,7 +34,14 @@ RUN sed -i "s#__user#${USER}#g" /etc/nginx/nginx.conf \
     && rm -rf /var/cache/apk/*
 
 RUN if [ "$SSL" = "true" ]; then \
-        sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf; \
+        mkdir -p /etc/nginx/ssl \
+        && mkdir -p /var/cache/ngx_pagespeed \
+        && chown -R ${USER}:${USER} /etc/nginx/ssl/ \
+        && chown -R ${USER}:${USER} /var/cache/ngx_pagespeed \
+        && chmod 755 -R /var/cache/ngx_pagespeed \
+        && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=${SHOP_URI} \
+        && openssl dhparam -out /etc/nginx/dhparam.pem 2048 \
+        && sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf; \
     else \
         sed -i "s#__default#default#g" /etc/nginx/nginx.conf; \
     fi

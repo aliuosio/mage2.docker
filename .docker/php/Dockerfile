@@ -6,7 +6,6 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG WORKDIR_SERVER
 ARG PHP_VERSION_SET
-ARG XDEBUG_ENABLE
 ARG TZ
 ARG USER
 
@@ -78,16 +77,12 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         && docker-php-ext-install mcrypt; \
     fi
 
-RUN if [[ $XDEBUG_ENABLE = "true" ]]; then \
-        pecl install -o -f xdebug \
-        && docker-php-ext-enable xdebug \
-        && sed -i "s#xdebug.remote_enable=0#xdebug.remote_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini \
-        && sed -i "s#xdebug.remote_autostart=0#xdebug.remote_autostart=1#g" /usr/local/etc/php/conf.d/xdebug.ini; \
-    fi
-
 RUN rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 
 COPY conf/composer.json ${WORKDIR_SERVER}/composer.json
 
 RUN chown -R ${USER}:${USER} /home/${USER}
+
+COPY docker-entrypoint.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh

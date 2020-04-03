@@ -54,7 +54,6 @@ services:
     environment:
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-    entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
@@ -155,4 +154,7 @@ volumes:
   mariadb_socket:
   redis_data_socket:
   app_data:
-    externaL: true
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/htdocs

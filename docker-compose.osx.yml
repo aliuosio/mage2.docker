@@ -154,7 +154,4 @@ volumes:
   mariadb_socket:
   redis_data_socket:
   app_data:
-    driver_opts:
-      type: none
-      o: bind
-      device: ${PWD}/htdocs
+    external: true

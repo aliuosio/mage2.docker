@@ -13,9 +13,6 @@ ARG USER
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini /usr/local/etc/php/conf.d/
 
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
 RUN apk update && apk upgrade --available \
     && apk add --virtual build-dependencies \
         libc-dev \

@@ -67,16 +67,23 @@ RUN apk update && apk upgrade --available \
     && addgroup -g 1000 -S ${USER} \
     && adduser -u 1000 -S -D -G ${USER} ${USER} \
     && mkdir $WORKDIR_SERVER \
-    && \
-    if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
-        apk add libmcrypt-dev \
-        && docker-php-ext-install mcrypt; \
-    fi \
     && apk del tzdata \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer \
     && echo "export PATH=/home/${USER}/html/node_modules/.bin:\$PATH" >> /home/${USER}/.bash_profile \
-    && chmod 775 $WORKDIR_SERVER
+    && chmod 775 $WORKDIR_SERVER;
+
+RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
+        apk add libmcrypt-dev \
+        && docker-php-ext-install mcrypt; \
+    fi
+
+RUN if [[ $XDEBUG_ENABLE = "true" ]]; then \
+        pecl install -o -f xdebug \
+        && docker-php-ext-enable xdebug \
+        && sed -i "s#xdebug.remote_enable=0#xdebug.remote_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini \
+        && sed -i "s#xdebug.remote_autostart=0#xdebug.remote_autostart=1#g" /usr/local/etc/php/conf.d/xdebug.ini; \
+    fi
 
 RUN rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear

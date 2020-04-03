@@ -40,6 +40,7 @@ services:
         PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
         PHP_VERSION_SET: ${PHP_VERSION_SET}
         WORKDIR_SERVER: /home/${USER}/html
+        XDEBUG_ENABLE: ${XDEBUG_ENABLE}
     container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
     image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
@@ -53,7 +54,6 @@ services:
       - db
     environment:
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
-      XDEBUG_ENABLE: ${XDEBUG_ENABLE}
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated

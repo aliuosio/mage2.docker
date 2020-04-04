@@ -126,19 +126,21 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 
 ### Todos
-* ~~fix exchangeMagentoEnv on OSX due to docker-sync~~
-* add varnish container and configure with magento 2
-* add prompt to install.sh for ssl or non-ssl config of nginx
+* exchange install.sh with extra docker container for magento 2 installation
+* exchange sampledata.sh with extra docker container for magento 2 sampledata installation
 * add instructions to README for adding existing projects to this Docker Stack
-* add prompt o choose between nginx wiht pagespeed or apache without pagespeed
-* add pagespeed to apache if chosen
 * simplify letsencrypt certificate embedding in nginx container
 * add mailhog configuration to install.sh
+* using docker-entrypoint scripts to set user so the image can be more static
+* using docker-entrypoint scripts to set user so the image can be more static
+* optimize pagespeed caching
+* Nginx Header Config passes at https://securityheaders.com/
+* set timezone in containers
+* Nginx Header Config passes at https://securityheaders.com/
 * ~~added Elastcisearch config instructions to README.md~~
 * ~~remove auth.json instructions and handling~~
 * ~~Elasticsearch 6.8.5 Upgrade from 5.2~~ 
 * ~~fix sockets for redis with magento 2~~
-* using docker-entrypoint scripts to set user so the image can be more static
 * ~~nginx with pagespeed module~~
 * ~~create seperat containers for redis session and cache~~
 * ~~fix file permissions and ownership between containers and docker host~~
@@ -146,12 +148,8 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
 * ~~move xdebug install & config to magento-install.sh band install after magento 2 install and sampledata~~
 * ~~setup script for PHP Container to set IP for xdebug or Domain~~
 * ~~clean up alpine packages after build~~2
-* optimize pagespeed caching
 * ~~use pagespeed with redis cache~~
 * ~~increase vm max count for elasticsearch without system reboot~~
-* Nginx Header Config passes at https://securityheaders.com/
-* set timezone in containers
-* secure socket connection between containers
 
 ### Bugs
 * ~~Nginx certificate location reference~~

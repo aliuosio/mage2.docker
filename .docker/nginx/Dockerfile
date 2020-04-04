@@ -2,11 +2,10 @@ FROM pagespeed/nginx-pagespeed
 
 LABEL maintainer="Osiozekhai Aliu"
 
-ARG SHOP_URI
 ARG WORKDIR_SERVER
 ARG TZ
 ARG USER
-ARG SSL
+ARG SHOP_URI
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
@@ -29,18 +28,6 @@ RUN sed -i "s#__user#${USER}#g" /etc/nginx/nginx.conf \
     && sed -i "s#__shop_uri#${SHOP_URI}#g" /etc/nginx/conf.d/default_ssl.conf \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*
-
-RUN if [ "$SSL" = "true" ]; then \
-        mkdir -p /etc/nginx/ssl \
-        && mkdir -p /var/cache/ngx_pagespeed \
-        && chown -R ${USER}:${USER} /etc/nginx/ssl/ \
-        && chown -R ${USER}:${USER} /var/cache/ngx_pagespeed \
-        && chmod 755 -R /var/cache/ngx_pagespeed \
-        && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=${SHOP_URI} \
-        && sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf; \
-    else \
-        sed -i "s#__default#default#g" /etc/nginx/nginx.conf; \
-    fi
 
 COPY conf/env.php /home/${USER}/env.php
 

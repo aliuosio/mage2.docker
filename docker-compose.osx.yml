@@ -65,7 +65,7 @@ services:
       - mariadb_socket:/var/run/mysqld
       - ~/.cache/composer:/home/${USER}/.composer
       - ./.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
-      - ./.docker/php/conf/extra/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./.docker/php/conf/extra/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
   db:
     image: mariadb:10.5.2

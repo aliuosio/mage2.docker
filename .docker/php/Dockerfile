@@ -9,8 +9,6 @@ ARG PHP_VERSION_SET
 ARG TZ
 ARG USER
 
-COPY conf/xdebug.ini /usr/local/etc/php/conf.d/
-
 RUN apk update && apk upgrade --available \
     && apk add --virtual build-dependencies \
         libc-dev \

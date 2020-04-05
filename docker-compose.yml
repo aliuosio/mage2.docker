@@ -6,7 +6,7 @@ services:
     build:
       context: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
-    image: ${NAMESPACE}/nginx
+    image: osioaliu/nginx
     working_dir: /home/${USER}/html
     depends_on:
       - php
@@ -36,10 +36,8 @@ services:
       args:
         PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
         PHP_VERSION_SET: ${PHP_VERSION_SET}
-        WORKDIR_SERVER: /home/${USER}/html
-        USER: ${USER}
     container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
-    image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
+    image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
     working_dir: /home/${USER}/html
@@ -93,7 +91,7 @@ services:
         TZ: ${TZ}
         USER: ${USER}
     container_name: ${NAMESPACE}_redis
-    image: ${NAMESPACE}/redis
+    image: osioaliu/redis
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
@@ -109,7 +107,7 @@ services:
         TZ: ${TZ}
         USER: ${USER}
     container_name: ${NAMESPACE}_redis_pagespeed
-    image: ${NAMESPACE}/redis
+    image: osioaliu/redis
     sysctls:
       net.core.somaxconn: '1024'
 
@@ -142,7 +140,7 @@ services:
 #      context: ./.docker/letsencrypt
 #      args:
 #        SHOP_URI: ${SHOP_URI}
-#    image: ${NAMESPACE}/letsencrypt
+#    image: osioaliu/letsencrypt
 #    command: /bin/true
 #    volumes:
 #      - letsencrypt_certs:/etc/nginx/ssl

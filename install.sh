@@ -84,6 +84,7 @@ composerPackages() {
     echo "docker exec -it -u $1 $2 composer global require hirak/prestissimo;";
     docker exec -it -u $1 $2 composer global require hirak/prestissimo;
 
+
     if [[ $3 == *"local"* ]]; then
         echo "docker exec -it -u $1 $2 composer install;";
         docker exec -it -u $1 $2 composer install;
@@ -108,6 +109,7 @@ getMagerun() {
         cd ..;
     fi;
 }
+
 
 install() {
     if [[ $7 == "true" ]]; then
@@ -231,7 +233,12 @@ createHtdocs() {
     fi
 }
 
+magentoComposerJson() {
+    cp .docker/php/conf/composer.json htdocs/
+}
+
 createHtdocs
+magentoComposerJson
 getLatestFromRepo
 reMoveMagentoEnv
 createEnv

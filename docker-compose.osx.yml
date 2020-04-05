@@ -6,7 +6,7 @@ services:
     build:
       context: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
-    image: ${NAMESPACE}/nginx
+    image: osioaliu/nginx-pagespeed
     working_dir: /home/${USER}/html
     depends_on:
       - php
@@ -34,13 +34,10 @@ services:
     build:
       context: ./.docker/php
       args:
-        USER: ${USER}
-        TZ: ${TZ}
         PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
         PHP_VERSION_SET: ${PHP_VERSION_SET}
-        WORKDIR_SERVER: /home/${USER}/html
     container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
-    image: ${NAMESPACE}/php:${PHP_VERSION_SET}-fpm-alpine
+    image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
     working_dir: /home/${USER}/html
@@ -51,9 +48,11 @@ services:
     links:
       - db
     environment:
+      TZ: ${TZ}
       USER: ${USER}
-      COMPOSER_CACHE_DIR: /home/${USER}/.composer
+      WORKDIR_SERVER: /home/${USER}/html
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
+      COMPOSER_CACHE_DIR: /home/${USER}/.composer
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - redis_data_socket:/var/run/redis
@@ -92,7 +91,7 @@ services:
         TZ: ${TZ}
         USER: ${USER}
     container_name: ${NAMESPACE}_redis
-    image: ${NAMESPACE}/redis
+    image: osioaliu/redis
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
@@ -108,7 +107,7 @@ services:
         TZ: ${TZ}
         USER: ${USER}
     container_name: ${NAMESPACE}_redis_pagespeed
-    image: ${NAMESPACE}/redis
+    image: osioaliu/redis
     sysctls:
       net.core.somaxconn: '1024'
 
@@ -141,7 +140,7 @@ services:
 #      context: ./.docker/letsencrypt
 #      args:
 #        SHOP_URI: ${SHOP_URI}
-#    image: ${NAMESPACE}/letsencrypt
+#    image: osioaliu/letsencrypt
 #    command: /bin/true
 #    volumes:
 #      - letsencrypt_certs:/etc/nginx/ssl

@@ -4,13 +4,14 @@ set -e
 
 
 mainConfig() {
-    ln -snf /usr/share/zoneinfo/1 /etc/localtime \
-    && echo 1 > /etc/timezone \
+    ln -snf /usr/share/zoneinfo/$1 /etc/localtime \
+    && echo $1 > /etc/timezone \
     && addgroup -g 1000 -S $2 \
     && adduser -u 1000 -S -D -G $2 $2 \
     && chown -R $2:$2 /home/$2 \
     && echo "export PATH=/home/$2/html/node_modules/.bin:\$PATH" >> /home/$2/.bash_profile \
     && chmod 775 $3;
+    sed -i "s#__user#$2#g" /usr/local/etc/php-fpm.d/zz-docker.conf;
 }
 
 # Set xdebug

@@ -4,9 +4,7 @@ FROM $PHP_VERSION_SET_IMAGE
 
 LABEL maintainer="Osiozekhai Aliu"
 
-ARG WORKDIR_SERVER
 ARG PHP_VERSION_SET
-ARG USER
 
 RUN apk update && apk upgrade --available \
     && apk add --virtual build-dependencies \
@@ -68,8 +66,6 @@ RUN apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 
-COPY conf/composer.json ${WORKDIR_SERVER}/composer.json
 COPY conf/extra/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-RUN sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

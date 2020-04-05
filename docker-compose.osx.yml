@@ -6,7 +6,7 @@ services:
     build:
       context: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
-    image: osioaliu/nginx
+    image: osioaliu/nginx-pagespeed
     working_dir: /home/${USER}/html
     depends_on:
       - php
@@ -108,6 +108,7 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
+    image: osioaliu/elasticsearch
     build:
       context: ./.docker/elasticsearch
     container_name: ${NAMESPACE}_elasticsearch

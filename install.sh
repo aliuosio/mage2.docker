@@ -35,20 +35,6 @@ dockerRefresh() {
         echo "gem install docker-sync;";
         sudo gem install docker-sync;
 
-        if which ruby >/dev/null && which gem >/dev/null; then
-            PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
-            if [ -f ~/.bash_profile ]; then
-                echo "source ~/.bash_profile";
-                source ~/.bash_profile
-
-                echo "source ~/.profile";
-                source ~/.profile
-
-                echo "source ~/.bashrc";
-                source ~/.bashrc
-            fi
-        fi
-
         echo "sed -i '' 's/SSL=true/SSL=false/g' ${PWD}/.env";
         sed -i '' 's/SSL=true/SSL=false/g' ${PWD}/.env
 

@@ -10,6 +10,10 @@ ARG SHOP_URI
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 COPY conf/default_ssl.conf /etc/nginx/conf.d/default_ssl.conf
+COPY conf/env.php /home/${USER}/env.php
+COPY docker-entrypoint.sh /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 RUN apk add --update openssl tzdata curl \
     && ln -sf /usr/share/zoneinfo/Etc/$TZ  /etc/localtime \
@@ -29,10 +33,14 @@ RUN sed -i "s#__user#${USER}#g" /etc/nginx/nginx.conf \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*
 
-COPY conf/env.php /home/${USER}/env.php
-
-RUN chown ${USER}:${USER} /home/${USER}/env.php \
-    && chmod 644 /home/${USER}/env.php;
-
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN if [ "$SSL" = "true" ]; then \
+        mkdir -p /etc/nginx/ssl \
+        && mkdir -p /var/cache/ngx_pagespeed \
+        && chown -R ${USER}:${USER} /etc/nginx/ssl/ \
+        && chown -R ${USER}:${USER} /var/cache/ngx_pagespeed \
+        && chmod 755 -R /var/cache/ngx_pagespeed \
+        && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=${SHOP_URI} \
+        && sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf; \
+    else \
+        sed -i "s#__default#default#g" /etc/nginx/nginx.conf; \
+    fi

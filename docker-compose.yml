@@ -10,6 +10,7 @@ services:
         TZ: ${TZ}
         WORKDIR_SERVER: /home/${USER}/html
         SHOP_URI: ${SHOP_URI}
+        SSL: ${SSL}
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
     working_dir: /home/${USER}/html
@@ -24,7 +25,6 @@ services:
       AUTH_CONFIG: ${AUTH_CONFIG}
       AUTH_USER: ${AUTH_USER}
       AUTH_PASS: ${AUTH_PASS}
-      SSL: ${SSL}
       SHOP_URI: ${SHOP_URI}
     entrypoint: ["docker-entrypoint.sh"]
     volumes:

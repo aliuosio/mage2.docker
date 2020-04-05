@@ -6,6 +6,7 @@ ARG WORKDIR_SERVER
 ARG TZ
 ARG USER
 ARG SHOP_URI
+ARG SSL
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf

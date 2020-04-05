@@ -20,7 +20,7 @@ reMoveMagentoEnv() {
 }
 
 exchangeMagentoEnv() {
-        docker exec -it -u $1 $2 cp /home/$1/env.php /home/$1/html/app/etc/env.php
+        docker exec -it -u $1 $2 cp /env.php /home/$1/html/app/etc/env.php
 }
 
 dockerRefresh() {

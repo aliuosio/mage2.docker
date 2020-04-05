@@ -9,7 +9,6 @@ ARG PHP_VERSION_SET
 ARG TZ
 ARG USER
 
-COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY conf/xdebug.ini /usr/local/etc/php/conf.d/
 
 RUN apk update && apk upgrade --available \
@@ -62,7 +61,6 @@ RUN apk update && apk upgrade --available \
     && pecl channel-update pecl.php.net \
     && pecl install -o -f redis imagick \
     && docker-php-ext-enable redis imagick \
-    && sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/zz-docker.conf \
     && addgroup -g 1000 -S ${USER} \
     && adduser -u 1000 -S -D -G ${USER} ${USER} \
     && mkdir $WORKDIR_SERVER \
@@ -86,3 +84,6 @@ RUN chown -R ${USER}:${USER} /home/${USER}
 
 COPY docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+COPY conf/extra/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+RUN sed -i "s#__user#${USER}#g" /usr/local/etc/php-fpm.d/zz-docker.conf

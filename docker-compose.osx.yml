@@ -10,6 +10,7 @@ services:
         TZ: ${TZ}
         WORKDIR_SERVER: /home/${USER}/html
         SHOP_URI: ${SHOP_URI}
+        SSL: ${SSL}
     container_name: ${NAMESPACE}_nginx
     image: ${NAMESPACE}/nginx
     working_dir: /home/${USER}/html
@@ -24,7 +25,6 @@ services:
       AUTH_CONFIG: ${AUTH_CONFIG}
       AUTH_USER: ${AUTH_USER}
       AUTH_PASS: ${AUTH_PASS}
-      SSL: ${SSL}
       SHOP_URI: ${SHOP_URI}
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
@@ -54,6 +54,7 @@ services:
     links:
       - db
     environment:
+      USER: ${USER}
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
     entrypoint: ["docker-entrypoint.sh"]
@@ -64,6 +65,7 @@ services:
       - mariadb_socket:/var/run/mysqld
       - ~/.cache/composer:/home/${USER}/.composer
       - ./.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
+      - ./.docker/php/conf/extra/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
 
   db:
     image: mariadb:10.5.2

@@ -54,6 +54,7 @@ services:
     links:
       - db
     environment:
+      USER: ${USER}
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
     entrypoint: ["docker-entrypoint.sh"]

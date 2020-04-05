@@ -85,13 +85,8 @@ services:
       --query_cache_limit=0
 
   redis:
-    build:
-      context: ./.docker/redis
-      args:
-        TZ: ${TZ}
-        USER: ${USER}
+    image: redis:alpine
     container_name: ${NAMESPACE}_redis
-    image: osioaliu/redis
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
@@ -101,13 +96,8 @@ services:
       - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf
 
   redis_pagespeed:
-    build:
-      context: ./.docker/redis
-      args:
-        TZ: ${TZ}
-        USER: ${USER}
+    image: redis:alpine
     container_name: ${NAMESPACE}_redis_pagespeed
-    image: osioaliu/redis
     sysctls:
       net.core.somaxconn: '1024'
 
@@ -149,11 +139,11 @@ services:
 volumes:
   #letsencrypt_certs:
   #letsencrypt_www:
-  mariadb_data:
-  elastic_data:
   php_socket:
   mariadb_socket:
   redis_data_socket:
+  mariadb_data:
+  elastic_data:
   app_data:
     driver_opts:
       type: none

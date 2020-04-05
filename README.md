@@ -96,9 +96,12 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     # restart webserver
     docker-compose kill -s SIGHUP nginx
 
-    #### Mailhog Usage
-    
-    http://mage2.localhost:8025
+#### Mailhog Usage
+    Mail Client
+    http://mage2.localhost:8025 
+
+    MailServer
+    mailhog:1025
 
 ## Features
 * Nginx uses http2

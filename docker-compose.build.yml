@@ -3,6 +3,8 @@ version: '3.7'
 services:
 
   nginx:
+    build:
+      context: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx-pagespeed
     working_dir: /home/${USER}/html
@@ -29,6 +31,11 @@ services:
       #- letsencrypt_www:/var/www/letsencrypt
 
   php:
+    build:
+      context: ./.docker/php
+      args:
+        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
@@ -102,6 +109,8 @@ services:
 
   elasticsearch:
     image: osioaliu/elasticsearch
+    build:
+      context: ./.docker/elasticsearch
     container_name: ${NAMESPACE}_elasticsearch
     environment:
       - bootstrap.memory_lock=true

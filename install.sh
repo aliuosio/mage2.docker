@@ -41,18 +41,12 @@ dockerRefresh() {
         echo "docker-sync start";
         docker-sync start;
 
-        echo "docker-compose -f docker-compose.osx.yml down"
-        docker-compose -f docker-compose.osx.yml down
-
         echo "docker-compose -f docker-compose.osx.yml build"
         docker-compose -f docker-compose.osx.yml build
 
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d;
     else
-        echo "docker-compose down"
-        docker-compose down
-
         echo "docker-compose build"
         docker-compose build
 

@@ -16,10 +16,6 @@ authConfig() {
 mainConfig() {
     ln -sf /usr/share/zoneinfo/Etc/$1  /etc/localtime \
     && echo $1 > /etc/timezone \
-    && addgroup -g 1000 --system $2 \
-    && adduser -u 1000 --system -D -G $2 $2 \
-    && chown -R $2:$2 $3 \
-    && chmod -R 755 $3 \
     && mkdir -p /etc/letsencrypt/ \
     && sed -i "s#__user#$2#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default.conf \
@@ -27,7 +23,14 @@ mainConfig() {
     && sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default_ssl.conf \
     && sed -i "s#__shop_uri#$4#g" /etc/nginx/conf.d/default_ssl.conf \
     && apk del tzdata \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/cache/apk/*;
+
+    if [[ ! $(stat -c '%U' $3) = $2 ]]; then \
+        addgroup -g 1000 --system $2 \
+        && adduser -u 1000 --system -D -G $2 $2 \
+        && chown -R $2:$2 $3 \
+        && chmod -R 755 $3;
+    fi
 }
 
 sslConfig() {

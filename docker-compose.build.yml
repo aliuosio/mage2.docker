@@ -64,7 +64,7 @@ services:
       - ./.docker/php/conf/extra/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
   db:
-    image: mariadb:10.5.2
+    image: mariadb:10.4.10
     container_name: ${NAMESPACE}_db
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}

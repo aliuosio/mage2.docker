@@ -88,7 +88,8 @@ return [
     'session' => [
         'save' => 'redis',
         'redis' => [
-            'host' => '/var/run/redis/redis.sock',
+            # 'host' => '/var/run/redis/redis.sock',
+            'host' => 'db',
             'password' => '',
             'timeout' => '2.5',
             'persistent_identifier' => '',

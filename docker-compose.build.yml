@@ -58,34 +58,29 @@ services:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
-      - mariadb_socket:/var/run/mysqld
       - ~/.cache/composer:/home/${USER}/.composer
       - ./.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
       - ./.docker/php/conf/extra/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
   db:
-    image: mariadb:10.5.2
     container_name: ${NAMESPACE}_db
+    image: mariadb:10.5.2
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      - 3306:3306
+      - ${MYSQL_PORT}:3306
     volumes:
-      - mariadb_socket:/var/run/mysqld
       - mariadb_data:/var/lib/mysql/
     command: >
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci
-      --query_cache_size=0
-      --query_cache_type=0
-      --query_cache_limit=0
 
   redis:
-    image: redis:alpine
     container_name: ${NAMESPACE}_redis
+    image: redis:alpine
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
@@ -95,8 +90,8 @@ services:
       - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf
 
   redis_pagespeed:
-    image: redis:alpine
     container_name: ${NAMESPACE}_redis_pagespeed
+    image: redis:alpine
     sysctls:
       net.core.somaxconn: '1024'
 
@@ -107,6 +102,7 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
+    container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch
     build:
       context: ./.docker/elasticsearch
@@ -140,7 +136,6 @@ volumes:
   #letsencrypt_certs:
   #letsencrypt_www:
   php_socket:
-  mariadb_socket:
   redis_data_socket:
   mariadb_data:
   elastic_data:

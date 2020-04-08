@@ -10,7 +10,8 @@ return [
         'table_prefix' => '',
         'connection' => [
             'default' => [
-                'host' => '/var/run/mysqld/mysqld.sock',
+               # 'host' => '/var/run/mysqld/mysqld.sock',
+                'host' => 'db',
                 'dbname' => 'mage2',
                 'username' => 'mage2',
                 'password' => 'mage2',

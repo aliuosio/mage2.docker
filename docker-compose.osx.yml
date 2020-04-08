@@ -51,7 +51,6 @@ services:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
-      - mariadb_socket:/var/run/mysqld
       - ~/.cache/composer:/home/${USER}/.composer
       - ./.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
       - ./.docker/php/conf/extra/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
@@ -68,7 +67,6 @@ services:
       - ${MYSQL_PORT}:3306
     volumes:
       - mariadb_data:/var/lib/mysql/
-      - mariadb_socket:/var/run/mysqld
     command: >
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci
@@ -99,6 +97,8 @@ services:
   elasticsearch:
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch
+    build:
+      context: ./.docker/elasticsearch
     environment:
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false
@@ -129,7 +129,6 @@ volumes:
   #letsencrypt_www:
   php_socket:
   redis_data_socket:
-  mariadb_socket:
   mariadb_data:
   elastic_data:
   app_data:

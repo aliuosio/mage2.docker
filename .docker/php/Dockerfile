@@ -62,6 +62,6 @@ RUN apk del tzdata \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 
-COPY conf/extra/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

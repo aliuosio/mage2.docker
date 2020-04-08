@@ -1,8 +1,9 @@
 # Magento 2 OSX/Linux Docker Nginx(Pagespeed)-MariaDB-PHP-Redis-Elastic Setup
-* small alpine images except for MariaDB and Elastic Search
+* small alpine images except for MariaDB and ElasticSearch
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.1, 7.2, 7.3 all based on php:alpine docker image
-* Containers connect via sockets(Redis, MaridDB is in work) and not TCP/IP
+* php, db, redis Containers connect via sockets
+* redis_pagespeed, mailhog, elasticsearch Containers connect via TCP/IP (Sockets in Work)
 
 ## Description
 This Setup installs the basic docker containers 

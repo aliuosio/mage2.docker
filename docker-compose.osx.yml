@@ -25,6 +25,7 @@ services:
     volumes:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
+      - mariadb_socket:/var/run/mysqld
       #- letsencrypt_certs:/etc/nginx/ssl
       #- letsencrypt_www:/var/www/letsencrypt
 
@@ -51,6 +52,7 @@ services:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
+      - mariadb_socket:/var/run/mysqld
       - ~/.cache/composer:/home/${USER}/.composer
       - ./.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
       - ./.docker/php/conf/extra/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
@@ -127,6 +129,7 @@ volumes:
   #letsencrypt_www:
   php_socket:
   redis_data_socket:
+  mariadb_socket:
   mariadb_data:
   elastic_data:
   app_data:

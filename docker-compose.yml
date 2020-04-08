@@ -25,6 +25,7 @@ services:
     volumes:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
+      - mariadb_socket:/var/run/mysqld
       #- letsencrypt_certs:/etc/nginx/ssl
       #- letsencrypt_www:/var/www/letsencrypt
 
@@ -51,6 +52,7 @@ services:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
+      - mariadb_socket:/var/run/mysqld
       - ~/.cache/composer:/home/${USER}/.composer
       - ./.docker/php/conf/extra/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
       - ./.docker/php/conf/extra/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
@@ -64,7 +66,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-    - ${MYSQL_PORT}:3306
+      - ${MYSQL_PORT}:3306
     volumes:
       - mariadb_data:/var/lib/mysql/
     command: >
@@ -127,6 +129,7 @@ volumes:
   #letsencrypt_www:
   php_socket:
   redis_data_socket:
+  mariadb_socket:
   mariadb_data:
   elastic_data:
   app_data:

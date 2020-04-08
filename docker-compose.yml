@@ -70,6 +70,9 @@ services:
     command: >
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci
+      --query_cache_size=0
+      --query_cache_type=0
+      --query_cache_limit=0
 
   redis:
     container_name: ${NAMESPACE}_redis
@@ -97,8 +100,6 @@ services:
   elasticsearch:
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch
-    build:
-      context: ./.docker/elasticsearch
     environment:
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false

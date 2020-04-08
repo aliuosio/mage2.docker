@@ -12,8 +12,6 @@ RUN apk update && apk upgrade --available \
         libxslt-dev \
         freetype-dev \
         libjpeg-turbo-dev \
-        libpng \
-        libpng-dev \
         libzip-dev \
     && set -xe \
     && apk add \
@@ -37,7 +35,7 @@ RUN apk update && apk upgrade --available \
         g++ \
     && docker-php-ext-configure gd \
         --with-freetype-dir=/usr/include/freetype2 \
-        --with-jpeg-dir=/usr/lib/x86_64-linux-gnu/ \
+        --with-jpeg-dir=/usr/include \
     && docker-php-ext-configure hash --with-mhash \
     && docker-php-ext-install \
         bcmath \
@@ -61,8 +59,6 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
     fi
 
 RUN apk del tzdata \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && chmod +x /usr/local/bin/composer \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/pear
 

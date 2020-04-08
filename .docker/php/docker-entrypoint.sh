@@ -8,11 +8,8 @@ timezoneSet() {
 }
 
 permissionsSet() {
-    if [[ ! grep -c '$1' /etc/passwd ]]; then
-        adduser -u 1000 -S -D -G $1 $1 \
-        && addgroup -g 1000 -S $1 \
-        && chown -R $1:$1 /home/$1 \
-        && chmod 775 $2;
+    if [[ $(grep -c $1 /etc/passwd) == 0 ]]; then
+        adduser -D -u 1000 $1 $1;
     fi
 }
 

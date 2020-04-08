@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 getLatestFromRepo() {
     echo "git fetch && git pull;";
     git fetch && git pull;
@@ -195,6 +193,8 @@ permissionsSet() {
 
     echo $runtime "Sec";
 }
+
+set -e
 
 createEnv
 

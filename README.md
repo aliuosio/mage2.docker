@@ -2,8 +2,8 @@
 * small alpine images except for MariaDB and ElasticSearch
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.1, 7.2, 7.3 all based on php:alpine docker image
-* php, db, redis Containers connect via sockets
-* redis_pagespeed, mailhog, elasticsearch Containers connect via TCP/IP (Sockets in Work)
+* php, redis containers connect via sockets
+* db(mariadb), redis_pagespeed, mailhog, elasticsearch containers connect via TCP/IP (Sockets in Work)
 
 ## Description
 This Setup installs the basic docker containers 
@@ -98,11 +98,16 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     docker-compose kill -s SIGHUP nginx
 
 ## Mailhog Usage
+
     Mail Client
     http://mage2.localhost:8025 
 
-    MailServer
-    mailhog:1025
+    In Magento 2 Backend `stores` -> `Configuration` -> `Advanced` -> `System` -> `Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
+   
+    Authentication method: NONE
+    SSL type: None
+    SMTP Host: mailhog
+    SMTP Port: 1025
 
 ## Features
 * Nginx uses http2
@@ -130,7 +135,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 
 ### Todos
-* connect to MySQL using socket
+* connect to MariaDB using sockets
 * exchange install.sh with extra docker container for magento 2 installation
 * exchange sampledata.sh with extra docker container for magento 2 sampledata installation
 * add instructions to README for adding existing projects to this Docker Stack

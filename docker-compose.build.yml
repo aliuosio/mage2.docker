@@ -102,6 +102,8 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
+    build:
+      context: ./.docker/elasticsearch
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch
     build:

@@ -8,8 +8,9 @@ timezoneSet() {
 }
 
 permissionsSet() {
-    if [[ $(grep -c $1 /etc/passwd) == 0 ]]; then
-        adduser -D -u 1000 $1 $1;
+     if [[ $(grep -c $1 /etc/passwd) == 0 ]]; then
+        adduser -D -u 1000 $1 $1 \
+        && chown -R $1:$1 $2;
     fi
 }
 
@@ -19,6 +20,12 @@ addPathToBashProfile() {
 
 phpSettings() {
     sed -i "s#__user#$1#g" /usr/local/etc/php-fpm.d/zz-docker.conf;
+}
+
+cleanUp() {
+    apk del tzdata \
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /tmp/pear
 }
 
 composerInstall() {
@@ -36,6 +43,7 @@ xdebugConfig() {
 timezoneSet ${TZ}
 permissionsSet ${USER} ${WORKDIR_SERVER}
 addPathToBashProfile ${USER}
+cleanUp
 phpSettings ${USER}
 composerInstall
 xdebugConfig ${XDEBUG_ENABLE}

@@ -58,10 +58,6 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         && docker-php-ext-install mcrypt; \
     fi
 
-RUN apk del tzdata \
-    && rm -rf /var/cache/apk/* \
-    && rm -rf /tmp/pear
-
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

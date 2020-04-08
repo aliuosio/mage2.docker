@@ -25,11 +25,9 @@ mainConfig() {
     && apk del tzdata \
     && rm -rf /var/cache/apk/*;
 
-    if [[ ! $(stat -c '%U' $3) = $2 ]]; then \
-        addgroup -g 1000 --system $2 \
-        && adduser -u 1000 --system -D -G $2 $2 \
-        && chown -R $2:$2 $3 \
-        && chmod -R 755 $3;
+    if [[ $(grep -c $2 /etc/passwd) == 0 ]]; then
+        adduser -D -u 1000 $2 $2 \
+        && chown -R $2:$2 $3;
     fi
 }
 

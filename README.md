@@ -75,6 +75,18 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 > You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
 > On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1
 
+## Mailhog Usage
+
+    Mail Client
+    http://mage2.localhost:8025 
+
+    In Magento 2 Backend `stores` -> `Configuration` -> `Advanced` -> `System` -> `Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
+   
+    Authentication method: NONE
+    SSL type: None
+    SMTP Host: mailhog
+    SMTP Port: 1025
+
 ## SSL Certificate Registration
     
     # register certificate
@@ -96,18 +108,6 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     
     # restart webserver
     docker-compose kill -s SIGHUP nginx
-
-## Mailhog Usage
-
-    Mail Client
-    http://mage2.localhost:8025 
-
-    In Magento 2 Backend `stores` -> `Configuration` -> `Advanced` -> `System` -> `Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
-   
-    Authentication method: NONE
-    SSL type: None
-    SMTP Host: mailhog
-    SMTP Port: 1025
 
 ## Features
 * Nginx uses http2

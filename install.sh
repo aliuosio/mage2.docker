@@ -217,19 +217,18 @@ magentoComposerJson() {
     cp .docker/php/conf/composer.json htdocs/
 }
 
-createHtdocs
-magentoComposerJson
-getLatestFromRepo
-reMoveMagentoEnv
-createEnv
-
 . ${PWD}/.env;
 
+# getLatestFromRepo
+createHtdocs
+# magentoComposerJson
+# reMoveMagentoEnv
+# createEnv
 # dockerRefresh
-composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
-install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
-setDomain ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
+# composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
+# install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
+# setDomain ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
-magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
-getMagerun ${SHOP_URI}
-permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET}
+# magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
+# getMagerun ${SHOP_URI}
+# permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET}

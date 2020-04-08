@@ -10,8 +10,8 @@ return [
         'table_prefix' => '',
         'connection' => [
             'default' => [
-                // 'host' => 'db',
-                'host' => '/var/run/mysqld/mysqld.sock',
+                // 'host' => '/var/run/mysqld/mysqld.sock',
+                'host' => 'db',
                 'dbname' => 'mage2',
                 'username' => 'mage2',
                 'password' => 'mage2',
@@ -88,7 +88,7 @@ return [
     'session' => [
         'save' => 'redis',
         'redis' => [
-            # 'host' => '/var/run/redis/redis.sock',
+            'host' => '/var/run/redis/redis.sock',
             'host' => 'db',
             'password' => '',
             'timeout' => '2.5',

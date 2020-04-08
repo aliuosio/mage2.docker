@@ -18,7 +18,6 @@
     },
     "require-dev": {
         "allure-framework/allure-phpunit": "~1.2.0",
-        "friendsofphp/php-cs-fixer": "~2.13.0",
         "lusitanian/oauth": "~0.8.10",
         "mage2tv/magento-cache-clean": "^1.0",
         "magento/magento-coding-standard": "~1.0.0",

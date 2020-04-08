@@ -48,16 +48,10 @@ dockerRefresh() {
         echo "docker-sync start";
         docker-sync start;
 
-        echo "docker-compose -f docker-compose.osx.yml build"
-        docker-compose -f docker-compose.osx.yml build
-
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d;
     else
-        echo "docker-compose -f docker-compose.build.yml build"
-        docker-compose -f docker-compose.build.yml build;
-
-        echo "docker-compose -f docker-compose.build.yml up -d;"
+        echo "docker-compose up -d;"
         docker-compose -f docker-compose.build.yml up -d;
     fi;
 
@@ -156,9 +150,6 @@ magentoRefresh() {
     echo "docker exec -it -u $1 $2 bin/magento se:up;";
     docker exec -it -u $1 $2 bin/magento se:up;
 
-    # echo docker exec -it -u $1 $2 bin/magento i:rei;";
-    # docker exec -it -u $1 $2 bin/magento i:rei;
-
     echo "docker exec -it -u $1 $2 bin/magento c:c;";
     docker exec -it -u $1 $2 bin/magento c:c;
 
@@ -206,13 +197,14 @@ permissionsSet() {
     echo $runtime "Sec";
 }
 
+createEnv
+
 . ${PWD}/.env;
 
 getLatestFromRepo
 createHtdocs
 magentoComposerJson
 reMoveMagentoEnv
-createEnv
 dockerRefresh
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}

@@ -130,7 +130,6 @@ setDomain() {
 
     echo "URL Settings and Cookie Domain START";
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SECURE}";
-    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SECURE}";
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_UNSECURE}";
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_COOKIE}";
     echo "URL Settings and Cookie Domain END";

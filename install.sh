@@ -7,9 +7,15 @@ getLatestFromRepo() {
     git fetch && git pull;
 }
 
-createEnv() {
-    echo "cp ./.env.template ./.env";
-    cp ./.env.template ./.env
+createHtdocs() {
+    if [[ ! -d htdocs ]]; then
+        echo "mkdir htdocs";
+        mkdir htdocs
+    fi
+}
+
+magentoComposerJson() {
+    cp ./.docker/config_blueprints/composer.json htdocs/
 }
 
 reMoveMagentoEnv() {
@@ -19,8 +25,9 @@ reMoveMagentoEnv() {
     fi
 }
 
-exchangeMagentoEnv() {
-    cp ./.docker/config_blueprints/env.php ./htdocs/
+createEnv() {
+    echo "cp ./.env.template ./.env";
+    cp ./.env.template ./.env
 }
 
 dockerRefresh() {
@@ -47,11 +54,11 @@ dockerRefresh() {
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d;
     else
-        echo "docker-compose build"
-        docker-compose build
+        echo "docker-compose -f docker-compose.build.yml build"
+        docker-compose -f docker-compose.build.yml build;
 
-        echo "docker-compose up -d"
-        docker-compose up -d;
+        echo "docker-compose -f docker-compose.build.yml up -d;"
+        docker-compose -f docker-compose.build.yml up -d;
     fi;
 
     sleep 5
@@ -73,23 +80,6 @@ composerPackages() {
         docker exec -it -u $1 $2 composer install --no-dev;
     fi
 }
-
-getMagerun() {
-    if [[ $1 == *"local"* ]]; then
-        echo "cd htdocs;";
-        cd htdocs;
-
-        echo "curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar;";
-        curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar;
-
-        echo "chmod +x n98-magerun2.phar";
-        chmod +x n98-magerun2.phar;
-
-        echo "cd ..;";
-        cd ..;
-    fi;
-}
-
 
 install() {
     if [[ $7 == "true" ]]; then
@@ -145,14 +135,21 @@ install() {
         --use-rewrites=1;
 }
 
-mailHogConfig() {
-    if [[ -f $1$2 ]]; then
-        echo "Importing $1$2 START";
-        cat $1$2 | docker exec -i $3 mysql -u root -p$4 $5;
-        echo "Importing $1$2 END";
-    else
-        echo "$1$2 not found";
-    fi;
+setDomain() {
+
+    SET_URL_SECURE="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'http://$5/', 'web/unsecure/base_url') ON DUPLICATE KEY UPDATE value='http://$5/', path='web/unsecure/base_url', scope='default';";
+    SET_URL_UNSECURE="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'https://$5/', 'web/secure/base_url') ON DUPLICATE KEY UPDATE value='https://$5/', path='web/secure/base_url', scope='default';";
+    SET_URL_COOKIE="USE $1; INSERT core_config_data(scope, value, path) VALUES('default', '$5', 'web/cookie/cookie_domain') ON DUPLICATE KEY UPDATE value='$5', path='web/cookie/cookie_domain', scope='default';";
+
+    echo "URL Settings and Cookie Domain START";
+    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SECURE}";
+    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_UNSECURE}";
+    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_COOKIE}";
+    echo "URL Settings and Cookie Domain END";
+}
+
+exchangeMagentoEnv() {
+    cp ./.docker/config_blueprints/env.php ./htdocs/app/etc
 }
 
 magentoRefresh() {
@@ -174,6 +171,22 @@ magentoRefresh() {
     fi
 }
 
+getMagerun() {
+    if [[ $1 == *"local"* ]]; then
+        echo "cd htdocs;";
+        cd htdocs;
+
+        echo "curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar;";
+        curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar;
+
+        echo "chmod +x n98-magerun2.phar";
+        chmod +x n98-magerun2.phar;
+
+        echo "cd ..;";
+        cd ..;
+    fi;
+}
+
 permissionsSet() {
     echo "setting permissions... takes time... It took 90 sec the last time.";
 
@@ -193,42 +206,18 @@ permissionsSet() {
     echo $runtime "Sec";
 }
 
-setDomain() {
-
-    SET_URL_SECURE="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'http://$5/', 'web/unsecure/base_url') ON DUPLICATE KEY UPDATE value='http://$5/', path='web/unsecure/base_url', scope='default';";
-    SET_URL_UNSECURE="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'https://$5/', 'web/secure/base_url') ON DUPLICATE KEY UPDATE value='https://$5/', path='web/secure/base_url', scope='default';";
-    SET_URL_COOKIE="USE $1; INSERT core_config_data(scope, value, path) VALUES('default', '$5', 'web/cookie/cookie_domain') ON DUPLICATE KEY UPDATE value='$5', path='web/cookie/cookie_domain', scope='default';";
-
-    echo "URL Settings and Cookie Domain START";
-    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SECURE}";
-    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_UNSECURE}";
-    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_COOKIE}";
-    echo "URL Settings and Cookie Domain END";
-}
-
-createHtdocs() {
-    if [[ ! -d htdocs ]]; then
-        echo "mkdir htdocs";
-        mkdir htdocs
-    fi
-}
-
-magentoComposerJson() {
-    cp .docker/php/conf/composer.json htdocs/
-}
-
 . ${PWD}/.env;
 
-# getLatestFromRepo
+getLatestFromRepo
 createHtdocs
-# magentoComposerJson
-# reMoveMagentoEnv
-# createEnv
-# dockerRefresh
-# composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
-# install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
-# setDomain ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
+magentoComposerJson
+reMoveMagentoEnv
+createEnv
+dockerRefresh
+composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
+install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
+setDomain ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
-# magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
-# getMagerun ${SHOP_URI}
-# permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET}
+magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
+getMagerun ${SHOP_URI}
+permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET}

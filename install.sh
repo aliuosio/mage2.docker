@@ -32,7 +32,6 @@ createEnv() {
 
 dockerRefresh() {
     if [[ $(uname -s) == "Darwin" ]]; then
-
         echo "brew install unison";
         brew install unison;
 
@@ -52,7 +51,7 @@ dockerRefresh() {
         docker-compose -f docker-compose.osx.yml up -d;
     else
         echo "docker-compose up -d;"
-        docker-compose -f docker-compose.build.yml up -d;
+        docker-compose up -d;
     fi;
 
     sleep 5

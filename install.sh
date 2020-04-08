@@ -5,15 +5,12 @@ getLatestFromRepo() {
     git fetch && git pull;
 }
 
-createHtdocs() {
-    if [[ ! -d htdocs ]]; then
-        echo "mkdir htdocs";
-        mkdir htdocs
-    fi
-}
-
 magentoComposerJson() {
-    cp ./.docker/config_blueprints/composer.json htdocs/
+    echo "rm -rf htdocs/.gitkeep;";
+    rm -rf htdocs/.gitkeep;
+
+    echo "cp ./.docker/config_blueprints/composer.json htdocs/;";
+    cp ./.docker/config_blueprints/composer.json htdocs/;
 }
 
 reMoveMagentoEnv() {
@@ -127,12 +124,12 @@ install() {
 }
 
 setDomain() {
-
     SET_URL_SECURE="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'http://$5/', 'web/unsecure/base_url') ON DUPLICATE KEY UPDATE value='http://$5/', path='web/unsecure/base_url', scope='default';";
     SET_URL_UNSECURE="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'https://$5/', 'web/secure/base_url') ON DUPLICATE KEY UPDATE value='https://$5/', path='web/secure/base_url', scope='default';";
     SET_URL_COOKIE="USE $1; INSERT core_config_data(scope, value, path) VALUES('default', '$5', 'web/cookie/cookie_domain') ON DUPLICATE KEY UPDATE value='$5', path='web/cookie/cookie_domain', scope='default';";
 
     echo "URL Settings and Cookie Domain START";
+    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SECURE}";
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SECURE}";
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_UNSECURE}";
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_COOKIE}";
@@ -201,7 +198,6 @@ createEnv
 . ${PWD}/.env;
 
 getLatestFromRepo
-createHtdocs
 magentoComposerJson
 reMoveMagentoEnv
 dockerRefresh

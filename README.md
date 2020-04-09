@@ -135,6 +135,7 @@ following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/conf
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 
 ### Todos
+* add composer volume to docker-sync on osx
 * connect to MariaDB using sockets
 * exchange install.sh with extra docker container for magento 2 installation
 * exchange sampledata.sh with extra docker container for magento 2 sampledata installation

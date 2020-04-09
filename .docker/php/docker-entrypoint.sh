@@ -37,7 +37,6 @@ xdebugConfig() {
 timezoneSet ${TZ}
 permissionsSet ${USER} ${WORKDIR_SERVER}
 addPathToBashProfile ${USER}
-cleanUp
 phpSettings ${USER}
 composerInstall
 xdebugConfig ${XDEBUG_ENABLE}

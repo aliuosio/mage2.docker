@@ -133,6 +133,7 @@ volumes:
   mariadb_data:
   elastic_data:
   redis_pagespeed_data:
+  redis_data:
   app_data:
     driver_opts:
       type: none

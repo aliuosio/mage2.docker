@@ -133,13 +133,6 @@ volumes:
   mariadb_data:
   elastic_data:
   redis_pagespeed_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  redis_data:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
   app_data:
     driver_opts:
       type: none

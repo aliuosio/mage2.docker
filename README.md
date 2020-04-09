@@ -71,7 +71,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     
     Search Engine: Elasticsearch 6.0+
     Elasticsearch Server Hostname: elasticsearch
-    Elasticsearch Server Port: 9200
+    
 > You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
 > On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1
 
@@ -80,7 +80,8 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     Mail Client
     http://mage2.localhost:8025 
 
-    In Magento 2 Backend `stores` -> `Configuration` -> `Advanced` -> `System` -> `Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
+    In Magento 2 Backend `stores` -> `Configuration` -> `Advanced` -> `System` 
+    -> `Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
    
     Authentication method: NONE
     SSL type: None

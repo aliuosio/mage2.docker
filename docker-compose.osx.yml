@@ -83,6 +83,7 @@ services:
     command: ["/etc/redis/redis.conf", "--appendonly", "yes"]
     volumes:
       - redis_data_socket:/var/run/redis
+      - redis_data:/data
       - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf
 
   redis_pagespeed:
@@ -90,7 +91,9 @@ services:
     image: redis:alpine
     sysctls:
       net.core.somaxconn: '1024'
+    volumes:
 
+      - redis_pagespeed_data:/var/run/redis
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
@@ -132,5 +135,7 @@ volumes:
   redis_data_socket:
   mariadb_data:
   elastic_data:
+  redis_pagespeed_data:
+  redis_data:
   app_data:
     external: true

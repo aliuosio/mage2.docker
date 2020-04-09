@@ -22,12 +22,6 @@ phpSettings() {
     sed -i "s#__user#$1#g" /usr/local/etc/php-fpm.d/zz-docker.conf;
 }
 
-cleanUp() {
-    apk del tzdata \
-    && rm -rf /var/cache/apk/* \
-    && rm -rf /tmp/pear
-}
-
 composerInstall() {
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer;

@@ -114,7 +114,8 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 ## Features
 * Nginx uses http2
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
-* set project directory to where ever you want (as configurable option)
+* set project directory to where ever you want (as configurable option in .env)
+* [MySQLTuner Script](https://github.com/major/MySQLTuner-perl) for Mariadb Performance Testing
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
 * **node / yarn** is setup in PHP Container (Login into PHP Container for usage) 
 * setup valid **SSL certificates** with letsencrypt container

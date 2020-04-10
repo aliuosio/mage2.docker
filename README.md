@@ -126,9 +126,8 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * **PHP redis** enabled
 * Mailhog container installed with install.sh
 * ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~
-* permissions are set after magento 2 install  
+* permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
 * mysqltuner.pl for performance testing in db container
-following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  as configurable option
 * **http basic authentication** 
 * **use MariaDB, PHP and Redis over sockets** instead of ports for faster data container exchange
 * **Extra Composer Packages**

@@ -113,26 +113,28 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 
 ## Features
 * Nginx uses http2
-* alternative **OSX docker-compose** file using docker-sync **for better perfomance**
+* alternative **OSX docker-compose** file using docker-sync **for better performance**
 * set project directory to where ever you want (as configurable option)
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
 * **node / yarn** is setup in PHP Container (Login into PHP Container for usage) 
 * setup valid **SSL certificates** with letsencrypt container
 * Nginx uses **Pagespeed** Module
 * both **PHP GD and PHP Imagick** are installed
-* [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled
 * Mailhog container installed with install.sh
 * ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~
 * permissions are set after magento 2 install  
+* mysqltuner.pl for performance testing in db container
 following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  as configurable option
 * **http basic authentication** 
 * **use MariaDB, PHP and Redis over sockets** instead of ports for faster data container exchange
+
 * **Extra Composer Packages**
-    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer Package
-* **Extra Composer Packages with Magento 2 Installer **  
+    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer package
+
+* **Extra Composer Packages with Magento 2 Installer**  
     * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar)
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
 

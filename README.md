@@ -31,7 +31,8 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     ./install.sh 
     (on osx open a new tab to run ./install.sh again)
     
-> Modify settings in .env before running `./install.sh` if needed
+> Modify settings in .env.template before running `./install.sh` if needed
+> use .env to change values later after installation 
 
 ## Backend in Browser
     http://mage2.localhost/admin

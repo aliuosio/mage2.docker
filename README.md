@@ -131,10 +131,8 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)  as configurable option
 * **http basic authentication** 
 * **use MariaDB, PHP and Redis over sockets** instead of ports for faster data container exchange
-
 * **Extra Composer Packages**
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer package
-
 * **Extra Composer Packages with Magento 2 Installer**  
     * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar)
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 

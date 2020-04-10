@@ -140,6 +140,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * add composer volume to docker-sync on osx
 * connect to MariaDB using sockets
 * `SHOP_URI` in .env should change the domain and cookie name in magento 2 DB on `docker-compose up -d`
+* rename config_blueprints to config and move config files to .docker/config
 * exchange install.sh with extra docker container for magento 2 installation
 * exchange sampledata.sh with extra docker container for magento 2 sampledata installation
 * add instructions to README for adding existing projects to this Docker Stack

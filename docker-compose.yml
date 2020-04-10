@@ -67,6 +67,7 @@ services:
       - ${MYSQL_PORT}:3306
     volumes:
       - mariadb_data:/var/lib/mysql/
+      - conf/my.cnf /etc/mysql/my.cnf
     command: >
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci

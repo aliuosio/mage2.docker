@@ -74,13 +74,14 @@ composerPackages() {
 }
 
 install() {
-    if [[ $7 == "true" ]]; then
-        url="https://$2/";
+    if [ "$7" == "true" ]; then
         secure=1;
     else
-        url="http://$2/";
         secure=0;
     fi
+
+    url_secure="https://$2/";
+    url_unsecure="http://$2/";
 
     echo "docker exec -it -u $1 $3 chmod +x bin/magento";
     docker exec -it -u $1 $3 chmod +x bin/magento
@@ -91,8 +92,8 @@ install() {
         --db-user=$5 \
         --db-password=$6 \
         --backend-frontname=admin \
-        --base-url=${url} \
-        --base-url-secure=${url} \
+        --base-url=${url_secure} \
+        --base-url-secure=${url_unsecure} \
         --use-secure=${secure} \
         --use-secure-admin=${secure} \
         --language=de_DE \
@@ -111,10 +112,10 @@ install() {
         --db-user=$5 \
         --db-password=$6 \
         --backend-frontname=admin \
-        --base-url=${url} \
-        --base-url-secure=${url} \
-        --use-secure=${secure} \
-        --use-secure-admin=${secure} \
+        --base-url="${url}" \
+        --base-url-secure="${url}" \
+        --use-secure=0 \
+        --use-secure-admin=0 \
         --language=de_DE \
         --timezone=Europe/Berlin \
         --currency=EUR \

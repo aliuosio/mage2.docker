@@ -27,7 +27,7 @@
         "phpmd/phpmd": "@stable",
         "phpunit/phpunit": "^6.5.0",
         "sebastian/phpcpd": "^3.0.0",
-        "squizlabs/php_codesniffer": "3.3.1",
+        "squizlabs/php_codesniffer": "^3.3.1",
         "vpietri/adm-quickdevbar": "^0.1.14"
     },
     "conflict": {

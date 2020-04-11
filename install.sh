@@ -166,17 +166,11 @@ magentoRefresh() {
 
 getMagerun() {
     if [[ $1 == *"local"* ]]; then
-        echo "cd htdocs;";
-        cd htdocs;
+        echo "docker exec -it $1 curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar;";
+        docker exec -it $1 curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar;
 
-        echo "curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar;";
-        curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar;
-
-        echo "chmod +x n98-magerun2.phar";
-        chmod +x n98-magerun2.phar;
-
-        echo "cd ..;";
-        cd ..;
+        echo "docker exec -it $1 chmod +x n98-magerun2.phar;";
+        docker exec -it $1 chmod +x n98-magerun2.phar;
     fi;
 }
 
@@ -208,11 +202,11 @@ createEnv
 getLatestFromRepo
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx
-reMoveMagentoEnv
-composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
+reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
+composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
-getMagerun ${SHOP_URI}
-permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET}
+getMagerun ${NAMESPACE}_nginx
+permissionsSet ${NAMESPACE}_nginx

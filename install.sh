@@ -195,8 +195,8 @@ permissionsSet() {
 }
 
 restoreGitkeep() {
-    echo "docker exec -it -u $1 $2 git checkout .";
-    docker exec -it -u $1 $2 git checkout .
+    echo "git checkout .";
+    git checkout .
 }
 
 set -e
@@ -216,4 +216,4 @@ exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 getMagerun ${NAMESPACE}_nginx
 permissionsSet ${NAMESPACE}_nginx
-restoreGitkeep ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
+restoreGitkeep

@@ -31,32 +31,33 @@ createEnv() {
 
 dockerRefresh() {
     if [[ $(uname -s) == "Darwin" ]]; then
+        if  [ ! -x "$(command -v unison)" ]; then
+            echo "brew install unison";
+            brew install unison;
+        fi
+        if  [ ! -x "$(command -v unox)" ]; then
+            echo "brew install eugenmayer/dockersync/unox";
+            brew install eugenmayer/dockersync/unox;
+        fi
+        if  [ ! -x "$(command -v docker-sync)" ]; then
+            echo "gem install docker-sync;";
+            sudo gem install docker-sync;
+        fi
 
-      if  [ ! -x "$(command -v docker-sync)" ]; then
-        echo "brew install unison";
-        brew install unison;
+        echo "sed -i '' 's/SSL=true/SSL=false/g' ${PWD}/.env";
+        sed -i '' 's/SSL=true/SSL=false/g' ${PWD}/.env
 
-        echo "brew install eugenmayer/dockersync/unox";
-        brew install eugenmayer/dockersync/unox;
+        echo "docker-sync start";
+        docker-sync start;
 
-        echo "gem install docker-sync;";
-        sudo gem install docker-sync;
-      fi
-
-      echo "sed -i '' 's/SSL=true/SSL=false/g' ${PWD}/.env";
-      sed -i '' 's/SSL=true/SSL=false/g' ${PWD}/.env
-
-      echo "docker-sync start";
-      docker-sync start;
-
-      echo "docker-compose -f docker-compose.osx.yml up -d"
-      docker-compose -f docker-compose.osx.yml up -d;
+        echo "docker-compose -f docker-compose.osx.yml up -d"
+        docker-compose -f docker-compose.osx.yml up -d;
     else
         echo "docker-compose up -d;"
         docker-compose up -d;
     fi;
 
-    sleep 5
+    sleep 7
 }
 
 composerPackages() {

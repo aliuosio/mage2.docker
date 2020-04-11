@@ -6,8 +6,8 @@ getLatestFromRepo() {
 }
 
 magentoComposerJson() {
-    echo "docker exec -u $1 $2 rm ./.gitkeep;";
-    docker exec -u $1 $2 rm ./.gitkeep;
+    echo "docker exec -u $1 $2 rm -rf ./.gitkeep;";
+    docker exec -u $1 $2 rm -rf ./.gitkeep;
 
     echo  "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json";
     docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json
@@ -206,9 +206,9 @@ createEnv
 . ${PWD}/.env;
 
 getLatestFromRepo
+dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx
 reMoveMagentoEnv
-dockerRefresh
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}

@@ -35,7 +35,7 @@ dockerRefresh() {
             echo "brew install unison";
             brew install unison;
         fi
-        if  [ ! -x "$(command -v unox)" ]; then
+        if [ ! -d /usr/local/opt/unox ]; then
             echo "brew install eugenmayer/dockersync/unox";
             brew install eugenmayer/dockersync/unox;
         fi
@@ -204,7 +204,7 @@ getLatestFromRepo
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx
 reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
-composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
+composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx

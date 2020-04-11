@@ -32,7 +32,7 @@ createEnv() {
 dockerRefresh() {
     if [[ $(uname -s) == "Darwin" ]]; then
 
-      if docker-sync 2>/dev/null; then
+      if  [ ! -x "$(command -v docker-sync)" ]; then
         echo "brew install unison";
         brew install unison;
 

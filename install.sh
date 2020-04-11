@@ -6,17 +6,17 @@ getLatestFromRepo() {
 }
 
 magentoComposerJson() {
-    echo "rm -rf htdocs/.gitkeep;";
-    rm -rf htdocs/.gitkeep;
+    echo "docker exec -u $1 $2 rm ./.gitkeep;";
+    docker exec -u $1 $2 rm ./.gitkeep;
 
-    echo "cp ./.docker/config_blueprints/composer.json htdocs/;";
-    cp ./.docker/config_blueprints/composer.json htdocs/;
+    echo  "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json";
+    docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json
 }
 
 reMoveMagentoEnv() {
     if [ -f htdocs/app/etc/env.php ]; then
-        echo "rm -rf htdocs/app/etc/env.php";
-        rm -rf htdocs/app/etc/env.php
+        echo "docker exec -u $1 $2 rm -rf app/etc/env.php";
+        docker exec -u $1 $2 rm -rf app/etc/env.php;
     fi
 }
 
@@ -144,7 +144,8 @@ setDomainAndCookieName() {
 }
 
 exchangeMagentoEnv() {
-    cp ./.docker/config_blueprints/env.php ./htdocs/app/etc
+    echo "docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php";
+    docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php
 }
 
 magentoRefresh() {
@@ -205,7 +206,7 @@ createEnv
 . ${PWD}/.env;
 
 getLatestFromRepo
-magentoComposerJson
+magentoComposerJson ${USER} ${NAMESPACE}_nginx
 reMoveMagentoEnv
 dockerRefresh
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}

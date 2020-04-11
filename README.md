@@ -51,11 +51,11 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     Linux:
     docker-compose up -d
 
-## to fix Redis Performance Issues
+## to fix Redis Performance Issues (Linux Only)
     sudo sysctl vm.overcommit_memory=1;
     echo never > /sys/kernel/mm/transparent_hugepage/enabled;
     
-## to fix ElasticSearch Performance Issues    
+## to fix ElasticSearch Performance Issues (Linux Only)
     sudo sysctl vm.max_map_count=262144
 
 ## Install sample data

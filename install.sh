@@ -215,5 +215,5 @@ setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 getMagerun ${NAMESPACE}_nginx
-permissionsSet ${NAMESPACE}_nginx
+# permissionsSet ${NAMESPACE}_nginx
 restoreGitkeep

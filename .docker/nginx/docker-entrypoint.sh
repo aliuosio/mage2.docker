@@ -44,7 +44,8 @@ sslConfig() {
         echo 'SSL Config Stop';
     else \
         echo 'NON SSL Config START';
-        sed -i "s#__default#default#g" /etc/nginx/nginx.conf; \
+        sed -i "s#default_ssl#default#g" /etc/nginx/nginx.conf \
+        && sed -i "s#__default#default#g" /etc/nginx/nginx.conf;
         echo 'NON SSL Config END';
     fi
 }

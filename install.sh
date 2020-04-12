@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 getLatestFromRepo() {
     echo "git fetch && git pull;";
     git fetch && git pull;
@@ -156,7 +158,7 @@ elasticConfig() {
     echo "Elastic Search Config START";
     docker exec -it $4 mysql -u $2 -p$3 -e "${CONFIG_1}";
     docker exec -it $4 mysql -u $2 -p$3 -e "${CONFIG_2}";
-    echo "Elastic Search Config ENDs";
+    echo "Elastic Search Config END";
 }
 
 magentoRefresh() {
@@ -188,6 +190,9 @@ getMagerun() {
 
         echo "docker cp -a n98-magerun2.phar $2:/home/$1/html/n98-magerun2.phar";
         docker cp -a n98-magerun2.phar $2:/home/$1/html/n98-magerun2.phar
+
+        echo "rm -rf ./n98-magerun2.phar;";
+        rm -rf ./n98-magerun2.phar;
     fi;
 }
 
@@ -215,8 +220,6 @@ restoreHtdocs() {
     git checkout .
 }
 
-set -e
-
 createEnv
 
 . ${PWD}/.env;
@@ -231,6 +234,6 @@ setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
-# getMagerun ${USER} ${NAMESPACE}_nginx ${SHOP_URI}
-# permissionsSet ${NAMESPACE}_nginx
+getMagerun ${USER} ${NAMESPACE}_nginx ${SHOP_URI}
+permissionsSet ${NAMESPACE}_nginx
 restoreHtdocs

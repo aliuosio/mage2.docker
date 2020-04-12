@@ -116,10 +116,10 @@ install() {
         --db-user=$5 \
         --db-password=$6 \
         --backend-frontname=admin \
-        --base-url="${url}" \
-        --base-url-secure="${url}" \
-        --use-secure=0 \
-        --use-secure-admin=0 \
+        --base-url=${url_unsecure} \
+        --base-url-secure=${url_secure} \
+        --use-secure=${secure} \
+        --use-secure-admin=${secure} \
         --language=de_DE \
         --timezone=Europe/Berlin \
         --currency=EUR \

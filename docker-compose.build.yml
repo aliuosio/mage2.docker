@@ -65,8 +65,10 @@ services:
   db:
     build:
       context: ./.docker/mysql
+      args:
+        MARIADB_VERSION: ${MARIADB_VERSION}
     container_name: ${NAMESPACE}_db
-    image: osioaliu/mariadb
+    image: osioaliu/mariadb:${MARIADB_VERSION}
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}

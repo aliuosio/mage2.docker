@@ -163,6 +163,9 @@ magentoRefresh() {
     echo "docker exec -it -u $1 $2 bin/magento se:up;";
     docker exec -it -u $1 $2 bin/magento se:up;
 
+    echo "docker exec -it -u $1 $2 bin/magento i:rei;";
+    docker exec -it -u $1 $2 bin/magento i:rei;
+
     echo "docker exec -it -u $1 $2 bin/magento c:c;";
     docker exec -it -u $1 $2 bin/magento c:c;
 

@@ -1,6 +1,7 @@
 .idea/
-htdocs/*
-!/htdocs/.gitkeep
+/htdocs/*
+/htdocs/.*
+!/htdocs/.gitignore
 !/.docker/php/conf/composer.json
 certs/*
 /.docker-sync/

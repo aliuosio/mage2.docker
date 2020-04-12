@@ -6,8 +6,8 @@ getLatestFromRepo() {
 }
 
 magentoComposerJson() {
-    echo "docker exec -u $1 $2 rm -rf ./.gitkeep;";
-    docker exec -u $1 $2 rm -rf ./.gitkeep;
+    echo "docker exec -u $1 $2 rm -rf ./.gitignore;";
+    docker exec -u $1 $2 rm -rf ./.gitignore;
 
     echo  "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json";
     docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json
@@ -197,7 +197,7 @@ permissionsSet() {
     echo $runtime "Sec";
 }
 
-restoreGitkeep() {
+restoreHtdocs() {
     echo "git checkout .";
     git checkout .
 }
@@ -219,4 +219,4 @@ exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 # getMagerun ${USER} ${NAMESPACE}_nginx ${SHOP_URI}
 # permissionsSet ${NAMESPACE}_nginx
-restoreGitkeep
+restoreHtdocs

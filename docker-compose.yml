@@ -51,7 +51,7 @@ services:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
-      - ~/.cache/composer:/home/${USER}/.composer
+      - composer_cache:/home/${USER}/.composer
       - ./.docker/php/conf/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
       - ./.docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
@@ -134,6 +134,11 @@ volumes:
   elastic_data:
   redis_pagespeed_data:
   redis_data:
+  composer_cache:
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/.cache/composer
   app_data:
     driver_opts:
       type: none

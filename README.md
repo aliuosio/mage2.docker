@@ -133,8 +133,9 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * **Extra Composer Packages**
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer package
 * **Extra Composer Packages with Magento 2 Installer**  
-    * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar)
-    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) 
+    * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
+    * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar
+    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
 
 ### Todos
 * add composer volume to docker-sync on osx

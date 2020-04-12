@@ -20,7 +20,9 @@ prompt() {
 
 setPath() {
     if [[ $1 != ${DEFAULT_PATH} && $1 != NULL ]]; then
-        echo "not DEFAULT";
+        pattern="WORKDIR=./htdocs";
+        replacement="WORKDIR="$1;
+        sed -i "s@${pattern}@${replacement}@" $PWD/.env;
     fi
 }
 
@@ -30,5 +32,8 @@ freshOrExisting() {
 
 
 createEnv
+
+. ${PWD}/.env;
+
 prompt "setPath" "Shop Path (Default: $DEFAULT_PATH)";
-prompt "freshOrExisting" "[F]resh or [E]xisting Project? (See Brackets)";
+prompt "freshOrExisting" "[f]resh or [e]xisting Project?";

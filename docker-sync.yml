@@ -11,3 +11,12 @@ syncs:
     - "-prefer newer"
     - "-ignore='Path .git'"
     - "-ignore='BelowPath .git'"
+  composer_cache:
+    src: ~/.cache/composer
+    sync_strategy: 'native_osx'
+    sync_userid: 1000
+    sync_groupid: 1000
+    sync_args:
+      - "-prefer newer"
+      - "-ignore='Path .git'"
+      - "-ignore='BelowPath .git'"

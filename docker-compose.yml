@@ -3,8 +3,6 @@ version: '3.7'
 services:
 
   nginx:
-    build:
-      context: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx-pagespeed
     working_dir: /home/${USER}/html
@@ -117,10 +115,6 @@ services:
 
 #  letsencrypt:
 #    container_name: ${NAMESPACE}_letsencrypt
-#    build:
-#      context: ./.docker/letsencrypt
-#      args:
-#        SHOP_URI: ${SHOP_URI}
 #    image: osioaliu/letsencrypt
 #    command: /bin/true
 #    volumes:
@@ -140,7 +134,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/$USER/.cache/composer
+      device: ~/.cache/composer
   app_data:
     driver_opts:
       type: none

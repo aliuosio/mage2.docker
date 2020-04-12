@@ -166,12 +166,15 @@ magentoRefresh() {
 }
 
 getMagerun() {
-    if [[ $1 == *"local"* ]]; then
-        echo "docker exec -it $1 curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar;";
-        docker exec -it $1 curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar;
+    if [[ $3 == *"local"* ]]; then
+        echo "curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar";
+        curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar
 
-        echo "docker exec -it $1 chmod +x n98-magerun2.phar;";
-        docker exec -it $1 chmod +x n98-magerun2.phar;
+        echo "chmod +x n98-magerun2.phar";
+        chmod +x n98-magerun2.phar
+
+        echo "docker cp -a n98-magerun2.phar $2:/home/$1/html/n98-magerun2.phar";
+        docker cp -a n98-magerun2.phar $2:/home/$1/html/n98-magerun2.phar
     fi;
 }
 
@@ -214,6 +217,6 @@ install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${M
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
-getMagerun ${NAMESPACE}_nginx
+# getMagerun ${USER} ${NAMESPACE}_nginx ${SHOP_URI}
 # permissionsSet ${NAMESPACE}_nginx
 restoreGitkeep

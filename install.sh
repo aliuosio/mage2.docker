@@ -149,6 +149,16 @@ exchangeMagentoEnv() {
     docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php
 }
 
+elasticConfig() {
+    CONFIG_1="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default',  'elasticsearch', 'catalog/search/elasticsearch6_server_hostname') ON DUPLICATE KEY UPDATE value='elasticsearch', path='catalog/search/elasticsearch6_server_hostname', scope='default'";
+    CONFIG_2="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default',  'elasticsearch6', 'catalog/search/engine') ON DUPLICATE KEY UPDATE value='elasticsearch6', path='catalog/search/engine', scope='default'";
+
+    echo "Elastic Search Config START";
+    docker exec -it $4 mysql -u $2 -p$3 -e "${CONFIG_1}";
+    docker exec -it $4 mysql -u $2 -p$3 -e "${CONFIG_2}";
+    echo "Elastic Search Config ENDs";
+}
+
 magentoRefresh() {
     echo "docker exec -it -u $1 $2 bin/magento se:up;";
     docker exec -it -u $1 $2 bin/magento se:up;
@@ -216,6 +226,7 @@ composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
+elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 # getMagerun ${USER} ${NAMESPACE}_nginx ${SHOP_URI}
 # permissionsSet ${NAMESPACE}_nginx

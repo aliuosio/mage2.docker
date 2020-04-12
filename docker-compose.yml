@@ -3,6 +3,8 @@ version: '3.7'
 services:
 
   nginx:
+    build:
+      context: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx-pagespeed
     working_dir: /home/${USER}/html
@@ -51,7 +53,7 @@ services:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
-      - composer_cache:/home/${USER}/.composer
+      - composer_cache:/home/${USER}/.composer:delegated
       - ./.docker/php/conf/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
       - ./.docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 

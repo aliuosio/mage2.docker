@@ -78,7 +78,7 @@ composerPackages() {
 }
 
 install() {
-    if [ "$7" == "true" ]; then
+    if [[ "$7" == "true" ]]; then
         secure=1;
     else
         secure=0;

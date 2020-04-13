@@ -32,6 +32,10 @@ createEnv() {
 }
 
 dockerRefresh() {
+
+    echo "docker-compose down -v --remove-orphans;";
+    docker-compose down -v --remove-orphans;
+
     if [[ $(uname -s) == "Darwin" ]]; then
         if  [ ! -x "$(command -v unison)" ]; then
             echo "brew install unison";

@@ -141,7 +141,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
 
 ### Todos
-* add composer volume to docker-sync on osx
+* make webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * connect to MariaDB using sockets
 * `SHOP_URI` in .env should change the domain and cookie name in magento 2 DB on `docker-compose up -d`
 * rename config_blueprints to config and move config files to .docker/config
@@ -153,9 +153,9 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * using docker-entrypoint scripts to set user so the image can be more static
 * using docker-entrypoint scripts to set user so the image can be more static
 * optimize pagespeed caching
-* Nginx Header Config passes at https://securityheaders.com/
 * set timezone in containers
 * Nginx Header Config passes at https://securityheaders.com/
+* ~~add composer volume to docker-sync on osx~~
 * ~~added Elastcisearch config instructions to README.md~~
 * ~~remove auth.json instructions and handling~~
 * ~~Elasticsearch 6.8.5 Upgrade from 5.2~~ 

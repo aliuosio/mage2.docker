@@ -45,8 +45,8 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 ## next startup after reboot of Host
    
     OSX: 
-    docker-sync start 
-    (Open new Tab) docker-compose -f docker-compose.osx.yml up -d 
+    docker-sync start  
+> (if it fucks up try using`docker-sync stop;` `docker-sync clean;`before)
     
     Linux:
     docker-compose up -d

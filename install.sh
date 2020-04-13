@@ -46,8 +46,14 @@ dockerRefresh() {
             sudo gem install docker-sync;
         fi
 
-        echo "sed -i 's/SSL=true/SSL=false/g' ${PWD}/.env";
-        sed -i 's/SSL=true/SSL=false/g' ${PWD}/.env
+        echo "sed -i "" 's/SSL=true/SSL=false/g' ${PWD}/.env";
+        sed -i "" 's/SSL=true/SSL=false/g' ${PWD}/.env
+
+        echo "docker-sync stop";
+        docker-sync stop;
+
+        echo "docker-sync clean";
+        docker-sync clean;
 
         echo "docker-sync start";
         docker-sync start;

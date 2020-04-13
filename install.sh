@@ -2,26 +2,6 @@
 
 set -e
 
-getLatestFromRepo() {
-    echo "git fetch && git pull;";
-    git fetch && git pull;
-}
-
-magentoComposerJson() {
-    echo "docker exec -u $1 $2 rm -rf ./.gitignore;";
-    docker exec -u $1 $2 rm -rf ./.gitignore;
-
-    echo  "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json";
-    docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json
-}
-
-reMoveMagentoEnv() {
-    if [ -f htdocs/app/etc/env.php ]; then
-        echo "docker exec -u $1 $2 rm -rf app/etc/env.php";
-        docker exec -u $1 $2 rm -rf app/etc/env.php;
-    fi
-}
-
 createEnv() {
     if [ ! -f ./.env ]; then
         echo "cp ./.env.template ./.env";
@@ -29,6 +9,11 @@ createEnv() {
     else
         echo ".env File exists already";
     fi
+}
+
+getLatestFromRepo() {
+    echo "git fetch && git pull;";
+    git fetch && git pull;
 }
 
 dockerRefresh() {
@@ -70,6 +55,21 @@ dockerRefresh() {
     fi;
 
     sleep 7
+}
+
+magentoComposerJson() {
+    echo "docker exec -u $1 $2 rm -rf ./.gitignore;";
+    docker exec -u $1 $2 rm -rf ./.gitignore;
+
+    echo  "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json";
+    docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json
+}
+
+reMoveMagentoEnv() {
+    if [ -f htdocs/app/etc/env.php ]; then
+        echo "docker exec -u $1 $2 rm -rf app/etc/env.php";
+        docker exec -u $1 $2 rm -rf app/etc/env.php;
+    fi
 }
 
 composerPackages() {
@@ -230,10 +230,24 @@ restoreHtdocs() {
     git checkout .
 }
 
+prompt() {
+    read -p "$2" RESPONSE
+    echo $($1 ${RESPONSE});
+}
+
+setPath() {
+    if [[ $1 != ${WORKDIR} && $1 != NULL ]]; then
+        pattern="WORKDIR="${WORKDIR};
+        replacement="WORKDIR="$1;
+        sed -i "s@${pattern}@${replacement}@" $PWD/.env;
+    fi
+}
+
 createEnv
 
 . ${PWD}/.env;
 
+prompt "setPath" "Shop Path (Default: ${WORKDIR})";
 getLatestFromRepo
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx

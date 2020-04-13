@@ -29,14 +29,12 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     chmod +x ./install.sh
     
     ./install.sh 
-    (on osx open a new tab to run ./install.sh again)
+    (on OSX open a new terminal tab to run ./install.sh again)
     
 > Modify settings in .env.template before running `./install.sh` if needed
 
 > use .env to change values later after installation 
 
-> OSX only: the Magento 2 files take time to snyc to Host on first run. See `.docker-sync/daemon.log` for sync progress
-  
 ## Backend in Browser
     http://mage2.localhost/admin
     User: admin
@@ -44,12 +42,14 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     
 ## Frontend in Browser
     http://mage2.localhost
+
+> OSX: on first run very slow due to docker-sync update of local shop files volume in the background. See `.docker-sync/daemon.log` for progress
     
 ## next startup after reboot of Host
    
     OSX: 
     docker-sync start  
-> (if it fucks up try using`docker-sync stop;` `docker-sync clean;`before)
+> (if it fails, try using`docker-sync stop;` `docker-sync clean;`before)
     
     Linux:
     docker-compose up -d

@@ -140,8 +140,9 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
 
+
 ### Todos
-* make webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
+* make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * connect to MariaDB using sockets
 * `SHOP_URI` in .env should change the domain and cookie name in magento 2 DB on `docker-compose up -d`
 * rename config_blueprints to config and move config files to .docker/config

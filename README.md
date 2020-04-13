@@ -35,7 +35,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 
 > use .env to change values later after installation 
 
-> OSX only: the Magento 2 files take time to snyc to Host on first run
+> OSX only: the Magento 2 files take time to snyc to Host on first run. See `.docker-sync/daemon.log` for sync progress
   
 ## Backend in Browser
     http://mage2.localhost/admin

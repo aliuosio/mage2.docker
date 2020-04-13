@@ -3,7 +3,7 @@ options:
   verbose: true
 syncs:
   app_data:
-    src: ${PWD}/htdocs
+    src: ${WORKDIR}
     sync_strategy: 'native_osx'
     sync_userid: 1000
     sync_groupid: 1000
@@ -12,7 +12,7 @@ syncs:
     - "-ignore='Path .git'"
     - "-ignore='BelowPath .git'"
   composer_cache:
-    src: $HOME/.composer
+    src: ${HOME}/.composer
     sync_strategy: 'native_osx'
     sync_userid: 1000
     sync_groupid: 1000

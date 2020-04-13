@@ -151,9 +151,9 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: $HOME/.composer
+      device: ${HOME}/.composer
   app_data:
     driver_opts:
       type: none
       o: bind
-      device: ${PWD}/htdocs
+      device: ${WORKDIR}

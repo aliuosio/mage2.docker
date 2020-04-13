@@ -236,10 +236,12 @@ prompt() {
 }
 
 setPath() {
-    if [[ $1 != ${WORKDIR} && $1 != NULL ]]; then
+    if [[ $1 != ${WORKDIR} || $1 != " " ]]; then
         pattern="WORKDIR="${WORKDIR};
         replacement="WORKDIR="$1;
-        sed -i "s@${pattern}@${replacement}@" $PWD/.env;
+        if mkdir -p "$1" ; then
+            sed -i "s@${pattern}@${replacement}@" $PWD/.env;
+        fi
     fi
 }
 

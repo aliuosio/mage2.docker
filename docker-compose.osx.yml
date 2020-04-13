@@ -98,6 +98,8 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
+    build:
+      context: ./.docker/elasticsearch
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch
     environment:
@@ -115,6 +117,10 @@ services:
 
 #  letsencrypt:
 #    container_name: ${NAMESPACE}_letsencrypt
+#    build:
+#      context: ./.docker/letsencrypt
+#      args:
+#        SHOP_URI: ${SHOP_URI}
 #    image: osioaliu/letsencrypt
 #    command: /bin/true
 #    volumes:

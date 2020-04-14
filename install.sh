@@ -61,9 +61,9 @@ dockerRefresh() {
 }
 
 magentoComposerJson() {
-    if [[ ! -f "$3/composer.json" ]]; then
+    if test ! -f "$3/composer.json"; then
         echo "Magento 2 Fresh Install";
-        echo  "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json";
+        echo "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json";
         docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json
     else
         echo "composer.json found and will be used";
@@ -108,25 +108,25 @@ install() {
     docker exec -it -u $1 $3 chmod +x bin/magento
 
     echo "docker exec -it -u $1 $3 bin/magento setup:install \
-        --db-host=db \
-        --db-name=$4 \
-        --db-user=$5 \
-        --db-password=$6 \
-        --backend-frontname=admin \
-        --base-url=${url_unsecure} \
-        --base-url-secure=${url_secure} \
-        --use-secure=${secure} \
-        --use-secure-admin=${secure} \
-        --language=de_DE \
-        --timezone=Europe/Berlin \
-        --currency=EUR \
-        --admin-lastname=Admin \
-        --admin-firstname=Admin \
-        --admin-email=admin@example.com \
-        --admin-user=admin \
-        --admin-password=admin123#T \
-        --cleanup-database \
-        --use-rewrites=1;";
+--db-host=db \
+--db-name=$4 \
+--db-user=$5 \
+--db-password=$6 \
+--backend-frontname=admin \
+--base-url=${url_unsecure} \
+--base-url-secure=${url_secure} \
+--use-secure=${secure} \
+--use-secure-admin=${secure} \
+--language=de_DE \
+--timezone=Europe/Berlin \
+--currency=EUR \
+--admin-lastname=Admin \
+--admin-firstname=Admin \
+--admin-email=admin@example.com \
+--admin-user=admin \
+--admin-password=admin123#T \
+--cleanup-database \
+--use-rewrites=1;";
     docker exec -it -u $1 $3 bin/magento setup:install  \
  --db-host=db  \
  --db-name=$4  \

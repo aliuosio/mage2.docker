@@ -32,7 +32,7 @@ mainConfig() {
 }
 
 sslConfig() {
-    if [ "$1" == "true" ]; then \
+    if [[ "$1" == "true" ]]; then \
         echo 'SSL Config START';
         mkdir -p /etc/nginx/ssl \
         && mkdir -p /var/cache/ngx_pagespeed \

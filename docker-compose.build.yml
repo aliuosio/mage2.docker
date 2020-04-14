@@ -7,7 +7,7 @@ services:
       context: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx-pagespeed
-    working_dir: /home/${USER}/html
+    working_dir: /home/$USER/html
     depends_on:
       - php
       - redis_pagespeed
@@ -21,11 +21,11 @@ services:
       AUTH_PASS: ${AUTH_PASS}
       SHOP_URI: ${SHOP_URI}
       TZ: ${TZ}
-      WORKDIR_SERVER: ${WORKDIR_SERVER}
+      WORKDIR_SERVER: /home/$USER/html
       SSL: ${SSL}
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
-      - app_data:/home/${USER}/html:delegated
+      - app_data:/home/$USER/html:delegated
       - php_socket:/var/run/php
       #- letsencrypt_certs:/etc/nginx/ssl
       #- letsencrypt_www:/var/www/letsencrypt
@@ -40,7 +40,7 @@ services:
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
-    working_dir: /home/${USER}/html
+    working_dir: /home/$USER/html
     depends_on:
       - db
       - redis
@@ -50,13 +50,13 @@ services:
     environment:
       TZ: ${TZ}
       USER: ${USER}
-      WORKDIR_SERVER: ${WORKDIR_SERVER}
+      WORKDIR_SERVER: /home/$USER/html
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - redis_data_socket:/var/run/redis
-      - app_data:/home/${USER}/html:delegated
+      - app_data:/home/$USER/html:delegated
       - php_socket:/var/run/php
       - composer_cache:/home/${USER}/.composer:delegated
       - ./.docker/php/conf/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini

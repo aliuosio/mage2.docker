@@ -68,9 +68,9 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 
 ## PHP Container Usage
     
-    docker exec -it -u $USER mage2_php_<PHP_VERSION_SET> bash -l # bash -l
+    docker exec -it -u $USER mage2_php_<PHP_VERSION_SET> bash -l
     
-## Elasticsearch Usage
+## Elasticsearch Usage (Configured automatically with install.sh)
 In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `Tab: Catalog Search`
     
     Search Engine: Elasticsearch 6.0+

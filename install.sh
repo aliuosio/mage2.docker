@@ -59,7 +59,7 @@ dockerRefresh() {
 }
 
 magentoComposerJson() {
-    if [[ ! $(isComposerJsonAvailable $3) ]]; then
+    if [[ ! -f "$3/composer.json" ]]; then
         echo "Magento 2 Fresh Install";
         echo  "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json";
         docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json
@@ -256,10 +256,6 @@ rePlaceInEnv() {
     pattern=".*$2.*";
     replacement=$2$1;
     sed -i "s@${pattern}@${replacement}@" $PWD/.env;
-}
-
-isComposerJsonAvailable() {
-    return  $(-f "$1/composer.json");
 }
 
 setDomain() {

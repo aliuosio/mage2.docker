@@ -268,7 +268,7 @@ createEnv
 
 . ${PWD}/.env;
 
-prompt "setPath" "Shop Folder Path (current: ${WORKDIR})";
+prompt "setPath" "Shop Folder absolute path (current: ${WORKDIR})";
 # prompt "setDomain" "Domain Name (current: ${SHOP_URI})";
 
 dockerRefresh

@@ -4,7 +4,7 @@ set -e
 
 # Set Auth Basic
 authConfig() {
-    if [[ "$1" = "true" ]]; then \
+    if [[ "$1" == "true" ]]; then \
         echo "auth basic setup START";
         printf "$2:$(openssl passwd -crypt $3)\n" >> /etc/nginx/.htpasswd \
         && sed -i "s/# auth_basic/auth_basic/g" /etc/nginx/conf.d/default.conf \
@@ -32,7 +32,7 @@ mainConfig() {
 }
 
 sslConfig() {
-    if [ "$1" = "true" ]; then \
+    if [ "$1" == "true" ]; then \
         echo 'SSL Config START';
         mkdir -p /etc/nginx/ssl \
         && mkdir -p /var/cache/ngx_pagespeed \

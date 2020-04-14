@@ -22,7 +22,10 @@ dockerRefresh() {
     docker-compose down -v --remove-orphans;
 
     if [[ $(uname -s) == "Darwin" ]]; then
-        if  [ ! -x "$(command -v unison)" ]; then
+        if [ ! -x "$(command -v brew)" ]; then
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+        fi
+        if [ ! -x "$(command -v unison)" ]; then
             echo "brew install unison";
             brew install unison;
         fi
@@ -30,13 +33,10 @@ dockerRefresh() {
             echo "brew install eugenmayer/dockersync/unox";
             brew install eugenmayer/dockersync/unox;
         fi
-        if  [ ! -x "$(command -v docker-sync)" ]; then
+        if [ ! -x "$(command -v docker-sync)" ]; then
             echo "gem install docker-sync;";
             sudo gem install docker-sync;
         fi
-
-        echo "sed -i "" 's/SSL=true/SSL=false/g' ${PWD}/.env";
-        sed -i "" 's/SSL=true/SSL=false/g' ${PWD}/.env
 
         echo "docker-sync stop";
         docker-sync stop;
@@ -47,22 +47,25 @@ dockerRefresh() {
         echo "docker-sync start";
         docker-sync start;
 
+        echo "sed -i " " 's/SSL=true/SSL=false/g' ${PWD}/.env";
+        sed -i "" 's/SSL=true/SSL=false/g' ${PWD}/.env
+
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d;
     else
         echo "docker-compose up -d;"
         docker-compose up -d;
-    fi;
-
-    sleep 7
+    fi
 }
 
 magentoComposerJson() {
-    echo "docker exec -u $1 $2 rm -rf ./.gitignore;";
-    docker exec -u $1 $2 rm -rf ./.gitignore;
-
-    echo  "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json";
-    docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json
+    if [[ ! $(isComposerJsonAvailable $3) ]]; then
+        echo "Magento 2 Fresh Install";
+        echo  "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json";
+        docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json
+    else
+        echo "composer.json found and will be used";
+    fi
 }
 
 reMoveMagentoEnv() {
@@ -122,26 +125,26 @@ install() {
         --admin-password=admin123#T \
         --cleanup-database \
         --use-rewrites=1;";
-    docker exec -it -u $1 $3 bin/magento setup:install \
-        --db-host=db \
-        --db-name=$4 \
-        --db-user=$5 \
-        --db-password=$6 \
-        --backend-frontname=admin \
-        --base-url=${url_unsecure} \
-        --base-url-secure=${url_secure} \
-        --use-secure=${secure} \
-        --use-secure-admin=${secure} \
-        --language=de_DE \
-        --timezone=Europe/Berlin \
-        --currency=EUR \
-        --admin-lastname=Admin \
-        --admin-firstname=Admin \
-        --admin-email=admin@example.com \
-        --admin-user=admin \
-        --admin-password=admin123#T \
-        --cleanup-database \
-        --use-rewrites=1;
+    docker exec -it -u $1 $3 bin/magento setup:install  \
+ --db-host=db  \
+ --db-name=$4  \
+ --db-user=$5  \
+ --db-password=$6  \
+ --backend-frontname=admin  \
+ --base-url=${url_unsecure}  \
+ --base-url-secure=${url_secure}  \
+ --use-secure=${secure}  \
+ --use-secure-admin=${secure}  \
+ --language=de_DE  \
+ --timezone=Europe/Berlin  \
+ --currency=EUR  \
+ --admin-lastname=Admin  \
+ --admin-firstname=Admin  \
+ --admin-email=admin@example.com  \
+ --admin-user=admin  \
+ --admin-password=admin123#T  \
+ --cleanup-database  \
+ --use-rewrites=1;
 }
 
 setDomainAndCookieName() {
@@ -203,31 +206,26 @@ getMagerun() {
 
         echo "rm -rf ./n98-magerun2.phar;";
         rm -rf ./n98-magerun2.phar;
-    fi;
+    fi
 }
 
 permissionsSet() {
     echo "setting permissions... takes time... It took 90 sec the last time.";
 
     start=`date +%s`
-        echo "docker exec -it $1 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;";
-        docker exec -it $1 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;
+    echo "docker exec -it $1 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;";
+    docker exec -it $1 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;
 
-        echo "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;";
-        docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
+    echo "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;";
+    docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
 
-        echo "docker exec -it $1 chmod 644 app/etc/env.php"
-        docker exec -it $1 chmod 644 app/etc/env.php;
+    echo "docker exec -it $1 chmod 644 app/etc/env.php"
+    docker exec -it $1 chmod 644 app/etc/env.php;
 
     end=`date +%s`
-    runtime=$((end-start))  
+    runtime=$((end - start))
 
     echo $runtime "Sec";
-}
-
-restoreHtdocs() {
-    echo "git checkout .";
-    git checkout .
 }
 
 prompt() {
@@ -235,24 +233,48 @@ prompt() {
     echo $($1 ${RESPONSE});
 }
 
-setPath() {
-    if [[ $1 != ${WORKDIR} || $1 != " " ]]; then
-        pattern="WORKDIR="${WORKDIR};
-        replacement="WORKDIR="$1;
-        if mkdir -p "$1" ; then
-            sed -i "s@${pattern}@${replacement}@" $PWD/.env;
+workDirCreate() {
+    if [[ ! -d "$1" ]]; then
+        if ! mkdir -p "$1"; then
+            echo "Folder can not be created";
+        else
+            echo "Folder will be created";
         fi
+    else
+        echo "Folder already exits";
     fi
+}
+
+setPath() {
+    if [[ $1 != ${WORKDIR} && ! -z $1 ]]; then
+        workDirCreate $1;
+        rePlaceInEnv $1 "WORKDIR=";
+    fi
+}
+
+rePlaceInEnv() {
+    pattern=".*$2.*";
+    replacement=$2$1;
+    sed -i "s@${pattern}@${replacement}@" $PWD/.env;
+}
+
+isComposerJsonAvailable() {
+    return  $(-f "$1/composer.json");
+}
+
+setDomain() {
+    rePlaceInEnv $1 "SHOP_URI=";
 }
 
 createEnv
 
 . ${PWD}/.env;
 
-prompt "setPath" "Shop Path (Default: ${WORKDIR})";
-getLatestFromRepo
+prompt "setPath" "Shop Folder Path (current: ${WORKDIR})";
+# prompt "setDomain" "Domain Name (current: ${SHOP_URI})";
+
 dockerRefresh
-magentoComposerJson ${USER} ${NAMESPACE}_nginx
+magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
@@ -262,4 +284,3 @@ elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOP_URI}
 permissionsSet ${NAMESPACE}_nginx
-restoreHtdocs

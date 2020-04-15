@@ -23,7 +23,6 @@ services:
       TZ: ${TZ}
       WORKDIR_SERVER: /home/$USER/html
       SSL: ${SSL}
-    entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - app_data:/home/$USER/html:delegated
       - php_socket:/var/run/php

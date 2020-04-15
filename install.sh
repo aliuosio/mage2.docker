@@ -290,6 +290,15 @@ DBDumpImport() {
     fi
 }
 
+createAdminUser() {
+    docker exec -it -u $1 $2 bin/magento admin:user:create \
+     --admin-lastname=mage2_admin  \
+     --admin-firstname=mage2_admin  \
+     --admin-email=admin@example.com  \
+     --admin-user=mage2_admin  \
+     --admin-password=mage2_admin123#T;
+}
+
 createEnv
 
 . ${PWD}/.env;
@@ -303,8 +312,9 @@ dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
-DBDumpImport ${DB_DUMP}
+DBDumpImport ${DB_DUMP} ${NAMESPACE}_php_${PHP_VERSION_SET}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
+createAdminUser ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}

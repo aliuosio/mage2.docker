@@ -283,7 +283,7 @@ DBDumpImport() {
     fi
     if [[ ! -z $1 && -f $1 ]]; then
         echo "docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_USER} database_name < $1;";
-        docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_USER} database_name < $1;
+        docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_USER} ${MYSQL_DATABASE} < $1;
     fi
 }
 

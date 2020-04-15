@@ -121,11 +121,11 @@ install() {
 --language=de_DE \
 --timezone=Europe/Berlin \
 --currency=EUR \
---admin-lastname=Admin \
---admin-firstname=Admin \
+--admin-lastname=mage2_admin \
+--admin-firstname=mage2_admin \
 --admin-email=admin@example.com \
---admin-user=admin \
---admin-password=admin123#T \
+--admin-user=mage2_admin \
+--admin-password=mage2_admin123#T \
 --cleanup-database \
 --use-rewrites=1;";
     docker exec -it -u $1 $3 bin/magento setup:install  \
@@ -141,11 +141,11 @@ install() {
  --language=de_DE  \
  --timezone=Europe/Berlin  \
  --currency=EUR  \
- --admin-lastname=Admin  \
- --admin-firstname=Admin  \
+ --admin-lastname=mage2_admin  \
+ --admin-firstname=mage2_admin  \
  --admin-email=admin@example.com  \
- --admin-user=admin  \
- --admin-password=admin123#T  \
+ --admin-user=mage2_admin  \
+ --admin-password=mage2_admin123#T  \
  --cleanup-database  \
  --use-rewrites=1;
 }

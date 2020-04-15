@@ -37,8 +37,8 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 
 ## Backend in Browser
     http://mage2.localhost/admin
-    User: admin
-    Password: admin123#T
+    User: mage2_admin
+    Password: mage2_admin123#T
     
 ## Frontend in Browser
     http://mage2.localhost

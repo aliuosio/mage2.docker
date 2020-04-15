@@ -305,7 +305,7 @@ createEnv
 
 prompt "setPath" "Shop Folder absolute path (current: ${WORKDIR})";
 prompt "setDomain" "Domain Name (current: ${SHOPURI})";
-prompt "DBDumpImportPath" "Import Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
+prompt "DBDumpImportPath" "Path to Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}
 dockerRefresh

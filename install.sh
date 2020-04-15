@@ -72,9 +72,10 @@ magentoComposerJson() {
 }
 
 reMoveMagentoEnv() {
-    if [ -f htdocs/app/etc/env.php ]; then
-        echo "docker exec -u $1 $2 rm -rf app/etc/env.php";
-        docker exec -u $1 $2 rm -rf app/etc/env.php;
+    path="$1/app/etc/env.php";
+    if [[ -f ${path} ]]; then
+        echo "rm ${path};";
+        rm ${path};
     fi
 }
 
@@ -276,7 +277,7 @@ createEnv
 prompt "setPath" "Shop Folder absolute path (current: ${WORKDIR})";
 # prompt "setDomain" "Domain Name (current: ${SHOP_URI})";
 setComposerCache
-reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
+reMoveMagentoEnv ${WORKDIR}
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}

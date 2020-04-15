@@ -287,6 +287,8 @@ DBDumpImport() {
     if [[ ! -z $1 && -f $1 ]]; then
         echo "docker exec -i ${NAMESPACE}_db mysql -u ${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} < $1;";
         docker exec -i ${NAMESPACE}_db mysql -u ${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} < $1;
+    else
+        echo "SQL File not found";
     fi
 }
 

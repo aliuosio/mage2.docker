@@ -274,6 +274,16 @@ setComposerCache() {
     mkdir -p ~/.composer;
 }
 
+importDBDump() {
+    if [[ $1 != ${DB_DUMP} && ! -z $1 ]]; then
+        rePlaceInEnv $1 "DB_DUMP=";
+    fi
+    if [[ ! -z $1 && -f $1 ]]; then
+        echo "docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_PASSWORD} database_name < $1;";
+        docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_PASSWORD} database_name < $1;
+    fi
+}
+
 createEnv
 
 . ${PWD}/.env;
@@ -286,9 +296,11 @@ dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
+prompt "importDbDump" "Import Project DB Dump should you want to use an existing Dump (current: ${DB_DUMP})";
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
+
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx

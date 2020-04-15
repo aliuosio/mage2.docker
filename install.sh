@@ -242,7 +242,7 @@ workDirCreate() {
         if ! mkdir -p "$1"; then
             echo "Folder can not be created";
         else
-            echo "Folder will be created";
+            echo "Folder created";
         fi
     else
         echo "Folder already exits";

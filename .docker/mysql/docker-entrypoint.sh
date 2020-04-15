@@ -7,7 +7,8 @@ if [[ ! -f '/usr/local/bin/mysqltuner.pl' ]]; then
  && wget https://raw.githubusercontent.com/major/MySQLTuner-perl/master/basic_passwords.txt -O /usr/local/bin/basic_passwords.txt  \
  && wget https://raw.githubusercontent.com/major/MySQLTuner-perl/master/vulnerabilities.csv -O /usr/local/bin/vulnerabilities.csv  \
  && chmod +x /usr/local/bin/mysqltuner.pl  \
- && apt-get purge -y wget;
+ && apt-get purge -y wget \
+ && apt-get autoremove -y;
 fi
 
 # logging functions

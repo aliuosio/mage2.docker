@@ -261,9 +261,9 @@ rePlaceInEnv() {
     replacement=$2$1;
     envFile="./.env"
     if [[ $(uname -s) == "Darwin" ]]; then
-      sed -i "" "s@${pattern}@${replacement}@" ${envFile};
+        sed -i "" "s@${pattern}@${replacement}@" ${envFile};
     else
-      sed -i "s@${pattern}@${replacement}@" ${envFile};
+        sed -i "s@${pattern}@${replacement}@" ${envFile};
     fi
 }
 
@@ -277,12 +277,15 @@ setComposerCache() {
     mkdir -p ~/.composer;
 }
 
-DBDumpImport() {
+DBDumpImportPath() {
     if [[ $1 != ${DB_DUMP} && ! -z $1 ]]; then
         rePlaceInEnv $1 "DB_DUMP=";
     fi
+}
+
+DBDumpImport() {
     if [[ ! -z $1 && -f $1 ]]; then
-        echo "docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_USER} database_name < $1;";
+        echo "docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_USER} ${MYSQL_DATABASE} < $1;";
         docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_USER} ${MYSQL_DATABASE} < $1;
     fi
 }
@@ -293,13 +296,14 @@ createEnv
 
 prompt "setPath" "Shop Folder absolute path (current: ${WORKDIR})";
 prompt "setDomain" "Domain Name (current: ${SHOPURI})";
+prompt "DBDumpImportPath" "Import Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
-prompt "DBDumpImport" "Import Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
+DBDumpImport ${DB_DUMP}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db

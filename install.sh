@@ -263,7 +263,9 @@ rePlaceInEnv() {
 }
 
 setDomain() {
-    rePlaceInEnv $1 "SHOP_URI=";
+    if [[ $1 != ${SHOPURI} && ! -z $1 ]]; then
+        rePlaceInEnv $1 "SHOPURI=";
+    fi
 }
 
 setComposerCache() {
@@ -275,16 +277,16 @@ createEnv
 . ${PWD}/.env;
 
 prompt "setPath" "Shop Folder absolute path (current: ${WORKDIR})";
-# prompt "setDomain" "Domain Name (current: ${SHOP_URI})";
+prompt "setDomain" "Domain Name (current: ${SHOPURI})";
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
-composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
-install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
-setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}
+composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
+install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
+setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
-magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
-getMagerun ${USER} ${NAMESPACE}_nginx ${SHOP_URI}
+magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
+getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx

@@ -16,40 +16,43 @@ getLatestFromRepo() {
     git fetch && git pull;
 }
 
-dockerRefresh() {
+osxExtraPackages() {
+    if [ ! -x "$(command -v brew)" ]; then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    fi
+    if [ ! -x "$(command -v unison)" ]; then
+        echo "brew install unison";
+        brew install unison;
+    fi
+    if [ ! -d /usr/local/opt/unox ]; then
+        echo "brew install eugenmayer/dockersync/unox";
+        brew install eugenmayer/dockersync/unox;
+    fi
+    if [ ! -x "$(command -v docker-sync)" ]; then
+        echo "gem install docker-sync;";
+        sudo gem install docker-sync;
+    fi
+}
 
+osxDockerSync() {
+    echo "docker-sync stop";
+    docker-sync stop;
+
+    echo "docker-sync clean";
+    docker-sync clean;
+
+    echo "docker-sync start";
+    docker-sync start;
+}
+
+dockerRefresh() {
     echo "docker-compose down -v --remove-orphans;";
     docker-compose down -v --remove-orphans;
 
     if [[ $(uname -s) == "Darwin" ]]; then
-        if [ ! -x "$(command -v brew)" ]; then
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-        fi
-        if [ ! -x "$(command -v unison)" ]; then
-            echo "brew install unison";
-            brew install unison;
-        fi
-        if [ ! -d /usr/local/opt/unox ]; then
-            echo "brew install eugenmayer/dockersync/unox";
-            brew install eugenmayer/dockersync/unox;
-        fi
-        if [ ! -x "$(command -v docker-sync)" ]; then
-            echo "gem install docker-sync;";
-            sudo gem install docker-sync;
-        fi
-
-        echo "docker-sync stop";
-        docker-sync stop;
-
-        echo "docker-sync clean";
-        docker-sync clean;
-
-        echo "docker-sync start";
-        docker-sync start;
-
-        echo "sed -i " " 's/SSL=true/SSL=false/g' ${PWD}/.env";
-        sed -i "" 's/SSL=true/SSL=false/g' ${PWD}/.env
-
+        osxExtraPackages;
+        osxDockerSync;
+        rePlaceInEnv "false" "SSL=";
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d;
     else
@@ -296,7 +299,7 @@ dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
-prompt "importDbDump" "Import Project DB Dump should you want to use an existing Dump (current: ${DB_DUMP})";
+prompt "importDbDump" "Import Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db

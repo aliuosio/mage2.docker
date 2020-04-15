@@ -312,7 +312,7 @@ dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
-DBDumpImport ${DB_DUMP} ${NAMESPACE}_php_${PHP_VERSION_SET}
+DBDumpImport ${DB_DUMP}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 createAdminUser ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx

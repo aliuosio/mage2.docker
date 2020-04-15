@@ -259,7 +259,12 @@ setPath() {
 rePlaceInEnv() {
     pattern=".*$2.*";
     replacement=$2$1;
-    sed -i "s@${pattern}@${replacement}@" $PWD/.env;
+    envFile=$PWD/.env
+    if [[ $(uname -s) == "Darwin" ]]; then
+      sed -i "" "s@${pattern}@${replacement}@" "$envFile";
+    else
+      sed -i "" "s@${pattern}@${replacement}@" "$envFile";
+    fi
 }
 
 setDomain() {

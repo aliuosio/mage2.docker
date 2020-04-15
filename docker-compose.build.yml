@@ -23,6 +23,7 @@ services:
       TZ: ${TZ}
       WORKDIR_SERVER: /home/$USER/html
       SSL: ${SSL}
+    entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - app_data:/home/$USER/html:delegated
       - php_socket:/var/run/php
@@ -82,7 +83,6 @@ services:
     command: >
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci
-
 
   redis:
     container_name: ${NAMESPACE}_redis

@@ -276,9 +276,9 @@ createEnv
 prompt "setPath" "Shop Folder absolute path (current: ${WORKDIR})";
 # prompt "setDomain" "Domain Name (current: ${SHOP_URI})";
 setComposerCache
+reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
-reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOP_URI}
 install ${USER} ${SHOP_URI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOP_URI}

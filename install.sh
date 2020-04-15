@@ -264,13 +264,17 @@ setDomain() {
     rePlaceInEnv $1 "SHOP_URI=";
 }
 
+setComposerCache() {
+    mkdir -p ~/.composer;
+}
+
 createEnv
 
 . ${PWD}/.env;
 
 prompt "setPath" "Shop Folder absolute path (current: ${WORKDIR})";
 # prompt "setDomain" "Domain Name (current: ${SHOP_URI})";
-
+setComposerCache
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx

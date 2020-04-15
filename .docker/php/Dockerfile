@@ -6,7 +6,7 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG PHP_VERSION_SET
 
-RUN apk add --virtual build-dependencies \
+RUN apk add --update --virtual build-dependencies \
         libc-dev \
         libxslt-dev \
         freetype-dev \

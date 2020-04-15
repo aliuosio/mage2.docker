@@ -1,6 +1,6 @@
 FROM pagespeed/nginx-pagespeed
 LABEL maintainer="Osiozekhai Aliu"
-RUN apk add openssl tzdata curl \
+RUN apk add --update openssl tzdata curl \
     && rm -rf /var/cache/apk/*;
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf

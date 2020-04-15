@@ -1,14 +1,13 @@
 # Magento 2 OSX/Linux Docker Nginx(Pagespeed)-MariaDB-PHP-Redis-Elastic Setup
-* small alpine images except for MariaDB and ElasticSearch
-* Change settings under `.env` in root folder  
-* Change PHP Versions 7.1, 7.2, 7.3 all based on php:alpine docker image
-* php, redis containers connect via sockets
-* db(mariadb), redis_pagespeed, mailhog, elasticsearch containers connect via TCP/IP (Sockets in Work)
-
 ## Description
 This Setup installs the basic docker containers 
 
 **(Nginx, PHP, MariaDB, Redis, Elasticsearch, Mailhog)** for Magento 2. 
+* small alpine images except for MariaDB and ElasticSearch
+* Change settings under `.env` in root folder  
+* Change PHP Versions 7.1, 7.2, 7.3 all based on php:alpine docker image
+* php, redis containers connect via sockets
+* db(MariaDB), redis_pagespeed, mailhog, elasticsearch containers connect via TCP/IP (Sockets in Work)
 
 ## Requirements
 
@@ -121,7 +120,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
 * set project directory to where ever you want (as configurable option in .env)
 * [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2
-* [MySQLTuner Script](https://github.com/major/MySQLTuner-perl) for Mariadb Performance Testing
+* [MySQLTuner Script](https://github.com/major/MySQLTuner-perl) for MariaDB Performance Testing
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
 * **node / yarn** is setup in PHP Container (Login into PHP Container for usage) 
 * setup valid **SSL certificates** with letsencrypt container
@@ -130,10 +129,9 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * **PHP Xdebug** as configurable option
 * **PHP Opcache** enabled
 * **PHP redis** enabled
-* Mailhog container installed with install.sh
-* ~~Alpine **Image Libraries** in PHP Docker Container: jpegoptim, optipng, pngquant, gifsicle~~
+* **Mailhog (Mail Catcher)** container installed with install.sh
 * permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
-* mysqltuner.pl for performance testing in db container
+* **MySQLTuner-perl** for DB Performance Testing
 * **http basic authentication** 
 * **use MariaDB, PHP and Redis over sockets** instead of ports for faster data container exchange
 * **Extra Composer Packages**
@@ -153,9 +151,6 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * exchange sampledata.sh with extra docker container for magento 2 sampledata installation
 * add instructions to README for adding existing projects to this Docker Stack
 * simplify letsencrypt certificate embedding in nginx container
-* add mailhog configuration to install.sh
-* using docker-entrypoint scripts to set user so the image can be more static
-* using docker-entrypoint scripts to set user so the image can be more static
 * optimize pagespeed caching
 * set timezone in containers
 * Nginx Header Config passes at https://securityheaders.com/

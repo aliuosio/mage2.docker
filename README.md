@@ -116,6 +116,7 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     docker-compose kill -s SIGHUP nginx
 
 ## Features
+* Fresh Install or use magento 2 project on your file system using `./install.sh`
 * Nginx uses http2
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
 * set project directory to where ever you want (as configurable option in .env)
@@ -158,26 +159,6 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
 * optimize pagespeed caching
 * set timezone in containers
 * Nginx Header Config passes at https://securityheaders.com/
-* ~~add composer volume to docker-sync on osx~~
-* ~~added Elastcisearch config instructions to README.md~~
-* ~~remove auth.json instructions and handling~~
-* ~~Elasticsearch 6.8.5 Upgrade from 5.2~~ 
-* ~~fix sockets for redis with magento 2~~
-* ~~nginx with pagespeed module~~
-* ~~create seperat containers for redis session and cache~~
-* ~~fix file permissions and ownership between containers and docker host~~
-* ~~move Magento 2 specific tools and config to post-build.sh called in docker-compose.yml~~
-* ~~move xdebug install & config to magento-install.sh band install after magento 2 install and sampledata~~
-* ~~setup script for PHP Container to set IP for xdebug or Domain~~
-* ~~clean up alpine packages after build~~2
-* ~~use pagespeed with redis cache~~
-* ~~increase vm max count for elasticsearch without system reboot~~
-
-### Bugs
-* ~~Nginx certificate location reference~~
-* ~~check that all commands function in post-build.sh~~
-* ~~sampledata deploy error on docker-compose build~~
-* ~~on first run of install.sh the MariaDB Container is not ready for connections~~ 
 
 #### Contribute
 Please Contribute by creating a fork of this repository.  

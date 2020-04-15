@@ -19,9 +19,9 @@ mainConfig() {
     && mkdir -p /etc/letsencrypt/ \
     && sed -i "s#__user#$2#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default.conf \
-    && sed -i "s#__shop_uri#$4#g" /etc/nginx/conf.d/default.conf \
+    && sed -i "s#__SHOPURI#$4#g" /etc/nginx/conf.d/default.conf \
     && sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default_ssl.conf \
-    && sed -i "s#__shop_uri#$4#g" /etc/nginx/conf.d/default_ssl.conf \
+    && sed -i "s#__SHOPURI#$4#g" /etc/nginx/conf.d/default_ssl.conf \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*;
 
@@ -50,8 +50,8 @@ sslConfig() {
     fi
 }
 
-mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOP_URI}
-sslConfig ${SSL} ${USER} ${SHOP_URI}
+mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
+sslConfig ${SSL} ${USER} ${SHOPURI}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 
 /usr/sbin/nginx -q;

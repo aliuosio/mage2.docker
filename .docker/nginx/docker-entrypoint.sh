@@ -54,6 +54,6 @@ mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOP_URI}
 sslConfig ${SSL} ${USER} ${SHOP_URI}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 
-/usr/sbin/nginx;
+/usr/sbin/nginx -q;
 
 tail -f /dev/null;

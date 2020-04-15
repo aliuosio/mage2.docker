@@ -57,7 +57,7 @@ dockerRefresh() {
         docker-compose up -d;
     fi
 
-    echo "Script si put to sleep for 2min due to slow mariadb startup";
+    echo "Installer Script is put to sleep for 2min due to slow mariadb startup";
     sleep 120;
 }
 

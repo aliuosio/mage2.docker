@@ -49,7 +49,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
    
     OSX: 
     docker-sync start  
-> (if it fails, try using`docker-sync stop;` `docker-sync clean;`before)
+    docker-compose -f docker-compose.osx.yml up -d;
     
     Linux:
     docker-compose up -d

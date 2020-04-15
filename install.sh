@@ -279,8 +279,8 @@ importDBDump() {
         rePlaceInEnv $1 "DB_DUMP=";
     fi
     if [[ ! -z $1 && -f $1 ]]; then
-        echo "docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_PASSWORD} database_name < $1;";
-        docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_PASSWORD} database_name < $1;
+        echo "docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_USER} database_name < $1;";
+        docker exec -it ${NAMESPACE}_db mysql -u ${USER} -p${MYSQL_USER} database_name < $1;
     fi
 }
 
@@ -300,7 +300,6 @@ prompt "importDbDump" "Import Project DB Dump should you want to use an existing
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
-
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx

@@ -277,7 +277,7 @@ setComposerCache() {
     mkdir -p ~/.composer;
 }
 
-importDBDump() {
+DBDumpImport() {
     if [[ $1 != ${DB_DUMP} && ! -z $1 ]]; then
         rePlaceInEnv $1 "DB_DUMP=";
     fi
@@ -299,7 +299,7 @@ dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
-prompt "importDbDump" "Import Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
+prompt "DBDumpImport" "Import Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db

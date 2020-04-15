@@ -57,7 +57,7 @@ dockerRefresh() {
         docker-compose up -d;
     fi
 
-    sleep 60;
+    sleep 120;
 }
 
 magentoComposerJson() {

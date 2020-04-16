@@ -22,7 +22,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     git clone https://github.com/aliuosio/mage2.docker.git
 
 ## Installation
->  Fresh Installation or your running project when located in your filesystem
+ Fresh Installation or your running project when located in your filesystem
     
     cd mage2.docker
     
@@ -31,9 +31,9 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     ./install.sh 
     (on OSX open a new terminal tab to run ./install.sh again)
     
-> set absolute Path to a Shop Folder (Empty or Project)
+set absolute Path to a Shop Folder (Empty or Project)
 
-> use .env to change values later after installation 
+use .env to change values later after installation 
 
 ## Backend in Browser
     http://mage2.localhost/admin
@@ -43,7 +43,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 ## Frontend in Browser
     http://mage2.localhost
 
-> OSX: on first run very slow due to docker-sync update of local shop files volume in the background. See `.docker-sync/daemon.log` for progress
+OSX: on first run very slow due to docker-sync update of local shop files volume in the background. See `.docker-sync/daemon.log` for progress
     
 ## next startup after reboot of Host
    
@@ -56,7 +56,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 
 ## to fix Redis Performance Issues (Linux Only)
     sudo sysctl vm.overcommit_memory=1;
-    echo never > /sys/kernel/mm/transparent_hugepage/enabled;
+    echo never /sys/kernel/mm/transparent_hugepage/enabled;
     
 ## to fix ElasticSearch Performance Issues (Linux Only)
     sudo sysctl vm.max_map_count=262144
@@ -68,24 +68,24 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 
 ## PHP Container Usage
     
-    docker exec -it -u $USER mage2_php_<PHP_VERSION_SET> bash -l
+    docker exec -it -u $USER mage2_php_<PHP_VERSION_SETbash -l
     
 ## Elasticsearch Usage (Configured automatically with install.sh)
-In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `Tab: Catalog Search`
+In Magento 2 Backend `stores` -`Configuration` -`Catalog` -`Catalog` -`Tab: Catalog Search`
     
     Search Engine: Elasticsearch 6.0+
     Elasticsearch Server Hostname: elasticsearch
     
-> You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
-> On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1
+You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
+On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1
 
 ## Mailhog Usage
 
     Mail Client
     http://mage2.localhost:8025 
 
-    In Magento 2 Backend `stores` -> `Configuration` -> `Advanced` -> `System` 
-    -> `Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
+    In Magento 2 Backend `stores` -`Configuration` -`Advanced` -`System` 
+    -`Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
    
     Authentication method: NONE
     SSL type: None
@@ -97,16 +97,16 @@ In Magento 2 Backend `stores` -> `Configuration` -> `Catalog` -> `Catalog` -> `T
     # register certificate
     docker-compose run --rm letsencrypt \
         letsencrypt certonly --webroot \
-        --email <your_email-address> --agree-tos \
+        --email <your_email-address--agree-tos \
         -w /var/www/letsencrypt -d <subdomian or domain only: my.example.com>
         
     # restart webserver
     docker-compose kill -s SIGHUP nginx  
     
-> **Renewal** (Quote: https://devsidestory.com/lets-encrypt-with-docker/)
-> comment in the letsencrypt block in the docker-compose.yml or docker-compose.osx.yml on OSX.
-> Let’s Encrypt certificates are valid for 3 months,
-> they’d have to be renewed periodically with the following command:  
+**Renewal** (Quote: https://devsidestory.com/lets-encrypt-with-docker/)
+comment in the letsencrypt block in the docker-compose.yml or docker-compose.osx.yml on OSX.
+Let’s Encrypt certificates are valid for 3 months,
+they’d have to be renewed periodically with the following command:  
     
     # renew certificates which are expiring in less than 30 days,
     docker-compose run --rm letsencrypt letsencrypt renew 

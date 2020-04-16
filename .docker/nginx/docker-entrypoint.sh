@@ -19,9 +19,9 @@ mainConfig() {
     && mkdir -p /etc/letsencrypt/ \
     && sed -i "s#__user#$2#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default.conf \
-    && sed -i "s#__SHOPURI#$4#g" /etc/nginx/conf.d/default.conf \
+    && sed -i "s#__shopuri#$4#g" /etc/nginx/conf.d/default.conf \
     && sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default_ssl.conf \
-    && sed -i "s#__SHOPURI#$4#g" /etc/nginx/conf.d/default_ssl.conf \
+    && sed -i "s#__shopuri#$4#g" /etc/nginx/conf.d/default_ssl.conf \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*;
 
@@ -40,7 +40,7 @@ sslConfig() {
         && chown -R $2:$2 /var/cache/ngx_pagespeed \
         && chmod 755 -R /var/cache/ngx_pagespeed \
         && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=$3 \
-        && sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf; \
+        && sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf;
         echo 'SSL Config Stop';
     else \
         echo 'NON SSL Config START';

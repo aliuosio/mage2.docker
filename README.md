@@ -31,7 +31,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     ./install.sh 
     (on OSX open a new terminal tab to run ./install.sh again)
     
-> Modify settings in .env.template before running `./install.sh` if needed
+> set absolute Path to a Shop Folder (Empty or Project)
 
 > use .env to change values later after installation 
 

@@ -276,6 +276,18 @@ setDomain() {
     fi
 }
 
+setPHPVersion() {
+    if [[ $1 != ${PHP_VERSION_SET} && ! -z $1 ]]; then
+        rePlaceInEnv $1 "PHP_VERSION_SET=";
+    fi
+}
+
+setMariaDBVersion() {
+    if [[ $1 != ${MARIADB_VERSION} && ! -z $1 ]]; then
+        rePlaceInEnv $1 "MARIADB_VERSION=";
+    fi
+}
+
 setComposerCache() {
     mkdir -p ~/.composer;
 }
@@ -304,6 +316,8 @@ createAdminUser() {
      --admin-password=mage2_admin123#T;
 }
 
+
+
 createEnv
 
 . ${PWD}/.env;
@@ -311,6 +325,8 @@ createEnv
 prompt "setPath" "Shop Folder absolute path (current: ${WORKDIR})";
 prompt "setDomain" "Domain Name (current: ${SHOPURI})";
 prompt "DBDumpImportPath" "Path to Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
+prompt "setPHPVersion" "Which PHP 7 Version do you need? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET})";
+prompt "setMariaDBVersion" "Which MariaDB Version? (10.4.10, 10.5.2)? (current: ${MARIADB_VERSION})";
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}
 dockerRefresh

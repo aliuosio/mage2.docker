@@ -82,7 +82,7 @@ reMoveMagentoEnv() {
     fi
 }
 
-composerPackages() {
+composerPackagesInstall() {
     echo "docker exec -it $2 chown -R $1:$1 /home/$1;";
     docker exec -it $2 chown -R $1:$1 /home/$1;
 
@@ -93,13 +93,17 @@ composerPackages() {
     if [[ $3 == *"local"* ]]; then
         echo "docker exec -it -u $1 $2 composer install;";
         docker exec -it -u $1 $2 composer install;
-
-        echo "docker exec -it -u $1 $2 composer update;";
-        docker exec -it -u $1 $2 composer update;
     else
         echo "docker exec -it -u $1 $2 composer install --no-dev;";
         docker exec -it -u $1 $2 composer install --no-dev;
+    fi
+}
 
+composerPackagesUpdate() {
+    if [[ $3 == *"local"* ]]; then
+        echo "docker exec -it -u $1 $2 composer update;";
+        docker exec -it -u $1 $2 composer update;
+    else
         echo "docker exec -it -u $1 $2 composer update --no-dev;";
         docker exec -it -u $1 $2 composer update --no-dev;
     fi
@@ -376,7 +380,8 @@ setComposerCache
 reMoveMagentoEnv ${WORKDIR}
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
-composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
+composerPackagesInstall ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
+# composerPackagesUpdate ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 DBDumpImport ${DB_DUMP}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
@@ -385,4 +390,4 @@ exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
-permissionsSet ${NAMESPACE}_nginx
+# permissionsSet ${NAMESPACE}_nginx

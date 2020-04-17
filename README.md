@@ -6,8 +6,7 @@ This Setup installs the basic docker containers
 * small alpine images except for MariaDB and ElasticSearch
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.1, 7.2, 7.3 all based on php:alpine docker image
-* php, redis containers connect via sockets
-* db(MariaDB), redis_pagespeed, mailhog, elasticsearch containers connect via TCP/IP (Sockets in Work)
+* php, db(MariaDB), redis containers connect via sockets
 
 ## Requirements
 
@@ -144,15 +143,11 @@ they’d have to be renewed periodically with the following command:
 
 ### Todos
 * make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
-* connect to MariaDB using sockets
-* `SHOPURI` in .env should change the domain and cookie name in magento 2 DB on `docker-compose up -d`
 * rename config_blueprints to config and move config files to .docker/config
 * exchange install.sh with extra docker container for magento 2 installation
 * exchange sampledata.sh with extra docker container for magento 2 sampledata installation
-* add instructions to README for adding existing projects to this Docker Stack
 * simplify letsencrypt certificate embedding in nginx container
 * optimize pagespeed caching
-* set timezone in containers
 * Nginx Header Config passes at https://securityheaders.com/
 
 #### Contribute

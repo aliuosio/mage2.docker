@@ -48,6 +48,7 @@ services:
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
+      - mariadb_socket:/var/run/mysqld
       - redis_data_socket:/var/run/redis
       - app_data:/home/$USER/html:delegated
       - php_socket:/var/run/php
@@ -66,6 +67,7 @@ services:
     ports:
       - ${MYSQL_PORT}:3306
     volumes:
+      - mariadb_socket:/var/run/mysqld
       - mariadb_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
     entrypoint: ["docker-entrypoint.sh"]
@@ -81,6 +83,7 @@ services:
     entrypoint: redis-server
     command: ["/etc/redis/redis.conf", "--appendonly", "yes"]
     volumes:
+      - mariadb_socket:/var/run/mysqld
       - redis_data_socket:/var/run/redis
       - redis_data:/data
       - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf
@@ -100,6 +103,8 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
+    build:
+      context: ./.docker/elasticsearch
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch
     environment:
@@ -117,6 +122,10 @@ services:
 
 #  letsencrypt:
 #    container_name: ${NAMESPACE}_letsencrypt
+#    build:
+#      context: ./.docker/letsencrypt
+#      args:
+#        SHOPURI: ${SHOPURI}
 #    image: osioaliu/letsencrypt
 #    command: /bin/true
 #    volumes:
@@ -126,6 +135,7 @@ services:
 volumes:
   #letsencrypt_certs:
   #letsencrypt_www:
+  mariadb_socket:
   php_socket:
   redis_data_socket:
   mariadb_data:

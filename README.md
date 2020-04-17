@@ -120,9 +120,16 @@ they’d have to be renewed periodically with the following command:
 * Nginx uses http2
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
 * set project directory to where ever you want (as configurable option in .env)
+* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
+* [Mailhog](https://github.com/mailhog/MailHog) container
 * [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2
 * [MySQLTuner Script](https://github.com/major/MySQLTuner-perl) for MariaDB Performance Testing
-* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option  
+* **Extra Composer Packages**
+    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer package
+* **Extra Composer Packages with Magento 2 Installer**  
+    * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
+    * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar
+    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
 * **node / yarn** is setup in PHP Container (Login into PHP Container for usage) 
 * setup valid **SSL certificates** with letsencrypt container
 * Nginx uses **Pagespeed** Module
@@ -130,17 +137,10 @@ they’d have to be renewed periodically with the following command:
 * **PHP Xdebug** as configurable option (xdebug.idekey=docker)
 * **PHP Opcache** enabled
 * **PHP redis** enabled
-* **Mailhog (Mail Catcher)** container installed with install.sh
 * permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
 * **MySQLTuner-perl** for DB Performance Testing
 * **http basic authentication** 
 * **use MariaDB, PHP and Redis over sockets** instead of ports for faster data container exchange
-* **Extra Composer Packages**
-    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer package
-* **Extra Composer Packages with Magento 2 Installer**  
-    * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
-    * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar
-    * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
 
 
 ### Todos

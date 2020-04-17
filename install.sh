@@ -121,7 +121,7 @@ install() {
     url_unsecure="http://$2/";
 
     echo "docker exec -it -u $1 $3 chmod +x bin/magento";
-    docker exec -it -u $1 $3 chmod +x bin/magento
+    docker exec -it -u $1 $3 chmod +x bin/magento;
 
     echo "docker exec -it -u $1 $3 bin/magento setup:install \
 --db-host=db \

@@ -371,7 +371,7 @@ sampleDataInstallPrompt() {
 }
 
 sampleDataInstall() {
-    if [[ $1 != ${SAMPLE_DATA} && ! -z $1 ]]; then
+    if [[ "$1" == "true" ]]; then
       chmod +x sample-data.sh;
       ./sample-data.sh;
     fi
@@ -399,6 +399,7 @@ composerPackagesInstall ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 DBDumpImport ${DB_DUMP}
+sampleDataInstall ${SAMPLE_DATA}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 createAdminUser ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db

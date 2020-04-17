@@ -375,10 +375,6 @@ sampleDataInstall() {
             rePlaceInEnv "false" "SAMPLE_DATA=";
         fi
     fi
-    if [[ ${SAMPLE_DATA} == "true" ]]; then
-        chmod +x sample-data.sh;
-        ./sample-data.sh;
-    fi
 }
 
 createEnv

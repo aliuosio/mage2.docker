@@ -125,7 +125,7 @@ they’d have to be renewed periodically with the following command:
 * setup valid **SSL certificates** with letsencrypt container
 * Nginx uses **Pagespeed** Module
 * both **PHP GD and PHP Imagick** are installed
-* **PHP Xdebug** as configurable option
+* **PHP Xdebug** as configurable option (xdebug.idekey=docker)
 * **PHP Opcache** enabled
 * **PHP redis** enabled
 * **Mailhog (Mail Catcher)** container installed with install.sh

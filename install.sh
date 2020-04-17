@@ -60,8 +60,8 @@ dockerRefresh() {
         docker-compose up -d;
     fi
 
-    echo "Installer Script is put to sleep for 2min due to slow mariadb startup";
-    sleep 120;
+    echo "Installer Script is put to sleep for 1min due to slow mariadb startup";
+    sleep 1m;
 }
 
 magentoComposerJson() {
@@ -82,31 +82,34 @@ reMoveMagentoEnv() {
     fi
 }
 
-composerPackages() {
+composerPackagesInstall() {
     echo "docker exec -it $2 chown -R $1:$1 /home/$1;";
     docker exec -it $2 chown -R $1:$1 /home/$1;
 
     echo "docker exec -it -u $1 $2 composer global require hirak/prestissimo;";
     docker exec -it -u $1 $2 composer global require hirak/prestissimo;
 
-
     if [[ $3 == *"local"* ]]; then
         echo "docker exec -it -u $1 $2 composer install;";
         docker exec -it -u $1 $2 composer install;
-
-        echo "docker exec -it -u $1 $2 composer update;";
-        docker exec -it -u $1 $2 composer update;
     else
         echo "docker exec -it -u $1 $2 composer install --no-dev;";
         docker exec -it -u $1 $2 composer install --no-dev;
+    fi
+}
 
+composerPackagesUpdate() {
+    if [[ $3 == *"local"* ]]; then
+        echo "docker exec -it -u $1 $2 composer update;";
+        docker exec -it -u $1 $2 composer update;
+    else
         echo "docker exec -it -u $1 $2 composer update --no-dev;";
         docker exec -it -u $1 $2 composer update --no-dev;
     fi
 }
 
 install() {
-    if [ "$7" == "true" ]; then
+    if [[ "$7" == "true" ]]; then
         secure=1;
     else
         secure=0;
@@ -381,20 +384,21 @@ createEnv
 
 . ${PWD}/.env;
 
-prompt "setPath" "absolute path to empty folder(fresh install) or running project (current: ${WORKDIR}) ";
-prompt "setDomain" "Domain Name (current: ${SHOPURI}) ";
-prompt "DBDumpImportPath" "Path to Project DB Dump or leave empty for fresh install (current: ${DB_DUMP}) ";
-prompt "setPHPVersion" "Which PHP 7 Version do you need? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET}) ";
-prompt "setMariaDBVersion" "Which MariaDB Version? (10.4.10, 10.5.2)? (current: ${MARIADB_VERSION}) ";
-prompt "setAuthConfig" "Do you want to create a login screen? (current: ${AUTH_CONFIG}) ";
-prompt "xdebugEnable" "enable Xdebug (current: ${XDEBUG_ENABLE}) ";
+prompt "setPath" "absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})";
+prompt "setDomain" "Domain Name (current: ${SHOPURI})";
+prompt "DBDumpImportPath" "Path to Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
+prompt "setPHPVersion" "Which PHP 7 Version do you need? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET})";
+prompt "setMariaDBVersion" "Which MariaDB Version? (10.4.10, 10.5.2)? (current: ${MARIADB_VERSION})";
+prompt "setAuthConfig" "Do you want to create a login screen? (current: ${AUTH_CONFIG})";
+prompt "xdebugEnable" "enable Xdebug (current: ${XDEBUG_ENABLE})";
 prompt "sampleDataInstallPrompt" "Do you want to install Sample Data? ";
 
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
-composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
+composerPackagesInstall ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
+# composerPackagesUpdate ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 DBDumpImport ${DB_DUMP}

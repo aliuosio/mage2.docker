@@ -24,15 +24,11 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
  Fresh Installation or your running project when located in your filesystem
     
     cd mage2.docker
-    
     chmod +x ./install.sh
-    
     ./install.sh 
-    (on OSX open a new terminal tab to run ./install.sh again)
     
-set absolute Path to a Shop Folder (Empty or Project)
-
-use .env to change values later after installation 
+> set absolute Path to a Shop Folder (Empty or Project) in installer
+> use .env to change values after installation and activate on restart of containers 
 
 ## Backend in Browser
     http://mage2.localhost/admin
@@ -125,7 +121,7 @@ they’d have to be renewed periodically with the following command:
 * setup valid **SSL certificates** with letsencrypt container
 * Nginx uses **Pagespeed** Module
 * both **PHP GD and PHP Imagick** are installed
-* **PHP Xdebug** as configurable option
+* **PHP Xdebug** as configurable option (xdebug.idekey=docker)
 * **PHP Opcache** enabled
 * **PHP redis** enabled
 * **Mailhog (Mail Catcher)** container installed with install.sh

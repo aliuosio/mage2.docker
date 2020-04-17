@@ -370,7 +370,7 @@ prompt "DBDumpImportPath" "Path to Project DB Dump or leave empty for fresh inst
 prompt "setPHPVersion" "Which PHP 7 Version do you need? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET})";
 prompt "setMariaDBVersion" "Which MariaDB Version? (10.4.10, 10.5.2)? (current: ${MARIADB_VERSION})";
 prompt "setAuthConfig" "Do you want to create a login screen? (current: ${AUTH_CONFIG})";
-prompt "xdebugEnable" "enable Xdebug (current: ${XDEBUG_ENABLE}) Note: xdebug.idekey=docker# xdebug.idekey=docker";
+prompt "xdebugEnable" "enable Xdebug(Key=docker) (current: ${XDEBUG_ENABLE})";
 
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}

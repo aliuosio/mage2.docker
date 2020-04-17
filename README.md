@@ -149,6 +149,9 @@ they’d have to be renewed periodically with the following command:
 * optimize pagespeed caching
 * Nginx Header Config passes at https://securityheaders.com/
 
+### Support
+If you encounter any problems or bugs, please create an issue on [GitHub](https://github.com/aliuosio/mage2.docker/issues).
+
 #### Contribute
 Please Contribute by creating a fork of this repository.  
 Follow the instructions here: https://help.github.com/articles/fork-a-repo/

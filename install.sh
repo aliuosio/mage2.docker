@@ -97,7 +97,7 @@ composerPackagesInstall() {
         echo "docker exec -it -u $1 $2 composer install --no-dev;";
         docker exec -it -u $1 $2 composer install --no-dev;
     fi
-
+}
 
 composerPackagesUpdate() {
     if [[ $3 == *"local"* ]]; then
@@ -110,8 +110,7 @@ composerPackagesUpdate() {
 }
 
 install() {
-
-    if [[ $7 == "true" ]]; then
+    if [[ "$7" == "true" ]]; then
         secure=1;
     else
         secure=0;
@@ -121,7 +120,7 @@ install() {
     url_unsecure="http://$2/";
 
     echo "docker exec -it -u $1 $3 chmod +x bin/magento";
-    docker exec -it -u $1 $3 chmod +x bin/magento;
+    docker exec -it -u $1 $3 chmod +x bin/magento
 
     echo "docker exec -it -u $1 $3 bin/magento setup:install \
 --db-host=db \
@@ -163,8 +162,7 @@ install() {
  --admin-password=mage2_admin123#T  \
  --cleanup-database  \
  --use-rewrites=1;
-
-}}
+}
 
 setDomainAndCookieName() {
     SET_URL_SECURE="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'http://$5/', 'web/unsecure/base_url') ON DUPLICATE KEY UPDATE value='http://$5/', path='web/unsecure/base_url', scope='default';";

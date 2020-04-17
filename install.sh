@@ -358,7 +358,18 @@ createAdminUser() {
      --admin-password=mage2_admin123#T;
 }
 
+sampleDataInstallPrompt() {
+    if [[ $1 != ${SAMPLE_DATA} && ! -z $1 ]]; then
+        rePlaceInEnv $1 "SAMPLE_DATA=";
+    fi
+}
 
+sampleDataInstall() {
+    if [[ ${SAMPLE_DATA} == "true" ]]; then
+        chmod +x sample-data.sh;
+        ./sample-data.sh;
+    fi
+}
 
 createEnv
 
@@ -371,6 +382,7 @@ prompt "setPHPVersion" "Which PHP 7 Version do you need? (7.1, 7.2, 7.3) (curren
 prompt "setMariaDBVersion" "Which MariaDB Version? (10.4.10, 10.5.2)? (current: ${MARIADB_VERSION})";
 prompt "setAuthConfig" "Do you want to create a login screen? (current: ${AUTH_CONFIG})";
 prompt "xdebugEnable" "enable Xdebug (current: ${XDEBUG_ENABLE})";
+prompt "sampleDataInstallPrompt" "Do you want to install sample data";
 
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}
@@ -378,10 +390,10 @@ dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackages ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
+exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 DBDumpImport ${DB_DUMP}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 createAdminUser ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
-exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}

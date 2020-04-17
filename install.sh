@@ -375,14 +375,14 @@ createEnv
 
 . ${PWD}/.env;
 
-prompt "setPath" "absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})";
-prompt "setDomain" "Domain Name (current: ${SHOPURI})";
-prompt "DBDumpImportPath" "Path to Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
-prompt "setPHPVersion" "Which PHP 7 Version do you need? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET})";
-prompt "setMariaDBVersion" "Which MariaDB Version? (10.4.10, 10.5.2)? (current: ${MARIADB_VERSION})";
-prompt "setAuthConfig" "Do you want to create a login screen? (current: ${AUTH_CONFIG})";
-prompt "xdebugEnable" "enable Xdebug (current: ${XDEBUG_ENABLE})";
-prompt "sampleDataInstallPrompt" "Do you want to install sample data";
+prompt "setPath" "absolute path to empty folder(fresh install) or running project (current: ${WORKDIR}) ";
+prompt "setDomain" "Domain Name (current: ${SHOPURI}) ";
+prompt "DBDumpImportPath" "Path to Project DB Dump or leave empty for fresh install (current: ${DB_DUMP}) ";
+prompt "setPHPVersion" "Which PHP 7 Version do you need? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET}) ";
+prompt "setMariaDBVersion" "Which MariaDB Version? (10.4.10, 10.5.2)? (current: ${MARIADB_VERSION}) ";
+prompt "setAuthConfig" "Do you want to create a login screen? (current: ${AUTH_CONFIG}) ";
+prompt "xdebugEnable" "enable Xdebug (current: ${XDEBUG_ENABLE}) ";
+prompt "sampleDataInstallPrompt" "Do you want to install Sample Data? ";
 
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}

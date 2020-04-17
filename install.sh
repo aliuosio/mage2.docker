@@ -365,6 +365,16 @@ sampleDataInstallPrompt() {
 }
 
 sampleDataInstall() {
+      if [[ $1 != ${SAMPLE_DATA} && ! -z $1 ]]; then
+        if [[ $1 == "true" || $1 == "yes" || $1 == "y" ]]; then
+            rePlaceInEnv "true" "SAMPLE_DATA=";
+            chmod +x sample-data.sh;
+            ./sample-data.sh;
+        fi
+        if [[ $1 == "false" || $1 == "no" || $1 == "n" ]]; then
+            rePlaceInEnv "false" "SAMPLE_DATA=";
+        fi
+    fi
     if [[ ${SAMPLE_DATA} == "true" ]]; then
         chmod +x sample-data.sh;
         ./sample-data.sh;

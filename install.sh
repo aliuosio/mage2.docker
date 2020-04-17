@@ -288,6 +288,42 @@ setMariaDBVersion() {
     fi
 }
 
+setAuthConfig() {
+    if [[ $1 != ${AUTH_CONFIG} && ! -z $1 ]]; then
+        if [[ $1 == "true" || $1 == "yes" || $1 == "y" ]]; then
+            rePlaceInEnv "true" "AUTH_CONFIG=";
+            prompt setAuthUser "Set User Name (current: ${AUTH_USER})"
+            prompt setAuthPass "Set User Password (current: ${AUTH_PASS})"
+        fi
+        if [[ $1 == "false" || $1 == "no" || $1 == "n" ]]; then
+            rePlaceInEnv "false" "AUTH_CONFIG=";
+        fi
+    fi
+}
+
+setAuthUser() {
+    if [[ $1 != ${AUTH_USER} && ! -z $1 ]]; then
+        rePlaceInEnv $1 "AUTH_USER=";
+    fi
+}
+
+setAuthPass() {
+    if [[ $1 != ${AUTH_PASS} && ! -z $1 ]]; then
+        rePlaceInEnv $1 "AUTH_PASS=";
+    fi
+}
+
+xdebugEnable() {
+    if [[ $1 != ${XDEBUG_ENABLE} && ! -z $1 ]]; then
+        if [[ $1 == "true" || $1 == "yes" || $1 == "y" ]]; then
+            rePlaceInEnv "true" "XDEBUG_ENABLE=";
+        fi
+        if [[ $1 == "false" || $1 == "no" || $1 == "n" ]]; then
+            rePlaceInEnv "false" "XDEBUG_ENABLE=";
+        fi
+    fi
+}
+
 setComposerCache() {
     mkdir -p ~/.composer;
 }
@@ -327,6 +363,9 @@ prompt "setDomain" "Domain Name (current: ${SHOPURI})";
 prompt "DBDumpImportPath" "Path to Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})";
 prompt "setPHPVersion" "Which PHP 7 Version do you need? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET})";
 prompt "setMariaDBVersion" "Which MariaDB Version? (10.4.10, 10.5.2)? (current: ${MARIADB_VERSION})";
+prompt "setAuthConfig" "Do you want to create a login screen? (current: ${AUTH_CONFIG})";
+prompt "xdebugEnable" "enable Xdebug (current: ${XDEBUG_ENABLE})";
+
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}
 dockerRefresh

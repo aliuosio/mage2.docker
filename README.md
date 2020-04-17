@@ -63,7 +63,7 @@ OSX: on first run very slow due to docker-sync update of local shop files volume
 
 ## PHP Container Usage
     
-    docker exec -it -u $USER mage2_php_<PHP_VERSION_SETbash -l
+    docker exec -it -u $USER mage2_php_<PHP_VERSION_SET> bash -l
     
 ## Elasticsearch Usage (Configured automatically with install.sh)
 In Magento 2 Backend `stores` -`Configuration` -`Catalog` -`Catalog` -`Tab: Catalog Search`

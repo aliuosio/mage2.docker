@@ -388,7 +388,7 @@ prompt "setPHPVersion" "Which PHP 7 Version do you need? (7.1, 7.2, 7.3) (curren
 prompt "setMariaDBVersion" "Which MariaDB Version? (10.4.10, 10.5.2)? (current: ${MARIADB_VERSION})";
 prompt "setAuthConfig" "Do you want to create a login screen? (current: ${AUTH_CONFIG})";
 prompt "xdebugEnable" "enable Xdebug (current: ${XDEBUG_ENABLE})";
-prompt "sampleDataInstallPrompt" "Do you want to install Sample Data? ";
+prompt "sampleDataInstallPrompt" "Do you want to install Sample Data? (current: ${SAMPLE_DATA}) ";
 
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}

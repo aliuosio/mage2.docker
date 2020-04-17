@@ -4,9 +4,9 @@ This Setup installs the docker containers **(Nginx, PHP, MariaDB, Redis, Elastic
 1. `install.sh` can include your **running project** files with its DB Dump or Magento Sample Data
 2. `install.sh` can create **fresh Magento 2 Install**
 3. `install.sh` can create **fresh Magento Install with Sample Data**
-> A preconfigured env.php connects to mariadb via sockets, redis via sockets
+A preconfigured env.php connects to mariadb via sockets, redis via sockets
 
-> Elastic Search container ist preconfigured per SQL insert/update
+Elastic Search container ist preconfigured per SQL insert/update
 
 * small alpine images except for MariaDB and ElasticSearch
 * Change settings under `.env` in root folder  

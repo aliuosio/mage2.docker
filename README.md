@@ -24,15 +24,11 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
  Fresh Installation or your running project when located in your filesystem
     
     cd mage2.docker
-    
     chmod +x ./install.sh
-    
     ./install.sh 
-    (on OSX open a new terminal tab to run ./install.sh again)
     
-set absolute Path to a Shop Folder (Empty or Project)
-
-use .env to change values later after installation 
+> set absolute Path to a Shop Folder (Empty or Project) in installer
+> use .env to change values after installation and activate on restart of containers 
 
 ## Backend in Browser
     http://mage2.localhost/admin

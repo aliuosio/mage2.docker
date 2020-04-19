@@ -59,7 +59,9 @@ Letsencrypt() {
 }
 
 certCreate() {
-    acme.sh --issue -w $D -d $1 -k 4096
+    if [[ $1 != *"local"* ]]; then
+        acme.sh --issue -w $D -d $1 -k 4096
+    fi
 }
 
 certInstall() {
@@ -74,7 +76,7 @@ mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
 sslConfig ${SSL} ${USER} ${SHOPURI}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 Letsencrypt ${SHOPURI}
-certCreate
+certCreate ${SHOPURI}
 certInstall ${SHOPURI}
 
 /usr/sbin/nginx -q;

@@ -98,16 +98,6 @@ composerPackagesInstall() {
     fi
 }
 
-composerPackagesUpdate() {
-    if [[ $3 == *"local"* ]]; then
-        echo "docker exec -it -u $1 $2 composer update;";
-        docker exec -it -u $1 $2 composer update;
-    else
-        echo "docker exec -it -u $1 $2 composer update --no-dev;";
-        docker exec -it -u $1 $2 composer update --no-dev;
-    fi
-}
-
 install() {
     if [[ "$7" == "true" ]]; then
         secure=1;
@@ -245,7 +235,7 @@ permissionsSet() {
 }
 
 prompt() {
-    read -p "$2" RESPONSE
+    read -s -p "$2" RESPONSE
     echo $($1 ${RESPONSE});
 }
 
@@ -353,27 +343,27 @@ DBDumpImport() {
 }
 
 createAdminUser() {
-    docker exec -it -u $1 $2 bin/magento admin:user:create \
-     --admin-lastname=mage2_admin  \
-     --admin-firstname=mage2_admin  \
-     --admin-email=admin@example.com  \
-     --admin-user=mage2_admin  \
-     --admin-password=mage2_admin123#T;
+    docker exec -it -u $1 $2 bin/magento admin:user:create  \
+ --admin-lastname=mage2_admin  \
+ --admin-firstname=mage2_admin  \
+ --admin-email=admin@example.com  \
+ --admin-user=mage2_admin  \
+ --admin-password=mage2_admin123#T;
 }
 
 sampleDataInstallPrompt() {
-  if [[ $1 == "true" || $1 == "yes" || $1 == "y" ]]; then
-    rePlaceInEnv "true" "SAMPLE_DATA=";
-  fi
-  if [[ $1 == "false" || $1 == "no" || $1 == "n" ]]; then
-    rePlaceInEnv "false" "SAMPLE_DATA=";
-  fi
+    if [[ $1 == "true" || $1 == "yes" || $1 == "y" ]]; then
+        rePlaceInEnv "true" "SAMPLE_DATA=";
+    fi
+    if [[ $1 == "false" || $1 == "no" || $1 == "n" ]]; then
+        rePlaceInEnv "false" "SAMPLE_DATA=";
+    fi
 }
 
 sampleDataInstall() {
     if [[ "$1" == "true" ]]; then
-      chmod +x sample-data.sh;
-      ./sample-data.sh;
+        chmod +x sample-data.sh;
+        ./sample-data.sh;
     fi
 }
 
@@ -395,7 +385,6 @@ reMoveMagentoEnv ${WORKDIR}
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackagesInstall ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
-# composerPackagesUpdate ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 DBDumpImport ${DB_DUMP}

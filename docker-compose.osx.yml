@@ -55,6 +55,13 @@ services:
       - ./.docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
   db:
+    container_name: ${NAMESPACE}_db
+    image: osioaliu/mariadb:${MARIADB_VERSION}
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - ${MYSQL_PORT}:3306
     volumes:
@@ -94,6 +101,7 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
+    build: ./.docker/elasticsearch
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch
     environment:

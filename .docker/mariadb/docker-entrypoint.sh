@@ -334,6 +334,9 @@ _main() {
  exec "$@"
 }
 
+echo 10 > /proc/sys/vm/swappiness
+echo 1048576 > /proc/sys/fs/aio-max-nr
+
 # If we are sourced from elsewhere, don't perform any further actions
 if ! _is_sourced; then
  _main "$@"

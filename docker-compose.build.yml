@@ -77,7 +77,7 @@ services:
     volumes:
       - mariadb_socket:/var/run/mysqld
       - mariadb_data:/var/lib/mysql/
-      - .docker/mariadb/db_dumps:/docker-entrypoint-initdb.d
+      - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
     entrypoint: ["docker-entrypoint.sh"]
     command: >
       --character-set-server=utf8mb4

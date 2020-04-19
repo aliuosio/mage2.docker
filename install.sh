@@ -60,8 +60,8 @@ dockerRefresh() {
         docker-compose up -d;
     fi
 
-    echo "Installer Script is put to sleep for 1min due to slow mariadb startup";
-    sleep 1m;
+    echo "Installer Script is put to sleep for 2min due to slow mariadb startup";
+    sleep 2m;
 }
 
 magentoComposerJson() {

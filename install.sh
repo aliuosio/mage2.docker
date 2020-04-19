@@ -181,15 +181,16 @@ elasticConfig() {
 }
 
 magentoRefresh() {
-    echo "docker exec -it -u $1 $2 bin/magento se:up;";
-    docker exec -it -u $1 $2 bin/magento se:up;
+    if [[ $4 == "false" ]]; then
+        echo "docker exec -it -u $1 $2 bin/magento se:up;";
+        docker exec -it -u $1 $2 bin/magento se:up;
 
-    echo "docker exec -it -u $1 $2 bin/magento i:rei;";
-    docker exec -it -u $1 $2 bin/magento i:rei;
+        echo "docker exec -it -u $1 $2 bin/magento i:rei;";
+        docker exec -it -u $1 $2 bin/magento i:rei;
 
-    echo "docker exec -it -u $1 $2 bin/magento c:c;";
-    docker exec -it -u $1 $2 bin/magento c:c;
-
+        echo "docker exec -it -u $1 $2 bin/magento c:c;";
+        docker exec -it -u $1 $2 bin/magento c:c;
+    fi
     if [[ $3 != *"local"* ]]; then
         echo "docker exec -it -u $1 $2 bin/magento c:e full_page;";
         docker exec -it -u $1 $2 bin/magento c:e full_page;
@@ -388,10 +389,10 @@ composerPackagesInstall ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 DBDumpImport ${DB_DUMP}
-sampleDataInstall ${SAMPLE_DATA}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 createAdminUser ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
-magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
+sampleDataInstall ${SAMPLE_DATA}
+magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI} ${SAMPLE_DATA}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx

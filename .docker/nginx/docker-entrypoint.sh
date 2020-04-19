@@ -17,6 +17,7 @@ mainConfig() {
     ln -sf /usr/share/zoneinfo/Etc/$1  /etc/localtime \
     && echo $1 > /etc/timezone \
     && mkdir -p /etc/letsencrypt/ \
+    && mkdir -p /etc/nginx/ssl/ \
     && sed -i "s#__user#$2#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default.conf \
     && sed -i "s#__shopuri#$4#g" /etc/nginx/conf.d/default.conf \
@@ -34,9 +35,9 @@ mainConfig() {
 sslConfig() {
     if [[ "$1" == "true" ]]; then \
         echo 'SSL Config START';
-        mkdir -p /etc/letsencrypt/live \
-        && mkdir -p /var/cache/ngx_pagespeed \
-        && chown -R $2:$2 /etc/letsencrypt/live/ \
+        mkdir -p /var/cache/ngx_pagespeed \
+        && mkdir -p /etc/nginx/ssl/ \
+        && chown -R $2:$2 /etc/nginx/ssl/ \
         && chown -R $2:$2 /var/cache/ngx_pagespeed \
         && chmod 755 -R /var/cache/ngx_pagespeed \
         && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=$3 \
@@ -75,9 +76,9 @@ certInstall() {
 mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
 sslConfig ${SSL} ${USER} ${SHOPURI}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
-Letsencrypt ${SHOPURI}
-certCreate ${SHOPURI}
-certInstall ${SHOPURI}
+# Letsencrypt ${SHOPURI}
+# certCreate ${SHOPURI}
+# certInstall ${SHOPURI}
 
 /usr/sbin/nginx -q;
 

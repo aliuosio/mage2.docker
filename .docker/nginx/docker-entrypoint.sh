@@ -17,6 +17,7 @@ mainConfig() {
     ln -sf /usr/share/zoneinfo/Etc/$1  /etc/localtime \
     && echo $1 > /etc/timezone \
     && mkdir -p /etc/letsencrypt/ \
+    && mkdir -p /etc/nginx/ssl/ \
     && sed -i "s#__user#$2#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default.conf \
     && sed -i "s#__shopuri#$4#g" /etc/nginx/conf.d/default.conf \
@@ -34,8 +35,8 @@ mainConfig() {
 sslConfig() {
     if [[ "$1" == "true" ]]; then \
         echo 'SSL Config START';
-        mkdir -p /etc/nginx/ssl \
-        && mkdir -p /var/cache/ngx_pagespeed \
+        mkdir -p /var/cache/ngx_pagespeed \
+        && mkdir -p /etc/nginx/ssl/ \
         && chown -R $2:$2 /etc/nginx/ssl/ \
         && chown -R $2:$2 /var/cache/ngx_pagespeed \
         && chmod 755 -R /var/cache/ngx_pagespeed \
@@ -50,9 +51,34 @@ sslConfig() {
     fi
 }
 
+Letsencrypt() {
+    if [[ $1 != *"local"* ]]; then
+        mkdir -p /etc/nginx/ssl/ \
+            && /etc/nginx/ssl/ \
+            && openssl dhparam -dsaparam -out dhparams.pem 4096;
+    fi
+}
+
+certCreate() {
+    if [[ $1 != *"local"* ]]; then
+        acme.sh --issue -w $D -d $1 -k 4096
+    fi
+}
+
+certInstall() {
+    if [[ $1 != *"local"* ]]; then
+        acme.sh --installcert -d $1 \
+            --keypath /etc/nginx/ssl/$1.key \
+            --fullchainpath /etc/nginx/ssl/$1.cer
+    fi
+}
+
 mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
 sslConfig ${SSL} ${USER} ${SHOPURI}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
+# Letsencrypt ${SHOPURI}
+# certCreate ${SHOPURI}
+# certInstall ${SHOPURI}
 
 /usr/sbin/nginx -q;
 

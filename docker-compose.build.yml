@@ -3,8 +3,7 @@ version: '3.7'
 services:
 
   nginx:
-    build:
-      context: ./.docker/nginx
+    build: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx-pagespeed
     working_dir: /home/$USER/html
@@ -27,8 +26,6 @@ services:
     volumes:
       - app_data:/home/$USER/html:delegated
       - php_socket:/var/run/php
-      #- letsencrypt_certs:/etc/nginx/ssl
-      #- letsencrypt_www:/var/www/letsencrypt
 
   php:
     build:
@@ -105,8 +102,8 @@ services:
     sysctls:
       net.core.somaxconn: '1024'
     volumes:
-
       - redis_pagespeed_data:/var/run/redis
+
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
@@ -114,8 +111,7 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
-    build:
-      context: ./.docker/elasticsearch
+    build: ./.docker/elasticsearch
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch
     environment:
@@ -131,21 +127,7 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 
-#  letsencrypt:
-#    container_name: ${NAMESPACE}_letsencrypt
-#    build:
-#      context: ./.docker/letsencrypt
-#      args:
-#        SHOPURI: ${SHOPURI}
-#    image: osioaliu/letsencrypt
-#    command: /bin/true
-#    volumes:
-#      - letsencrypt_certs:/etc/nginx/ssl
-#      - letsencrypt_www:/var/www/letsencrypt
-
 volumes:
-  #letsencrypt_certs:
-  #letsencrypt_www:
   mariadb_socket:
   php_socket:
   redis_data_socket:

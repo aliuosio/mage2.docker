@@ -26,8 +26,6 @@ services:
     volumes:
       - app_data:/home/$USER/html:delegated
       - php_socket:/var/run/php
-      - letsencrypt_certs:/etc/letsencrypt/live/
-      - letsencrypt_www:/var/www/letsencrypt
 
   php:
     build:
@@ -64,7 +62,7 @@ services:
 
   db:
     build:
-      context: ./.docker/mariadb
+      context: ./.docker/mysql
       args:
         MARIADB_VERSION: ${MARIADB_VERSION}
     container_name: ${NAMESPACE}_db
@@ -129,20 +127,7 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 
-  letsencrypt:
-    build: ./.docker/letsencrypt
-    container_name: ${NAMESPACE}_letsencrypt
-    image: osioaliu/letsencrypt
-    command: /bin/true
-    environment:
-      SHOPURI: ${SHOPURI}
-    volumes:
-      - letsencrypt_certs:/etc/letsencrypt/live
-      - letsencrypt_www:/var/www/letsencrypt
-
 volumes:
-  letsencrypt_certs:
-  letsencrypt_www:
   mariadb_socket:
   php_socket:
   redis_data_socket:

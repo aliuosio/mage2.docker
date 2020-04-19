@@ -25,8 +25,6 @@ services:
     volumes:
       - app_data:/home/$USER/html:delegated
       - php_socket:/var/run/php
-      - letsencrypt_certs:/etc/letsencrypt/live/
-      - letsencrypt_www:/var/www/letsencrypt
 
   php:
     container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
@@ -57,13 +55,6 @@ services:
       - ./.docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
   db:
-    container_name: ${NAMESPACE}_db
-    image: osioaliu/mariadb:${MARIADB_VERSION}
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - ${MYSQL_PORT}:3306
     volumes:
@@ -118,20 +109,7 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 
-  letsencrypt:
-    build: ./.docker/letsencrypt
-    container_name: ${NAMESPACE}_letsencrypt
-    image: osioaliu/letsencrypt
-    command: /bin/true
-    environment:
-      SHOPURI: ${SHOPURI}
-    volumes:
-      - letsencrypt_certs:/etc/letsencrypt/live
-      - letsencrypt_www:/var/www/letsencrypt
-
 volumes:
-  letsencrypt_certs:
-  letsencrypt_www:
   mariadb_socket:
   php_socket:
   redis_data_socket:

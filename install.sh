@@ -235,7 +235,7 @@ permissionsSet() {
 }
 
 prompt() {
-    read -s -p "$2" RESPONSE
+    read -p "$2" RESPONSE
     echo $($1 ${RESPONSE});
 }
 
@@ -343,7 +343,7 @@ DBDumpImport() {
 }
 
 createAdminUser() {
-    docker exec -it -u $1 $2 bin/magento admin:user:create  \
+docker exec -it -u $1 $2 bin/magento admin:user:create  \
  --admin-lastname=mage2_admin  \
  --admin-firstname=mage2_admin  \
  --admin-email=admin@example.com  \

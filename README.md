@@ -92,7 +92,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     # register certificate
     docker-compose run --rm letsencrypt \
         letsencrypt certonly --webroot \
-        --email <your_email-address--agree-tos \
+        --email <e-mail> \
         -w /var/www/letsencrypt -d <subdomian or domain only: my.example.com>
         
     # restart webserver

@@ -3,8 +3,7 @@ version: '3.7'
 services:
 
   nginx:
-    build:
-      context: ./.docker/nginx
+    build: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx-pagespeed
     working_dir: /home/$USER/html
@@ -27,7 +26,7 @@ services:
     volumes:
       - app_data:/home/$USER/html:delegated
       - php_socket:/var/run/php
-      - letsencrypt_certs:/etc/nginx/ssl
+      - letsencrypt_certs:/etc/letsencrypt/live/
       - letsencrypt_www:/var/www/letsencrypt
 
   php:
@@ -138,7 +137,7 @@ services:
     environment:
       SHOPURI: ${SHOPURI}
     volumes:
-      - letsencrypt_certs:/etc/nginx/ssl
+      - letsencrypt_certs:/etc/letsencrypt/live
       - letsencrypt_www:/var/www/letsencrypt
 
 volumes:

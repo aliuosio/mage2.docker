@@ -25,7 +25,7 @@ services:
     volumes:
       - app_data:/home/$USER/html:delegated
       - php_socket:/var/run/php
-      - letsencrypt_certs:/etc/nginx/ssl
+      - letsencrypt_certs:/etc/letsencrypt/live/
       - letsencrypt_www:/var/www/letsencrypt
 
   php:
@@ -126,7 +126,7 @@ services:
     environment:
       SHOPURI: ${SHOPURI}
     volumes:
-      - letsencrypt_certs:/etc/nginx/ssl
+      - letsencrypt_certs:/etc/letsencrypt/live
       - letsencrypt_www:/var/www/letsencrypt
 
 volumes:

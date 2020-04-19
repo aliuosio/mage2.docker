@@ -34,12 +34,12 @@ mainConfig() {
 sslConfig() {
     if [[ "$1" == "true" ]]; then \
         echo 'SSL Config START';
-        mkdir -p /etc/nginx/ssl \
+        mkdir -p /etc/letsencrypt/live \
         && mkdir -p /var/cache/ngx_pagespeed \
-        && chown -R $2:$2 /etc/nginx/ssl/ \
+        && chown -R $2:$2 /etc/letsencrypt/live/ \
         && chown -R $2:$2 /var/cache/ngx_pagespeed \
         && chmod 755 -R /var/cache/ngx_pagespeed \
-        && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=$3 \
+        && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/letsencrypt/live/privkey.pem -out /etc/letsencrypt/live/fullchain.pem -subj /CN=$3 \
         && sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf;
         echo 'SSL Config Stop';
     else \

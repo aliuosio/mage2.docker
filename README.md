@@ -1,18 +1,17 @@
 # Magento 2 OSX/Linux Docker Nginx(Pagespeed)-MariaDB-PHP-Redis-Elastic Setup
 ## Description
 This Setup installs the docker containers **(Nginx, PHP, MariaDB, Redis, Elasticsearch, Mailhog)** for Magento 2
-1. `install.sh` can include your **running project** files with its DB Dump or Magento Sample Data
-2. `install.sh` can create **fresh Magento 2 Install**
-3. `install.sh` can create **fresh Magento Install with Sample Data**
-
-A preconfigured env.php connects to mariadb via sockets, redis via sockets
-
-Elastic Search container ist preconfigured per SQL insert/update
-
+* **OSX** Docker Perfomcance as good as on linux using [http://docker-sync.io/ ](http://docker-sync.io/)
 * small alpine images except for MariaDB and ElasticSearch
 * Change settings under `.env` in root folder  
 * Change PHP Versions 7.1, 7.2, 7.3 all based on php:alpine docker image
 * php, db(MariaDB), redis containers connect via sockets
+
+1. `install.sh` can include your **running project** files with its DB Dump or Magento Sample Data
+2. `install.sh` can create **fresh Magento 2 Install**
+3. `install.sh` can create **fresh Magento Install with Sample Data**
+4. A preconfigured `env.php` connects to mariadb via sockets, redis via sockets with `install.sh`
+5. Elastic Search container ist preconfigured per SQL insert/update with `install.sh`
 
 ## Requirements
 

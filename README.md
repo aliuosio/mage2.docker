@@ -2,12 +2,11 @@
 
 **Nginx(Pagespeed), MariaDB, PHP 7, Redis, Elasticsearch**
 
-This Setup installs the docker containers **(Nginx, PHP, MariaDB, Redis, Elasticsearch, Mailhog)** for Magento 2
+This setsup containers for Magento 2. 
 * **OSX** Docker Perfomcance as good as on linux using [http://docker-sync.io/ ](http://docker-sync.io/)
-* small alpine images
 * Change settings under `.env` in root folder  
-* Change PHP Versions 7.1, 7.2, 7.3 all based on php:alpine docker image
-* php, db(MariaDB), redis containers connect via sockets
+* Change **PHP Versions 7.1, 7.2, 7.3 with xdebug** all based on php:alpine docker images
+* PHP, MariaDB, Redis containers connect via sockets
 
 1. `install.sh` can include your **running project** files with its DB Dump or Magento Sample Data
 2. `install.sh` can create **fresh Magento 2 Install**

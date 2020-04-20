@@ -1,5 +1,8 @@
-# Magento 2 OSX/Linux Docker Nginx(Pagespeed)-MariaDB-PHP-Redis-Elastic Setup
-## Description
+## Magento 2 OSX/Linux Docker
+
+**Nginx(Pagespeed), MariaDB, PHP 7, Redis, Elasticsearch**
+
+### Description
 This Setup installs the docker containers **(Nginx, PHP, MariaDB, Redis, Elasticsearch, Mailhog)** for Magento 2
 * **OSX** Docker Perfomcance as good as on linux using [http://docker-sync.io/ ](http://docker-sync.io/)
 * small alpine images except for MariaDB and ElasticSearch
@@ -13,7 +16,7 @@ This Setup installs the docker containers **(Nginx, PHP, MariaDB, Redis, Elastic
 4. A preconfigured `env.php` connects to mariadb via sockets, redis via sockets with `install.sh`
 5. Elastic Search container ist preconfigured per SQL insert/update with `install.sh`
 
-## Requirements
+### Requirements
 
 **MacOS:**
 Install [Docker](https://docs.docker.com/docker-for-mac/install/)
@@ -21,11 +24,11 @@ Install [Docker](https://docs.docker.com/docker-for-mac/install/)
 **Linux:**
 Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
 
-## Get Source
+### Get Source
 
     git clone https://github.com/aliuosio/mage2.docker.git
 
-## Installation
+### Installation
  Fresh Installation or your running project when located in your filesystem
     
     cd mage2.docker
@@ -35,17 +38,17 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 > set absolute Path to a Shop Folder (Empty or Project) in installer
 > use .env to change values after installation and activate on restart of containers 
 
-## Backend in Browser
+### Backend
     http://mage2.localhost/admin
     User: mage2_admin
     Password: mage2_admin123#T
     
-## Frontend in Browser
+### Frontend
     http://mage2.localhost
 
 OSX: on first run very slow due to docker-sync update of local shop files volume in the background. See `.docker-sync/daemon.log` for progress
     
-## next startup after reboot of Host
+### next startup after reboot of Host
    
     OSX: 
     docker-sync start  
@@ -54,23 +57,26 @@ OSX: on first run very slow due to docker-sync update of local shop files volume
     Linux:
     docker-compose up -d
 
-## to fix Redis Performance Issues (Linux Only)
+### to fix Redis Performance Issues (Linux Only)
     sudo sysctl vm.overcommit_memory=1;
     echo never /sys/kernel/mm/transparent_hugepage/enabled;
     
-## to fix ElasticSearch Performance Issues (Linux Only)
+### to fix ElasticSearch Performance Issues (Linux Only)
     sudo sysctl vm.max_map_count=262144
 
-## Install sample data
+### Install sample data
 
     chmod +x sample-data.sh
     ./sample-data.sh
 
-## PHP Container Usage
+### PHP Container Usage
     
     docker exec -it -u $USER mage2_php_<PHP_VERSION_SET> bash -l
     
-## Elasticsearch Usage (Configured automatically with install.sh)
+### Elasticsearch Usage
+
+Configured automatically with install.sh
+
 In Magento 2 Backend `stores` -`Configuration` -`Catalog` -`Catalog` -`Tab: Catalog Search`
     
     Search Engine: Elasticsearch 6.0+
@@ -79,7 +85,7 @@ In Magento 2 Backend `stores` -`Configuration` -`Catalog` -`Catalog` -`Tab: Cata
 You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
 On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1
 
-## Mailhog Usage
+### Mailhog Usage
 
     Mail Client
     http://mage2.localhost:8025 
@@ -92,7 +98,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     SMTP Host: mailhog
     SMTP Port: 1025
 
-## Features
+### Features
 * Fresh Install or use magento 2 project on your file system using `./install.sh`
 * Nginx uses http2
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
@@ -127,7 +133,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * optimize pagespeed caching
 * Nginx Header Config passes at https://securityheaders.com/
 
-### Support
+#### Support
 If you encounter any problems or bugs, please create an issue on [GitHub](https://github.com/aliuosio/mage2.docker/issues).
 
 #### Contribute
@@ -136,14 +142,3 @@ Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 #### License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://openng.de/source.org/licenses/MIT)
-
-## Docker Container Overview
-* ~~Magento Cronjobs~~
-* Elasticsearch
-* letsencrypt
-* mailhog
-* nginx
-* mysql
-* php
-* redis
-

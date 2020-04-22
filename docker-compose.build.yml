@@ -42,8 +42,6 @@ services:
       - db
       - redis
       - elasticsearch
-    links:
-      - db
     environment:
       TZ: ${TZ}
       USER: ${USER}

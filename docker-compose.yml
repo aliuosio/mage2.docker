@@ -77,7 +77,6 @@ services:
     entrypoint: redis-server
     command: ["/etc/redis/redis.conf", "--appendonly", "yes"]
     volumes:
-      - mariadb_socket:/var/run/mysqld
       - redis_data_socket:/var/run/redis
       - redis_data:/data
       - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf

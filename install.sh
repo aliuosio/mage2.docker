@@ -40,16 +40,20 @@ osxDockerSync() {
 }
 
 dockerRefresh() {
-    echo "docker-compose down -v --remove-orphans;"
-    docker-compose down -v --remove-orphans
-
     if [[ $(uname -s) == "Darwin" ]]; then
         osxExtraPackages
         osxDockerSync
         rePlaceInEnv "false" "SSL"
+
+        echo "docker-compose -f docker-compose.osx.yml down -v --remove-orphans;"
+        docker-compose -f docker-compose.osx.yml down -v --remove-orphans
+
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d
     else
+        echo "docker-compose down -v --remove-orphans;"
+        docker-compose down -v --remove-orphans
+
         echo "docker-compose up -d;"
         docker-compose up -d
     fi

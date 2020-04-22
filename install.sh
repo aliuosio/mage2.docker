@@ -35,8 +35,14 @@ osxExtraPackages() {
 }
 
 osxDockerSync() {
+    echo "docker-sync stop"
+    docker-sync stop;
+
+    echo "docker-sync clean"
+    docker-sync clean;
+
     echo "docker-sync start"
-    docker-sync start
+    docker-sync start;
 }
 
 dockerRefresh() {

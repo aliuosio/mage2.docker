@@ -280,6 +280,7 @@ sampleDataInstall() {
 rePlaceInEnv() {
     if [[ ! -z "$1" ]]; then
         [[ "$1" == "yes" || "$1" == "y" ]] && value="true" || value=$1
+        [[ "$1" == "no" || "$1" == "n" ]] && value="false" || value=$1
         pattern=".*$2.*"
         replacement="$2=$value"
         envFile="./.env"

@@ -59,5 +59,6 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
 
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/pear
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY conf.d/* /usr/local/etc/php/conf.d/
 COPY docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

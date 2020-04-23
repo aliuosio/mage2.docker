@@ -305,7 +305,7 @@ rePlaceInEnv() {
 prompt() {
     if [[ ! -z "$2" ]]; then
         read -p "$2" RESPONSE
-        echo $($1 "${RESPONSE}" "$3")
+        $($1 "${RESPONSE}" "$3")
     fi
 }
 

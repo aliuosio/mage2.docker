@@ -46,6 +46,11 @@ osxDockerSync() {
 }
 
 dockerRefresh() {
+    if ! [ -x "$(command -v docker-compose)" ]; then
+        echo 'Error: docker-compose is not installed.' >&2
+        exit 1
+    fi
+
     if [[ $(uname -s) == "Darwin" ]]; then
         osxExtraPackages
         rePlaceInEnv "false" "SSL"

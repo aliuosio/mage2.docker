@@ -7,12 +7,11 @@ This setsup containers for Magento 2.
 * Change settings under `.env` in root folder  
 * Change **PHP Versions 7.1, 7.2, 7.3 with xdebug** all based on php:alpine docker images
 * PHP, MariaDB, Redis containers connect via sockets
-
-1. `install.sh` can include your **running project** files with its DB Dump or Magento Sample Data
-2. `install.sh` can create **fresh Magento 2 Install**
-3. `install.sh` can create **fresh Magento Install with Sample Data**
-4. A preconfigured `env.php` connects to mariadb via sockets, redis via sockets with `install.sh`
-5. Elastic Search container ist preconfigured per SQL insert/update with `install.sh`
+* `install.sh` can include your **running project** files with its DB Dump or Magento Sample Data
+* `install.sh` can create **fresh Magento 2 Install**
+* `install.sh` can create **fresh Magento Install with Sample Data**
+* A preconfigured `env.php` connects to mariadb via sockets, redis via sockets with `install.sh`
+* Elastic Search container ist preconfigured per SQL insert/update with `install.sh`
 
 ### Requirements
 

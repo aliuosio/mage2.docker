@@ -36,11 +36,11 @@ sslConfig() {
     if [[ "$1" == "true" ]]; then \
         echo 'SSL Config START';
         mkdir -p /var/cache/ngx_pagespeed \
-        && mkdir -p /etc/nginx/ssl/ \
-        && chown -R $2:$2 /etc/nginx/ssl/ \
+        && mkdir -p /etc/letsencrypt/live/$3/ \
+        && chown -R $2:$2 /etc/letsencrypt/live/$3/ \
         && chown -R $2:$2 /var/cache/ngx_pagespeed \
         && chmod 755 -R /var/cache/ngx_pagespeed \
-        && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/privkey.pem -out /etc/nginx/ssl/fullchain.pem -subj /CN=$3 \
+        && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/letsencrypt/live/$3/privkey.pem -out /etc/letsencrypt/live/$3/fullchain.pem -subj /CN=$3 \
         && sed -i "s#__default#default_ssl#g" /etc/nginx/nginx.conf;
         echo 'SSL Config Stop';
     else \
@@ -51,34 +51,9 @@ sslConfig() {
     fi
 }
 
-Letsencrypt() {
-    if [[ $1 != *"local"* ]]; then
-        mkdir -p /etc/nginx/ssl/ \
-            && /etc/nginx/ssl/ \
-            && openssl dhparam -dsaparam -out dhparams.pem 4096;
-    fi
-}
-
-certCreate() {
-    if [[ $1 != *"local"* ]]; then
-        acme.sh --issue -w $D -d $1 -k 4096
-    fi
-}
-
-certInstall() {
-    if [[ $1 != *"local"* ]]; then
-        acme.sh --installcert -d $1 \
-            --keypath /etc/nginx/ssl/$1.key \
-            --fullchainpath /etc/nginx/ssl/$1.cer
-    fi
-}
-
 mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
 sslConfig ${SSL} ${USER} ${SHOPURI}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
-# Letsencrypt ${SHOPURI}
-# certCreate ${SHOPURI}
-# certInstall ${SHOPURI}
 
 /usr/sbin/nginx -q;
 

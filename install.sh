@@ -58,6 +58,9 @@ dockerRefresh() {
 
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d
+    elif [[ $1 != *"local"* ]]; then
+        echo "docker-compose -f docker-compose.stage.yml up -d"
+        docker-compose -f docker-compose.stage.yml up -d
     else
         echo "docker-compose up -d;"
         docker-compose up -d
@@ -323,7 +326,7 @@ setAuthConfig "${AUTH_CONFIG}"
 workDirCreate "${WORKDIR}"
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}
-dockerRefresh
+dockerRefresh  ${SHOPURI}
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackagesInstall ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}

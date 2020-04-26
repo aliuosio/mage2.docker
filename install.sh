@@ -67,6 +67,9 @@ dockerRefresh() {
         echo "docker-compose up -d;"
         docker-compose up -d
     fi
+
+    echo "script sleeps for 2min so MariaDB is up when bin/magento setup:install is called";
+    sleep 120;
 }
 
 magentoComposerJson() {

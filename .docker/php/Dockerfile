@@ -63,5 +63,4 @@ COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.in
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-RUN pecl install -o -f xdebug && docker-php-ext-enable xdebug;
 RUN rm -rf /tmp/pear

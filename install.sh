@@ -51,11 +51,13 @@ dockerRefresh() {
         exit 1
     fi
 
+    echo "docker-compose down -v"
+    docker-compose down -v;
+
     if [[ $(uname -s) == "Darwin" ]]; then
         osxExtraPackages
         rePlaceInEnv "false" "SSL"
         osxDockerSync
-
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d
     elif [[ $1 != *"local"* ]]; then

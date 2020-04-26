@@ -43,7 +43,8 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 ### Frontend
     http://mage2.localhost
 
-OSX: on first run very slow due to docker-sync update of local shop files volume in the background. See `.docker-sync/daemon.log` for progress
+OSX: on first run very slow due to docker-sync update of local shop files volume in the background. 
+See `.docker-sync/daemon.log` for progress
     
 ### next startup after reboot of Host
    
@@ -106,7 +107,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * setup valid **SSL certificates** with [Let's Encrypt](https://en.wikipedia.org/wiki/Let%27s_Encrypt) container
 * [Mailhog](https://github.com/mailhog/MailHog) container
 * [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2
-* [MySQLTuner Script](https://github.com/major/MySQLTuner-perl) for MySQL Performance Testing
 * **Extra Composer Packages**
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer package
 * **Extra Composer Packages with Magento 2 Installer**  

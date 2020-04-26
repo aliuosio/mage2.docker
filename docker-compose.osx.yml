@@ -61,9 +61,9 @@ services:
     ports:
       - ${MYSQL_PORT}:3306
     volumes:
+      - mariadb_socket:/var/run/mysqld
       - mariadb_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
-    entrypoint: ["docker-entrypoint.sh"]
     command: >
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci
@@ -76,7 +76,6 @@ services:
     entrypoint: redis-server
     command: ["/etc/redis/redis.conf", "--appendonly", "yes"]
     volumes:
-      - mariadb_socket:/var/run/mysqld
       - redis_data_socket:/var/run/redis
       - redis_data:/data
       - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf

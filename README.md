@@ -3,7 +3,7 @@
 **Nginx(Pagespeed), MariaDB, PHP 7, Redis, Elasticsearch**
 
 This setsup containers for Magento 2. 
-* **OSX** Docker Perfomcance as good as on linux using [http://docker-sync.io/ ](http://docker-sync.io/)
+* **MacOS** Docker Perfomcance as good as on linux using [http://docker-sync.io/ ](http://docker-sync.io/)
 * Change settings under `.env` in root folder  
 * Change **PHP Versions 7.1, 7.2, 7.3 with xdebug** all based on php:alpine docker images
 * PHP, MariaDB, Redis containers connect via sockets

@@ -60,9 +60,9 @@ dockerRefresh() {
         osxDockerSync
         echo "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d
-    elif [[ $1 != *"local"* ]]; then
-        echo "docker-compose -f docker-compose.stage.yml up -d"
-        docker-compose -f docker-compose.stage.yml up -d
+#    elif [[ $1 != *"local"* ]]; then
+#        echo "docker-compose -f docker-compose.stage.yml up -d"
+#        docker-compose -f docker-compose.stage.yml up -d
     else
         echo "docker-compose up -d;"
         docker-compose up -d

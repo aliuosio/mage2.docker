@@ -51,9 +51,6 @@ dockerRefresh() {
         exit 1
     fi
 
-    echo "docker-compose down -v"
-    docker-compose down -v;
-
     if [[ $(uname -s) == "Darwin" ]]; then
         osxExtraPackages
         rePlaceInEnv "false" "SSL"
@@ -67,6 +64,9 @@ dockerRefresh() {
         echo "docker-compose up -d;"
         docker-compose up -d
     fi
+
+    echo "sleep 60sec";
+    sleep 60;
 }
 
 magentoComposerJson() {

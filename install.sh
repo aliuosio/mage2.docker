@@ -51,9 +51,6 @@ dockerRefresh() {
         exit 1
     fi
 
-    echo "docker-compose down -v"
-    docker-compose down -v;
-
     if [[ $(uname -s) == "Darwin" ]]; then
         osxExtraPackages
         rePlaceInEnv "false" "SSL"
@@ -68,8 +65,8 @@ dockerRefresh() {
         docker-compose up -d
     fi
 
-    echo "script sleeps for 2min so MariaDB is up when bin/magento setup:install is called";
-    sleep 120;
+    echo "sleep 60sec";
+    sleep 60;
 }
 
 magentoComposerJson() {
@@ -119,7 +116,7 @@ install() {
     echo "docker exec -it -u $1 $3 chmod +x bin/magento"
     docker exec -it -u $1 $3 chmod +x bin/magento
 
-    echo "docker exec -it -u $1 $3 bin/magento setup:install \
+    echo "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
 --db-host=db \
 --db-name=$4 \
 --db-user=$5 \
@@ -139,7 +136,7 @@ install() {
 --admin-password=mage2_admin123#T \
 --cleanup-database \
 --use-rewrites=1;"
-    docker exec -it -u $1 $3 bin/magento setup:install  \
+    docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install  \
  --db-host=db  \
  --db-name=$4  \
  --db-user=$5  \

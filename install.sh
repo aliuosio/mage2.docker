@@ -116,7 +116,7 @@ install() {
     echo "docker exec -it -u $1 $3 chmod +x bin/magento"
     docker exec -it -u $1 $3 chmod +x bin/magento
 
-    echo "docker exec -it -u $1 $3 bin/magento setup:install \
+    echo "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
 --db-host=db \
 --db-name=$4 \
 --db-user=$5 \
@@ -136,7 +136,7 @@ install() {
 --admin-password=mage2_admin123#T \
 --cleanup-database \
 --use-rewrites=1;"
-    docker exec -it -u $1 $3 bin/magento setup:install  \
+    docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install  \
  --db-host=db  \
  --db-name=$4  \
  --db-user=$5  \

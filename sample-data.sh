@@ -13,4 +13,4 @@ install() {
 
 . ${PWD}/.env;
 
-install ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
+install ${USER} ${NAMESPACE}_php

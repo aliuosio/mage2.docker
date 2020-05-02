@@ -24,7 +24,6 @@ RUN apk add --update --virtual build-dependencies \
         imagemagick-dev \
         imagemagick \
         bc \
-        yarn \
     && apk add --virtual .php-deps \
         make \
     && apk add --virtual .build-deps \

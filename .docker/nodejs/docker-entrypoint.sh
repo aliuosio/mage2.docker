@@ -8,7 +8,8 @@ mainConfig() {
         --disabled-password \
         --gecos "" \
         --home "$2" \
-        "$1"
+        "$1";
+        chown -R $1:$1 /home/$1;
     fi
 }
 

@@ -110,6 +110,14 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 
+  node:
+    container_name: ${NAMESPACE}_node
+    image: node:${NODE_VERSION}-alpine
+    working_dir: /home/$USER/html
+    volumes:
+      - app_data:/home/$USER/html:delegated
+    command: [sh -c "apk add --update yarn; tail -f /dev/null"]
+
 volumes:
   mariadb_socket:
   php_socket:

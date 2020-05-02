@@ -4,8 +4,9 @@ set -e
 
 createEnv() {
     if [ ! -f ./.env ]; then
-        message "cp ./.env.template ./.env"
-        cp ./.env.template ./.env
+        command="cp ./.env.template ./.env"
+        message $command
+        $($command);
     else
         message ".env File exists already"
     fi
@@ -308,9 +309,9 @@ prompt() {
 }
 
 message () {
-  echo "--------------------------------------------------------------------------"
+  echo "------------------------------------------------------------------------------"
   echo -e "$1"
-  echo "--------------------------------------------------------------------------"
+  echo "------------------------------------------------------------------------------"
 }
 
 createEnv

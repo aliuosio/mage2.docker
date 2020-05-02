@@ -122,12 +122,19 @@ services:
       - elastic_data:/usr/share/elasticsearch/data
 
   node:
+    build:
+      context: ./.docker/nodejs
+      args:
+        IMAGE: node:${NODE_VERSION}-alpine
     container_name: ${NAMESPACE}_node
-    image: node:${NODE_VERSION}-alpine
+    image: osioaliu/node:${NODE_VERSION}-alpine
     working_dir: /home/$USER/html
+    environment:
+      USER: ${USER}
+      WORKDIR_SERVER: /home/$USER/html
+    entrypoint: ["docker-entrypoint.sh"]
     volumes:
     - app_data:/home/$USER/html:delegated
-    command: [sh -c "apk add --update yarn; tail -f /dev/null"]
 
 volumes:
   mariadb_socket:

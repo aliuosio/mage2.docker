@@ -133,6 +133,7 @@ services:
       USER: ${USER}
       WORKDIR_SERVER: /home/$USER/html
     entrypoint: ["docker-entrypoint.sh"]
+    command: ["node"]
     volumes:
     - app_data:/home/$USER/html:delegated
 

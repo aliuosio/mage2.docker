@@ -9,6 +9,7 @@ mainConfig() {
         --gecos "" \
         --home "$2" \
         "$1";
+        mkdir -p /home/$1;
         chown -R $1:$1 /home/$1;
     fi
 }

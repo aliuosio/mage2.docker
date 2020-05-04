@@ -7,12 +7,10 @@ mainConfig() {
         adduser \
         --disabled-password \
         --gecos "" \
-        --home "$2" \
+        --home /home/$1 \
         "$1";
-        mkdir -p /home/$1;
-        chown -R $1:$1 /home/$1;
     fi
 }
 
-mainConfig ${USER} ${WORKDIR_SERVER}
+mainConfig ${USER}
 tail -f /dev/null

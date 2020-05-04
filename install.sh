@@ -333,6 +333,7 @@ http://$1"
 createEnv
 
 . ${PWD}/.env
+
 prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 prompt "rePlaceInEnv" "Path to Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})" "DB_DUMP"
@@ -341,7 +342,6 @@ prompt "rePlaceInEnv" "Which MariaDB Version? (10.4.10, 10.5.2) (current: ${MARI
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 prompt "rePlaceInEnv" "Install Sample Data? (current: ${SAMPLE_DATA})" "SAMPLE_DATA"
-#showSuccess ${SHOPURI}
 
 . ${PWD}/.env
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
@@ -361,3 +361,5 @@ sampleDataInstall ${SAMPLE_DATA}
 magentoRefresh ${USER} ${NAMESPACE}_php ${SHOPURI} ${SAMPLE_DATA}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx
+
+showSuccess ${SHOPURI}

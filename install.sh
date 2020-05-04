@@ -314,6 +314,22 @@ message () {
   echo "------------------------------------------------------------------------------"
 }
 
+showLinks() {
+message "Yeah, You done !"
+message "Backend:\
+
+http://$1/admin\
+
+User: mage2_admin\
+
+Password: mage2_admin123#T\
+
+
+Frontend:\
+
+http://$1"
+}
+
 createEnv
 
 . ${PWD}/.env
@@ -325,6 +341,7 @@ prompt "rePlaceInEnv" "Which MariaDB Version? (10.4.10, 10.5.2) (current: ${MARI
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 prompt "rePlaceInEnv" "Install Sample Data? (current: ${SAMPLE_DATA})" "SAMPLE_DATA"
+showLinks ${SHOPURI}
 
 . ${PWD}/.env
 setAuthConfig "${AUTH_CONFIG}"

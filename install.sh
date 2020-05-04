@@ -3,10 +3,10 @@
 set -e
 
 createEnv() {
-    if [ ! -f ./.env ]; then
+    if [[ ! -f ./.env ]]; then
         command="cp ./.env.template ./.env"
-        message $command
-        $($command);
+        message ${command}
+        $(${command});
     else
         message ".env File exists already"
     fi
@@ -18,18 +18,18 @@ getLatestFromRepo() {
 }
 
 osxExtraPackages() {
-    if [ ! -x "$(command -v brew)" ]; then
+    if [[ ! -x "$(command -v brew)" ]]; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     fi
-    if [ ! -x "$(command -v unison)" ]; then
+    if [[ ! -x "$(command -v unison)" ]]; then
         message "brew install unison"
         brew install unison
     fi
-    if [ ! -d /usr/local/opt/unox ]; then
+    if [[ ! -d /usr/local/opt/unox ]]; then
         message "brew install eugenmayer/dockersync/unox"
         brew install eugenmayer/dockersync/unox
     fi
-    if [ ! -x "$(command -v docker-sync)" ]; then
+    if [[ ! -x "$(command -v docker-sync)" ]]; then
         message "gem install docker-sync;"
         sudo gem install docker-syncÌ
     fi
@@ -47,8 +47,8 @@ osxDockerSync() {
 }
 
 dockerRefresh() {
-    if ! [ -x "$(command -v docker-compose)" ]; then
-        echo 'Error: docker-compose is not installed.' >&2
+    if ! [[ -x "$(command -v docker-compose)" ]]; then
+        message 'Error: docker-compose is not installed.' >&2
         exit 1
     fi
 
@@ -59,7 +59,7 @@ dockerRefresh() {
         message "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d
 #    elif [[ $1 != *"local"* ]]; then
-#        echo "docker-compose -f docker-compose.stage.yml up -d"
+#        message "docker-compose -f docker-compose.stage.yml up -d"
 #        docker-compose -f docker-compose.stage.yml up -d
     else
         message "docker-compose up -d;"
@@ -83,7 +83,7 @@ magentoComposerJson() {
 reMoveMagentoEnv() {
     path="$1/app/etc/env.php"
     if [[ -f ${path} ]]; then
-        echo "rm ${path};"
+        message "rm ${path};"
         rm ${path}
     fi
 }
@@ -221,7 +221,7 @@ getMagerun() {
 }
 
 permissionsSet() {
-    echo "setting permissions... takes time... It took 90 sec the last time."
+    message "setting permissions... takes time... It took 90 sec the last time."
 
     start=$(date +%s)
     message "docker exec -it $1 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;"
@@ -236,25 +236,25 @@ permissionsSet() {
     end=$(date +%s)
     runtime=$((end - start))
 
-    message $runtime "Sec"
+    message  "${runtime} Sec"
 }
 
 workDirCreate() {
     if [[ ! -d "$1" ]]; then
         if ! mkdir -p "$1"; then
-            echo "Folder can not be created"
+            message "Folder can not be created"
         else
-            echo "Folder created"
+            message "Folder created"
         fi
     else
-        echo "Folder already exits"
+        message "Folder already exits"
     fi
 }
 
 setAuthConfig() {
     if [[ "$1" == "true" ]]; then
-        prompt "rePlaceInEnv" "Login User Name (current: ${AUTH_USER})" "AUTH_USER"
-        prompt "rePlaceInEnv" "Login User Password (current: ${AUTH_PASS})" "AUTH_PASS"
+        prompt "rePlaceInEnv" "Login User Name (current: $2)" "AUTH_USER"
+        prompt "rePlaceInEnv" "Login User Password (current: $3)" "AUTH_PASS"
     fi
 }
 
@@ -264,10 +264,10 @@ setComposerCache() {
 
 DBDumpImport() {
     if [[ ! -z $1 && -f $1 ]]; then
-        echo "docker exec -i ${NAMESPACE}_db mysql -u ${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} < $1;"
-        docker exec -i ${NAMESPACE}_db mysql -u ${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} < $1
+        message "docker exec -i $2_db mysql -u $3 -p$4 $5 < $1;"
+        docker exec -i $2_db mysql -u $3 -p$4 $5 < $1
     else
-        echo "SQL File not found"
+        message "SQL File not found"
     fi
 }
 
@@ -314,7 +314,7 @@ message () {
   echo "------------------------------------------------------------------------------"
 }
 
-showLinks() {
+showSuccess() {
 message "Yeah, You done !"
 message "Backend:\
 
@@ -341,11 +341,11 @@ prompt "rePlaceInEnv" "Which MariaDB Version? (10.4.10, 10.5.2) (current: ${MARI
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 prompt "rePlaceInEnv" "Install Sample Data? (current: ${SAMPLE_DATA})" "SAMPLE_DATA"
-showLinks ${SHOPURI}
+#showSuccess ${SHOPURI}
 
 . ${PWD}/.env
-setAuthConfig "${AUTH_CONFIG}"
-workDirCreate "${WORKDIR}"
+setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
+workDirCreate ${WORKDIR}
 setComposerCache
 reMoveMagentoEnv ${WORKDIR}
 dockerRefresh  ${SHOPURI}
@@ -353,7 +353,7 @@ magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackagesInstall ${USER} ${NAMESPACE}_php ${SHOPURI}
 install ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
-DBDumpImport ${DB_DUMP}
+DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 createAdminUser ${USER} ${NAMESPACE}_php
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db

@@ -4,11 +4,9 @@ set -ex
 
 mainConfig() {
     if [[ $(grep -c $1 /etc/passwd) == 0 ]]; then
-        adduser \
-        --disabled-password \
-        --gecos "" \
-        --home /home/$1 \
-        "$1";
+        addgroup -S $1 \
+        && adduser -S $1 -G $1 \
+        && chown -R $1:$1 /home/$1
     fi
 }
 

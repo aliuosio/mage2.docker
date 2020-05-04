@@ -121,18 +121,6 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 
-  node:
-    build:
-      context: ./.docker/node
-      args:
-        IMAGE: node:${NODE_VERSION}-alpine
-    container_name: ${NAMESPACE}_node
-    image: osioaliu/node:${NODE_VERSION}-alpine
-    working_dir: /home/$USER/html
-    volumes:
-    - app_data:/home/$USER/html:delegated
-    tty: true
-
 volumes:
   mariadb_socket:
   php_socket:

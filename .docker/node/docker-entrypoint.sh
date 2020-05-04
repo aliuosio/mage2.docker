@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -ex
 
 mainConfig() {
     if [[ $(grep -c $1 /etc/passwd) == 0 ]]; then

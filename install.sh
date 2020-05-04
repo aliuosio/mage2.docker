@@ -4,9 +4,8 @@ set -e
 
 createEnv() {
     if [[ ! -f ./.env ]]; then
-        command="cp ./.env.template ./.env"
-        message ${command}
-        $(${command});
+        message "cp ./.env.template ./.env"
+        cp ./.env.template ./.env;
     else
         message ".env File exists already"
     fi
@@ -303,8 +302,9 @@ rePlaceInEnv() {
 
 prompt() {
     if [[ ! -z "$2" ]]; then
-        read -p "$2" RESPONSE
-        $($1 "${RESPONSE}" "$3")
+        read -p "$2" RESPONSE;
+        [[ ${RESPONSE} = '' && $3 = 'WORKDIR' ]] && VALUE="${PWD}/htdocs" || VALUE=${RESPONSE};
+        $($1 "${VALUE}" "$3");
     fi
 }
 

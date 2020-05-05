@@ -69,7 +69,7 @@ See `.docker-sync/daemon.log` for progress
 
 ### PHP Container Usage
     
-    docker exec -it -u $USER mage2_php_<PHP_VERSION_SET> bash -l
+    docker exec -it -u $USER mage2_php bash -l
     
 ### Elasticsearch Usage
 

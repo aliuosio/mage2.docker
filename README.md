@@ -113,7 +113,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
     * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
-* **node / yarn** is setup in PHP Container (Login into PHP Container for usage) 
 * both **PHP GD and PHP Imagick** are installed
 * **PHP Xdebug** as configurable option (xdebug.idekey=docker)
 * **PHP Opcache** enabled

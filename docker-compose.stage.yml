@@ -5,134 +5,135 @@ services:
   certbot:
     image: certbot/certbot
     restart: unless-stopped
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     volumes:
       - ./.docker/certbot/conf:/etc/letsencrypt
       - ./.docker/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
-    nginx:
-      container_name: ${NAMESPACE}_nginx
-      image: osioaliu/nginx-pagespeed
-      working_dir: /home/$USER/html
-      depends_on:
-        - php
-        - redis_pagespeed
-      ports:
-        - ${WEBSERVER_SECURE_PORT}:443
-        - ${WEBSERVER_UNSECURE_PORT}:80
-      environment:
-        USER: ${USER}
-        AUTH_CONFIG: ${AUTH_CONFIG}
-        AUTH_USER: ${AUTH_USER}
-        AUTH_PASS: ${AUTH_PASS}
-        SHOPURI: ${SHOPURI}
-        TZ: ${TZ}
-        WORKDIR_SERVER: /home/$USER/html
-        SSL: ${SSL}
-      entrypoint: ["docker-entrypoint.sh"]
-      volumes:
-        - app_data:/home/$USER/html:delegated
-        - php_socket:/var/run/php
+  nginx:
+    container_name: ${NAMESPACE}_nginx
+    image: osioaliu/nginx-pagespeed
+    working_dir: /home/$USER/html
+    depends_on:
+      - php
+      - redis_pagespeed
+    ports:
+      - ${WEBSERVER_SECURE_PORT}:443
+      - ${WEBSERVER_UNSECURE_PORT}:80
+    environment:
+      USER: ${USER}
+      AUTH_CONFIG: ${AUTH_CONFIG}
+      AUTH_USER: ${AUTH_USER}
+      AUTH_PASS: ${AUTH_PASS}
+      SHOPURI: ${SHOPURI}
+      TZ: ${TZ}
+      WORKDIR_SERVER: /home/$USER/html
+      SSL: ${SSL}
+    entrypoint: ["docker-entrypoint.sh"]
+    volumes:
+      - app_data:/home/$USER/html:delegated
+      - php_socket:/var/run/php
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
-    php:
-      container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
-      image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
-      sysctls:
-        net.core.somaxconn: 65536
-      working_dir: /home/$USER/html
-      depends_on:
-        - db
-        - redis
-        - elasticsearch
-      environment:
-        TZ: ${TZ}
-        USER: ${USER}
-        WORKDIR_SERVER: /home/$USER/html
-        XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-        COMPOSER_CACHE_DIR: /home/${USER}/.composer
-      entrypoint: ["docker-entrypoint.sh"]
-      volumes:
-        - mariadb_socket:/var/run/mysqld
-        - redis_data_socket:/var/run/redis
-        - app_data:/home/$USER/html:delegated
-        - php_socket:/var/run/php
-        - composer_cache:/home/${USER}/.composer:delegated
+  php:
+    container_name: ${NAMESPACE}_php
+    image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
+    sysctls:
+      net.core.somaxconn: 65536
+    working_dir: /home/$USER/html
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
+    environment:
+      TZ: ${TZ}
+      USER: ${USER}
+      WORKDIR_SERVER: /home/$USER/html
+      XDEBUG_ENABLE: ${XDEBUG_ENABLE}
+      COMPOSER_CACHE_DIR: /home/${USER}/.composer
+    entrypoint: ["docker-entrypoint.sh"]
+    volumes:
+      - mariadb_socket:/var/run/mysqld
+      - redis_data_socket:/var/run/redis
+      - app_data:/home/$USER/html:delegated
+      - php_socket:/var/run/php
+      - composer_cache:/home/${USER}/.composer:delegated
 
-    db:
-      container_name: ${NAMESPACE}_db
-      image: osioaliu/mariadb:${MARIADB_VERSION}
-      environment:
-        MYSQL_DATABASE: ${MYSQL_DATABASE}
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      ports:
-        - ${MYSQL_PORT}:3306
-      volumes:
-        - mariadb_socket:/var/run/mysqld
-        - mariadb_data:/var/lib/mysql/
-        - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
-      command: >
-        --character-set-server=utf8mb4
-        --collation-server=utf8mb4_unicode_ci
+  db:
+    container_name: ${NAMESPACE}_db
+    image: osioaliu/mariadb:${MARIADB_VERSION}
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - mariadb_socket:/var/run/mysqld
+      - mariadb_data:/var/lib/mysql/
+      - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
 
-    redis:
-      container_name: ${NAMESPACE}_redis
-      image: redis:alpine
-      sysctls:
-        net.core.somaxconn: '1024'
-      entrypoint: redis-server
-      command: ["/etc/redis/redis.conf", "--appendonly", "yes"]
-      volumes:
-        - redis_data_socket:/var/run/redis
-        - redis_data:/data
-        - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf
+  redis:
+    container_name: ${NAMESPACE}_redis
+    image: redis:alpine
+    sysctls:
+      net.core.somaxconn: '1024'
+    entrypoint: redis-server
+    command: ["/etc/redis/redis.conf", "--appendonly", "yes"]
+    volumes:
+      - redis_data_socket:/var/run/redis
+      - redis_data:/data
+      - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf
 
-    redis_pagespeed:
-      container_name: ${NAMESPACE}_redis_pagespeed
-      image: redis:alpine
-      sysctls:
-        net.core.somaxconn: '1024'
-      volumes:
-        - redis_pagespeed_data:/var/run/redis
+  redis_pagespeed:
+    container_name: ${NAMESPACE}_redis_pagespeed
+    image: redis:alpine
+    sysctls:
+      net.core.somaxconn: '1024'
+    volumes:
+      - redis_pagespeed_data:/var/run/redis
 
-    mailhog:
-      container_name: ${NAMESPACE}_mailhog
-      image: mailhog/mailhog:latest
-      ports:
-        - ${MAILHOG_EXTERNAL_PORT}:8025
+  mailhog:
+    container_name: ${NAMESPACE}_mailhog
+    image: mailhog/mailhog:latest
+    ports:
+      - ${MAILHOG_EXTERNAL_PORT}:8025
 
-    elasticsearch:
-      container_name: ${NAMESPACE}_elasticsearch
-      image: osioaliu/elasticsearch
-      environment:
-        - bootstrap.memory_lock=true
-        - xpack.security.enabled=false
-        - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
-        - http.host=0.0.0.0
-        - transport.host=127.0.0.1
-      ulimits:
-        memlock:
-          soft: -1
-          hard: -1
-      volumes:
-        - elastic_data:/usr/share/elasticsearch/data
+  elasticsearch:
+    container_name: ${NAMESPACE}_elasticsearch
+    image: osioaliu/elasticsearch
+    environment:
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
 
-  volumes:
-    mariadb_socket:
-    php_socket:
-    redis_data_socket:
-    mariadb_data:
-    elastic_data:
-    redis_pagespeed_data:
-    redis_data:
-    composer_cache:
-      driver_opts:
-        type: none
-        o: bind
-        device: ${HOME}/.composer
-    app_data:
-      driver_opts:
-        type: none
-        o: bind
-        device: ${WORKDIR}
+volumes:
+  mariadb_socket:
+  php_socket:
+  redis_data_socket:
+  mariadb_data:
+  elastic_data:
+  redis_pagespeed_data:
+  redis_data:
+  composer_cache:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/.composer
+  app_data:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${WORKDIR}

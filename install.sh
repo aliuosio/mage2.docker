@@ -217,7 +217,7 @@ getMagerun() {
 }
 
 permissionsSet() {
-    message "setting permissions... takes time... It took 90 sec the last time."
+    message "Setting permissions... takes time... It took 90 sec the last time."
 
     start=$(date +%s)
     message "docker exec -it $1 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;"
@@ -232,7 +232,7 @@ permissionsSet() {
     end=$(date +%s)
     runtime=$((end - start))
 
-    message  "${runtime} Sec"
+    message  "Setting permissions time: ${runtime} Sec"
 }
 
 workDirCreate() {
@@ -343,6 +343,8 @@ Frontend:\
 http://$1"
 }
 
+start=$(date +%s)
+
 createEnv
 . ${PWD}/.env
 prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
@@ -372,3 +374,7 @@ magentoRefresh ${USER} ${NAMESPACE}_php ${SHOPURI} ${SAMPLE_DATA}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx
 showSuccess ${SHOPURI}
+
+end=$(date +%s)
+runtime=$((end - start))
+message  "Setup Time: ${runtime} Sec"

@@ -62,8 +62,8 @@ dockerRefresh() {
         docker-compose up -d
     fi
 
-    message "sleep for 2min";
-    sleep 120;
+    message "sleep for 1min";
+    sleep 60;
 }
 
 magentoComposerJson() {
@@ -100,7 +100,7 @@ composerPackagesInstall() {
     fi
 }
 
-install() {
+installMagento() {
     if [[ "$7" == "true" ]]; then
         secure=1
     else
@@ -361,7 +361,7 @@ reMoveMagentoEnv ${WORKDIR}
 dockerRefresh  ${SHOPURI}
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackagesInstall ${USER} ${NAMESPACE}_php ${SHOPURI}
-install ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
+installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}

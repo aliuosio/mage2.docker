@@ -110,17 +110,6 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 
-  node:
-    container_name: ${NAMESPACE}_node
-    image: osioaliu/node:${NODE_VERSION}-alpine
-    working_dir: /home/$USER/html
-    environment:
-      USER: ${USER}
-      WORKDIR_SERVER: /home/$USER/html
-    entrypoint: ["docker-entrypoint.sh"]
-    volumes:
-      - app_data:/home/$USER/html:delegated
-
 volumes:
   mariadb_socket:
   php_socket:

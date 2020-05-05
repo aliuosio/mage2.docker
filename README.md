@@ -1,6 +1,6 @@
 ## Magento 2 OSX/Linux Docker
 
-**Nginx(Pagespeed), MariaDB, PHP 7, Redis, Elasticsearch, Mailhog, nodejs**
+**Nginx(Pagespeed), MariaDB, PHP 7, Redis, Elasticsearch, Mailhog**
 
 This setsup containers for Magento 2. 
 * Good Docker Performance on **MacOS** by using [http://docker-sync.io/ ](http://docker-sync.io/)

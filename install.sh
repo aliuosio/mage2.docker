@@ -293,6 +293,7 @@ specialPrompt() {
             rePlaceInEnv "true" "SAMPLE_DATA";
             rePlaceInEnv "" "DB_DUMP";
         elif [[ ${RESPONSE,,} == 'd' ]]; then
+            rePlaceInEnv "false" "SAMPLE_DATA";
             prompt "rePlaceInEnv" "Set Absolute Path to Project DB Dump (current: ${DB_DUMP})" "DB_DUMP"
         fi
     fi
@@ -343,9 +344,7 @@ http://$1"
 }
 
 createEnv
-
 . ${PWD}/.env
-
 prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [D]ump, [S]ample Data or [N]one of the above?"
@@ -372,5 +371,4 @@ sampleDataInstall ${SAMPLE_DATA}
 magentoRefresh ${USER} ${NAMESPACE}_php ${SHOPURI} ${SAMPLE_DATA}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx
-
 showSuccess ${SHOPURI}

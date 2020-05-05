@@ -343,7 +343,7 @@ Frontend:\
 http://$1"
 }
 
-start=$(date +%s)
+startAll=$(date +%s)
 
 createEnv
 . ${PWD}/.env
@@ -375,6 +375,6 @@ getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx
 showSuccess ${SHOPURI}
 
-end=$(date +%s)
-runtime=$((end - start))
-message  "Setup Time: ${runtime} Sec"
+endAll=$(date +%s)
+runtimeAll=$((endAll - startAll))
+message  "Setup Time: ${runtimeAll} Sec"

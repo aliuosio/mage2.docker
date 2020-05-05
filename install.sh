@@ -57,9 +57,6 @@ dockerRefresh() {
         osxDockerSync
         message "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d
-#    elif [[ $1 != *"local"* ]]; then
-#        message "docker-compose -f docker-compose.stage.yml up -d"
-#        docker-compose -f docker-compose.stage.yml up -d
     else
         message "docker-compose up -d;"
         docker-compose up -d
@@ -286,6 +283,21 @@ sampleDataInstall() {
     fi
 }
 
+specialPrompt() {
+    if [[ ! -z "$1" ]]; then
+        read -p "$1" RESPONSE;
+        if [[ ${RESPONSE,,} == '' || ${RESPONSE,,} == 'n' ]]; then
+            rePlaceInEnv "false" "SAMPLE_DATA";
+            rePlaceInEnv "" "DB_DUMP";
+        elif [[ ${RESPONSE,,} == 's' ]]; then
+            rePlaceInEnv "true" "SAMPLE_DATA";
+            rePlaceInEnv "" "DB_DUMP";
+        elif [[ ${RESPONSE,,} == 'd' ]]; then
+            prompt "rePlaceInEnv" "Set Absolute Path to Project DB Dump (current: ${DB_DUMP})" "DB_DUMP"
+        fi
+    fi
+}
+
 rePlaceInEnv() {
     if [[ ! -z "$1" ]]; then
         [[ "$1" == "yes" || "$1" == "y" ]] && value="true" || value=$1
@@ -336,12 +348,11 @@ createEnv
 
 prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
-prompt "rePlaceInEnv" "Path to Project DB Dump or leave empty for fresh install (current: ${DB_DUMP})" "DB_DUMP"
+specialPrompt "Use Project DB [D]ump, [S]ample Data or [N]one of the above?"
 prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4.10, 10.5.2) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
-prompt "rePlaceInEnv" "Install Sample Data? (current: ${SAMPLE_DATA})" "SAMPLE_DATA"
 
 . ${PWD}/.env
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}

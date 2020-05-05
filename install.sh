@@ -373,8 +373,9 @@ sampleDataInstall ${SAMPLE_DATA}
 magentoRefresh ${USER} ${NAMESPACE}_php ${SHOPURI} ${SAMPLE_DATA}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx
-showSuccess ${SHOPURI}
 
 endAll=$(date +%s)
 runtimeAll=$((endAll - startAll))
 message  "Setup Time: ${runtimeAll} Sec"
+
+showSuccess ${SHOPURI}

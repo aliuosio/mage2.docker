@@ -13,6 +13,7 @@ This setsup containers for Magento 2.
 * A preconfigured `env.php` connects to mariadb via sockets, redis via sockets with `install.sh`
 * Elastic Search container ist preconfigured per SQL insert/update with `install.sh`
 
+> be sure to use `allure-framework/allure-phpunit` `1.2.3` instead of `1.2.0` due to this [issue](https://github.com/docker-library/php/issues/719) 
 ### Requirements
 
 **MacOS:**

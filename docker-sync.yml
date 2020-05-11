@@ -12,7 +12,7 @@ syncs:
     - "-ignore='Path .git'"
     - "-ignore='BelowPath .git'"
   composer_cache:
-    src: /home/${USER}/.composer
+    src: ${HOME}/.composer
     sync_strategy: 'native_osx'
     sync_userid: 1000
     sync_groupid: 1000

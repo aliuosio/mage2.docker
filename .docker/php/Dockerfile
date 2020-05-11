@@ -6,6 +6,8 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ARG PHP_VERSION_SET
 
+RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
+
 RUN apk add --update --virtual build-dependencies \
         libc-dev \
         libxslt-dev \

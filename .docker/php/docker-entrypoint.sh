@@ -9,7 +9,8 @@ timezoneSet() {
 
 permissionsSet() {
      if [[ $(grep -c $1 /etc/passwd) == 0 ]]; then
-        adduser -D -u 1000 $1 $1 \
+        adduser -D $1 $1 \
+        && usermod -o -u 1000 $1 \
         && chown -R $1:$1 $2;
     fi
 }

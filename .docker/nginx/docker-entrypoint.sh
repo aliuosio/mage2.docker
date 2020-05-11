@@ -27,7 +27,8 @@ mainConfig() {
     && rm -rf /var/cache/apk/*;
 
     if [[ $(grep -c $2 /etc/passwd) == 0 ]]; then
-        adduser -D -u 1000 $2 $2 \
+        adduser -D $2 $2 \
+        && usermod -o -u 1000 $2 \
         && chown -R $2:$2 $3;
     fi
 }

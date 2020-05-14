@@ -35,9 +35,6 @@ osxExtraPackages() {
 }
 
 osxDockerSync() {
-    message "docker-sync clean"
-    docker-sync clean;
-
     message "docker-sync start"
     docker-sync start;
 }

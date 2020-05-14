@@ -108,6 +108,12 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
+
 volumes:
   php_socket:
   redis_data_socket:

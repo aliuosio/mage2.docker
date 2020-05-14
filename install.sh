@@ -163,6 +163,9 @@ setDomainAndCookieName() {
 exchangeMagentoEnv() {
     message "docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php"
     docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php
+
+    message "docker-compose exec -it -u $1 $2 chmod 664 /home/$1/html/app/etc/env.php;"
+    docker-compose exec -it -u $1 $2 chmod 664 /home/$1/html/app/etc/env.php;
 }
 
 elasticConfig() {

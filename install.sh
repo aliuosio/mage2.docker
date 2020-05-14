@@ -280,7 +280,7 @@ sampleDataInstall() {
 specialPrompt() {
     if [[ ! -z "$1" ]]; then
         read -p "$1" RESPONSE;
-        if [[ ${RESPONSE} == '' || ${RESPONSE} == 'n' || ${RESPONSE} == 'N' ]]]; then
+        if [[ ${RESPONSE} == '' || ${RESPONSE} == 'n' || ${RESPONSE} == 'N' ]]; then
             rePlaceInEnv "false" "SAMPLE_DATA";
             rePlaceInEnv "" "DB_DUMP";
         elif [[ ${RESPONSE} == 's' || ${RESPONSE} == 'S' ]]; then

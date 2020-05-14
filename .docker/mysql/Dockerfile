@@ -4,7 +4,7 @@ FROM mariadb:${MARIADB_VERSION}
 
 LABEL maintainer="Osiozekhai Aliu"
 
-RUN apt-get update -y && apt-get install --no-install-recommends  -y wget tzdata;
+RUN apt-get update -y && apt-get install --no-install-recommends  -y wget;
 COPY conf/my.cnf /etc/mysql/
 RUN apt-get autoremove -y \
     && apt-get clean \

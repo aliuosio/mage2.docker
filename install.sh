@@ -164,8 +164,11 @@ exchangeMagentoEnv() {
     message "docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php"
     docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php
 
-    message "docker exec -it -u $1 $2 chmod 664 /home/$1/html/app/etc/env.php;"
-    docker exec -it -u $1 $2 chmod 664 /home/$1/html/app/etc/env.php;
+    message "docker exec -it $2 chown $1:$1 /home/$1/html/app/etc/env.php;"
+    docker exec -it $2 chown $1:$1 /home/$1/html/app/etc/env.php;
+
+    message "docker exec -it $2 chmod 644 /home/$1/html/app/etc/env.php;"
+    docker exec -it $2 chmod 644 /home/$1/html/app/etc/env.php;
 }
 
 elasticConfig() {

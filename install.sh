@@ -35,12 +35,6 @@ osxExtraPackages() {
 }
 
 osxDockerSync() {
-    message "docker-sync stop"
-    docker-sync stop;
-
-    message "docker-sync clean"
-    docker-sync clean;
-
     message "docker-sync start"
     docker-sync start;
 }
@@ -77,10 +71,10 @@ magentoComposerJson() {
 }
 
 reMoveMagentoEnv() {
-    path="$1/app/etc/env.php"
+    path="/home/$1/html/app/etc/env.php"
     if [[ -f ${path} ]]; then
-        message "rm ${path};"
-        rm ${path}
+      message "docker exec -it -u $1 $2 rm ${path};"
+      docker exec -it -u $1 $2 rm ${path};
     fi
 }
 
@@ -88,8 +82,8 @@ composerPackagesInstall() {
     message "docker exec -it $2 chown -R $1:$1 /home/$1;"
     docker exec -it $2 chown -R $1:$1 /home/$1
 
-    message "docker exec -it -u $1 $2 composer global require hirak/prestissimo;"
-    docker exec -it -u $1 $2 composer global require hirak/prestissimo
+    message "docker exec -it $2 composer global require hirak/prestissimo;"
+    docker exec -it $2 composer global require hirak/prestissimo
 
     if [[ $3 == *"local"* ]]; then
         message "docker exec -it -u $1 $2 composer install;"
@@ -169,6 +163,12 @@ setDomainAndCookieName() {
 exchangeMagentoEnv() {
     message "docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php"
     docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php
+
+    message "docker exec -it $2 chown $1:$1 /home/$1/html/app/etc/env.php;"
+    docker exec -it $2 chown $1:$1 /home/$1/html/app/etc/env.php;
+
+    message "docker exec -it $2 chmod 644 /home/$1/html/app/etc/env.php;"
+    docker exec -it $2 chmod 644 /home/$1/html/app/etc/env.php;
 }
 
 elasticConfig() {
@@ -225,9 +225,6 @@ permissionsSet() {
 
     message "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;"
     docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
-
-    message "docker exec -it $1 chmod 644 app/etc/env.php"
-    docker exec -it $1 chmod 644 app/etc/env.php
 
     end=$(date +%s)
     runtime=$((end - start))
@@ -286,13 +283,13 @@ sampleDataInstall() {
 specialPrompt() {
     if [[ ! -z "$1" ]]; then
         read -p "$1" RESPONSE;
-        if [[ ${RESPONSE,,} == '' || ${RESPONSE,,} == 'n' ]]; then
+        if [[ ${RESPONSE} == '' || ${RESPONSE} == 'n' || ${RESPONSE} == 'N' ]]; then
             rePlaceInEnv "false" "SAMPLE_DATA";
             rePlaceInEnv "" "DB_DUMP";
-        elif [[ ${RESPONSE,,} == 's' ]]; then
+        elif [[ ${RESPONSE} == 's' || ${RESPONSE} == 'S' ]]; then
             rePlaceInEnv "true" "SAMPLE_DATA";
             rePlaceInEnv "" "DB_DUMP";
-        elif [[ ${RESPONSE,,} == 'd' ]]; then
+        elif [[ ${RESPONSE} == 'd' || ${RESPONSE} == 'D' ]]; then
             rePlaceInEnv "false" "SAMPLE_DATA";
             prompt "rePlaceInEnv" "Set Absolute Path to Project DB Dump (current: ${DB_DUMP})" "DB_DUMP"
         fi
@@ -359,7 +356,7 @@ prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABL
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 workDirCreate ${WORKDIR}
 setComposerCache
-reMoveMagentoEnv ${WORKDIR}
+reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 dockerRefresh  ${SHOPURI}
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackagesInstall ${USER} ${NAMESPACE}_php ${SHOPURI}

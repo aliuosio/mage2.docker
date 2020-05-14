@@ -1,6 +1,6 @@
 ## Magento 2 OSX/Linux Docker
 
-**Nginx(Pagespeed), MariaDB, PHP 7, Redis, Elasticsearch, Mailhog**
+**Nginx(Pagespeed), MariaDB, PHP 7, Redis, Elasticsearch, Mailhog, Watchtower**
 
 This setsup containers for Magento 2. 
 * Good Docker Performance on **MacOS** by using [http://docker-sync.io/ ](http://docker-sync.io/)
@@ -13,6 +13,7 @@ This setsup containers for Magento 2.
 * A preconfigured `env.php` connects to mariadb via sockets, redis via sockets with `install.sh`
 * Elastic Search container ist preconfigured per SQL insert/update with `install.sh`
 
+> be sure to use `allure-framework/allure-phpunit` `1.2.3` instead of `1.2.0` due to this [issue](https://github.com/docker-library/php/issues/719) 
 ### Requirements
 
 **MacOS:**
@@ -29,7 +30,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
  Fresh Installation or your running project when located in your filesystem
     
     cd mage2.docker
-    chmod +x ./install.sh
+    chmod +x *.sh
     ./install.sh 
     
 > set absolute Path to a Shop Folder (Empty or Project) in installer
@@ -69,7 +70,7 @@ See `.docker-sync/daemon.log` for progress
 
 ### PHP Container Usage
     
-    docker exec -it -u $USER mage2_php_<PHP_VERSION_SET> bash -l
+    docker exec -it -u $USER mage2_php bash -l
     
 ### Elasticsearch Usage
 
@@ -100,6 +101,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Fresh Install or use magento 2 project on your file system using `./install.sh`
 * Nginx uses http2
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
+* using watchtower container to keep the containers current
 * set project directory to where ever you want (as configurable option in .env)
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option
 * **http basic authentication** 
@@ -113,7 +115,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
     * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
-* **node / yarn** is setup in PHP Container (Login into PHP Container for usage) 
 * both **PHP GD and PHP Imagick** are installed
 * **PHP Xdebug** as configurable option (xdebug.idekey=docker)
 * **PHP Opcache** enabled

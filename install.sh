@@ -71,10 +71,10 @@ magentoComposerJson() {
 }
 
 reMoveMagentoEnv() {
-    path="$1/app/etc/env.php"
+    path="/home/$1/html/app/etc/env.php"
     if [[ -f ${path} ]]; then
-      message "docker exec -it -u $2 $3 rm ${path};"
-      docker exec -it -u $2 $3 rm ${path};
+      message "docker exec -it -u $1 $2 rm ${path};"
+      docker exec -it -u $1 $2 rm ${path};
     fi
 }
 
@@ -280,6 +280,9 @@ sampleDataInstall() {
 specialPrompt() {
     if [[ ! -z "$1" ]]; then
         read -p "$1" RESPONSE;
+
+        RESPONSE="$(echo -e "${RESPONSE}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+
         if [[ ${RESPONSE} == '' || ${RESPONSE} == 'n' ]]; then
             rePlaceInEnv "false" "SAMPLE_DATA";
             rePlaceInEnv "" "DB_DUMP";
@@ -353,7 +356,7 @@ prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABL
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 workDirCreate ${WORKDIR}
 setComposerCache
-reMoveMagentoEnv ${WORKDIR} ${USER} ${NAMESPACE}_nginx
+reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 dockerRefresh  ${SHOPURI}
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackagesInstall ${USER} ${NAMESPACE}_php ${SHOPURI}

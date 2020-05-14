@@ -1,6 +1,6 @@
 ## Magento 2 OSX/Linux Docker
 
-**Nginx(Pagespeed), MariaDB, PHP 7, Redis, Elasticsearch, Mailhog**
+**Nginx(Pagespeed), MariaDB, PHP 7, Redis, Elasticsearch, Mailhog, Watchtower**
 
 This setsup containers for Magento 2. 
 * Good Docker Performance on **MacOS** by using [http://docker-sync.io/ ](http://docker-sync.io/)
@@ -101,6 +101,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Fresh Install or use magento 2 project on your file system using `./install.sh`
 * Nginx uses http2
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
+* using watchtower container to keep the containers current
 * set project directory to where ever you want (as configurable option in .env)
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option
 * **http basic authentication** 

@@ -280,16 +280,13 @@ sampleDataInstall() {
 specialPrompt() {
     if [[ ! -z "$1" ]]; then
         read -p "$1" RESPONSE;
-
-        RESPONSE="$(echo -e "${RESPONSE}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
-
-        if [[ ${RESPONSE} == '' || ${RESPONSE} == 'n' ]]; then
+        if [[ ${RESPONSE} == '' || ${RESPONSE} == 'n' || ${RESPONSE} == 'N' ]]]; then
             rePlaceInEnv "false" "SAMPLE_DATA";
             rePlaceInEnv "" "DB_DUMP";
-        elif [[ ${RESPONSE} == 's' ]]; then
+        elif [[ ${RESPONSE} == 's' || ${RESPONSE} == 'S' ]]; then
             rePlaceInEnv "true" "SAMPLE_DATA";
             rePlaceInEnv "" "DB_DUMP";
-        elif [[ ${RESPONSE} == 'd' ]]; then
+        elif [[ ${RESPONSE} == 'd' || ${RESPONSE} == 'D' ]]; then
             rePlaceInEnv "false" "SAMPLE_DATA";
             prompt "rePlaceInEnv" "Set Absolute Path to Project DB Dump (current: ${DB_DUMP})" "DB_DUMP"
         fi

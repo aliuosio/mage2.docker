@@ -73,8 +73,8 @@ magentoComposerJson() {
 reMoveMagentoEnv() {
     path="$1/app/etc/env.php"
     if [[ -f ${path} ]]; then
-        message "rm ${path};"
-        rm ${path}
+      message "docker exec -it -u $2 $3 rm ${path};"
+      docker exec -it -u $2 $3 rm ${path};
     fi
 }
 
@@ -350,7 +350,7 @@ prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABL
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 workDirCreate ${WORKDIR}
 setComposerCache
-reMoveMagentoEnv ${WORKDIR}
+reMoveMagentoEnv ${WORKDIR} ${USER} ${NAMESPACE}_nginx
 dockerRefresh  ${SHOPURI}
 magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
 composerPackagesInstall ${USER} ${NAMESPACE}_php ${SHOPURI}

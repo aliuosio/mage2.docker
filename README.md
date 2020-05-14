@@ -30,7 +30,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
  Fresh Installation or your running project when located in your filesystem
     
     cd mage2.docker
-    chmod +x ./install.sh
+    chmod +x *.sh
     ./install.sh 
     
 > set absolute Path to a Shop Folder (Empty or Project) in installer

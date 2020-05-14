@@ -120,6 +120,7 @@ services:
       - elastic_data:/usr/share/elasticsearch/data
 
   watchtower:
+    container_name: ${NAMESPACE}_watchtower
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

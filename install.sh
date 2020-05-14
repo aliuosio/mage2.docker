@@ -226,8 +226,8 @@ permissionsSet() {
     message "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;"
     docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
 
-    message "docker exec -it $1 chmod 644 app/etc/env.php"
-    docker exec -it $1 chmod 644 app/etc/env.php
+    message "docker exec -it $1 chmod 664 app/etc/env.php"
+    docker exec -it $1 chmod 664 app/etc/env.php
 
     end=$(date +%s)
     runtime=$((end - start))

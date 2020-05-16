@@ -89,14 +89,8 @@ magentoComposerJson() {
         message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
         docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp
 
-        message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar"
-        docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar
-
-        message "docker exec -it -u $1 $2 composer require --dev mage2tv/magento-cache-clean"
-        docker exec -it -u $1 $2 composer require --dev mage2tv/magento-cache-clean
-
-        message "docker exec -it -u $1 $2 composer require --dev allure-framework/allure-phpunit:1.2.3"
-        docker exec -it -u $1 $2 composer require --dev allure-framework/allure-phpunit:1.2.3
+        message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit:1.2.3"
+        docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit:1.2.3
     else
         message "Magento 2 composer.json found"
         if [[ $4 == *"local"* ]]; then
@@ -281,6 +275,8 @@ workDirCreate() {
     else
         message "Folder already exits"
     fi
+
+	chown -R $2:$2 $1;
 }
 
 setAuthConfig() {
@@ -402,7 +398,7 @@ prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_C
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 . ${PWD}/.env
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
-workDirCreate ${WORKDIR}
+workDirCreate ${WORKDIR} ${USER}
 setComposerCache
 reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 dockerRefresh  ${SHOPURI}

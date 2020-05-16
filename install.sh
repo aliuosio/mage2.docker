@@ -298,15 +298,19 @@ specialPrompt() {
 
 rePlaceInEnv() {
     if [[ ! -z "$1" ]]; then
-        [[ "$1" == "yes" || "$1" == "y" ]] && value="true" || value=$1
-        pattern=".*$2.*"
-        replacement="$2=$value"
-        envFile="./.env"
-        if [[ $(uname -s) == "Darwin" ]]; then
-            sed -i "" "s@${pattern}@${replacement}@" ${envFile}
-        else
-            sed -i "s@${pattern}@${replacement}@" ${envFile}
-        fi
+        rePlaceIn $1 $2 "./.env"
+    fi
+}
+
+rePlaceIn() {
+    [[ "$1" == "yes" || "$1" == "y" ]] && value="true" || value=$1
+    pattern=".*$2.*"
+    replacement="$2=$value"
+    envFile="$3"
+    if [[ $(uname -s) == "Darwin" ]]; then
+        sed -i "" "s@${pattern}@${replacement}@" ${envFile}
+    else
+        sed -i "s@${pattern}@${replacement}@" ${envFile}
     fi
 }
 

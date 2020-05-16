@@ -83,12 +83,8 @@ magentoComposerJson() {
     if test ! -f "$3/composer.json"; then
         message "Magento 2 Fresh Install"
 
-        read -p "Which Magento 2 Version? (current: ${MAGE_LATEST})" RESPONSE
-
-        [[ -z "$RESPONSE" ]] && RESPONSE=${MAGE_LATEST};
-
-        message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${RESPONSE} .";
-        docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${RESPONSE} .
+        message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$5 .";
+        docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$5 .
 
         message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
         docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp
@@ -396,6 +392,8 @@ prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [D]ump, [S]ample Data or [N]one of the above?"
 prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4.10, 10.5.2) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
+read -p "Which Magento 2 Version? (current: ${MAGE_LATEST})" RESPONSE
+[[ -z "$RESPONSE" ]] && RESPONSE=${MAGE_LATEST};
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 . ${PWD}/.env
@@ -404,7 +402,7 @@ workDirCreate ${WORKDIR}
 setComposerCache
 reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 dockerRefresh  ${SHOPURI}
-magentoComposerJson ${USER} ${NAMESPACE}_php ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
+magentoComposerJson ${USER} ${NAMESPACE}_php ${WORKDIR} ${SHOPURI} ${RESPONSE}
 installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}

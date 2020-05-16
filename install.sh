@@ -281,6 +281,8 @@ workDirCreate() {
     else
         message "Folder already exits"
     fi
+
+	chown -R $2:$2 $1;
 }
 
 setAuthConfig() {
@@ -402,7 +404,7 @@ prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_C
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 . ${PWD}/.env
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
-workDirCreate ${WORKDIR}
+workDirCreate ${WORKDIR} ${USER}
 setComposerCache
 reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 dockerRefresh  ${SHOPURI}

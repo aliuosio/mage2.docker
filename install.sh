@@ -61,12 +61,35 @@ dockerRefresh() {
 }
 
 magentoComposerJson() {
+    message "docker exec -it $2 chown -R $1:$1 /home/$1;"
+    docker exec -it $2 chown -R $1:$1 /home/$1
+
+    message "docker exec -it $2 composer global require hirak/prestissimo;"
+    docker exec -it $2 composer global require hirak/prestissimo
+
     if test ! -f "$3/composer.json"; then
         message "Magento 2 Fresh Install"
-        message "docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json"
-        docker cp -a ./.docker/config_blueprints/composer.json $2:/home/$1/html/composer.json
+
+        message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$5 .";
+        docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$5 .
+
+        message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
+        docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp
+
+        message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar"
+        docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar
+
+        message "docker exec -it -u $1 $2 composer require --dev mage2tv/magento-cache-clean"
+        docker exec -it -u $1 $2 composer require --dev mage2tv/magento-cache-clean
     else
-        message "composer.json found and will be used"
+        message "Magento 2 composer.json found"
+        if [[ $4 == *"local"* ]]; then
+            message "docker exec -it -u $1 $2 composer install;"
+            docker exec -it -u $1 $2 composer install
+        else
+            message "docker exec -it -u $1 $2 composer install --no-dev;"
+            docker exec -it -u $1 $2 composer install --no-dev
+        fi
     fi
 }
 
@@ -363,8 +386,7 @@ workDirCreate ${WORKDIR}
 setComposerCache
 reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 dockerRefresh  ${SHOPURI}
-magentoComposerJson ${USER} ${NAMESPACE}_nginx ${WORKDIR}
-composerPackagesInstall ${USER} ${NAMESPACE}_php ${SHOPURI}
+magentoComposerJson ${USER} ${NAMESPACE}_php ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
 installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}

@@ -2,6 +2,17 @@
 
 set -e
 
+getLogo() {
+    echo "                             _____      _            _             ";
+    echo "                            / __  \    | |          | |            ";
+    echo " _ __ ___   __ _  __ _  ___ \`' / /'  __| | ___   ___| | _____ _ __ ";
+    echo "| '_ \` _ \ / _\` |/ _\` |/ _ \  / /   / _\` |/ _ \ / __| |/ / _ \ '__|";
+    echo "| | | | | | (_| | (_| |  __/./ /___| (_| | (_) | (__|   <  __/ |   ";
+    echo "|_| |_| |_|\__,_|\__, |\___|\_____(_)__,_|\___/ \___|_|\_\___|_|   ";
+    echo "                  __/ |                                            ";
+    echo "                 |___/                                             ";
+}
+
 createEnv() {
     if [[ ! -f ./.env ]]; then
         message "cp ./.env.template ./.env"
@@ -346,9 +357,10 @@ prompt() {
 }
 
 message () {
-  echo "------------------------------------------------------------------------------"
+  echo "";
   echo -e "$1"
   echo "------------------------------------------------------------------------------"
+  echo "";
 }
 
 showSuccess() {
@@ -369,9 +381,10 @@ http://$1"
 
 startAll=$(date +%s)
 
+getLogo
 createEnv
 . ${PWD}/.env
-message "Press <ENTER> to keep the values shown as current"
+message "Press [ENTER] alone to keep the current values"
 prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [D]ump, [S]ample Data or [N]one of the above?"
@@ -379,7 +392,6 @@ prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3) (current: ${PHP_VERS
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4.10, 10.5.2) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
-
 . ${PWD}/.env
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 workDirCreate ${WORKDIR}

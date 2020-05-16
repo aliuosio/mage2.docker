@@ -72,6 +72,8 @@ dockerRefresh() {
 }
 
 magentoComposerJson() {
+    MAGE_LATEST="2.3.5-p1"
+
     message "docker exec -it $2 chown -R $1:$1 /home/$1;"
     docker exec -it $2 chown -R $1:$1 /home/$1
 
@@ -81,8 +83,12 @@ magentoComposerJson() {
     if test ! -f "$3/composer.json"; then
         message "Magento 2 Fresh Install"
 
-        message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$5 .";
-        docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=$5 .
+        read -p "Which Magento 2 Version? (current: ${MAGE_LATEST})" RESPONSE
+
+        [[ -z "$RESPONSE" ]] && RESPONSE=${MAGE_LATEST};
+
+        message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${RESPONSE} .";
+        docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${RESPONSE} .
 
         message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
         docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp

@@ -344,6 +344,7 @@ startAll=$(date +%s)
 
 createEnv
 . ${PWD}/.env
+message "Press <ENTER> to keep the values shown as current"
 prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [D]ump, [S]ample Data or [N]one of the above?"

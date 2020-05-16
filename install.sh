@@ -72,8 +72,6 @@ dockerRefresh() {
 }
 
 magentoComposerJson() {
-    MAGE_LATEST="2.3.5-p1"
-
     message "docker exec -it $2 chown -R $1:$1 /home/$1;"
     docker exec -it $2 chown -R $1:$1 /home/$1
 
@@ -392,8 +390,11 @@ prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [D]ump, [S]ample Data or [N]one of the above?"
 prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4.10, 10.5.2) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
-read -p "Which Magento 2 Version? (current: ${MAGE_LATEST})" RESPONSE
-[[ -z "$RESPONSE" ]] && RESPONSE=${MAGE_LATEST};
+
+MAGE_LATEST="2.3.5-p1"
+read -p "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGE_LATEST_RESPONSE
+[[ -z "$MAGE_LATEST_RESPONSE" ]] && MAGE_LATEST_RESPONSE=${MAGE_LATEST};
+
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 . ${PWD}/.env
@@ -402,7 +403,7 @@ workDirCreate ${WORKDIR}
 setComposerCache
 reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 dockerRefresh  ${SHOPURI}
-magentoComposerJson ${USER} ${NAMESPACE}_php ${WORKDIR} ${SHOPURI} ${RESPONSE}
+magentoComposerJson ${USER} ${NAMESPACE}_php ${WORKDIR} ${SHOPURI} ${MAGE_LATEST_RESPONSE}
 installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}

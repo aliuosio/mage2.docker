@@ -14,6 +14,8 @@ authConfig() {
 }
 
 mainConfig() {
+    FILE=/etc/nginx/conf.d/default_ssl.conf
+
     ln -sf /usr/share/zoneinfo/Etc/$1  /etc/localtime \
     && echo $1 > /etc/timezone \
     && mkdir -p /etc/letsencrypt/ \
@@ -36,6 +38,18 @@ mainConfig() {
         && usermod -o -u 1000 $2 \
         && chown -R $2:$2 $3;
     fi
+
+    if [[ "$1" == "true" && ! -f '/etc/letsencrypt/live/$4/account.key' ]]; then \
+        cd /etc/letsencrypt/live/$4 \
+        && git clone https://github.com/bruncsak/ght-acme.sh.git . \
+        && chmod +x *.sh \
+        && umask 0177 \
+        && openssl genrsa -out account.key 4096 \
+        && umask 0022 \
+        && ./letsencrypt.sh register -a account.key -e $5 \
+        && sed -i "s@ACCOUNT_THUMBPRINT@$(./letsencrypt.sh thumbprint -a account.key)@" ${FILE} \
+        && ./letsencrypt.sh sign -a account.key -k privkey.pem -c fullchain.pem $4;
+    fi
 }
 
 sslConfig() {
@@ -57,7 +71,7 @@ sslConfig() {
     fi
 }
 
-mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
+mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI} ${LETSENCRYPT_EMAIL} ${LETSENCRYPT}
 sslConfig ${SSL} ${USER} ${SHOPURI}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 

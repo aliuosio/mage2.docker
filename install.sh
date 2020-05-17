@@ -396,6 +396,9 @@ read -p "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGENTO_VERSION
 
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
+prompt "rePlaceInEnv" "Register SSL Certificate with Let's Encrypt? (current: ${LETSENCRYPT})" "LETSENCRYPT"
+prompt "rePlaceInEnv" "E-Mail for SSL Certification? (current: ${LETSENCRYPT_EMAIL})" "LETSENCRYPT_EMAIL"
+
 . ${PWD}/.env
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 workDirCreate ${WORKDIR} ${USER}

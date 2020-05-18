@@ -59,7 +59,7 @@ certRegister() {
     VHOST_SSL='/etc/nginx/conf.d/default_ssl.conf';
     ACCOUNT_KEY="/etc/letsencrypt/live/$3/account.key";
 
-    if [[ "$1" == "true" && ! -f ${ACCOUNT_KEY} ]]; then \
+    if [[ "$1" == "true" && "$4" == "true" && ! -f ${ACCOUNT_KEY} ]]; then \
         cd /etc/letsencrypt/live/$3 \
         && git clone https://github.com/bruncsak/ght-acme.sh.git . \
         && chmod +x *.sh \
@@ -77,7 +77,7 @@ certRegister() {
 
 mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
 sslConfig ${SSL} ${USER} ${SHOPURI}
-certRegister ${LETSENCRYPT} ${LETSENCRYPT_EMAIL} ${SHOPURI}
+certRegister ${LETSENCRYPT} ${LETSENCRYPT_EMAIL} ${SHOPURI} ${SSL}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 
 /usr/sbin/nginx -q;

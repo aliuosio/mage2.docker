@@ -39,19 +39,23 @@ mainConfig() {
         && chown -R $2:$2 $3;
     fi
 
-    if [[ "$6" == "true" && ! -f '/etc/letsencrypt/live/$4/account.key' ]]; then \
-        cd /etc/letsencrypt/live/$4 \
+    certRegister $6 $5 $4
+}
+
+certRegister() {
+    if [[ "$1" == "true" && ! -f "/etc/letsencrypt/live/$3/account.key" ]]; then \
+        cd /etc/letsencrypt/live/$3 \
         && git clone https://github.com/bruncsak/ght-acme.sh.git . \
         && chmod +x *.sh \
         && umask 0177 \
         && openssl genrsa -out account.key 4096 \
         && umask 0022 \
-        && ./letsencrypt.sh register -a account.key -e $5;
+        && ./letsencrypt.sh register -a account.key -e $2;
 
         THUMB=$(./letsencrypt.sh thumbprint -a account.key);
         echo "THUMB: ${THUMB}";
         sed -i "s@ACCOUNT_THUMBPRINT@${THUMB}@" ${FILE} \
-        && ./letsencrypt.sh sign -a account.key -k privkey.pem -c fullchain.pem $4;
+        && ./letsencrypt.sh sign -a account.key -k privkey.pem -c fullchain.pem $3;
     fi
 }
 

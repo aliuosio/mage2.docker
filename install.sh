@@ -345,6 +345,7 @@ rePlaceIn() {
 prompt() {
     if [[ ! -z "$2" ]]; then
         read -p "$2" RESPONSE;
+        RESPONSE="${RESPONSE//@/\\@}";
         [[ ${RESPONSE} = '' && $3 = 'WORKDIR' ]] && VALUE="${PWD}/htdocs" || VALUE=${RESPONSE};
         $($1 "${VALUE}" "$3");
     fi
@@ -403,7 +404,7 @@ read -p "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGENTO_VERSION
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 prompt "rePlaceInEnv" "Register SSL Certificate with Let's Encrypt? (current: ${LETSENCRYPT})" "LETSENCRYPT"
-prompt "rePlaceInEnv" "E-Mail for SSL Certification? (current: ${LETSENCRYPT_EMAIL})" "LETSENCRYPT_EMAIL"
+prompt "rePlaceInEnv" "E-Mail for SSL Certification? (current: ${EMAIL})" "EMAIL"
 
 . ${PWD}/.env
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}

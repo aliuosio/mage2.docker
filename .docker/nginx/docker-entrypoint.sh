@@ -56,28 +56,52 @@ sslConfig() {
 }
 
 certRegister() {
-    VHOST_SSL='/etc/nginx/conf.d/default_ssl.conf';
-    ACCOUNT_KEY="/etc/letsencrypt/live/$3/account.key";
+    VHOST_SSL="/etc/nginx/conf.d/default_ssl.conf";
+    SSL_FOLDER="/etc/letsencrypt/live/$3/";
+    ACCOUNT_KEY="${SSL_FOLDER}account.key";
 
-    if [[ "$1" == "true" && "$4" == "true" && ! -f ${ACCOUNT_KEY} ]]; then \
-        cd /etc/letsencrypt/live/$3 \
-        && git clone https://github.com/bruncsak/ght-acme.sh.git . \
-        && chmod +x *.sh \
-        && umask 0177 \
-        && openssl genrsa -out account.key 4096 \
-        && umask 0022 \
-        && ./letsencrypt.sh register -a account.key -e $2;
+    if [[ "$1" == "true" && "$4" == "true" && ! -f ${ACCOUNT_KEY} ]]; then
+        echo "cd ${SSL_FOLDER}";
+        cd ${SSL_FOLDER}
 
-        THUMB=$(./letsencrypt.sh thumbprint -a ${ACCOUNT_KEY});
+        echo "git clone https://github.com/bruncsak/ght-acme.sh.git ${SSL_FOLDER}acme";
+        git clone https://github.com/bruncsak/ght-acme.sh.git "${SSL_FOLDER}acme";
+
+        echo "chmod +x acme/*.sh";
+        chmod +x acme/*.sh
+
+        echo "umask 0177";
+        umask 0177
+
+        echo "openssl genrsa -out account.key 4096";
+        openssl genrsa -out account.key 4096
+
+        echo "umask 0022";
+        umask 0022
+
+        echo "acme/letsencrypt.sh register -a account.key -e $2;";
+        acme/letsencrypt.sh register -a account.key -e $2;
+
+        THUMB=$(acme/letsencrypt.sh thumbprint -a ${ACCOUNT_KEY});
+        THUMB=getThumb ${THUMB};
         echo "THUMB: ${THUMB}";
-        sed -i "s@ACCOUNT_THUMBPRINT@${THUMB}@" ${VHOST_SSL} \
-        && ./letsencrypt.sh sign -a ${ACCOUNT_KEY} -k privkey.pem -c fullchain.pem $3;
+
+        echo "sed -i "s@ACCOUNT_THUMBPRINT@${THUMB}@" ${VHOST_SSL}";
+        sed -i "s@ACCOUNT_THUMBPRINT@${THUMB}@" ${VHOST_SSL}
+
+        echo "acme/letsencrypt.sh sign -a ${ACCOUNT_KEY} -k privkey.pem -c fullchain.pem $3;";
+        acme/letsencrypt.sh sign -a ${ACCOUNT_KEY} -k privkey.pem -c fullchain.pem $3;
     fi
+}
+
+getThumb() {
+    set -- $1
+    return $3;
 }
 
 mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
 sslConfig ${SSL} ${USER} ${SHOPURI}
-certRegister ${LETSENCRYPT} ${LETSENCRYPT_EMAIL} ${SHOPURI} ${SSL}
+certRegister ${LETSENCRYPT} ${EMAIL} ${SHOPURI} ${SSL}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 
 /usr/sbin/nginx -q;

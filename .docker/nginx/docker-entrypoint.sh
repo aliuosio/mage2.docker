@@ -73,14 +73,14 @@ certRegister() {
         echo "umask 0177";
         umask 0177
 
-        echo "openssl genrsa -out account.key 4096";
-        openssl genrsa -out account.key 4096
+        echo "openssl genrsa -out $ACCOUNT_KEY 4096";
+        openssl genrsa -out $ACCOUNT_KEY 4096
 
         echo "umask 0022";
         umask 0022
 
-        echo "acme/letsencrypt.sh register -a account.key -e $2;";
-        acme/letsencrypt.sh register -a account.key -e $2;
+        echo "acme/letsencrypt.sh register -a ${ACCOUNT_KEY} -e $2;";
+        acme/letsencrypt.sh register -a ${ACCOUNT_KEY} -e $2;
 
         THUMB=$(acme/letsencrypt.sh thumbprint -a ${ACCOUNT_KEY});
         THUMB=getThumb ${THUMB};
@@ -90,7 +90,7 @@ certRegister() {
         sed -i "s@ACCOUNT_THUMBPRINT@${THUMB}@" ${VHOST_SSL}
 
         echo "acme/letsencrypt.sh sign -a ${ACCOUNT_KEY} -k privkey.pem -c fullchain.pem $3;";
-        acme/letsencrypt.sh sign -a ${ACCOUNT_KEY} -k privkey.pem -c fullchain.pem $3;
+        acme/letsencrypt.sh sign -a ${ACCOUNT_KEY} -k ${SSL_FOLDER}privkey.pem -c ${SSL_FOLDER}fullchain.pem $3;
     fi
 }
 

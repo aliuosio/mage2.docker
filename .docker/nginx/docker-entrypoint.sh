@@ -39,7 +39,7 @@ mainConfig() {
         && chown -R $2:$2 $3;
     fi
 
-    if [[ "$1" == "true" && ! -f '/etc/letsencrypt/live/$4/account.key' ]]; then \
+    if [[ "$6" == "true" && ! -f '/etc/letsencrypt/live/$4/account.key' ]]; then \
         cd /etc/letsencrypt/live/$4 \
         && git clone https://github.com/bruncsak/ght-acme.sh.git . \
         && chmod +x *.sh \

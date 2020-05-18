@@ -49,7 +49,8 @@ mainConfig() {
         && ./letsencrypt.sh register -a account.key -e $5;
 
         THUMB=$(./letsencrypt.sh thumbprint -a account.key);
-        sed -i "s@ACCOUNT_THUMBPRINT@$THUMB@" ${FILE} \
+        echo "THUMB: ${THUMB}";
+        sed -i "s@ACCOUNT_THUMBPRINT@${THUMB}@" ${FILE} \
         && ./letsencrypt.sh sign -a account.key -k privkey.pem -c fullchain.pem $4;
     fi
 }

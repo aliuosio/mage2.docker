@@ -224,13 +224,6 @@ magentoRefresh() {
         message "docker exec -it -u $1 $2 bin/magento c:c;"
         docker exec -it -u $1 $2 bin/magento c:c
     fi
-    if [[ $3 != *"local"* ]]; then
-        message "docker exec -it -u $1 $2 bin/magento c:e full_page;"
-        docker exec -it -u $1 $2 bin/magento c:e full_page
-
-        message "docker exec -it -u $1 $2 bin/magento deploy:mode:set production;"
-        docker exec -it -u $1 $2 bin/magento deploy:mode:set production
-    fi
 }
 
 getMagerun() {
@@ -363,6 +356,19 @@ message () {
   echo "------------------------------------------------------------------------------"
 }
 
+productionModeOnLive() {
+    if [[ $3 != *"local"* ]]; then
+        message "docker exec -it -u $1 $2 bin/magento c:e full_page;"
+        docker exec -it -u $1 $2 bin/magento c:e full_page;
+
+        message "docker exec -it -u $1 $2 bin/magento c:c;"
+        docker exec -it -u $1 $2 bin/magento c:c;
+
+        message "docker exec -it -u $1 $2 bin/magento deploy:mode:set production;"
+        docker exec -it -u $1 $2 bin/magento deploy:mode:set production;
+    fi
+}
+
 showSuccess() {
 message "Yeah, You done !"
 message "Backend:\
@@ -411,6 +417,7 @@ createAdminUser ${USER} ${NAMESPACE}_php
 elasticConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
 sampleDataInstall ${SAMPLE_DATA}
 magentoRefresh ${USER} ${NAMESPACE}_php ${SHOPURI} ${SAMPLE_DATA}
+productionModeOnLive ${USER} ${NAMESPACE}_php ${SHOPURI}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx
 

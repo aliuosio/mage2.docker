@@ -14,7 +14,7 @@ authConfig() {
 }
 
 mainConfig() {
-    FILE=/etc/nginx/conf.d/default_ssl.conf
+    FILE='/etc/nginx/conf.d/default_ssl.conf';
 
     ln -sf /usr/share/zoneinfo/Etc/$1  /etc/localtime \
     && echo $1 > /etc/timezone \
@@ -46,8 +46,10 @@ mainConfig() {
         && umask 0177 \
         && openssl genrsa -out account.key 4096 \
         && umask 0022 \
-        && ./letsencrypt.sh register -a account.key -e $5 \
-        && sed -i "s@ACCOUNT_THUMBPRINT@$(./letsencrypt.sh thumbprint -a account.key)@" ${FILE} \
+        && ./letsencrypt.sh register -a account.key -e $5;
+
+        THUMB=$(./letsencrypt.sh thumbprint -a account.key);
+        sed -i "s@ACCOUNT_THUMBPRINT@$THUMB@" ${FILE} \
         && ./letsencrypt.sh sign -a account.key -k privkey.pem -c fullchain.pem $4;
     fi
 }

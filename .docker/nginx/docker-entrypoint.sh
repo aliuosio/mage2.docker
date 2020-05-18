@@ -14,12 +14,8 @@ authConfig() {
 }
 
 mainConfig() {
-    FILE='/etc/nginx/conf.d/default_ssl.conf';
-
     ln -sf /usr/share/zoneinfo/Etc/$1  /etc/localtime \
     && echo $1 > /etc/timezone \
-    && mkdir -p /etc/letsencrypt/ \
-    && mkdir -p /etc/nginx/ssl/ \
     && sed -i "s#__user#$2#g" /etc/nginx/nginx.conf \
     && sed -i "s#osio#$2#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default.conf \
@@ -37,25 +33,6 @@ mainConfig() {
         adduser -D $2 $2 \
         && usermod -o -u 1000 $2 \
         && chown -R $2:$2 $3;
-    fi
-
-    certRegister $6 $5 $4
-}
-
-certRegister() {
-    if [[ "$1" == "true" && ! -f "/etc/letsencrypt/live/$3/account.key" ]]; then \
-        cd /etc/letsencrypt/live/$3 \
-        && git clone https://github.com/bruncsak/ght-acme.sh.git . \
-        && chmod +x *.sh \
-        && umask 0177 \
-        && openssl genrsa -out account.key 4096 \
-        && umask 0022 \
-        && ./letsencrypt.sh register -a account.key -e $2;
-
-        THUMB=$(./letsencrypt.sh thumbprint -a account.key);
-        echo "THUMB: ${THUMB}";
-        sed -i "s@ACCOUNT_THUMBPRINT@${THUMB}@" ${FILE} \
-        && ./letsencrypt.sh sign -a account.key -k privkey.pem -c fullchain.pem $3;
     fi
 }
 
@@ -78,8 +55,29 @@ sslConfig() {
     fi
 }
 
-mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI} ${LETSENCRYPT_EMAIL} ${LETSENCRYPT}
+certRegister() {
+    VHOST_SSL='/etc/nginx/conf.d/default_ssl.conf';
+    ACCOUNT_KEY="/etc/letsencrypt/live/$3/account.key";
+
+    if [[ "$1" == "true" && ! -f ${ACCOUNT_KEY} ]]; then \
+        cd /etc/letsencrypt/live/$3 \
+        && git clone https://github.com/bruncsak/ght-acme.sh.git . \
+        && chmod +x *.sh \
+        && umask 0177 \
+        && openssl genrsa -out account.key 4096 \
+        && umask 0022 \
+        && ./letsencrypt.sh register -a account.key -e $2;
+
+        THUMB=$(./letsencrypt.sh thumbprint -a ${ACCOUNT_KEY});
+        echo "THUMB: ${THUMB}";
+        sed -i "s@ACCOUNT_THUMBPRINT@${THUMB}@" ${VHOST_SSL} \
+        && ./letsencrypt.sh sign -a ${ACCOUNT_KEY} -k privkey.pem -c fullchain.pem $3;
+    fi
+}
+
+mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
 sslConfig ${SSL} ${USER} ${SHOPURI}
+certRegister ${LETSENCRYPT} ${LETSENCRYPT_EMAIL} ${SHOPURI}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 
 /usr/sbin/nginx -q;

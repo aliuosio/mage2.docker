@@ -30,8 +30,6 @@ sudo curl -fsSL https://download.docker.com/linux/${OS}/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$OS $VERSION stable"
 sudo apt-get update -y;
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io;
-sudo usermod -aG docker ${USER};
-newgrp docker;
 
 # docker-compose
 echo "sudo curl -L "https://github.com/docker/compose/releases/download/$(get_latest_release docker/compose)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose";
@@ -39,3 +37,6 @@ sudo curl -L "https://github.com/docker/compose/releases/download/$(get_latest_r
 
 echo "sudo chmod +x /usr/local/bin/docker-compose";
 sudo chmod +x /usr/local/bin/docker-compose
+
+sudo usermod -aG docker ${USER};
+newgrp docker;

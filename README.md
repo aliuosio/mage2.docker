@@ -19,8 +19,9 @@ This setsup containers for Magento 2.
 **MacOS:**
 Install [Docker](https://docs.docker.com/docker-for-mac/install/)
 
-**Linux:**
+**Linux:** 
 Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
+> Use `docker.sh` to install `docker` and `docker-compose` on debian or Ubuntu based Systems
 
 ### Get Source
 

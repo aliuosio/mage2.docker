@@ -90,7 +90,7 @@ magentoComposerJson() {
         docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp
 
         message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit:1.2.3"
-        docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit:1.2.3
+        docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ^1.2.3
     else
         message "Magento 2 composer.json found"
         if [[ $4 == *"local"* ]]; then

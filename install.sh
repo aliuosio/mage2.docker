@@ -75,7 +75,7 @@ magentoComposerJson() {
     message "docker exec -it $2 chown -R $1:$1 /home/$1;"
     docker exec -it $2 chown -R $1:$1 /home/$1
 
-    message "docker exec -it $2 composer global require hirak/prestissimo;"
+    message "docker exec -it-u $1 $2 composer global require hirak/prestissimo;"
     docker exec -it $2 composer global require hirak/prestissimo
 
     if test ! -f "$3/composer.json"; then

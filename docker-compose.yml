@@ -32,6 +32,8 @@ services:
     sysctls:
       net.core.somaxconn: 65536
     working_dir: /home/${USER}/html
+    links:
+      - db
     depends_on:
       - db
       - redis

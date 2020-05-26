@@ -124,7 +124,6 @@ composerPackagesInstall() {
 }
 
 installMagento() {
-    if [[ -z $8 ]]; then
         if [[ "$7" == "true" ]]; then
             secure=1
         else
@@ -196,7 +195,6 @@ installMagento() {
          --page-cache=redis \
          --page-cache-redis-server=/var/run/redis/redis.sock \
          --page-cache-redis-db=2
-    fi
 }
 
 setDomainAndCookieName() {
@@ -414,7 +412,7 @@ workDirCreate ${WORKDIR} ${USER}
 setComposerCache
 dockerRefresh  ${SHOPURI}
 magentoComposerJson ${USER} ${NAMESPACE}_php ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
-installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL} ${DB_DUMP}
+installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 createAdminUser ${USER} ${NAMESPACE}_php

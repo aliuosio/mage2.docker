@@ -92,16 +92,16 @@ magentoComposerJson() {
             message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit:1.2.3"
             docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ^1.2.3
         else
-            message "docker exec -it -u $1 $2 composer update --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev;"
+            message "docker exec -it -u $1 $2 composer update --no-interaction --no-suggest --no-scripts --no-dev;"
             docker exec -it -u $1 $2 composer update --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
         fi
     else
         message "Magento 2 composer.json found"
         if [[ $4 == *"local"* ]]; then
-            message "docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts;"
+            message "docker exec -it -u $1 $2 composer install --no-interaction --no-suggest --no-scripts;"
             docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts
         else
-            message "docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev;"
+            message "docker exec -it -u $1 $2 composer install --no-interaction --no-suggest --no-scripts --no-dev;"
             docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
         fi
     fi
@@ -115,10 +115,10 @@ composerPackagesInstall() {
     docker exec -it $2 composer global require hirak/prestissimo
 
     if [[ $3 == *"local"* ]]; then
-        message "docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts;"
+        message "docker exec -it -u $1 $2 composer install --no-interaction --no-suggest --no-scripts;"
         docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts
     else
-        message "docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev;"
+        message "docker exec -it -u $1 $2 composer install --no-interaction --no-suggest --no-scripts --no-dev;"
         docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
     fi
 }

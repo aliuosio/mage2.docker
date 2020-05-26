@@ -107,14 +107,6 @@ magentoComposerJson() {
     fi
 }
 
-reMoveMagentoEnv() {
-    path="/home/$1/html/app/etc/env.php"
-    if [[ -f ${path} ]]; then
-      message "docker exec -it -u $1 $2 rm ${path};"
-      docker exec -it -u $1 $2 rm ${path};
-    fi
-}
-
 composerPackagesInstall() {
     message "docker exec -it $2 chown -R $1:$1 /home/$1;"
     docker exec -it $2 chown -R $1:$1 /home/$1
@@ -214,17 +206,6 @@ setDomainAndCookieName() {
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SECURE}"
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_UNSECURE}"
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_COOKIE}"
-}
-
-exchangeMagentoEnv() {
-    message "docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php"
-    docker cp -a ./.docker/config_blueprints/env.php $2:/home/$1/html/app/etc/env.php
-
-    message "docker exec -it $2 chown $1:$1 /home/$1/html/app/etc/env.php;"
-    docker exec -it $2 chown $1:$1 /home/$1/html/app/etc/env.php;
-
-    message "docker exec -it $2 chmod 644 /home/$1/html/app/etc/env.php;"
-    docker exec -it $2 chmod 644 /home/$1/html/app/etc/env.php;
 }
 
 elasticConfig() {
@@ -429,11 +410,9 @@ prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABL
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 workDirCreate ${WORKDIR} ${USER}
 setComposerCache
-#reMoveMagentoEnv ${USER} ${NAMESPACE}_nginx
 dockerRefresh  ${SHOPURI}
 magentoComposerJson ${USER} ${NAMESPACE}_php ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
 installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
-#exchangeMagentoEnv ${USER} ${NAMESPACE}_nginx
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 createAdminUser ${USER} ${NAMESPACE}_php

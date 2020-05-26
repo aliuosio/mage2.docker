@@ -124,77 +124,79 @@ composerPackagesInstall() {
 }
 
 installMagento() {
-    if [[ "$7" == "true" ]]; then
-        secure=1
-    else
-        secure=0
+    if [[ -z $8 ]]; then
+        if [[ "$7" == "true" ]]; then
+            secure=1
+        else
+            secure=0
+        fi
+
+        url_secure="https://$2/"
+        url_unsecure="http://$2/"
+
+        message "docker exec -it -u $1 $3 chmod +x bin/magento"
+        docker exec -it -u $1 $3 chmod +x bin/magento
+
+        message "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
+        --db-host=db \
+        --db-name=$4 \
+        --db-user=$5 \
+        --db-password=$6 \
+        --backend-frontname=admin \
+        --base-url=${url_unsecure} \
+        --base-url-secure=${url_secure} \
+        --use-secure=${secure} \
+        --use-secure-admin=${secure} \
+        --language=de_DE \
+        --timezone=Europe/Berlin \
+        --currency=EUR \
+        --admin-lastname=mage2_admin \
+        --admin-firstname=mage2_admin \
+        --admin-email=admin@example.com \
+        --admin-user=mage2_admin \
+        --admin-password=mage2_admin123#T \
+        --cleanup-database \
+        --use-rewrites=1; \\
+         --session-save=redis \
+         --session-save-redis-host=/var/run/redis/redis.sock \
+         --session-save-redis-db=0 --session-save-redis-password='' \
+         --cache-backend=redis \
+         --cache-backend-redis-server=/var/run/redis/redis.sock \
+         --cache-backend-redis-db=1 \
+         --page-cache=redis \
+         --page-cache-redis-server=/var/run/redis/redis.sock \
+         --page-cache-redis-db=2"
+
+            docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install  \
+         --db-host=db  \
+         --db-name=$4  \
+         --db-user=$5  \
+         --db-password=$6  \
+         --backend-frontname=admin  \
+         --base-url=${url_unsecure}  \
+         --base-url-secure=${url_secure}  \
+         --use-secure=${secure}  \
+         --use-secure-admin=${secure}  \
+         --language=de_DE  \
+         --timezone=Europe/Berlin  \
+         --currency=EUR  \
+         --admin-lastname=mage2_admin  \
+         --admin-firstname=mage2_admin  \
+         --admin-email=admin@example.com  \
+         --admin-user=mage2_admin  \
+         --admin-password=mage2_admin123#T  \
+         --cleanup-database  \
+         --use-rewrites=1 \
+         --session-save=redis \
+         --session-save-redis-host=/var/run/redis/redis.sock \
+         --session-save-redis-db=0 --session-save-redis-password='' \
+         --cache-backend=redis \
+         --cache-backend-redis-server=/var/run/redis/redis.sock \
+         --cache-backend-redis-db=1 \
+         --page-cache=redis \
+         --page-cache-redis-server=/var/run/redis/redis.sock \
+         --page-cache-redis-db=2
     fi
-
-    url_secure="https://$2/"
-    url_unsecure="http://$2/"
-
-    message "docker exec -it -u $1 $3 chmod +x bin/magento"
-    docker exec -it -u $1 $3 chmod +x bin/magento
-
-    message "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
---db-host=db \
---db-name=$4 \
---db-user=$5 \
---db-password=$6 \
---backend-frontname=admin \
---base-url=${url_unsecure} \
---base-url-secure=${url_secure} \
---use-secure=${secure} \
---use-secure-admin=${secure} \
---language=de_DE \
---timezone=Europe/Berlin \
---currency=EUR \
---admin-lastname=mage2_admin \
---admin-firstname=mage2_admin \
---admin-email=admin@example.com \
---admin-user=mage2_admin \
---admin-password=mage2_admin123#T \
---cleanup-database \
---use-rewrites=1; \\
- --session-save=redis \
- --session-save-redis-host=/var/run/redis/redis.sock \
- --session-save-redis-db=0 --session-save-redis-password='' \
- --cache-backend=redis \
- --cache-backend-redis-server=/var/run/redis/redis.sock \
- --cache-backend-redis-db=0 \
- --page-cache=redis \
- --page-cache-redis-server=/var/run/redis/redis.sock \
- --page-cache-redis-db=1"
-
-    docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install  \
- --db-host=db  \
- --db-name=$4  \
- --db-user=$5  \
- --db-password=$6  \
- --backend-frontname=admin  \
- --base-url=${url_unsecure}  \
- --base-url-secure=${url_secure}  \
- --use-secure=${secure}  \
- --use-secure-admin=${secure}  \
- --language=de_DE  \
- --timezone=Europe/Berlin  \
- --currency=EUR  \
- --admin-lastname=mage2_admin  \
- --admin-firstname=mage2_admin  \
- --admin-email=admin@example.com  \
- --admin-user=mage2_admin  \
- --admin-password=mage2_admin123#T  \
- --cleanup-database  \
- --use-rewrites=1 \
- --session-save=redis \
- --session-save-redis-host=/var/run/redis/redis.sock \
- --session-save-redis-db=0 --session-save-redis-password='' \
- --cache-backend=redis \
- --cache-backend-redis-server=/var/run/redis/redis.sock \
- --cache-backend-redis-db=0 \
- --page-cache=redis \
- --page-cache-redis-server=/var/run/redis/redis.sock \
- --page-cache-redis-db=1
 }
 
 setDomainAndCookieName() {
@@ -412,7 +414,7 @@ workDirCreate ${WORKDIR} ${USER}
 setComposerCache
 dockerRefresh  ${SHOPURI}
 magentoComposerJson ${USER} ${NAMESPACE}_php ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
-installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
+installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL} ${DB_DUMP}
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 createAdminUser ${USER} ${NAMESPACE}_php

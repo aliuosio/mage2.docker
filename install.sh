@@ -410,7 +410,7 @@ prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABL
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 workDirCreate ${WORKDIR} ${USER}
 setComposerCache
-#dockerRefresh  ${SHOPURI}
+dockerRefresh  ${SHOPURI}
 magentoComposerJson ${USER} ${NAMESPACE}_php ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
 installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}

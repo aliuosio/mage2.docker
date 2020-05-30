@@ -15,7 +15,7 @@ RUN apk add --update --virtual build-dependencies \
         libjpeg-turbo-dev \
         libzip-dev \
     && set -xe \
-    && apk add \
+    && apk add --update \
         git \
         bash \
         bash-completion \
@@ -26,9 +26,9 @@ RUN apk add --update --virtual build-dependencies \
         imagemagick-dev \
         imagemagick \
         bc \
-    && apk add --virtual .php-deps \
+    && apk add --update --virtual .php-deps \
         make \
-    && apk add --virtual .build-deps \
+    && apk add --update --virtual .build-deps \
         $PHPIZE_DEPS \
         zlib-dev \
         icu-dev \

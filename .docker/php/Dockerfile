@@ -8,14 +8,14 @@ ARG PHP_VERSION_SET
 
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
 
-RUN apk add --update --virtual build-dependencies \
+RUN apk add --update --no-cache --virtual build-dependencies \
         libc-dev \
         libxslt-dev \
         freetype-dev \
         libjpeg-turbo-dev \
         libzip-dev \
     && set -xe \
-    && apk add --update \
+    && apk add --update --no-cache \
         git \
         bash \
         bash-completion \
@@ -26,9 +26,10 @@ RUN apk add --update --virtual build-dependencies \
         imagemagick-dev \
         imagemagick \
         bc \
-    && apk add --update --virtual .php-deps \
+        procps \
+    && apk add --update --no-cache --virtual .php-deps \
         make \
-    && apk add --update --virtual .build-deps \
+    && apk add --update --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         zlib-dev \
         icu-dev \

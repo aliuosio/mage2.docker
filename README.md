@@ -2,7 +2,6 @@
 
 **[Nginx with Pagespeed](https://en.wikipedia.org/wiki/Google_PageSpeed_Tools#PageSpeed_Module), [MariaDB](https://en.wikipedia.org/wiki/MariaDB), [PHP 7](https://en.wikipedia.org/wiki/PHP), [Redis](https://redis.io/), [Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch), [Mailhog](https://github.com/mailhog/MailHog), [Watchtower](https://containrrr.github.io/watchtower/)**
 
-This setsup containers for Magento 2. 
 * Good Docker Performance on **MacOS** by using [http://docker-sync.io/ ](http://docker-sync.io/)
 * Change settings under `.env` in root folder  
 * Change **PHP Versions 7.1, 7.2, 7.3 with xdebug** all based on **php:alpine** docker images

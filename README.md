@@ -2,7 +2,7 @@
 
 **[Nginx with Pagespeed](https://en.wikipedia.org/wiki/Google_PageSpeed_Tools#PageSpeed_Module), [MariaDB](https://en.wikipedia.org/wiki/MariaDB), [PHP 7](https://en.wikipedia.org/wiki/PHP), [Redis](https://redis.io/), [Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch), [Mailhog](https://github.com/mailhog/MailHog), [Watchtower](https://containrrr.github.io/watchtower/)**
 
-* Good Docker Performance on **MacOS** by using [http://docker-sync.io/ ](http://docker-sync.io/)
+* Good Docker Performance on **MacOS** by using [http://docker-sync.io/](http://docker-sync.io/)
 * Change settings under `.env` in root folder  
 * Change **PHP Versions 7.1, 7.2, 7.3 with xdebug** all based on **php:alpine** docker images
 * PHP, Redis containers connect via sockets
@@ -16,7 +16,7 @@
 ### Requirements
 
 **MacOS:**
-Install [Docker](https://docs.docker.com/docker-for-mac/install/)
+Install [Docker](https://docs.docker.com/docker-for-mac/install/) and [docker-sync](http://docker-sync.io/)
 
 **Linux:** 
 Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/#install-compose).

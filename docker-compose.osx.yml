@@ -115,7 +115,7 @@ services:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --interval 1500
+    command: --interval 900
 
 volumes:
   php_socket:

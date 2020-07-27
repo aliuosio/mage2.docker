@@ -35,15 +35,10 @@ RUN apk add --no-cache --virtual build-dependencies \
         zlib-dev \
         icu-dev \
         g++ \
-    && docker-php-ext-configure gd \
-        --with-freetype-dir=/usr/include/freetype2 \
-        --with-jpeg-dir=/usr/include \
-        --with-png-dir=/usr/include \
     && docker-php-ext-configure hash --with-mhash \
     && docker-php-ext-install \
         bcmath \
         mysqli \
-        gd \
         intl \
         pdo_mysql \
         opcache \
@@ -60,6 +55,12 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         apk add libmcrypt-dev \
         && docker-php-ext-install mcrypt; \
     fi
+
+RUN docker-php-ext-configure gd \
+        --with-freetype-dir=/usr/include/freetype2 \
+        --with-jpeg-dir=/usr/include \
+        --with-png-dir=/usr/include
+RUN docker-php-ext-install gd
 
 RUN rm -rf /var/cache/apk/*
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf

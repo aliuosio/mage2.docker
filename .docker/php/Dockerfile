@@ -13,6 +13,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         libxslt-dev \
         freetype-dev \
         libjpeg-turbo-dev \
+        libpng-dev \
         libzip-dev \
     && set -xe \
     && apk add --no-cache \
@@ -37,6 +38,7 @@ RUN apk add --no-cache --virtual build-dependencies \
     && docker-php-ext-configure gd \
         --with-freetype-dir=/usr/include/freetype2 \
         --with-jpeg-dir=/usr/include \
+        --with-png-dir=/usr/include \
     && docker-php-ext-configure hash --with-mhash \
     && docker-php-ext-install \
         bcmath \

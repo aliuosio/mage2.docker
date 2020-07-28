@@ -1,10 +1,8 @@
-ARG PHP_VERSION_SET_IMAGE
+ARG PHP_VERSION_SET
 
-FROM $PHP_VERSION_SET_IMAGE
+FROM php:${PHP_VERSION_SET}-fpm-alpine
 
 LABEL maintainer="Osiozekhai Aliu"
-
-ARG PHP_VERSION_SET
 
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
 

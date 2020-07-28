@@ -31,7 +31,6 @@ services:
     build:
       context: ./.docker/php
       args:
-        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
         PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine

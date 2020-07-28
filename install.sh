@@ -398,7 +398,7 @@ message "Press [ENTER] alone to keep the current values"
 prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [D]ump, [S]ample Data or [N]one of the above?"
-prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
+prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4.10, 10.5.2) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
 
 MAGE_LATEST="latest"

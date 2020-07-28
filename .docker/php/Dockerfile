@@ -56,16 +56,24 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         && docker-php-ext-install mcrypt; \
     fi
 
-RUN docker-php-ext-configure gd \
-        --with-freetype-dir=/usr/include/freetype2 \
-        --with-jpeg-dir=/usr/include \
-        --with-png-dir=/usr/include
-RUN docker-php-ext-install gd
+RUN if [ $(echo "$PHP_VERSION_SET < 7.4"|bc) -eq 1 ]; then \
+        docker-php-ext-configure gd \
+            --with-freetype-dir=/usr/include/freetype2 \
+            --with-jpeg-dir=/usr/include \
+            --with-png-dir=/usr/include; \
+    else \
+        docker-php-ext-configure gd \
+            --with-freetype \
+            --with-jpeg; \
+    fi
 
-RUN rm -rf /var/cache/apk/*
+RUN docker-php-ext-install gd;
+
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY docker-entrypoint.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-RUN rm -rf /tmp/pear
+
+RUN rm -rf /var/cache/apk/* \
+    && chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && rm -rf /tmp/pear;

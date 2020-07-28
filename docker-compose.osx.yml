@@ -27,7 +27,7 @@ services:
       - php_socket:/var/run/php
 
   php:
-    container_name: ${NAMESPACE}_php
+    container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536

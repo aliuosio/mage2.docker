@@ -95,8 +95,8 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
-    container_name: ${NAMESPACE}_elasticsearch
-    image: osioaliu/elasticsearch
+    container_name: ${NAMESPACE}_elasticsearch_${ELASTICSEARCH_VERSION}
+    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false

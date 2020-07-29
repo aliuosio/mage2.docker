@@ -400,6 +400,7 @@ prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [D]ump, [S]ample Data or [N]one of the above?"
 prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4.10, 10.5.2) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
+prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.11, 7.8.1) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSIONs"
 
 MAGE_LATEST="latest"
 read -p "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGENTO_VERSION

@@ -2,7 +2,7 @@
 
 set -e
 
-install() {
+sampledata_install() {
 	docker exec -it -u $1 $2 bin/magento sampledata:deploy;
 	docker exec -it -u $1 $2 bin/magento se:up;
 	# docker exec -it -u $1 $2 bin/magento se:di:co;
@@ -13,4 +13,4 @@ install() {
 
 . ${PWD}/.env;
 
-install ${USER} ${NAMESPACE}_php
+sampledata_install ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}

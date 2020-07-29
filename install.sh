@@ -165,8 +165,7 @@ installMagento() {
         --page-cache-redis-db=2 \
         --search-engine=elasticsearch7 \
         --elasticsearch-host=elasticsearch \
-        --elasticsearch-port=9200 \
-        --elasticsearch-index-prefix=magento2"
+        --elasticsearch-port=9200"
 
             docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install  \
          --db-host=db  \
@@ -199,8 +198,7 @@ installMagento() {
          --page-cache-redis-db=2 \
          --search-engine=elasticsearch7 \
          --elasticsearch-host=elasticsearch \
-         --elasticsearch-port=9200 \
-         --elasticsearch-index-prefix=magento2
+         --elasticsearch-port=9200
 }
 
 setDomainAndCookieName() {

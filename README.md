@@ -114,6 +114,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * **Extra Composer Packages**
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer package
 * **Extra Composer Packages with Magento 2 Installer**
+    * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
     * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
 * both **PHP GD and PHP Imagick** are installed

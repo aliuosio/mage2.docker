@@ -86,6 +86,8 @@ magentoComposerJson() {
         message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} .";
         docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} .
 
+        message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
+        docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp
         if [[ $4 == *"local"* ]]; then
             message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
             docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3

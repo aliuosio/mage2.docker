@@ -5,7 +5,7 @@
 
 * Good Docker Performance on **MacOS** by using [http://docker-sync.io/](http://docker-sync.io/)
 * Change settings under `.env` in root folder  
-* Change **PHP Versions 7.1, 7.2, 7.3 with xdebug** all based on **php:alpine** docker images
+* Change **PHP Versions 7.1, 7.2, 7.3, 7.4 with xdebug** all based on **php:alpine** docker images
 * PHP, Redis containers connect via sockets
 * `install.sh` can include your **running project** files with its DB Dump or Magento Sample Data
 * `install.sh` can create **fresh Magento 2 Install**

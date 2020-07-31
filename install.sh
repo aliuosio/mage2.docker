@@ -214,6 +214,17 @@ setDomainAndCookieName() {
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_COOKIE}"
 }
 
+mailHogConfig() {
+    SET_URL_SSL="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/ssl', 'none') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/ssl', value='none';"
+    SET_URL_HOST="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtphost', 'mailhog') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtphost', value='mailhog';"
+    SET_URL_PORT="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtpport', '1025') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtpport', value='1025';"
+
+    message "URL Settings and Cookie Domain"
+    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SSL}"
+    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_HOST}"
+    docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_PORT}"
+}
+
 magentoRefresh() {
     if [[ $4 == "false" ]]; then
         message "docker exec -it -u $1 $2 bin/magento se:up;"
@@ -413,6 +424,7 @@ magentoComposerJson ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${WORKDIR} ${SHO
 installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
+mailHogConfig
 createAdminUser ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 sampleDataInstall ${SAMPLE_DATA}
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI} ${SAMPLE_DATA}

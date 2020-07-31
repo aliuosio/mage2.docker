@@ -80,7 +80,7 @@ See `.docker-sync/daemon.log` for progress
 
 In Magento 2 Backend `stores` -`Configuration` -`Catalog` -`Catalog` -`Tab: Catalog Search`
     
-    Search Engine: Elasticsearch 6.0+
+    Search Engine: Elasticsearch 7.0+
     Elasticsearch Server Hostname: elasticsearch
     
 You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down

@@ -405,7 +405,7 @@ prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running p
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [D]ump, [S]ample Data or [N]one of the above?"
 prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
-prompt "rePlaceInEnv" "Which MySQL Version? (5.7, 8) (current: ${MYSQL_VERSION})" "MYSQL_VERSION"
+#prompt "rePlaceInEnv" "Which MySQL Version? (5.7,8 ) (current: ${MYSQL_VERSION})" "MYSQL_VERSION"
 prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.11, 7.8.1) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
 
 MAGE_LATEST="latest"

@@ -89,8 +89,8 @@ magentoComposerJson() {
         message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
         docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp
         if [[ $4 == *"local"* ]]; then
-            message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean"
-            docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean
+            message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
+            docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
         else
             message "docker exec -it -u $1 $2 composer update --no-interaction --no-suggest --no-scripts --no-dev;"
             docker exec -it -u $1 $2 composer update --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev

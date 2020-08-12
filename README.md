@@ -1,5 +1,7 @@
 ## Magento 2 OSX/Linux Docker
 **Update: Magento 2.4 compatible**
+> `./install.sh` only works for Magento 2.4 at the moment.
+> Working on a generic solution to guarantee backward compatibility
 
 **[Nginx with Pagespeed](https://en.wikipedia.org/wiki/Google_PageSpeed_Tools#PageSpeed_Module), MySQL, [PHP 7](https://en.wikipedia.org/wiki/PHP), [Redis](https://redis.io/), [Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch), [Mailhog](https://github.com/mailhog/MailHog), [Watchtower](https://containrrr.github.io/watchtower/)**
 
@@ -126,6 +128,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
 
 ### Todos
+* generic solution for `./install.sh`to guarantee backward compatibility
 * Docker letsencrypt certification Container
 * make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config

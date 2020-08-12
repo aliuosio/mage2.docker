@@ -2,6 +2,13 @@
 
 set -e
 
+setGroup() {
+    getGroup=$(groups $1 | cut -d' ' -f1);
+}
+
+setGroup ${USER};
+
+
 getLogo() {
     echo "                             _____      _            _             ";
     echo "                            / __  \    | |          | |            ";
@@ -72,8 +79,9 @@ dockerRefresh() {
 }
 
 magentoComposerJson() {
-    message "docker exec -it $2 chown -R $1:$1 /home/$1;"
-    docker exec -it $2 chown -R $1:$1 /home/$1
+
+    message "docker exec -it chown -R $1:${getGroup} /home/$1;"
+    docker exec -it $2 chown -R $1:${getGroup} /home/$1
 
     message "docker exec -it -u $1 $2 composer global require hirak/prestissimo;"
     docker exec -it -u $1 $2 composer global require hirak/prestissimo
@@ -108,8 +116,9 @@ magentoComposerJson() {
 }
 
 composerPackagesInstall() {
-    message "docker exec -it $2 chown -R $1:$1 /home/$1;"
-    docker exec -it $2 chown -R $1:$1 /home/$1
+
+    message "docker exec -it $2 chown -R $1:${getGroup} /home/$1;"
+    docker exec -it $2 chown -R $1:${getGroup} /home/$1
 
     message "docker exec -it $2 composer global require hirak/prestissimo;"
     docker exec -it $2 composer global require hirak/prestissimo
@@ -281,7 +290,7 @@ workDirCreate() {
         message "Folder already exits"
     fi
 
-	chown -R $2:$2 $1;
+	chown -R $2:${getGroup} $1;
 }
 
 setAuthConfig() {

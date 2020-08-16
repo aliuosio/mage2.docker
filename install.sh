@@ -306,8 +306,13 @@ setComposerCache() {
 
 DBDumpImport() {
     if [[ ! -z $1 && -f $1 ]]; then
-        message "docker exec -i $2_db mysql -u $3 -p$4 $5 < $1;"
-        docker exec -i $2_db mysql -u $3 -p$4 $5 < $1
+        if file --mime-type $1 | grep -q zip$; then
+            message "docker exec -i $2_db unzip -p $1 | mysql -u $3 -p$4 $5";
+            docker exec -i $2_db unzip -p $1 | mysql -u $3 -p$4 $5
+        else
+            message "docker exec -i $2_db mysql -u $3 -p$4 $5 < $1;"
+            docker exec -i $2_db mysql -u $3 -p$4 $5 < $1
+        fi
     else
         message "SQL File not found"
     fi

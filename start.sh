@@ -25,9 +25,6 @@ dockerRefresh() {
         message "docker-compose up -d;"
         docker-compose up -d
     fi
-
-    message "sleep for 1min";
-    sleep 60;
 }
 
 dockerRefresh

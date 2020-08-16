@@ -53,13 +53,7 @@ OSX: on first run very slow due to docker-sync update of local shop files volume
 See `.docker-sync/daemon.log` for progress
     
 ### next startup after reboot of Host
-   
-    OSX: 
-    docker-sync start  
-    docker-compose -f docker-compose.osx.yml up -d;
-    
-    Linux:
-    docker-compose up -d
+    ./start.sh
 
 ### to fix Redis Performance Issues (Linux Only)
     sudo sysctl vm.overcommit_memory=1;

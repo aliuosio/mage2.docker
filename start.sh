@@ -16,9 +16,9 @@ dockerRefresh() {
     fi
 
     if [[ $(uname -s) == "Darwin" ]]; then
-        osxExtraPackages
-        rePlaceInEnv "false" "SSL"
-        osxDockerSync
+        message "docker-sync start"
+        docker-sync start;
+
         message "docker-compose -f docker-compose.osx.yml up -d"
         docker-compose -f docker-compose.osx.yml up -d
     else

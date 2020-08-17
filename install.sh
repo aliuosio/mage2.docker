@@ -376,10 +376,11 @@ prompt() {
     fi
 }
 
-message () {
-  echo "";
+message() {
+  echo ""
   echo -e "$1"
-  echo "------------------------------------------------------------------------------"
+  seq ${#1} | awk '{printf "-"}'
+  echo ""
 }
 
 productionModeOnLive() {

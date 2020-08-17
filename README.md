@@ -127,8 +127,8 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Docker letsencrypt certification Container
 * make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config
-* exchange install.sh with extra docker container for magento 2 installation
-* exchange sampledata.sh with extra docker container for magento 2 sampledata installation
+* move `install.sh` methods to extra script run in php container native
+* move `sampledata.sh` methods to extra script run in php container native
 * simplify letsencrypt certificate embedding in nginx container
 * optimize pagespeed caching
 * Nginx Header Config passes at https://securityheaders.com/

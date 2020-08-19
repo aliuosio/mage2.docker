@@ -22,8 +22,6 @@ services:
       TZ: ${TZ}
       WORKDIR_SERVER: /home/${USER}/html
       SSL: ${SSL}
-      LETSENCRYPT: ${LETSENCRYPT}
-      EMAIL: ${EMAIL}
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - app_data:/home/${USER}/html:delegated

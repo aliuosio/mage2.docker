@@ -12,7 +12,7 @@
 * `install.sh` can include your **running project** files with its DB Dump or Magento Sample Data
 * `install.sh` can create **fresh Magento 2 Install**
 * `install.sh` can create **fresh Magento Install with Sample Data**
-* A preconfigured `env.php` connects to mariadb, redis via sockets with `install.sh`
+* A preconfigured `env.php` connects to redis via sockets with `install.sh`
 * Elastic Search container ist preconfigured with `install.sh`
 * Redis container ist preconfigured with `install.sh`
 * Mailhog Connection in Magento 2 DB ist preconfigured with `install.sh`

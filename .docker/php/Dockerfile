@@ -1,21 +1,22 @@
-ARG PHP_VERSION_SET_IMAGE
+ARG PHP_VERSION_SET
 
-FROM $PHP_VERSION_SET_IMAGE
-
-LABEL maintainer="Osiozekhai Aliu"
+FROM php:${PHP_VERSION_SET}-fpm-alpine
 
 ARG PHP_VERSION_SET
 
+LABEL maintainer="Osiozekhai Aliu"
+
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
 
-RUN apk add --update --virtual build-dependencies \
+RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \
         libxslt-dev \
         freetype-dev \
         libjpeg-turbo-dev \
+        libpng-dev \
         libzip-dev \
     && set -xe \
-    && apk add \
+    && apk add --no-cache \
         git \
         bash \
         bash-completion \
@@ -26,21 +27,18 @@ RUN apk add --update --virtual build-dependencies \
         imagemagick-dev \
         imagemagick \
         bc \
-    && apk add --virtual .php-deps \
+        procps \
+    && apk add --no-cache --virtual .php-deps \
         make \
-    && apk add --virtual .build-deps \
+    && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         zlib-dev \
         icu-dev \
         g++ \
-    && docker-php-ext-configure gd \
-        --with-freetype-dir=/usr/include/freetype2 \
-        --with-jpeg-dir=/usr/include \
     && docker-php-ext-configure hash --with-mhash \
     && docker-php-ext-install \
         bcmath \
         mysqli \
-        gd \
         intl \
         pdo_mysql \
         opcache \
@@ -50,7 +48,7 @@ RUN apk add --update --virtual build-dependencies \
         sockets \
         pcntl \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis imagick \
+    && pecl install -o -f redis imagick xdebug \
     && docker-php-ext-enable redis imagick;
 
 RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
@@ -58,10 +56,24 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         && docker-php-ext-install mcrypt; \
     fi
 
-RUN rm -rf /var/cache/apk/*
+RUN if [ $(echo "$PHP_VERSION_SET < 7.4"|bc) -eq 1 ]; then \
+        docker-php-ext-configure gd \
+            --with-freetype-dir=/usr/include/freetype2 \
+            --with-jpeg-dir=/usr/include \
+            --with-png-dir=/usr/include; \
+    else \
+        docker-php-ext-configure gd \
+            --with-freetype \
+            --with-jpeg; \
+    fi
+
+RUN docker-php-ext-install gd;
+
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY docker-entrypoint.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-RUN rm -rf /tmp/pear
+
+RUN rm -rf /var/cache/apk/* \
+    && chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && rm -rf /tmp/pear;

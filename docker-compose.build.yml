@@ -5,7 +5,7 @@ services:
   nginx:
     build: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
-    image: osioaliu/nginx-pagespeed
+    image: osioaliu/nginx-pagespeed:mage_2
     working_dir: /home/${USER}/html
     depends_on:
       - php
@@ -33,13 +33,14 @@ services:
     build:
       context: ./.docker/php
       args:
-        PHP_VERSION_SET_IMAGE: php:${PHP_VERSION_SET}-fpm-alpine
         PHP_VERSION_SET: ${PHP_VERSION_SET}
-    container_name: ${NAMESPACE}_php
+    container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
     working_dir: /home/${USER}/html
+    links:
+      - db
     depends_on:
       - db
       - redis
@@ -61,22 +62,21 @@ services:
     build:
       context: ./.docker/mysql
       args:
-        MARIADB_VERSION: ${MARIADB_VERSION}
+        TZ: ${TZ}
+        USER: ${USER}
+        MYSQL_VERSION: ${MYSQL_VERSION}
     container_name: ${NAMESPACE}_db
-    image: osioaliu/mariadb:${MARIADB_VERSION}
+    image: osioaliu/mysql:${MYSQL_VERSION}
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql/
+      - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d/
     ports:
       - ${MYSQL_PORT}:3306
-    volumes:
-      - mariadb_data:/var/lib/mysql/
-      - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
-    command: >
-      --character-set-server=utf8mb4
-      --collation-server=utf8mb4_unicode_ci
 
   redis:
     container_name: ${NAMESPACE}_redis
@@ -105,9 +105,12 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
-    build: ./.docker/elasticsearch
-    container_name: ${NAMESPACE}_elasticsearch
-    image: osioaliu/elasticsearch
+    build:
+      context: ./.docker/elasticsearch
+      args:
+        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+    container_name: ${NAMESPACE}_elasticsearch_${ELASTICSEARCH_VERSION}
+    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false
@@ -126,12 +129,12 @@ services:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --interval 30
+    command: --interval 900
 
 volumes:
   php_socket:
   redis_data_socket:
-  mariadb_data:
+  mysql_data:
   elastic_data:
   redis_pagespeed_data:
   redis_data:

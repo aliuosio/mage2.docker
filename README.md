@@ -1,23 +1,27 @@
 ## Magento 2 OSX/Linux Docker
+**Update: Magento 2.4 compatible**
+> `./install.sh` only works for Magento 2.4 at the moment.
+> Working on a generic solution to guarantee backward compatibility
 
-**[Nginx with Pagespeed](https://en.wikipedia.org/wiki/Google_PageSpeed_Tools#PageSpeed_Module), [MariaDB](https://en.wikipedia.org/wiki/MariaDB), [PHP 7](https://en.wikipedia.org/wiki/PHP), [Redis](https://redis.io/), [Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch), [Mailhog](https://github.com/mailhog/MailHog), [Watchtower](https://containrrr.github.io/watchtower/)**
+**[Nginx with Pagespeed](https://en.wikipedia.org/wiki/Google_PageSpeed_Tools#PageSpeed_Module), MySQL, [PHP 7](https://en.wikipedia.org/wiki/PHP), [Redis](https://redis.io/), [Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch), [Mailhog](https://github.com/mailhog/MailHog), [Watchtower](https://containrrr.github.io/watchtower/)**
 
-This setsup containers for Magento 2. 
-* Good Docker Performance on **MacOS** by using [http://docker-sync.io/ ](http://docker-sync.io/)
+* Good Docker Performance on **MacOS** by using [http://docker-sync.io/](http://docker-sync.io/)
 * Change settings under `.env` in root folder  
-* Change **PHP Versions 7.1, 7.2, 7.3 with xdebug** all based on **php:alpine** docker images
+* Change **PHP Versions 7.1, 7.2, 7.3, 7.4 with xdebug** all based on **php:alpine** docker images
 * PHP, Redis containers connect via sockets
 * `install.sh` can include your **running project** files with its DB Dump or Magento Sample Data
 * `install.sh` can create **fresh Magento 2 Install**
 * `install.sh` can create **fresh Magento Install with Sample Data**
 * A preconfigured `env.php` connects to mariadb, redis via sockets with `install.sh`
-* Elastic Search container ist preconfigured per SQL insert/update with `install.sh`
+* Elastic Search container ist preconfigured with `install.sh`
+* Redis container ist preconfigured with `install.sh`
+* Mailhog Connection in Magento 2 DB ist preconfigured with `install.sh`
 
 > be sure to use `allure-framework/allure-phpunit` `1.2.3` instead of `1.2.0` due to this [issue](https://github.com/docker-library/php/issues/719) 
 ### Requirements
 
 **MacOS:**
-Install [Docker](https://docs.docker.com/docker-for-mac/install/)
+Install [Docker](https://docs.docker.com/docker-for-mac/install/) and [docker-sync](http://docker-sync.io/)
 
 **Linux:** 
 Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
@@ -28,7 +32,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     git clone https://github.com/aliuosio/mage2.docker.git
 
 ### Installation
- Fresh Installation or your running project when located in your filesystem
+ Fresh Installation (latest magento 2 version) or your running project when located in your filesystem
     
     cd mage2.docker
     chmod +x *.sh
@@ -49,13 +53,7 @@ OSX: on first run very slow due to docker-sync update of local shop files volume
 See `.docker-sync/daemon.log` for progress
     
 ### next startup after reboot of Host
-   
-    OSX: 
-    docker-sync start  
-    docker-compose -f docker-compose.osx.yml up -d;
-    
-    Linux:
-    docker-compose up -d
+    ./start.sh
 
 ### to fix Redis Performance Issues (Linux Only)
     sudo sysctl vm.overcommit_memory=1;
@@ -71,15 +69,15 @@ See `.docker-sync/daemon.log` for progress
 
 ### PHP Container Usage
     
-    docker exec -it -u $USER mage2_php bash -l
+    docker exec -it -u $USER mage2br    _<PHP_VERSION_SET> bash -l
     
 ### Elasticsearch Usage
 
-Configured automatically with install.sh
+** Configured automatically with install.sh **
 
 In Magento 2 Backend `stores` -`Configuration` -`Catalog` -`Catalog` -`Tab: Catalog Search`
     
-    Search Engine: Elasticsearch 6.0+
+    Search Engine: Elasticsearch 7.0+
     Elasticsearch Server Hostname: elasticsearch
     
 You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
@@ -113,7 +111,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2
 * **Extra Composer Packages**
     * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer package
-* **Extra Composer Packages with Magento 2 Installer**  
+* **Extra Composer Packages with Magento 2 Installer**
     * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
     * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
@@ -124,11 +122,13 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
 
 ### Todos
+* Exchange docker-sync.io with Mutagen
+* generic solution for `./install.sh`to guarantee backward compatibility
 * Docker letsencrypt certification Container
 * make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config
-* exchange install.sh with extra docker container for magento 2 installation
-* exchange sampledata.sh with extra docker container for magento 2 sampledata installation
+* move `install.sh` methods to extra script run in php container native
+* move `sampledata.sh` methods to extra script run in php container native
 * simplify letsencrypt certificate embedding in nginx container
 * optimize pagespeed caching
 * Nginx Header Config passes at https://securityheaders.com/

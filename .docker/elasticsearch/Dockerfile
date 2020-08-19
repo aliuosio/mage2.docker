@@ -1,4 +1,6 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.8
+ARG ELASTICSEARCH_VERSION
+
+FROM docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
 
 LABEL maintainer="Osiozekhai Aliu"
 RUN yum update -y

@@ -16,8 +16,6 @@ authConfig() {
 mainConfig() {
     ln -sf /usr/share/zoneinfo/Etc/$1  /etc/localtime \
     && echo $1 > /etc/timezone \
-    && mkdir -p /etc/letsencrypt/ \
-    && mkdir -p /etc/nginx/ssl/ \
     && sed -i "s#__user#$2#g" /etc/nginx/nginx.conf \
     && sed -i "s#osio#$2#g" /etc/nginx/nginx.conf \
     && sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default.conf \
@@ -57,8 +55,53 @@ sslConfig() {
     fi
 }
 
+certRegister() {
+    VHOST_SSL="/etc/nginx/conf.d/default_ssl.conf";
+    SSL_FOLDER="/etc/letsencrypt/live/$3/";
+    ACCOUNT_KEY="${SSL_FOLDER}account.key";
+
+    if [[ "$1" == "true" && "$4" == "true" && ! -f ${ACCOUNT_KEY} ]]; then
+        echo "cd ${SSL_FOLDER}";
+        cd ${SSL_FOLDER}
+
+        echo "git clone https://github.com/bruncsak/ght-acme.sh.git ${SSL_FOLDER}acme";
+        git clone https://github.com/bruncsak/ght-acme.sh.git "${SSL_FOLDER}acme";
+
+        echo "chmod +x acme/*.sh";
+        chmod +x acme/*.sh
+
+        echo "umask 0177";
+        umask 0177
+
+        echo "openssl genrsa -out $ACCOUNT_KEY 4096";
+        openssl genrsa -out $ACCOUNT_KEY 4096
+
+        echo "umask 0022";
+        umask 0022
+
+        echo "acme/letsencrypt.sh register -a ${ACCOUNT_KEY} -e $2;";
+        acme/letsencrypt.sh register -a ${ACCOUNT_KEY} -e $2;
+
+        THUMB=$(acme/letsencrypt.sh thumbprint -a ${ACCOUNT_KEY});
+        THUMB=getThumb ${THUMB};
+        echo "THUMB: ${THUMB}";
+
+        echo "sed -i "s@ACCOUNT_THUMBPRINT@${THUMB}@" ${VHOST_SSL}";
+        sed -i "s@ACCOUNT_THUMBPRINT@${THUMB}@" ${VHOST_SSL}
+
+        echo "acme/letsencrypt.sh sign -a ${ACCOUNT_KEY} -k privkey.pem -c fullchain.pem $3;";
+        acme/letsencrypt.sh sign -a ${ACCOUNT_KEY} -k ${SSL_FOLDER}privkey.pem -c ${SSL_FOLDER}fullchain.pem $3;
+    fi
+}
+
+getThumb() {
+    set -- $1
+    return $3;
+}
+
 mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
 sslConfig ${SSL} ${USER} ${SHOPURI}
+certRegister ${LETSENCRYPT} ${EMAIL} ${SHOPURI} ${SSL}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 
 /usr/sbin/nginx -q;

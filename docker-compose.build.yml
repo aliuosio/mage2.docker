@@ -72,8 +72,14 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d/
+      - .docker/mysql/conf/z.conf:/etc/mysql/conf.d/z.conf
     ports:
       - ${MYSQL_PORT}:3306
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
 
   redis:
     container_name: ${NAMESPACE}_redis

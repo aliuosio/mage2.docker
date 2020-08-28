@@ -61,7 +61,6 @@ services:
       context: ./.docker/mysql
       args:
         TZ: ${TZ}
-        USER: ${USER}
         MYSQL_VERSION: ${MYSQL_VERSION}
     container_name: ${NAMESPACE}_db
     image: osioaliu/mysql:${MYSQL_VERSION}

@@ -1,58 +1,45 @@
-[mysql]
-default-character-set=utf8mb4
-
 [mysqld]
-character-set-server=utf8mb4
-collation-server=utf8mb4_unicode_ci
-user=mysql
+## After edit config you have to remove log files and restart mysql server
+## because after changing innodb-log-file-size you should recreate ib_logfiles
+## Stop MySQL server
+## rm /data/dir/ib_logfile*
+## Run MySQL server
 
-ft_min_word_len = 3
+##Table open cache under MacOS and MySQL 5.6 should be 250.
+##Otherwise you will get error MySQL server has gone away
+##table-open-cache                   = 250
+table-open-cache                     = 4096
 
-innodb_buffer_pool_size = 512M
-innodb_log_file_size = 64M
-innodb_flush_log_at_trx_commit = 0
-innodb_log_buffer_size = 64M
-innodb_flush_method = O_DIRECT
-innodb_doublewrite = 0
-innodb_file_per_table=1
-innodb_strict_mode = off
+## Cache
+table-definition-cache               = 4096
+thread-cache-size                    = 256
+query-cache-size                     = 64M
+query-cache-type                     = 1
 
-max_allowed_packet=64M
+## Per-thread Buffers
+sort-buffer-size                     = 16M
 
-# MyISAM
-key_buffer_size = 64M
+## Temp Tables
+max-heap-table-size                  = 512M
+tmp-table-size                       = 512M
 
-# Logging
-log_error = /var/lib/mysql/mysql-error.log
-slow_query_log = 0
-slow_query_log_file = /var/lib/mysql/mysql-slow.log
+## Networking
+interactive-timeout                  = 3600
+max-connections                      = 400
+max-connect-errors                   = 1000000
+max-allowed-packet                   = 512M
+skip-name-resolve
+skip-secure-auth
+wait-timeout                         = 28800
+## MyISAM
+key-buffer-size                      = 256M
+#myisam-recover                      = FORCE,BACKUP
+myisam-sort-buffer-size              = 128M
 
-# OTHER
-max_heap_table_size = 32M
-query_cache_type = 0
-open_files_limit = 32000
-table_open_cache=64
-max_connections=10000
-innodb_use_native_aio = ON
-explicit_defaults_for_timestamp = 1
-
-# bind-address = 127.0.0.1
-
-performance_schema = ON
-
-innodb_thread_concurrency = 18
-innodb_flush_log_at_trx_commit = 2
-thread_cache_size = 32
-query_cache_size = 64M
-query_cache_limit = 4M
-join_buffer_size = 8M
-tmp_table_size = 256M
-innodb_autoextend_increment=512
-max_allowed_packet = 16M
-max_heap_table_size = 256M
-read_buffer_size = 2M
-read_rnd_buffer_size = 16M
-bulk_insert_buffer_size = 64M
-myisam_sort_buffer_size = 128M
-myisam_max_sort_file_size = 1G
-myisam_repair_threads = 1
+## InnoDB
+innodb-buffer-pool-size              = 2G
+innodb-log-file-size                 = 256M
+innodb-thread-concurrency            = 18
+innodb_flush_log_at_trx_commit       = 2
+##Fastest
+##innodb_flush_log_at_trx_commit     = 0

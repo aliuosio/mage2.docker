@@ -273,6 +273,12 @@ permissionsSet() {
     message "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;"
     docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
 
+    message "docker exec -it $1 chown -R $2:$2 .;";
+    docker exec -it $1 chown -R $2:$2 .;
+
+    message "chown -R $2:$2 $3;"
+    chown -R $2:$2 $3;
+
     end=$(date +%s)
     runtime=$((end - start))
 
@@ -445,7 +451,7 @@ sampleDataInstall ${SAMPLE_DATA}
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI} ${SAMPLE_DATA}
 productionModeOnLive ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
-permissionsSet ${NAMESPACE}_nginx
+permissionsSet ${NAMESPACE}_nginx ${USER} ${WORKDIR}
 
 endAll=$(date +%s)
 runtimeAll=$((endAll - startAll))

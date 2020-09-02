@@ -74,6 +74,8 @@ COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.in
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY docker-entrypoint.sh /usr/local/bin
 
+RUN apk add --no-cache yarn
+
 RUN rm -rf /var/cache/apk/* \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \
     && rm -rf /tmp/pear;

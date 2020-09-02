@@ -6,12 +6,10 @@
 **[Nginx with Pagespeed](https://en.wikipedia.org/wiki/Google_PageSpeed_Tools#PageSpeed_Module), MySQL, [PHP 7](https://en.wikipedia.org/wiki/PHP), [Redis](https://redis.io/), [Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch), [Mailhog](https://github.com/mailhog/MailHog), [Watchtower](https://containrrr.github.io/watchtower/)**
 
 * Good Docker Performance on **MacOS** by using [http://docker-sync.io/](http://docker-sync.io/)
+* With `install.sh` you can include your **running project** files with its DB Dump or Magento Sample Data, create **fresh Magento 2 Install**, create **fresh Magento Install with Sample Data**
 * Change settings under `.env` in root folder  
 * Change **PHP Versions 7.1, 7.2, 7.3, 7.4 with xdebug** all based on **php:alpine** docker images
 * PHP, Redis containers connect via sockets
-* `install.sh` can include your **running project** files with its DB Dump or Magento Sample Data
-* `install.sh` can create **fresh Magento 2 Install**
-* `install.sh` can create **fresh Magento Install with Sample Data**
 * A preconfigured `env.php` connects to redis via sockets with `install.sh`
 * Elastic Search container ist preconfigured with `install.sh`
 * Redis container ist preconfigured with `install.sh`

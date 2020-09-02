@@ -28,6 +28,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         imagemagick \
         bc \
         procps \
+        yarn \
     && apk add --no-cache --virtual .php-deps \
         make \
     && apk add --no-cache --virtual .build-deps \
@@ -73,8 +74,6 @@ COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY docker-entrypoint.sh /usr/local/bin
-
-RUN apk add --no-cache yarn
 
 RUN rm -rf /var/cache/apk/* \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \

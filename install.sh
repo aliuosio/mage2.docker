@@ -457,7 +457,7 @@ sampleDataInstall ${SAMPLE_DATA}
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI} ${SAMPLE_DATA}
 productionModeOnLive ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
-permissionsSet ${NAMESPACE}_nginx ${USER} ${WORKDIR}
+permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET} ${USER} ${WORKDIR}
 
 endAll=$(date +%s);
 runtimeAll=$((endAll - startAll))

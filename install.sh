@@ -234,7 +234,7 @@ mailHogConfig() {
     SET_URL_HOST="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtphost', 'mailhog') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtphost', value='mailhog';"
     SET_URL_PORT="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtpport', '1025') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtpport', value='1025';"
 
-    message "URL Settings and Cookie Domain"
+    message "Mailhog Settings"
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SSL}"
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_HOST}"
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_PORT}"

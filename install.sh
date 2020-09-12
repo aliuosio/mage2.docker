@@ -424,7 +424,7 @@ Frontend:\
 http://$1"
 }
 
-startAll=$(date +%s)
+startAll=$(date +%s);
 
 getLogo
 createEnv
@@ -459,7 +459,7 @@ productionModeOnLive ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
 permissionsSet ${NAMESPACE}_nginx ${USER} ${WORKDIR}
 
-endAll=$(date +%s)
+endAll=$(date +%s);
 runtimeAll=$((endAll - startAll))
 message  "Setup Time: ${runtimeAll} Sec"
 

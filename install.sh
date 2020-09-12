@@ -298,8 +298,6 @@ workDirCreate() {
     else
         message "Folder already exits"
     fi
-
-	chown -R $2:${getGroup} $1;
 }
 
 setAuthConfig() {

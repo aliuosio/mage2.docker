@@ -318,6 +318,12 @@ DBDumpImport() {
 }
 
 createAdminUser() {
+    message "docker exec -it -u $1 $2 bin/magento admin:user:create  \
+ --admin-lastname=mage2_admin  \
+ --admin-firstname=mage2_admin  \
+ --admin-email=admin@example.com  \
+ --admin-user=mage2_admin  \
+ --admin-password=mage2_admin123#T"
     docker exec -it -u $1 $2 bin/magento admin:user:create  \
  --admin-lastname=mage2_admin  \
  --admin-firstname=mage2_admin  \

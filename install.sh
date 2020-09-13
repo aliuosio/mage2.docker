@@ -3,10 +3,10 @@
 set -e
 
 setGroup() {
-    getGroup=$1;
+    getGroup=$(groups "$1" | cut -d' ' -f1);
 }
 
-setGroup ${USER};
+setGroup "${USER}";
 
 
 getLogo() {

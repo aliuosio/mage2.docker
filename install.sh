@@ -2,13 +2,6 @@
 
 set -e
 
-setGroup() {
-    getGroup=$(groups "$1" | cut -d' ' -f1);
-}
-
-setGroup "${USER}";
-
-
 getLogo() {
     echo "                             _____      _            _             ";
     echo "                            / __  \    | |          | |            ";
@@ -92,27 +85,19 @@ magentoComposerJson() {
 
         message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
         docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp
+
         if [[ $4 == *"local"* ]]; then
             message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
             docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
-        else
-            message "docker exec -it -u $1 $2 composer update --no-interaction --no-suggest --no-scripts --no-dev;"
-            docker exec -it -u $1 $2 composer update --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
         fi
     else
         message "Magento 2 composer.json found"
         if [[ $4 == *"local"* ]]; then
             message "docker exec -it -u $1 $2 composer install;"
             docker exec -it -u $1 $2 composer install
-
-            message "docker exec -it -u $1 $2 composer update;"
-            docker exec -it -u $1 $2 composer update
-        else
+	else
             message "docker exec -it -u $1 $2 composer install --no-dev;"
             docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
-
-            message "docker exec -it -u $1 $2 composer update --no-dev;"
-            docker exec -it -u $1 $2 composer update --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
         fi
     fi
 }
@@ -323,7 +308,7 @@ createAdminUser() {
  --admin-firstname=mage2_admin  \
  --admin-email=admin@example.com  \
  --admin-user=mage2_admin  \
- --admin-password=mage2_admin123#T"
+ --admin-password=mage2_admin123#T";
     docker exec -it -u $1 $2 bin/magento admin:user:create  \
  --admin-lastname=mage2_admin  \
  --admin-firstname=mage2_admin  \

@@ -275,6 +275,12 @@ workDirCreate() {
     else
         message "Folder already exits"
     fi
+
+    message "chown -R $2:$2 $1;";
+    chown -R $2:$2 $1;
+
+    message "docker exec -it $3 chown -R $2:$2 .;";
+    docker exec -it $3 chown -R $2:$2 .;
 }
 
 setAuthConfig() {
@@ -422,7 +428,7 @@ prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABL
 . ${PWD}/.env
 
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
-workDirCreate ${WORKDIR} ${USER}
+workDirCreate ${WORKDIR} ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 setComposerCache
 dockerRefresh
 magentoComposerJson ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}

@@ -246,6 +246,23 @@ getMagerun() {
     fi
 }
 
+chownSet() {
+    message "Setting permissions... takes time... It took 90 sec the last time."
+
+    start=$(date +%s)
+
+    message "chown -R $2:$2 $3;";
+    chown -R $2:$2 $3;
+
+    message "docker exec -it $1 chown -R $2:$2 .;";
+    docker exec -it $1 chown -R $2:$2 .;
+
+    end=$(date +%s)
+    runtime=$((end - start))
+
+    message  "Setting permissions time: ${runtime} Sec"
+}
+
 permissionsSet() {
     message "Setting permissions... takes time... It took 90 sec the last time."
 
@@ -255,9 +272,6 @@ permissionsSet() {
 
     message "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;"
     docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
-
-    message "docker exec -it $1 chown -R $2:$2 .;";
-    docker exec -it $1 chown -R $2:$2 .;
 
     end=$(date +%s)
     runtime=$((end - start))
@@ -425,7 +439,7 @@ setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 workDirCreate ${WORKDIR} ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 setComposerCache
 dockerRefresh
-permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET} ${USER} ${WORKDIR}
+chownSet ${NAMESPACE}_php_${PHP_VERSION_SET} ${USER} ${WORKDIR}
 magentoComposerJson ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
 installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${MYSQL_DATABASE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}
@@ -437,6 +451,7 @@ magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI} ${SAMPLE_D
 productionModeOnLive ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 getMagerun ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
 permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET} ${USER} ${WORKDIR}
+chownSet ${NAMESPACE}_php_${PHP_VERSION_SET} ${USER} ${WORKDIR}
 
 endAll=$(date +%s);
 runtimeAll=$((endAll - startAll))

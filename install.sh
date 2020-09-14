@@ -275,9 +275,6 @@ workDirCreate() {
     else
         message "Folder already exits"
     fi
-
-    message "chown -R $2:$2 $1;";
-    chown -R $2:$2 $1;
 }
 
 setAuthConfig() {

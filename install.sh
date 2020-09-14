@@ -95,7 +95,7 @@ magentoComposerJson() {
         if [[ $4 == *"local"* ]]; then
             message "docker exec -it -u $1 $2 composer install;"
             docker exec -it -u $1 $2 composer install
-	else
+	      else
             message "docker exec -it -u $1 $2 composer install --no-dev;"
             docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
         fi
@@ -420,22 +420,22 @@ read -p "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGENTO_VERSION
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 . ${PWD}/.env
-phpContainer=${NAMESPACE}_php_${PHP_VERSION_SET}
+
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 workDirCreate ${WORKDIR} ${USER}
 setComposerCache
 dockerRefresh
-magentoComposerJson ${USER} ${phpContainer} ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
-installMagento ${USER} ${SHOPURI} ${phpContainer} ${MYSQL_DATABASE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
+magentoComposerJson ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
+installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${MYSQL_DATABASE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}
 setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db ${SHOPURI}
 mailHogConfig  ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${NAMESPACE}_db
-createAdminUser ${USER} ${phpContainer}
+createAdminUser ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 sampleDataInstall ${SAMPLE_DATA}
-magentoRefresh ${USER} ${phpContainer} ${SHOPURI} ${SAMPLE_DATA}
-productionModeOnLive ${USER} ${phpContainer} ${SHOPURI}
-getMagerun ${USER} ${phpContainer} ${SHOPURI}
-permissionsSet ${phpContainer} ${USER} ${WORKDIR}
+magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI} ${SAMPLE_DATA}
+productionModeOnLive ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
+getMagerun ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
+permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET} ${USER} ${WORKDIR}
 
 endAll=$(date +%s);
 runtimeAll=$((endAll - startAll))

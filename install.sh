@@ -278,9 +278,6 @@ workDirCreate() {
 
     message "chown -R $2:$2 $1;";
     chown -R $2:$2 $1;
-
-    message "docker exec -it $3 chown -R $2:$2 .;";
-    docker exec -it $3 chown -R $2:$2 .;
 }
 
 setAuthConfig() {

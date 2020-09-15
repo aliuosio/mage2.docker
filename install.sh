@@ -95,27 +95,19 @@ magentoComposerJson() {
 
         message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
         docker exec -it -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
+
         if [[ $4 == *"local"* ]]; then
             message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
             docker exec -it -u "$1" "$2" composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
-        else
-            message "docker exec -it -u $1 $2 composer update --no-interaction --no-suggest --no-scripts --no-dev;"
-            docker exec -it -u "$1" "$2" composer update --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
         fi
     else
         message "Magento 2 composer.json found"
         if [[ $4 == *"local"* ]]; then
             message "docker exec -it -u $1 $2 composer install;"
             docker exec -it -u "$1" "$2" composer install
-
-            message "docker exec -it -u $1 $2 composer update;"
-            docker exec -it -u "$1" "$2" composer update
         else
             message "docker exec -it -u $1 $2 composer install --no-dev;"
-            docker exec -it -u "$1" "$2" composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
-
-            message "docker exec -it -u $1 $2 composer update --no-dev;"
-            docker exec -it -u "$1" "$2" composer update --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
+            docker exec -it -u "$1" "$2" composer install --no-interaction --no-suggest --no-scripts --no-dev
         fi
     fi
 }
@@ -392,6 +384,11 @@ productionModeOnLive() {
     fi
 }
 
+setComposerAutoloaderWithACPU() {
+    message "docker exec -it -u "$1" "$2" composer dump-autoload -o --apcu"
+    docker exec -it -u "$1" "$2" composer dump-autoload -o --apcu
+}
+
 showSuccess() {
 message "Yeah, You done !"
 message "Backend:\
@@ -442,6 +439,7 @@ createAdminUser "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
 sampleDataInstall "${SAMPLE_DATA}"
 magentoRefresh "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}" "${SAMPLE_DATA}"
 productionModeOnLive "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
+setComposerAutoloaderWithACPU "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
 getMagerun "${USER}" "${NAMESPACE}"_nginx "${SHOPURI}"
 permissionsSet "${NAMESPACE}"_nginx "${USER}" "${WORKDIR}"
 

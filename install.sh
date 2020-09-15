@@ -120,23 +120,6 @@ magentoComposerJson() {
     fi
 }
 
-composerPackagesInstall() {
-
-    message "docker exec -it $2 chown -R $1:${getGroup} /home/$1;"
-    docker exec -it "$2" chown -R "$1":"${getGroup}" /home/"$1"
-
-    message "docker exec -it $2 composer global require hirak/prestissimo;"
-    docker exec -it "$2" composer global require hirak/prestissimo
-
-    if [[ $3 == *"local"* ]]; then
-        message "docker exec -it -u $1 $2 composer install --no-interaction --no-suggest --no-scripts;"
-        docker exec -it -u "$1" "$2" composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts
-    else
-        message "docker exec -it -u $1 $2 composer install --no-interaction --no-suggest --no-scripts --no-dev;"
-        docker exec -it -u "$1" "$2" composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
-    fi
-}
-
 installMagento() {
         if [[ "$7" == "true" ]]; then
             secure=1
@@ -451,19 +434,19 @@ workDirCreate "${WORKDIR}" "${USER}"
 setComposerCache
 dockerRefresh
 magentoComposerJson "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
-#installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
-#DBDumpImport "${DB_DUMP}" "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${MYSQL_DATABASE}"
-#setDomainAndCookieName "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db "${SHOPURI}"
-#mailHogConfig  "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db
-#createAdminUser "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
-#sampleDataInstall "${SAMPLE_DATA}"
-#magentoRefresh "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}" "${SAMPLE_DATA}"
-#productionModeOnLive "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
-#getMagerun "${USER}" "${NAMESPACE}"_nginx "${SHOPURI}"
-#permissionsSet "${NAMESPACE}"_nginx "${USER}" "${WORKDIR}"
-#
-#endAll=$(date +%s)
-#runtimeAll=$((endAll - startAll))
-#message  "Setup Time: ${runtimeAll} Sec"
-#
-#showSuccess "${SHOPURI}"
+installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
+DBDumpImport "${DB_DUMP}" "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${MYSQL_DATABASE}"
+setDomainAndCookieName "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db "${SHOPURI}"
+mailHogConfig  "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db
+createAdminUser "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
+sampleDataInstall "${SAMPLE_DATA}"
+magentoRefresh "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}" "${SAMPLE_DATA}"
+productionModeOnLive "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
+getMagerun "${USER}" "${NAMESPACE}"_nginx "${SHOPURI}"
+permissionsSet "${NAMESPACE}"_nginx "${USER}" "${WORKDIR}"
+
+endAll=$(date +%s)
+runtimeAll=$((endAll - startAll))
+message  "Setup Time: ${runtimeAll} Sec"
+
+showSuccess "${SHOPURI}"

@@ -3,11 +3,11 @@ ARG PHP_VERSION_SET
 FROM php:${PHP_VERSION_SET}-fpm-alpine
 
 ARG PHP_VERSION_SET
+ARG APCU_VERSION=5.1.18
+ARG APCU_BC_VERSION=1.0.5
 
 LABEL maintainer="Osiozekhai Aliu"
-
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
-
 RUN apk add --no-cache --virtual build-dependencies \
         libc-dev \
         libxslt-dev \
@@ -49,7 +49,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         sockets \
         pcntl \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis imagick xdebug \
+    && pecl install -o -f redis imagick xdebug\
     && docker-php-ext-enable redis imagick;
 
 RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
@@ -74,6 +74,11 @@ COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY docker-entrypoint.sh /usr/local/bin
+
+RUN pecl install apcu-$APCU_VERSION \
+    && docker-php-ext-enable apcu \
+    && pecl install apcu_bc-$APCU_BC_VERSION \
+    && docker-php-ext-enable apc;
 
 RUN rm -rf /var/cache/apk/* \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \

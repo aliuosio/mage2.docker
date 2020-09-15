@@ -3,8 +3,6 @@ ARG PHP_VERSION_SET
 FROM php:${PHP_VERSION_SET}-fpm-alpine
 
 ARG PHP_VERSION_SET
-ARG APCU_VERSION=5.1.18
-ARG APCU_BC_VERSION=1.0.5
 
 LABEL maintainer="Osiozekhai Aliu"
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
@@ -81,5 +79,6 @@ RUN pecl install apcu-$APCU_VERSION \
     && docker-php-ext-enable apc;
 
 RUN rm -rf /var/cache/apk/* \
+    && docker-php-source delete \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \
     && rm -rf /tmp/pear;

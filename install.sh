@@ -447,7 +447,7 @@ getMagerun "${USER}" "${NAMESPACE}"_nginx "${SHOPURI}"
 permissionsSet "${NAMESPACE}"_nginx "${USER}" "${WORKDIR}"
 
 endAll=$(date +%s)
-runtimeAll=$((endAll - startAll))
+runtimeAll=$((endAll - startAll));
 message  "Setup Time: ${runtimeAll} Sec"
 
 showSuccess "${SHOPURI}"

@@ -78,7 +78,6 @@ dockerRefresh() {
 }
 
 magentoComposerJson() {
-
     message "docker exec -it chown -R $1:${getGroup} /home/$1;"
     docker exec -it "$2" chown -R "$1":"${getGroup}" /home/"$1"
 
@@ -387,10 +386,12 @@ productionModeOnLive() {
 
         message "docker exec -it -u $1 $2 bin/magento deploy:mode:set production;"
         docker exec -it -u "$1" "$2" bin/magento deploy:mode:set production;
-
-        message "docker exec -it -u $1 $2 composer dump-autoload -o --apcu"
-        docker exec -it -u "$1" "$2" composer dump-autoload -o --apcu
     fi
+}
+
+composerOptimzerWithAPCu() {
+  message "docker exec -it -u $1 $2 composer dump-autoload -o --apcu"
+  docker exec -it -u "$1" "$2" composer dump-autoload -o --apcu
 }
 
 showSuccess() {
@@ -443,6 +444,7 @@ createAdminUser "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
 sampleDataInstall "${SAMPLE_DATA}"
 magentoRefresh "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}" "${SAMPLE_DATA}"
 productionModeOnLive "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
+composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
 getMagerun "${USER}" "${NAMESPACE}"_nginx "${SHOPURI}"
 permissionsSet "${NAMESPACE}"_nginx "${USER}" "${WORKDIR}"
 

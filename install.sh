@@ -375,7 +375,9 @@ rePlaceIn() {
 prompt() {
     if [[ ! -z "$2" ]]; then
         read -p "$2" RESPONSE;
-        [[ ${RESPONSE} = '' && $3 = 'WORKDIR' ]] && VALUE="${PWD}/htdocs" || VALUE=${RESPONSE};
+        [[ ${RESPONSE} = '' && $3 = 'WORKDIR' ]] && VALUE=${RESPONSE} || VALUE=${RESPONSE};
+
+        #message "$1 ${VALUE} $3"
         $($1 "${VALUE}" "$3");
     fi
 }

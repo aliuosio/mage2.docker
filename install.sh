@@ -2,13 +2,6 @@
 
 set -e
 
-setGroup() {
-    getGroup=$(groups $1 | cut -d' ' -f1);
-}
-
-setGroup ${USER};
-
-
 getLogo() {
     echo "                             _____      _            _             ";
     echo "                            / __  \    | |          | |            ";
@@ -79,10 +72,6 @@ dockerRefresh() {
 }
 
 magentoComposerJson() {
-
-    message "docker exec -it chown -R $1:${getGroup} /home/$1;"
-    docker exec -it $2 chown -R $1:${getGroup} /home/$1
-
     message "docker exec -it -u $1 $2 composer global require hirak/prestissimo;"
     docker exec -it -u $1 $2 composer global require hirak/prestissimo
 
@@ -96,36 +85,24 @@ magentoComposerJson() {
 
         message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
         docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp
+
         if [[ $4 == *"local"* ]]; then
             message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
             docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
-        else
-            message "docker exec -it -u $1 $2 composer update --no-interaction --no-suggest --no-scripts --no-dev;"
-            docker exec -it -u $1 $2 composer update --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
         fi
     else
         message "Magento 2 composer.json found"
         if [[ $4 == *"local"* ]]; then
             message "docker exec -it -u $1 $2 composer install;"
             docker exec -it -u $1 $2 composer install
-
-            message "docker exec -it -u $1 $2 composer update;"
-            docker exec -it -u $1 $2 composer update
-        else
+	      else
             message "docker exec -it -u $1 $2 composer install --no-dev;"
             docker exec -it -u $1 $2 composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
-
-            message "docker exec -it -u $1 $2 composer update --no-dev;"
-            docker exec -it -u $1 $2 composer update --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-dev
         fi
     fi
 }
 
 composerPackagesInstall() {
-
-    message "docker exec -it $2 chown -R $1:${getGroup} /home/$1;"
-    docker exec -it $2 chown -R $1:${getGroup} /home/$1
-
     message "docker exec -it $2 composer global require hirak/prestissimo;"
     docker exec -it $2 composer global require hirak/prestissimo
 
@@ -234,7 +211,7 @@ mailHogConfig() {
     SET_URL_HOST="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtphost', 'mailhog') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtphost', value='mailhog';"
     SET_URL_PORT="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtpport', '1025') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtpport', value='1025';"
 
-    message "URL Settings and Cookie Domain"
+    message "Mailhog Settings"
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_SSL}"
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_HOST}"
     docker exec -it $4 mysql -u $2 -p$3 -e "${SET_URL_PORT}"
@@ -269,6 +246,23 @@ getMagerun() {
     fi
 }
 
+chownSet() {
+    message "Setting permissions... takes time... It took 90 sec the last time."
+
+    start=$(date +%s)
+
+    message "chown -R $2:$2 $3;";
+    chown -R $2:$2 $3;
+
+    message "docker exec -it $1 chown -R $2:$2 .;";
+    docker exec -it $1 chown -R $2:$2 .;
+
+    end=$(date +%s)
+    runtime=$((end - start))
+
+    message  "Setting permissions time: ${runtime} Sec"
+}
+
 permissionsSet() {
     message "Setting permissions... takes time... It took 90 sec the last time."
 
@@ -278,12 +272,6 @@ permissionsSet() {
 
     message "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;"
     docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
-
-    message "docker exec -it $1 chown -R $2:$2 .;";
-    docker exec -it $1 chown -R $2:$2 .;
-
-    message "chown -R $2:$2 $3;"
-    chown -R $2:$2 $3;
 
     end=$(date +%s)
     runtime=$((end - start))
@@ -301,8 +289,6 @@ workDirCreate() {
     else
         message "Folder already exits"
     fi
-
-	chown -R $2:${getGroup} $1;
 }
 
 setAuthConfig() {
@@ -331,6 +317,12 @@ DBDumpImport() {
 }
 
 createAdminUser() {
+    message "docker exec -it -u $1 $2 bin/magento admin:user:create  \
+ --admin-lastname=mage2_admin  \
+ --admin-firstname=mage2_admin  \
+ --admin-email=admin@example.com  \
+ --admin-user=mage2_admin  \
+ --admin-password=mage2_admin123#T";
     docker exec -it -u $1 $2 bin/magento admin:user:create  \
  --admin-lastname=mage2_admin  \
  --admin-firstname=mage2_admin  \
@@ -383,7 +375,9 @@ rePlaceIn() {
 prompt() {
     if [[ ! -z "$2" ]]; then
         read -p "$2" RESPONSE;
-        [[ ${RESPONSE} = '' && $3 = 'WORKDIR' ]] && VALUE="${PWD}/htdocs" || VALUE=${RESPONSE};
+        [[ ${RESPONSE} = '' && $3 = 'WORKDIR' ]] && VALUE=${RESPONSE} || VALUE=${RESPONSE};
+
+        #message "$1 ${VALUE} $3"
         $($1 "${VALUE}" "$3");
     fi
 }
@@ -424,8 +418,7 @@ Frontend:\
 http://$1"
 }
 
-startAll=$(date +%s)
-
+startAll=$(date +%s);
 getLogo
 createEnv
 . ${PWD}/.env
@@ -443,10 +436,12 @@ read -p "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGENTO_VERSION
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 . ${PWD}/.env
+
 setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
-workDirCreate ${WORKDIR} ${USER}
+workDirCreate ${WORKDIR} ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 setComposerCache
 dockerRefresh
+chownSet ${NAMESPACE}_php_${PHP_VERSION_SET} ${USER} ${WORKDIR}
 magentoComposerJson ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
 installMagento ${USER} ${SHOPURI} ${NAMESPACE}_php_${PHP_VERSION_SET} ${MYSQL_DATABASE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL}
 DBDumpImport ${DB_DUMP} ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${MYSQL_DATABASE}
@@ -456,10 +451,11 @@ createAdminUser ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET}
 sampleDataInstall ${SAMPLE_DATA}
 magentoRefresh ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI} ${SAMPLE_DATA}
 productionModeOnLive ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
-getMagerun ${USER} ${NAMESPACE}_nginx ${SHOPURI}
-permissionsSet ${NAMESPACE}_nginx ${USER} ${WORKDIR}
+getMagerun ${USER} ${NAMESPACE}_php_${PHP_VERSION_SET} ${SHOPURI}
+permissionsSet ${NAMESPACE}_php_${PHP_VERSION_SET} ${USER} ${WORKDIR}
+chownSet ${NAMESPACE}_php_${PHP_VERSION_SET} ${USER} ${WORKDIR}
 
-endAll=$(date +%s)
+endAll=$(date +%s);
 runtimeAll=$((endAll - startAll))
 message  "Setup Time: ${runtimeAll} Sec"
 

@@ -338,8 +338,8 @@ specialPrompt() {
 }
 
 rePlaceInEnv() {
-    if [[ ! -z "$1" ]]; then
-        rePlaceIn $1 $2 "./.env"
+    if [[ -n "$1" ]]; then
+        rePlaceIn "$1" "$2" "./.env"
     fi
 }
 
@@ -385,7 +385,7 @@ productionModeOnLive() {
 }
 
 setComposerAutoloaderWithACPU() {
-    message "docker exec -it -u "$1" "$2" composer dump-autoload -o --apcu"
+    message "docker exec -it -u $1 $2 composer dump-autoload -o --apcu"
     docker exec -it -u "$1" "$2" composer dump-autoload -o --apcu
 }
 

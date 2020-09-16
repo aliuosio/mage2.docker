@@ -338,8 +338,8 @@ specialPrompt() {
 }
 
 rePlaceInEnv() {
-    if [[ -n "$1" ]]; then
-        rePlaceIn "$1" "$2" "./.env"
+    if [[ ! -z "$1" ]]; then
+        rePlaceIn $1 $2 "./.env"
     fi
 }
 

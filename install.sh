@@ -387,12 +387,10 @@ productionModeOnLive() {
 
         message "docker exec -it -u $1 $2 bin/magento deploy:mode:set production;"
         docker exec -it -u "$1" "$2" bin/magento deploy:mode:set production;
-    fi
-}
 
-setComposerAutoloaderWithACPU() {
-    message "docker exec -it -u $1 $2 composer dump-autoload -o --apcu"
-    docker exec -it -u "$1" "$2" composer dump-autoload -o --apcu
+        message "docker exec -it -u $1 $2 composer dump-autoload -o --apcu"
+        docker exec -it -u "$1" "$2" composer dump-autoload -o --apcu
+    fi
 }
 
 showSuccess() {
@@ -445,7 +443,6 @@ createAdminUser "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
 sampleDataInstall "${SAMPLE_DATA}"
 magentoRefresh "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}" "${SAMPLE_DATA}"
 productionModeOnLive "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
-setComposerAutoloaderWithACPU "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
 getMagerun "${USER}" "${NAMESPACE}"_nginx "${SHOPURI}"
 permissionsSet "${NAMESPACE}"_nginx "${USER}" "${WORKDIR}"
 

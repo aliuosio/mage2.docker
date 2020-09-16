@@ -73,9 +73,9 @@ COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.in
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY docker-entrypoint.sh /usr/local/bin
 
-RUN pecl install apcu-$APCU_VERSION \
+RUN pecl install apcu-5.1.18 \
     && docker-php-ext-enable apcu \
-    && pecl install apcu_bc-$APCU_BC_VERSION \
+    && pecl install apcu_bc-1.0.5 \
     && docker-php-ext-enable apc;
 
 RUN rm -rf /var/cache/apk/* \

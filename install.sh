@@ -441,7 +441,7 @@ createAdminUser "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
 sampleDataInstall "${SAMPLE_DATA}"
 magentoRefresh "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}" "${SAMPLE_DATA}"
 productionModeOnLive "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
-composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
+#composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
 getMagerun "${USER}" "${NAMESPACE}"_nginx "${SHOPURI}"
 permissionsSet "${NAMESPACE}"_nginx "${USER}" "${WORKDIR}"
 

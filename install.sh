@@ -191,10 +191,7 @@ installMagento() {
          --cache-backend-redis-db=1 \
          --page-cache=redis \
          --page-cache-redis-server=/var/run/redis/redis.sock \
-         --page-cache-redis-db=2 \
-         --search-engine=elasticsearch7 \
-         --elasticsearch-host=elasticsearch \
-         --elasticsearch-port=9200
+         --page-cache-redis-db=2
 }
 
 setDomainAndCookieName() {
@@ -257,9 +254,6 @@ permissionsSet() {
 
     message "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;"
     docker exec -it "$1" find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
-
-    message "docker exec -it $1 chown -R $2:$2 .;";
-    docker exec -it "$1" chown -R "$2":"$2" .;
 
     end=$(date +%s)
     runtime=$((end - start))

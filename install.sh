@@ -351,7 +351,7 @@ rePlaceIn() {
 prompt() {
     if [[ -n "$2" ]]; then
         read -rp "$2" RESPONSE;
-        [[ ${RESPONSE} = '' && $3 = 'WORKDIR' ]] && VALUE="${PWD}/htdocs" || VALUE=${RESPONSE};
+        [[ ${RESPONSE} = '' && $3 = 'WORKDIR' ]] && VALUE=${RESPONSE} || VALUE=${RESPONSE};
         # shellcheck disable=SC2091
         $($1 "${VALUE}" "$3");
     fi
@@ -420,7 +420,7 @@ prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABL
 # shellcheck disable=SC1090
 . "${PWD}"/.env
 setAuthConfig "${AUTH_CONFIG}" "${AUTH_USER}" "${AUTH_PASS}"
-workDirCreate "${WORKDIR}" "${USER}"
+#workDirCreate "${WORKDIR}" "${USER}"
 setComposerCache
 dockerRefresh
 magentoComposerJson "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"

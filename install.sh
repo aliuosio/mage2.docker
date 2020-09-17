@@ -103,16 +103,16 @@ magentoComposerJson() {
         message "Magento 2 composer.json found"
         if [[ $4 == *"local"* ]]; then
             message "docker exec -it -u $1 $2 composer install"
-            docker exec -it -u "$1" "$2" composer install --no-interaction
+            docker exec -it -u "$1" "$2" composer install
 
             message "docker exec -it -u $1 $2 composer update"
-            docker exec -it -u "$1" "$2" composer update --no-interaction
+            docker exec -it -u "$1" "$2" composer update
         else
             message "docker exec -it -u $1 $2 composer install --no-dev;"
-            docker exec -it -u "$1" "$2" composer install --no-interaction --no-dev
+            docker exec -it -u "$1" "$2" composer install --no-dev
 
             message "docker exec -it -u $1 $2 composer update --no-dev;"
-            docker exec -it -u "$1" "$2" composer update --no-interaction --no-dev
+            docker exec -it -u "$1" "$2" composer update --no-dev
         fi
     fi
 }

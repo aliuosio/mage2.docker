@@ -271,9 +271,6 @@ workDirCreate() {
     else
         message "Folder already exits"
     fi
-
-	message "chown -R $2:${getGroup} $1;";
-	chown -R "$2":"${getGroup}" "$1";
 }
 
 setAuthConfig() {

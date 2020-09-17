@@ -261,9 +261,6 @@ permissionsSet() {
     message "docker exec -it $1 chown -R $2:$2 .;";
     docker exec -it "$1" chown -R "$2":"$2" .;
 
-    message "chown -R $2:$2 $3;"
-    chown -R "$2":"$2" "$3";
-
     end=$(date +%s)
     runtime=$((end - start))
 

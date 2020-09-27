@@ -120,6 +120,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
 
 ### Todos
+* install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
 * only create `mage2_admin` user on fresh install in `install.sh`
 * set Project Name and Namespace through further prompt in `ìnstall.sh`
 * remove prompt for magento version if composer.json is found in project folder

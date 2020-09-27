@@ -428,7 +428,7 @@ setComposerCache
 dockerRefresh
 magentoComposerJson "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
 installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
-DBDumpImport "${DB_DUMP}" "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${MYSQL_DATABASE}"
+DBDumpImport "${DB_DUMP}" "${NAMESPACE}" root "${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}"
 setDomainAndCookieName "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db "${SHOPURI}"
 mailHogConfig  "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db
 createAdminUser "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"

@@ -121,6 +121,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 
 ### Todos
 * set Project Name and Namespace through further prompt in `ìnstall.sh`
+* remove prompt for magento version if composer.json is found in project folder
 * use [vishnubob / wait-for-it](https://github.com/vishnubob/wait-for-it) instead of sleep function after dockerRefresh Method in `ìnstall.sh`
 * `install.sh` can decompress archiv files for DB Import
 * Exchange `docker-sync` with `Mutagen`

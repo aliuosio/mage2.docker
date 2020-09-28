@@ -10,3 +10,4 @@ auth.json
 /.docker/redis/conf/*
 !/.docker/redis/conf/redis.conf
 .env
+.env*

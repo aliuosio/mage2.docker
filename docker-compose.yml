@@ -50,6 +50,7 @@ services:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
       - composer_cache:/home/${USER}/.composer:delegated
+      - ssh_keys:/home/${USER}/.ssh:delegated
 
   db:
     container_name: ${NAMESPACE}_db
@@ -127,6 +128,11 @@ volumes:
   elastic_data:
   redis_pagespeed_data:
   redis_data:
+  ssh_keys:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/.ssh
   composer_cache:
     driver_opts:
       type: none

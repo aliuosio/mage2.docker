@@ -27,7 +27,8 @@ RUN apk add --no-cache --virtual build-dependencies \
         bc \
         procps \
         yarn \
-        openssh \
+        openssh-keygen \
+        openssh-client \
     && apk add --no-cache --virtual .php-deps \
         make \
     && apk add --no-cache --virtual .build-deps \

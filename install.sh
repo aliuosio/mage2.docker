@@ -118,40 +118,40 @@ magentoComposerJson() {
 }
 
 installMagento() {
-        if [[ "$7" == "true" ]]; then
-            secure=1
-        else
-            secure=0
-        fi
+  if [[ "$7" == "true" ]]; then
+      secure=1
+  else
+      secure=0
+  fi
 
-        url_secure="https://$2/"
-        url_unsecure="http://$2/"
+  url_secure="https://$2/"
+  url_unsecure="http://$2/"
 
-        message "docker exec -it -u $1 $3 chmod +x bin/magento"
-        docker exec -it -u "$1" "$3" chmod +x bin/magento
+  message "docker exec -it -u $1 $3 chmod +x bin/magento"
+  docker exec -it -u "$1" "$3" chmod +x bin/magento
 
-        message "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
-        --db-host=db \
-        --db-name=$4 \
-        --db-user=$5 \
-        --db-password=$6 \
-        --backend-frontname=admin \
-        --base-url=${url_unsecure} \
-        --base-url-secure=${url_secure} \
-        --use-secure=${secure} \
-        --use-secure-admin=${secure} \
-        --language=de_DE \
-        --timezone=Europe/Berlin \
-        --currency=EUR \
-        --admin-lastname=mage2_admin \
-        --admin-firstname=mage2_admin \
-        --admin-email=admin@example.com \
-        --admin-user=mage2_admin \
-        --admin-password=mage2_admin123#T \
-        --cleanup-database \
-        --use-rewrites=1;"
+  message "docker exec -it -u $1 $3 php -dmemory_limit=-1 -derror_reporting='E_ERROR | E_WARNING | E_PARSE' bin/magento setup:install \
+    --db-host=db \
+    --db-name=$4 \
+    --db-user=$5 \
+    --db-password=$6 \
+    --backend-frontname=admin \
+    --base-url=${url_unsecure} \
+    --base-url-secure=${url_secure} \
+    --use-secure=${secure} \
+    --use-secure-admin=${secure} \
+    --language=de_DE \
+    --timezone=Europe/Berlin \
+    --currency=EUR \
+    --admin-lastname=mage2_admin \
+    --admin-firstname=mage2_admin \
+    --admin-email=admin@example.com \
+    --admin-user=mage2_admin \
+    --admin-password=mage2_admin123#T \
+    --cleanup-database \
+    --use-rewrites=1;"
 
-  docker exec -it -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install  \
+  docker exec -it -u "$1" "$3" php -dmemory_limit=-1 -derror_reporting='E_ERROR | E_WARNING | E_PARSE' bin/magento setup:install \
     --db-host=db  \
     --db-name="$4"  \
     --db-user="$5"  \

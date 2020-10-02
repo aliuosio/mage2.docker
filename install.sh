@@ -149,16 +149,7 @@ installMagento() {
     --admin-user=mage2_admin \
     --admin-password=mage2_admin123#T \
     --cleanup-database \
-    --use-rewrites=1 \
-    --session-save=redis \
-    --session-save-redis-host=/var/run/redis/redis.sock \
-    --session-save-redis-db=0 --session-save-redis-password='' \
-    --cache-backend=redis \
-    --cache-backend-redis-server=/var/run/redis/redis.sock \
-    --cache-backend-redis-db=1 \
-    --page-cache=redis \
-    --page-cache-redis-server=/var/run/redis/redis.sock \
-    --page-cache-redis-db=2"
+    --use-rewrites=1"
 
   docker exec -it -u "$1" "$3" php -dmemory_limit=-1 -derror_reporting='E_ERROR | E_WARNING | E_PARSE' bin/magento setup:install \
     --db-host=db  \
@@ -179,16 +170,7 @@ installMagento() {
     --admin-user=mage2_admin  \
     --admin-password=mage2_admin123#T  \
     --cleanup-database  \
-    --use-rewrites=1 \
-    --session-save=redis \
-    --session-save-redis-host=/var/run/redis/redis.sock \
-    --session-save-redis-db=0 --session-save-redis-password='' \
-    --cache-backend=redis \
-    --cache-backend-redis-server=/var/run/redis/redis.sock \
-    --cache-backend-redis-db=1 \
-    --page-cache=redis \
-    --page-cache-redis-server=/var/run/redis/redis.sock \
-    --page-cache-redis-db=2
+    --use-rewrites=1
 }
 
 setDomainAndCookieName() {

@@ -120,6 +120,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
 
 ### Todos
+* reduce the number of volumes
 * create backup of `.env` after `install.sh` usage
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
 * only create `mage2_admin` user on fresh install in `install.sh`

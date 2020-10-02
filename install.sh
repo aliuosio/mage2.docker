@@ -149,7 +149,8 @@ installMagento() {
     --admin-user=mage2_admin \
     --admin-password=mage2_admin123#T \
     --cleanup-database \
-    --use-rewrites=1--session-save=redis \
+    --use-rewrites=1 \
+    --session-save=redis \
     --session-save-redis-host=/var/run/redis/redis.sock \
     --session-save-redis-db=0 --session-save-redis-password='' \
     --cache-backend=redis \

@@ -93,6 +93,29 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     SSL type: None
     SMTP Host: mailhog
     SMTP Port: 1025
+    
+### SSL Certificate Registration
+    
+    # register certificate
+    docker-compose run --rm letsencrypt \
+        letsencrypt certonly --webroot \
+        --email <e-mail> \
+        -w /var/www/letsencrypt -d <subdomian or domain only: my.example.com>
+        
+    # restart webserver
+    docker-compose kill -s SIGHUP nginx  
+    
+**Renewal** (Quote: https://devsidestory.com/lets-encrypt-with-docker/)
+comment in the letsencrypt block in the docker-compose.yml or docker-compose.osx.yml on OSX.
+Let’s Encrypt certificates are valid for 3 months,
+they’d have to be renewed periodically with the following command:  
+    
+    # renew certificates which are expiring in less than 30 days,
+    docker-compose run --rm letsencrypt letsencrypt renew 
+    
+    # restart webserver
+    docker-compose kill -s SIGHUP nginx
+
 
 ### Features
 * Fresh Install or use magento 2 project on your file system using `./install.sh`

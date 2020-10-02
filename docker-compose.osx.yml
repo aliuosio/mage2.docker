@@ -25,6 +25,20 @@ services:
     volumes:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
+      - letsencrypt_certs:/etc/nginx/ssl
+      - letsencrypt_www:/var/www/letsencrypt
+
+  letsencrypt:
+    build:
+      context: ./.docker/letsencrypt
+      args:
+        SHOPURI: ${SHOPURI}
+    container_name: ${NAMESPACE}_letsencrypt
+    image: osioaliu/letsencrypt
+    command: /bin/true
+    volumes:
+      - letsencrypt_certs:/etc/nginx/ssl
+      - letsencrypt_www:/var/www/letsencrypt
 
   php:
     container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
@@ -122,6 +136,8 @@ services:
     command: --interval 900
 
 volumes:
+  letsencrypt_certs:
+  letsencrypt_www:
   php_socket:
   redis_data_socket:
   mysql_data:

@@ -127,6 +127,7 @@ they’d have to be renewed periodically with the following command:
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option
 * **http basic authentication** 
 * Nginx uses **Pagespeed** Module
+* container to register SSL Cert by letsencrypt (only with valid domain)
 * setup valid **SSL certificates** with [Let's Encrypt](https://en.wikipedia.org/wiki/Let%27s_Encrypt) container
 * [Mailhog](https://github.com/mailhog/MailHog) container
 * [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2

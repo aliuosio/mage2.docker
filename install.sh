@@ -312,7 +312,7 @@ DBDumpImport() {
 }
 
 createAdminUser() {
-  if [ -z "$3" ]; then
+  if test ! -f "$3"; then
     docker exec -it -u "$1" "$2" bin/magento admin:user:create \
       --admin-lastname=mage2_admin \
       --admin-firstname=mage2_admin \

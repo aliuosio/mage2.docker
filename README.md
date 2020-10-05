@@ -121,9 +121,9 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * set Project Name and Namespace through `ìnstall.sh` prompt
 * create backup of `.env` after `install.sh` usage
 * only create `mage2_admin` user on fresh install in `install.sh`
+* `install.sh` creates secure mysql passwords and saves them to `.env` 
 
 ### Todos
-* `install.sh` creates secure mysql passwords and saves them to `.env` 
 * reduce the number of volumes
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
 * remove prompt for magento version if composer.json is found in project folder

@@ -118,13 +118,13 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * **PHP Opcache** enabled
 * **PHP redis** enabled
 * permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
+* set Project Name and Namespace through `ìnstall.sh` prompt
 
 ### Todos
 * reduce the number of volumes
 * create backup of `.env` after `install.sh` usage
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
 * only create `mage2_admin` user on fresh install in `install.sh`
-* ~~set Project Name and Namespace through `ìnstall.sh` prompt~~
 * remove prompt for magento version if composer.json is found in project folder
 * use [vishnubob / wait-for-it](https://github.com/vishnubob/wait-for-it) instead of sleep function after dockerRefresh Method in `ìnstall.sh`
 * `install.sh` can decompress archiv files for DB Import

@@ -28,6 +28,16 @@ createEnv() {
     fi
 }
 
+duplicateEnv() {
+    if [[ -f ./.env_"$1" ]]; then
+      message "rm ./.env_"$1"";
+      rm ./.env_"$1"
+    fi
+
+    message "cp ./.env ./.env_$1;";
+    cp ./.env ./.env_"$1";
+}
+
 getLatestFromRepo() {
     message "git fetch && git pull;"
     git fetch && git pull
@@ -442,6 +452,7 @@ productionModeOnLive "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPUR
 #composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
 getMagerun "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
 permissionsSet "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${USER}" "${WORKDIR}"
+duplicateEnv "${COMPOSE_PROJECT_NAME}"
 
 endAll=$(date +%s)
 runtimeAll=$((endAll - startAll));

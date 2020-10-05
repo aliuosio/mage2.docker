@@ -121,16 +121,17 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * set Project Name and Namespace through `ìnstall.sh` prompt
 * create backup of `.env` after `install.sh` usage
 * only create `mage2_admin` user on fresh install in `install.sh`
+* `install.sh` creates secure mysql passwords and saves them to `.env` 
 
 ### Todos
-* `install.sh` creates secure mysql passwords and saves them to `.env` 
+* ~~remove prompt for magento version if composer.json is found in project folder~~
+* prompt to disable Two Factor Auth (for example in local enviroment)
+* generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
-* remove prompt for magento version if composer.json is found in project folder
 * use [vishnubob / wait-for-it](https://github.com/vishnubob/wait-for-it) instead of sleep function after dockerRefresh Method in `ìnstall.sh`
 * `install.sh` can decompress archiv files for DB Import
 * Exchange `docker-sync` with `Mutagen`
-* generic solution for `./install.sh`to guarantee backward compatibility
 * Docker letsencrypt certification Container
 * make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config

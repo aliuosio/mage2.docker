@@ -117,6 +117,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * **PHP Xdebug** as configurable option (xdebug.idekey=docker)
 * **PHP Opcache** enabled
 * **PHP redis** enabled
+* us your local User ssh keys from host in PHP container
 * permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
 * set Project Name and Namespace through `ìnstall.sh` prompt
 * create backup of `.env` after `install.sh` usage

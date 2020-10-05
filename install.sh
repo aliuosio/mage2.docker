@@ -144,7 +144,7 @@ installMagento() {
     --db-host=db \
     --db-name=$4 \
     --db-user=$5 \
-    --db-password=$6 \
+    --db-password=<see .env for password> \
     --backend-frontname=admin \
     --base-url=${url_unsecure} \
     --base-url-secure=${url_secure} \
@@ -297,7 +297,7 @@ DBDumpImport() {
             message "docker exec -i $2_db unzip -p $1 | mysql -u $3 -p$4 $5";
             docker exec -i "$2"_db unzip -p "$1" | mysql -u "$3" -p"$4" "$5"
         else
-            message "docker exec -i $2_db mysql -u $3 -p$4 $5 < $1;"
+            message "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
             docker exec -i "$2"_db mysql -u "$3" -p"$4" "$5" < "$1"
         fi
     else
@@ -342,8 +342,15 @@ rePlaceInEnv() {
         rePlaceIn "$1" "$2" "./.env";
         if [[ $2 == "COMPOSE_PROJECT_NAME" ]]; then
           rePlaceIn "$1" "NAMESPACE" "./.env";
+          rePlaceIn "$1" "MYSQL_DATABASE" "./.env";
+          rePlaceIn "$1" "MYSQL_USER" "./.env";
         fi
     fi
+
+    # shellcheck disable=SC2046
+    rePlaceIn $(openssl rand -base64 12) "MYSQL_ROOT_PASSWORD" "./.env";
+    # shellcheck disable=SC2046
+    rePlaceIn $(openssl rand -base64 12) "MYSQL_PASSWORD" "./.env";
 }
 
 rePlaceIn() {
@@ -428,6 +435,7 @@ read -rp "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGENTO_VERSION
 
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
+
 # shellcheck disable=SC1090
 . "${PWD}"/.env
 setAuthConfig "${AUTH_CONFIG}" "${AUTH_USER}" "${AUTH_PASS}"

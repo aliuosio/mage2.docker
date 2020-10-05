@@ -122,6 +122,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * create backup of `.env` after `install.sh` usage
 
 ### Todos
+* `install.sh` creates secure mysql passwords and saves them to `.env` 
 * reduce the number of volumes
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
 * only create `mage2_admin` user on fresh install in `install.sh`

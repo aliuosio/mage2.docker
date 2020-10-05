@@ -306,7 +306,7 @@ DBDumpImport() {
 }
 
 createAdminUser() {
-  if [ -z "$3" ]; then
+  if [ -n "$3" ]; then
     docker exec -it -u "$1" "$2" bin/magento admin:user:create \
       --admin-lastname=mage2_admin \
       --admin-firstname=mage2_admin \
@@ -402,7 +402,7 @@ composerOptimzerWithAPCu() {
 }
 
 showSuccess() {
-  if [ -z "$2" ]; then
+  if [ -n "$2" ]; then
     message "Yeah, You done !"
     message "Backend:\
 

@@ -132,6 +132,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * use [vishnubob / wait-for-it](https://github.com/vishnubob/wait-for-it) instead of sleep function after dockerRefresh Method in `ìnstall.sh`
 * `install.sh` can decompress archiv files for DB Import
 * Exchange `docker-sync` with `Mutagen`
+* set Time and Zone according to host
 * Docker letsencrypt certification Container
 * make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config

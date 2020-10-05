@@ -125,6 +125,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 
 ### Todos
 * ~~remove prompt for magento version if composer.json is found in project folder~~
+* prompt to disable Two Factor Auth (for example in local enviroment)
 * generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container

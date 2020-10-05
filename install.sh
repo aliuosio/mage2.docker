@@ -335,7 +335,10 @@ specialPrompt() {
 
 rePlaceInEnv() {
     if [[ -n "$1" ]]; then
-        rePlaceIn "$1" "$2" "./.env"
+        rePlaceIn "$1" "$2" "./.env";
+        if [[ $2 == "COMPOSE_PROJECT_NAME" ]]; then
+          rePlaceIn "$1" "NAMESPACE" "./.env";
+        fi
     fi
 }
 
@@ -408,6 +411,7 @@ createEnv
 # shellcheck disable=SC1090
 . "${PWD}"/.env
 message "Press [ENTER] alone to keep the current values"
+prompt "rePlaceInEnv" "Project Name (alphanumeric only) (current: ${COMPOSE_PROJECT_NAME})" "COMPOSE_PROJECT_NAME"
 prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [d]ump, [s]ample data or [n]one of the above?"

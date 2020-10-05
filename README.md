@@ -124,9 +124,9 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * `install.sh` creates secure mysql passwords and saves them to `.env` 
 
 ### Todos
+* ~~remove prompt for magento version if composer.json is found in project folder~~
 * reduce the number of volumes
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
-* remove prompt for magento version if composer.json is found in project folder
 * use [vishnubob / wait-for-it](https://github.com/vishnubob/wait-for-it) instead of sleep function after dockerRefresh Method in `ìnstall.sh`
 * `install.sh` can decompress archiv files for DB Import
 * Exchange `docker-sync` with `Mutagen`

@@ -409,8 +409,8 @@ composerOptimzerWithAPCu() {
 
 showSuccess() {
   if [ -z "$2" ]; then
-  message "Yeah, You done !"
-  message "Backend:\
+    message "Yeah, You done !"
+    message "Backend:\
 
 http://$1/admin\
 
@@ -423,8 +423,8 @@ Frontend:\
 
 http://$1"
   else
-message "Yeah, You done !"
-  message "Backend:\
+    message "Yeah, You done !"
+    message "Backend:\
 
 http://$1/admin\
 
@@ -455,8 +455,11 @@ prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP
 prompt "rePlaceInEnv" "Which MySQL Version? (5.7, 8) (current: ${MYSQL_VERSION})" "MYSQL_VERSION"
 prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.11, 7.8.1, 7.9.0, 7.9.1) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
 
-MAGE_LATEST="latest"
-read -rp "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGENTO_VERSION
+. "${PWD}"/.env
+if test ! -f "${WORKDIR}/composer.json"; then
+  MAGE_LATEST="latest"
+  read -rp "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGENTO_VERSION
+fi
 
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"

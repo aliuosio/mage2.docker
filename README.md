@@ -1,4 +1,4 @@
-## Magento 2 OSX/Linux Docker
+## Magento 2 OSX/Linux Docker (Production Ready)
 **Update: Magento 2.4 compatible**
 > `./install.sh` only works for Magento 2.4 at the moment.
 > Working on a generic solution to guarantee backward compatibility

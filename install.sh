@@ -348,6 +348,8 @@ rePlaceInEnv() {
         rePlaceIn "$1" "$2" "./.env";
         if [[ $2 == "COMPOSE_PROJECT_NAME" ]]; then
           rePlaceIn "$1" "NAMESPACE" "./.env";
+          rePlaceIn "$1" "MYSQL_DATABASE" "./.env";
+          rePlaceIn "$1" "MYSQL_USER" "./.env";
         fi
     fi
 }

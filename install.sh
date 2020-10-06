@@ -355,10 +355,15 @@ rePlaceInEnv() {
     fi
   fi
 
-  # shellcheck disable=SC2046
-  rePlaceIn $(openssl rand -base64 12) "MYSQL_ROOT_PASSWORD" "./.env"
-  # shellcheck disable=SC2046
-  rePlaceIn $(openssl rand -base64 12) "MYSQL_PASSWORD" "./.env"
+  if [[ "$MYSQL_ROOT_PASSWORD" == "" ]]; then
+    # shellcheck disable=SC2046
+    rePlaceIn $(openssl rand -base64 12) "MYSQL_ROOT_PASSWORD" "./.env"
+  fi
+
+  if [[ "$MYSQL_PASSWORD" == "" ]]; then
+    # shellcheck disable=SC2046
+    rePlaceIn $(openssl rand -base64 12) "MYSQL_PASSWORD" "./.env"
+  fi
 }
 
 rePlaceIn() {
@@ -444,6 +449,7 @@ startAll=$(date +%s)
 
 getLogo
 createEnv
+
 # shellcheck disable=SC1090
 . "${PWD}"/.env
 message "Press [ENTER] alone to keep the current values"
@@ -455,6 +461,7 @@ prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP
 prompt "rePlaceInEnv" "Which MySQL Version? (5.7, 8) (current: ${MYSQL_VERSION})" "MYSQL_VERSION"
 prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.11, 7.8.1, 7.9.0, 7.9.1) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
 
+# shellcheck disable=SC1090
 . "${PWD}"/.env
 if test ! -f "${WORKDIR}/composer.json"; then
   MAGE_LATEST="latest"

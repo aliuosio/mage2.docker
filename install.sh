@@ -87,6 +87,13 @@ dockerRefresh() {
   sleep 60
 }
 
+deleteMagentoEnv() {
+  path="$1/app/etc/env.php"
+  if [[ ! -f $path ]]; then
+    rm "$path"
+  fi
+}
+
 magentoComposerJson() {
   message "docker exec -it chown -R $1:${getGroup} /home/$1;"
   docker exec -it "$2" chown -R "$1":"${getGroup}" /home/"$1"
@@ -477,6 +484,8 @@ setAuthConfig "${AUTH_CONFIG}" "${AUTH_USER}" "${AUTH_PASS}"
 #workDirCreate "${WORKDIR}" "${USER}"
 setComposerCache
 dockerRefresh
+
+deleteMagentoEnv "${WORKDIR}"
 magentoComposerJson "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
 installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
 DBDumpImport "${DB_DUMP}" "${NAMESPACE}" root "${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}"

@@ -126,7 +126,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 
 ### Todos
 * ~~remove prompt for magento version if composer.json is found in project folder~~
-* prompt to disable Two Factor Auth (for example in local enviroment)
 * generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
@@ -135,6 +134,8 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Exchange `docker-sync` with `Mutagen`
 * set Time and Zone according to host
 * Docker letsencrypt certification Container
+* prompt to disable Two Factor Auth (for example in local enviroment)
+* exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again
 * make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config
 * move `install.sh` methods to extra script run in php container native

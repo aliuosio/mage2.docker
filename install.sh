@@ -89,7 +89,7 @@ dockerRefresh() {
 
 deleteMagentoEnv() {
   path="$1/app/etc/env.php"
-  if [[ ! -f $path ]]; then
+  if test  -f "$path"; then
     message "rm $path"
     rm "$path"
   fi
@@ -484,9 +484,8 @@ prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABL
 setAuthConfig "${AUTH_CONFIG}" "${AUTH_USER}" "${AUTH_PASS}"
 #workDirCreate "${WORKDIR}" "${USER}"
 setComposerCache
-dockerRefresh
-
 deleteMagentoEnv "${WORKDIR}"
+dockerRefresh
 magentoComposerJson "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
 installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
 DBDumpImport "${DB_DUMP}" "${NAMESPACE}" root "${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}"

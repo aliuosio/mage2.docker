@@ -3,8 +3,7 @@
 set -e
 
 setGroup() {
-  # getGroup=$(groups "$1" | cut -d' ' -f1)
-  getGroup="docker"
+  getGroup=$(groups "$1" | cut -d' ' -f1)
 }
 
 setGroup "${USER}"

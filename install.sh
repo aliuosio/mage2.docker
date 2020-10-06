@@ -90,6 +90,7 @@ dockerRefresh() {
 deleteMagentoEnv() {
   path="$1/app/etc/env.php"
   if [[ ! -f $path ]]; then
+    message "rm $path"
     rm "$path"
   fi
 }

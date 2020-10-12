@@ -1,4 +1,4 @@
-## Magento 2 OSX/Linux Docker
+## Magento 2 OSX/Linux Docker (Production Ready)
 **Update: Magento 2.4 compatible**
 > `./install.sh` only works for Magento 2.4 at the moment.
 > Working on a generic solution to guarantee backward compatibility
@@ -141,20 +141,25 @@ they’d have to be renewed periodically with the following command:
 * **PHP Xdebug** as configurable option (xdebug.idekey=docker)
 * **PHP Opcache** enabled
 * **PHP redis** enabled
+* us your local User ssh keys from host in PHP container
 * permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
+* set Project Name and Namespace through `ìnstall.sh` prompt
+* create backup of `.env` after `install.sh` usage
+* only create `mage2_admin` user on fresh install in `install.sh`
+* `install.sh` creates secure mysql passwords and saves them to `.env` 
 
 ### Todos
+* ~~remove prompt for magento version if composer.json is found in project folder~~
+* generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes
-* create backup of `.env` after `install.sh` usage
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
-* only create `mage2_admin` user on fresh install in `install.sh`
-* set Project Name and Namespace through further prompt in `ìnstall.sh`
-* remove prompt for magento version if composer.json is found in project folder
 * use [vishnubob / wait-for-it](https://github.com/vishnubob/wait-for-it) instead of sleep function after dockerRefresh Method in `ìnstall.sh`
 * `install.sh` can decompress archiv files for DB Import
 * Exchange `docker-sync` with `Mutagen`
-* generic solution for `./install.sh`to guarantee backward compatibility
+* set Time and Zone according to host
 * Docker letsencrypt certification Container
+* prompt to disable Two Factor Auth (for example in local enviroment)
+* exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again
 * make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config
 * move `install.sh` methods to extra script run in php container native

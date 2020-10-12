@@ -29,18 +29,6 @@ services:
       - letsencrypt_certs:/etc/nginx/ssl
       - letsencrypt_www:/var/www/letsencrypt
 
-  letsencrypt:
-    build:
-      context: ./.docker/letsencrypt
-      args:
-        SHOPURI: ${SHOPURI}
-    container_name: ${NAMESPACE}_letsencrypt
-    image: osioaliu/letsencrypt
-    command: /bin/true
-    volumes:
-      - letsencrypt_certs:/etc/nginx/ssl
-      - letsencrypt_www:/var/www/letsencrypt
-
   php:
     build:
       context: ./.docker/php

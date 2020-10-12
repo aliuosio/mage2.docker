@@ -28,14 +28,6 @@ services:
       - letsencrypt_certs:/etc/nginx/ssl
       - letsencrypt_www:/var/www/letsencrypt
 
-  letsencrypt:
-    container_name: ${NAMESPACE}_letsencrypt
-    image: osioaliu/letsencrypt
-    command: /bin/true
-    volumes:
-      - letsencrypt_certs:/etc/nginx/ssl
-      - letsencrypt_www:/var/www/letsencrypt
-
   php:
     container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine

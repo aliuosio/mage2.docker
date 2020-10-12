@@ -93,6 +93,29 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     SSL type: None
     SMTP Host: mailhog
     SMTP Port: 1025
+    
+### SSL Certificate Registration
+    
+    # register certificate
+    docker-compose run --rm letsencrypt \
+        letsencrypt certonly --webroot \
+        --email <e-mail> \
+        -w /var/www/letsencrypt -d <subdomian or domain only: my.example.com>
+        
+    # restart webserver
+    docker-compose kill -s SIGHUP nginx  
+    
+**Renewal** (Quote: https://devsidestory.com/lets-encrypt-with-docker/)
+comment in the letsencrypt block in the docker-compose.yml or docker-compose.osx.yml on OSX.
+Let’s Encrypt certificates are valid for 3 months,
+they’d have to be renewed periodically with the following command:  
+    
+    # renew certificates which are expiring in less than 30 days,
+    docker-compose run --rm letsencrypt letsencrypt renew 
+    
+    # restart webserver
+    docker-compose kill -s SIGHUP nginx
+
 
 ### Features
 * Fresh Install or use magento 2 project on your file system using `./install.sh`
@@ -104,6 +127,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option
 * **http basic authentication** 
 * Nginx uses **Pagespeed** Module
+* container to register SSL Cert by letsencrypt (only with valid domain)
 * setup valid **SSL certificates** with [Let's Encrypt](https://en.wikipedia.org/wiki/Let%27s_Encrypt) container
 * [Mailhog](https://github.com/mailhog/MailHog) container
 * [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2

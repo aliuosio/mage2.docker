@@ -26,8 +26,6 @@ services:
     volumes:
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
-      - letsencrypt_certs:/etc/nginx/ssl
-      - letsencrypt_www:/var/www/letsencrypt
 
   php:
     build:
@@ -138,8 +136,6 @@ services:
     command: --interval 900
 
 volumes:
-  letsencrypt_certs:
-  letsencrypt_www:
   php_socket:
   redis_data_socket:
   mysql_data:

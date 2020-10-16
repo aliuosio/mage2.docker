@@ -6,7 +6,8 @@ ARG PHP_VERSION_SET
 
 LABEL maintainer="Osiozekhai Aliu"
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
-RUN apk add --no-cache --virtual build-dependencies \
+RUN apk update && apk upgrade
+RUN apk add --virtual build-dependencies \
         libc-dev \
         libxslt-dev \
         freetype-dev \
@@ -14,7 +15,7 @@ RUN apk add --no-cache --virtual build-dependencies \
         libpng-dev \
         libzip-dev \
     && set -xe \
-    && apk add --no-cache \
+    && apk add \
         git \
         bash \
         bash-completion \
@@ -29,9 +30,9 @@ RUN apk add --no-cache --virtual build-dependencies \
         yarn \
         openssh-keygen \
         openssh-client \
-    && apk add --no-cache --virtual .php-deps \
+    && apk add --virtual .php-deps \
         make \
-    && apk add --no-cache --virtual .build-deps \
+    && apk add --virtual .build-deps \
         $PHPIZE_DEPS \
         zlib-dev \
         icu-dev \

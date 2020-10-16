@@ -8,7 +8,7 @@ ARG TZ
 ARG DB_DUMP
 ARG USER
 
-RUN apt update; apt upgrade; apt full-upgrade; apt --purge autoremove;
+RUN apt-get -y update; apt-get -y upgrade;
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \

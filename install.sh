@@ -181,7 +181,7 @@ installMagento() {
     --elasticsearch-host=elasticsearch \
     --elasticsearch-port=9200"
 
-  docker exec -it -u "$1" "$3" php -dmemory_limit=-1 -derror_reporting='E_ERROR | E_WARNING | E_PARSE' bin/magento setup:install \
+  docker exec -it -u "$1" "$3" php -dmemory_limit=-1 -derror_reporting='E_ALL & ~E_NOTICE & ~E_DEPRECATED' bin/magento setup:install \
     --db-host=db \
     --db-name="$4" \
     --db-user="$5" \

@@ -224,16 +224,11 @@ mailHogConfig() {
 }
 
 magentoRefresh() {
-  if [[ $4 == "false" ]]; then
     message "docker exec -it -u $1 $2 bin/magento se:up;"
     docker exec -it -u "$1" "$2" bin/magento se:up
 
-    message "docker exec -it -u $1 $2 bin/magento i:rei;"
-    docker exec -it -u "$1" "$2" bin/magento i:rei
-
     message "docker exec -it -u $1 $2 bin/magento c:c;"
     docker exec -it -u "$1" "$2" bin/magento c:c
-  fi
 }
 
 getMagerun() {

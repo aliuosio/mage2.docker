@@ -93,7 +93,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     SSL type: None
     SMTP Host: mailhog
     SMTP Port: 1025
-
+    
 ### Features
 * Fresh Install or use magento 2 project on your file system using `./install.sh`
 * Nginx uses http2
@@ -104,6 +104,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option
 * **http basic authentication** 
 * Nginx uses **Pagespeed** Module
+* container to register SSL Cert by letsencrypt (only with valid domain)
 * setup valid **SSL certificates** with [Let's Encrypt](https://en.wikipedia.org/wiki/Let%27s_Encrypt) container
 * [Mailhog](https://github.com/mailhog/MailHog) container
 * [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2
@@ -126,7 +127,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 
 ### Todos
 * ~~remove prompt for magento version if composer.json is found in project folder~~
-* prompt to disable Two Factor Auth (for example in local enviroment)
 * generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
@@ -135,6 +135,8 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Exchange `docker-sync` with `Mutagen`
 * set Time and Zone according to host
 * Docker letsencrypt certification Container
+* prompt to disable Two Factor Auth (for example in local enviroment)
+* exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again
 * make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config
 * move `install.sh` methods to extra script run in php container native

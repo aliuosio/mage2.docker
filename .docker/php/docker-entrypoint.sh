@@ -27,6 +27,7 @@ phpSettings() {
 composerInstall() {
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer;
+    composer self-update --1;
 }
 
 xdebugConfig() {

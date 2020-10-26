@@ -74,7 +74,7 @@ RUN docker-php-ext-install gd;
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-COPY docker-entrypoint.sh /usr/local/bin
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN rm -rf /var/cache/apk/* \
     && docker-php-source delete \

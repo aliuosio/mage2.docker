@@ -26,6 +26,7 @@ mainConfig() {
     && sed -i "s#htdocs#$3#g" /etc/nginx/conf.d/default_ssl.conf \
     && sed -i "s#__shopuri#$4#g" /etc/nginx/conf.d/default_ssl.conf \
     && sed -i "s#mage2.localhost#$4#g" /etc/nginx/conf.d/default_ssl.conf \
+    && sed -i "s#mh.localhost#$4#g" /etc/nginx/conf.d/default_ssl.conf \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*;
 

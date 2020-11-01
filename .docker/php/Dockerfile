@@ -50,7 +50,7 @@ RUN apk add --virtual build-dependencies \
         sockets \
         pcntl \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis imagick xdebug apcu-5.1.18 \
+    && pecl install -o -f redis imagick apcu-5.1.18 \
     && docker-php-ext-enable redis imagick apcu;
 
 RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \

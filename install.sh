@@ -417,14 +417,14 @@ composerOptimzerWithAPCu() {
 
 showSuccess() {
   if [ -n "$2" ]; then
-    message "Yeah, You done !"
+        message "Yeah, You done !"
     message "Backend:\
 
 http://$1/admin\
 
-User: mage2_admin\
+User: <Backend Users from Your DB Dump>\
 
-Password: mage2_admin123#T\
+Password: <Backend Users Passwords from Your DB Dump>\
 
 
 Frontend:\
@@ -436,9 +436,9 @@ http://$1"
 
 http://$1/admin\
 
-User: <Backend Users from Your DB Dump>\
+User: mage2_admin\
 
-Password: <Backend Users Passwords from Your DB Dump>\
+Password: mage2_admin123#T\
 
 
 Frontend:\

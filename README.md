@@ -127,6 +127,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 
 ### Todos
 * ~~remove prompt for magento version if composer.json is found in project folder~~
+* add prompt for SSH to `ìnstall.sh`
 * generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container

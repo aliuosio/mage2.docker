@@ -55,23 +55,20 @@ services:
 
   db:
     container_name: ${NAMESPACE}_db
-    image: osioaliu/mysql:${MYSQL_VERSION}
+    image: osioaliu/mariadb:${MARIADB_VERSION}
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - mysql_data:/var/lib/mysql/
-      - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d/
-      - .docker/mysql/conf/z.conf:/etc/mysql/conf.d/z.conf
     ports:
       - ${MYSQL_PORT}:3306
-    ulimits:
-      nproc: 65535
-      nofile:
-        soft: 20000
-        hard: 40000
+    volumes:
+      - mariadb_data:/var/lib/mysql/
+      - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
 
   redis:
     container_name: ${NAMESPACE}_redis
@@ -125,7 +122,7 @@ services:
 volumes:
   php_socket:
   redis_data_socket:
-  mysql_data:
+  mariadb_data:
   elastic_data:
   redis_pagespeed_data:
   redis_data:

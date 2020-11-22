@@ -3,7 +3,7 @@
 > `./install.sh` only works for Magento 2.4 at the moment.
 > Working on a generic solution to guarantee backward compatibility
 
-**[Nginx with Pagespeed](https://en.wikipedia.org/wiki/Google_PageSpeed_Tools#PageSpeed_Module), MySQL, [PHP 7](https://en.wikipedia.org/wiki/PHP), [Redis](https://redis.io/), [Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch), [Mailhog](https://github.com/mailhog/MailHog), [Watchtower](https://containrrr.github.io/watchtower/)**
+**[Nginx with Pagespeed](https://en.wikipedia.org/wiki/Google_PageSpeed_Tools#PageSpeed_Module), MariaDB, [PHP 7](https://en.wikipedia.org/wiki/PHP), [Redis](https://redis.io/), [Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch), [Mailhog](https://github.com/mailhog/MailHog), [Watchtower](https://containrrr.github.io/watchtower/)**
 
 * Good Docker Performance on **MacOS** by using [http://docker-sync.io/](http://docker-sync.io/)
 * With `install.sh` you can include your **running project** files with its DB Dump or Magento Sample Data, create **fresh Magento 2 Install**, create **fresh Magento Install with Sample Data**
@@ -123,7 +123,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * set Project Name and Namespace through `ìnstall.sh` prompt
 * create backup of `.env` after `install.sh` usage
 * only create `mage2_admin` user on fresh install in `install.sh`
-* `install.sh` creates secure mysql passwords and saves them to `.env` 
+* `install.sh` creates secure MariaDB passwords and saves them to `.env` 
 * added prompt for SSL to `ìnstall.sh`
 
 ### Todos
@@ -136,7 +136,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * set Time and Zone according to host
 * Docker letsencrypt certification Container
 * prompt to disable Two Factor Auth (for example in local enviroment)
-* exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again
+* ~~exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again~~
 * make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config
 * move `install.sh` methods to extra script run in php container native

@@ -9,5 +9,3 @@ COPY conf/my.cnf /etc/mysql/
 RUN apt-get autoremove -y \
     && apt-get clean \
     && rm -r /var/lib/apt/lists/*
-CMD echo 10 > /proc/sys/vm/swappiness \
-    && echo 1048576 > /proc/sys/fs/aio-max-nr

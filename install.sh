@@ -494,7 +494,7 @@ magentoRefresh "${USER}" "${NAMESPACE}"_php "${SHOPURI}" "${SAMPLE_DATA}"
 productionModeOnLive "${USER}" "${NAMESPACE}"_php "${SHOPURI}"
 #composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php
 getMagerun "${USER}" "${NAMESPACE}"_php "${SHOPURI}"
-permissionsSet "${NAMESPACE}"_php "${USER}" "${WORKDIR}"
+#permissionsSet "${NAMESPACE}"_php "${USER}" "${WORKDIR}"
 duplicateEnv "${COMPOSE_PROJECT_NAME}"
 
 endAll=$(date +%s)

@@ -84,6 +84,7 @@ dockerRefresh() {
   fi
 
   ccountdown 60
+  echo " ";
 }
 
 ccountdown() {

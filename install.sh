@@ -106,32 +106,32 @@ magentoComposerJson() {
   message "docker exec -it chown -R $1:${getGroup} /home/$1;"
   docker exec -it "$2" chown -R "$1":"${getGroup}" /home/"$1"
 
-  message "docker exec -it -u $1 $2 composer global require hirak/prestissimo;"
-  docker exec -it -u "$1" "$2" composer global require hirak/prestissimo
+  message "docker exec -it $2 composer global require hirak/prestissimo;"
+  docker exec -it "$2" composer global require hirak/prestissimo
 
   if test ! -f "$3/composer.json"; then
     message "Magento 2 Fresh Install"
 
     [[ -n $5 ]] && VERSION="=$5" || VERSION=""
 
-    message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} ."
-    docker exec -it -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} .
+    message "docker exec -it $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} ."
+    docker exec -it "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} .
 
-    message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
-    docker exec -it -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
+    message "docker exec -it $2 composer require magepal/magento2-gmailsmtpapp"
+    docker exec -it "$2" composer require magepal/magento2-gmailsmtpapp
 
     if [[ $4 == *"local"* ]]; then
-      message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
-      docker exec -it -u "$1" "$2" composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
+      message "docker exec -it $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
+      docker exec -it "$2" composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
     fi
   else
     message "Magento 2 composer.json found"
     if [[ $4 == *"local"* ]]; then
-      message "docker exec -it -u $1 $2 composer install"
-      docker exec -it -u "$1" "$2" composer install
+      message "docker exec -it $2 composer install"
+      docker exec -it "$2" composer install
     else
-      message "docker exec -it -u $1 $2 composer install --no-dev;"
-      docker exec -it -u "$1" "$2" composer install --no-dev
+      message "docker exec -it $2 composer install --no-dev;"
+      docker exec -it "$1" "$2" composer install --no-dev
     fi
   fi
 }
@@ -146,10 +146,10 @@ installMagento() {
   url_secure="https://$2/"
   url_unsecure="http://$2/"
 
-  message "docker exec -it -u $1 $3 chmod +x bin/magento"
-  docker exec -it -u "$1" "$3" chmod +x bin/magento
+  message "docker exec -it $3 chmod +x bin/magento"
+  docker exec -it "$3" chmod +x bin/magento
 
-  message "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
+  message "docker exec -it $3 php -dmemory_limit=-1 bin/magento setup:install \
     --db-host=db \
     --db-name=$4 \
     --db-user=$5 \
@@ -182,7 +182,7 @@ installMagento() {
     --elasticsearch-host=elasticsearch \
     --elasticsearch-port=9200"
 
-  docker exec -it -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
+  docker exec -it "$3" php -dmemory_limit=-1 bin/magento setup:install \
     --db-host=db \
     --db-name="$4" \
     --db-user="$5" \
@@ -239,11 +239,11 @@ mailHogConfig() {
 }
 
 magentoRefresh() {
-  message "docker exec -it -u $1 $2 bin/magento se:up;"
-  docker exec -it -u "$1" "$2" bin/magento se:up
+  message "docker exec -it $2 bin/magento se:up;"
+  docker exec -it "$2" bin/magento se:up
 
-  message "docker exec -it -u $1 $2 bin/magento c:c;"
-  docker exec -it -u "$1" "$2" bin/magento c:c
+  message "docker exec -it $2 bin/magento c:c;"
+  docker exec -it "$1" "$2" bin/magento c:c
 }
 
 getMagerun() {
@@ -317,7 +317,7 @@ DBDumpImport() {
 
 createAdminUser() {
   if [ -n "$3" ]; then
-    docker exec -it -u "$1" "$2" bin/magento admin:user:create \
+    docker exec -it "$2" bin/magento admin:user:create \
       --admin-lastname=mage2_admin \
       --admin-firstname=mage2_admin \
       --admin-email=admin@example.com \
@@ -400,20 +400,20 @@ message() {
 
 productionModeOnLive() {
   if [[ $3 != *"local"* ]]; then
-    message "docker exec -it -u $1 $2 bin/magento c:e full_page;"
-    docker exec -it -u "$1" "$2" bin/magento c:e full_page
+    message "docker exec -it $2 bin/magento c:e full_page;"
+    docker exec -it "$2" bin/magento c:e full_page
 
-    message "docker exec -it -u $1 $2 bin/magento c:c;"
-    docker exec -it -u "$1" "$2" bin/magento c:c
+    message "docker exec -it $2 bin/magento c:c;"
+    docker exec -it "$2" bin/magento c:c
 
-    message "docker exec -it -u $1 $2 bin/magento deploy:mode:set production;"
-    docker exec -it -u "$1" "$2" bin/magento deploy:mode:set production
+    message "docker exec -it $1 $2 bin/magento deploy:mode:set production;"
+    docker exec -it "$2" bin/magento deploy:mode:set production
   fi
 }
 
 composerOptimzerWithAPCu() {
-  message "docker exec -it -u $1 $2 composer dump-autoload -o --apcu"
-  docker exec -it -u "$1" "$2" composer dump-autoload -o --apcu
+  message "docker exec -it $2 composer dump-autoload -o --apcu"
+  docker exec -it "$2" composer dump-autoload -o --apcu
 }
 
 showSuccess() {
@@ -447,6 +447,11 @@ Frontend:\
 http://$1"
   fi
 
+}
+
+MagentoTwoFactorAuthDisable() {
+  message "docker exec -it $2 bin/magento module:disable -c Magento_TwoFactorAuth"
+  docker exec -it "$2" bin/magento module:disable -c Magento_TwoFactorAuth
 }
 
 startAll=$(date +%s)
@@ -490,6 +495,7 @@ setDomainAndCookieName "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAM
 mailHogConfig "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db
 createAdminUser "${USER}" "${NAMESPACE}"_php "${DUMP}"
 sampleDataInstall "${SAMPLE_DATA}"
+MagentoTwoFactorAuthDisable "${USER}" "${NAMESPACE}"_php
 magentoRefresh "${USER}" "${NAMESPACE}"_php "${SHOPURI}" "${SAMPLE_DATA}"
 productionModeOnLive "${USER}" "${NAMESPACE}"_php "${SHOPURI}"
 #composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php

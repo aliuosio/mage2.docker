@@ -34,6 +34,7 @@ services:
         PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
+    user: $USER
     sysctls:
       net.core.somaxconn: 65536
     working_dir: /home/${USER}/html

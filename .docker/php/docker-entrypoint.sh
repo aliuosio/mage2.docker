@@ -2,21 +2,8 @@
 
 set -e
 
-timezoneSet() {
-    ln -snf /usr/share/zoneinfo/$1 /etc/localtime \
-    && echo $1 > /etc/timezone;
-}
-
-permissionsSet() {
-     if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
-        adduser -D $1 $1 \
-        && usermod -o -u 1000 $1 \
-        && chown -R $1:$1 $2;
-    fi
-}
-
 addPathToBashProfile() {
-    echo "export PATH=/home/$1/html/node_modules/.bin:\$PATH" >> /home/$1/.bash_profile ;
+    echo "export PATH=/home/$1/html/node_modules/.bin:\$PATH" >> /home/"$1"/.bash_profile ;
 }
 
 phpSettings() {
@@ -54,8 +41,6 @@ xdebugConfig() {
     fi
 }
 
-timezoneSet "${TZ}"
-permissionsSet "${USER}" "${WORKDIR_SERVER}"
 addPathToBashProfile "${USER}"
 phpSettings "${USER}"
 composerInstall

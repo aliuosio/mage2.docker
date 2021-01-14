@@ -27,7 +27,7 @@ services:
       - php_socket:/var/run/php
 
   php:
-    container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
+    container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
@@ -94,7 +94,7 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
-    container_name: ${NAMESPACE}_elasticsearch_${ELASTICSEARCH_VERSION}
+    container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
       - bootstrap.memory_lock=true

@@ -83,13 +83,20 @@ dockerRefresh() {
     docker-compose up -d
   fi
 
-  message "sleep for 1min"
-  sleep 60
+  message "DB Initialisation: 1min"
+  ccountdown 60
+}
+
+ccountdown() {
+  for ((c = $1; c > 0; c--)); do
+    echo -n -e "Seconds left: $c                  \r"
+    sleep 1
+  done
 }
 
 deleteMagentoEnv() {
   path="$1/app/etc/env.php"
-  if test  -f "$path"; then
+  if test -f "$path"; then
     message "rm $path"
     rm "$path"
   fi
@@ -122,15 +129,9 @@ magentoComposerJson() {
     if [[ $4 == *"local"* ]]; then
       message "docker exec -it -u $1 $2 composer install"
       docker exec -it -u "$1" "$2" composer install
-
-      message "docker exec -it -u $1 $2 composer update"
-      docker exec -it -u "$1" "$2" composer update
     else
       message "docker exec -it -u $1 $2 composer install --no-dev;"
       docker exec -it -u "$1" "$2" composer install --no-dev
-
-      message "docker exec -it -u $1 $2 composer update --no-dev;"
-      docker exec -it -u "$1" "$2" composer update --no-dev
     fi
   fi
 }
@@ -238,11 +239,11 @@ mailHogConfig() {
 }
 
 magentoRefresh() {
-    message "docker exec -it -u $1 $2 bin/magento se:up;"
-    docker exec -it -u "$1" "$2" bin/magento se:up
+  message "docker exec -it -u $1 $2 bin/magento se:up;"
+  docker exec -it -u "$1" "$2" bin/magento se:up
 
-    message "docker exec -it -u $1 $2 bin/magento c:c;"
-    docker exec -it -u "$1" "$2" bin/magento c:c
+  message "docker exec -it -u $1 $2 bin/magento c:c;"
+  docker exec -it -u "$1" "$2" bin/magento c:c
 }
 
 getMagerun() {
@@ -417,7 +418,7 @@ composerOptimzerWithAPCu() {
 
 showSuccess() {
   if [ -n "$2" ]; then
-        message "Yeah, You done !"
+    message "Yeah, You done !"
     message "Backend:\
 
 http://$1/admin\
@@ -482,18 +483,18 @@ setAuthConfig "${AUTH_CONFIG}" "${AUTH_USER}" "${AUTH_PASS}"
 setComposerCache
 deleteMagentoEnv "${WORKDIR}"
 dockerRefresh
-magentoComposerJson "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
-installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
+magentoComposerJson "${USER}" "${NAMESPACE}"_php "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
+installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
 DBDumpImport "${DB_DUMP}" "${NAMESPACE}" root "${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}"
 setDomainAndCookieName "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db "${SHOPURI}"
 mailHogConfig "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db
-createAdminUser "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${DUMP}"
+createAdminUser "${USER}" "${NAMESPACE}"_php "${DUMP}"
 sampleDataInstall "${SAMPLE_DATA}"
-magentoRefresh "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}" "${SAMPLE_DATA}"
-productionModeOnLive "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
-#composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
-getMagerun "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
-permissionsSet "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${USER}" "${WORKDIR}"
+magentoRefresh "${USER}" "${NAMESPACE}"_php "${SHOPURI}" "${SAMPLE_DATA}"
+productionModeOnLive "${USER}" "${NAMESPACE}"_php "${SHOPURI}"
+#composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php
+getMagerun "${USER}" "${NAMESPACE}"_php "${SHOPURI}"
+permissionsSet "${NAMESPACE}"_php "${USER}" "${WORKDIR}"
 duplicateEnv "${COMPOSE_PROJECT_NAME}"
 
 endAll=$(date +%s)

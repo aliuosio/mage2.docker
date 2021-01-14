@@ -83,13 +83,12 @@ dockerRefresh() {
     docker-compose up -d
   fi
 
-  message "DB Initialisation: 1min"
   ccountdown 60
 }
 
 ccountdown() {
   for ((c = $1; c > 0; c--)); do
-    echo -n -e "Seconds left: $c                  \r"
+    echo -n -e "DB Initialisation Time left: $c                  \r"
     sleep 1
   done
 }

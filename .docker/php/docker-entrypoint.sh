@@ -2,6 +2,13 @@
 
 set -e
 
+message() {
+  echo ""
+  echo -e "$1"
+  seq ${#1} | awk '{printf "-"}'
+  echo ""
+}
+
 permissionsSet() {
   # shellcheck disable=SC2039
   if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
@@ -20,10 +27,17 @@ phpSettings() {
   sed -i "s#osio#$1#g" /usr/local/etc/php-fpm.d/zz-docker.conf
 }
 
-composerInstall() {
-  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer &&
-    chmod +x /usr/bin/composer
-  composer self-update --1
+installComposer() {
+  message "Composer 1 Install"
+  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
+    && chmod +x /usr/bin/composer \
+    && composer self-update --1;
+}
+
+installMagerun() {
+  message "Magerun 2 Install"
+  curl https://files.magerun.net/n98-magerun2.phar > /usr/bin/n98-magerun2.phar \
+    && chmod +x /usr/bin/n98-magerun2.phar
 }
 
 xdebugConfig() {
@@ -53,7 +67,8 @@ xdebugConfig() {
 permissionsSet "$USER" "$WORKDIR_SERVER"
 addPathToBashProfile "$USER"
 phpSettings "$USER"
-composerInstall
+installComposer
+installMagerun
 xdebugConfig "$XDEBUG_ENABLE" "$PROFILER"
 
 php-fpm -F

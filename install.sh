@@ -243,22 +243,6 @@ magentoRefresh() {
   docker exec "$1" "$2" bin/magento c:c
 }
 
-getMagerun() {
-  if [[ $3 == *"local"* ]]; then
-    message "curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar"
-    curl -L https://files.magerun.net/n98-magerun2.phar >n98-magerun2.phar
-
-    message "chmod +x n98-magerun2.phar"
-    chmod +x n98-magerun2.phar
-
-    message "docker cp -a n98-magerun2.phar  -u $1 $2:/home/$1/html/n98-magerun2.phar"
-    docker cp -a n98-magerun2.phar -u "$1" "$2":/home/"$1"/html/n98-magerun2.phar
-
-    message "rm -rf ./n98-magerun2.phar;"
-    rm -rf ./n98-magerun2.phar
-  fi
-}
-
 workDirCreate() {
   if [[ ! -d "$1" ]]; then
     if ! mkdir -p "$1"; then
@@ -480,7 +464,6 @@ MagentoTwoFactorAuthDisable "${USER}" "${NAMESPACE}"_php
 magentoRefresh "${USER}" "${NAMESPACE}"_php "${SHOPURI}" "${SAMPLE_DATA}"
 productionModeOnLive "${USER}" "${NAMESPACE}"_php "${SHOPURI}"
 #composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php
-getMagerun "${USER}" "${NAMESPACE}"_php "${SHOPURI}"
 duplicateEnv "${COMPOSE_PROJECT_NAME}"
 
 endAll=$(date +%s)

@@ -14,8 +14,8 @@ permissionsSet() {
   if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
     adduser -D "$1" "$1" &&
       usermod -o -u 1000 "$1" &&
-      chown -R "$1":"$1" "$2" &&
-      chmod -R 755 "home/$1"
+      mkdir -p "/home/$1/html" &&
+      chown -R "$1":"$1" "/home/$1"
   fi
 }
 
@@ -30,15 +30,15 @@ phpSettings() {
 
 installComposer() {
   message "Composer 1 Install"
-  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
-    && chmod +x /usr/bin/composer \
-    && composer self-update --1;
+  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer &&
+    chmod +x /usr/bin/composer &&
+    composer self-update --1
 }
 
 installMagerun() {
   message "Magerun 2 Install"
-  curl https://files.magerun.net/n98-magerun2.phar > /usr/bin/n98-magerun2.phar \
-    && chmod +x /usr/bin/n98-magerun2.phar
+  curl https://files.magerun.net/n98-magerun2.phar >/usr/bin/n98-magerun2.phar &&
+    chmod +x /usr/bin/n98-magerun2.phar
 }
 
 xdebugConfig() {

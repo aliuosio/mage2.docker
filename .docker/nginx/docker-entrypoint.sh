@@ -32,8 +32,7 @@ mainConfig() {
 
     if [[ $(grep -c $2 /etc/passwd) == 0 ]]; then
         adduser -D $2 $2 \
-        && usermod -o -u 1000 $2 \
-        && chown -R $2:$2 $3;
+        && usermod -o -u 1000 $2
     fi
 }
 

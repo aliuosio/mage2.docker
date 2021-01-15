@@ -24,7 +24,7 @@ services:
       SSL: ${SSL}
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
-      - app_data:/home/${USER}/html:delegated
+      - app_data:/home/${USER}/html:ro
       - php_socket:/var/run/php
 
   php:

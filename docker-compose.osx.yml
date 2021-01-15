@@ -3,7 +3,6 @@ version: '3.7'
 services:
 
   nginx:
-    container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx-pagespeed:mage_2
     working_dir: /home/${USER}/html
     depends_on:
@@ -29,7 +28,6 @@ services:
   php:
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
-    user: $USER
     sysctls:
       net.core.somaxconn: 65536
     working_dir: /home/${USER}/html

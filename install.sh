@@ -82,16 +82,6 @@ dockerRefresh() {
     message "docker-compose up -d;"
     docker-compose up -d
   fi
-
-  ccountdown 60
-  echo " ";
-}
-
-ccountdown() {
-  for ((c = $1; c > 0; c--)); do
-    echo -n -e "DB Initialization Time left: $c                  \r"
-    sleep 1
-  done
 }
 
 deleteMagentoEnv() {

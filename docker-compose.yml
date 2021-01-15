@@ -4,6 +4,7 @@ services:
 
   nginx:
     image: osioaliu/nginx-pagespeed:mage_2
+    container_name: ${NAMESPACE}_nginx
     working_dir: /home/${USER}/html
     depends_on:
       - php

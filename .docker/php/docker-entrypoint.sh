@@ -14,7 +14,8 @@ permissionsSet() {
   if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
     adduser -D "$1" "$1" &&
       usermod -o -u 1000 "$1" &&
-      chown -R "$1":"$1" "$2"
+      chown -R "$1":"$1" "$2" &&
+      chmod -R 755 "home/$1"
   fi
 }
 

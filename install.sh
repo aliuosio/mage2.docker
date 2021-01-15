@@ -89,7 +89,7 @@ dockerRefresh() {
 
 ccountdown() {
   for ((c = $1; c > 0; c--)); do
-    echo -n -e "DB Initialisation Time left: $c                  \r"
+    echo -n -e "DB Initialization Time left: $c                  \r"
     sleep 1
   done
 }

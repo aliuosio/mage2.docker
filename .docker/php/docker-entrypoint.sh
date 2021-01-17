@@ -54,19 +54,19 @@ xdebugConfig() {
 }
 
 setUser() {
-  addgroup -g 1000 "$1";
-  adduser -D --uid 1000 --ingroup "$1" "$1";
-  chown -R "$1":"$1" /home/"$1";
-  chmod -R 755 /home/"$1";
-  su "$1";
+  addgroup -g 1000 "$1"
+  adduser -D --uid 1000 --ingroup "$1" "$1"
+  chown -R "$1":"$1" /home/"$1"
+  chmod -R 755 /home/"$1"
+  su "$1"
 }
 
-setUser "$USER"
-addPathToBashProfile "$USER"
 phpSettings "$USER"
 installComposer
 installMagerun
 xdebugConfig "${XDEBUG_ENABLE}" "${XDEBUG_PROFILER}" "${XDEBUG_KEY}"
+setUser "$USER"
+addPathToBashProfile "$USER"
 php-fpm -F
 
 exec "$@"

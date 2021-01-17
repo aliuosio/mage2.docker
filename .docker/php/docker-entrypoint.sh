@@ -36,9 +36,8 @@ xdebugConfig() {
     pecl channel-update pecl.php.net
     pecl install -o -f xdebug
     docker-php-ext-enable xdebug
-    sed -i "s#xdebug.remote_enable=0#xdebug.remote_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini
-    sed -i "s#xdebug.remote_autostart=0#xdebug.remote_autostart=1#g" /usr/local/etc/php/conf.d/xdebug.ini
-    sed -i "s#xdebug.remote_connect_back=0#xdebug.remote_connect_back=1#g" /usr/local/etc/php/conf.d/xdebug.ini
+    sed -i "s#xdebug.mode=off#xdebug.mode=debug,develop,trace#g" /usr/local/etc/php/conf.d/xdebug.ini
+    sed -i "s#xdebug.idekey=docker#xdebug.idekey=$3#g" /usr/local/etc/php/conf.d/xdebug.ini
     if "$2" == "true"; then
       sed -i "s#xdebug.profiler_enable=0#xdebug.profiler_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini
     fi
@@ -47,10 +46,10 @@ xdebugConfig() {
     if test -f "$path"; then
       rm $path
     fi
-    sed -i "s#xdebug.remote_enable=1#xdebug.remote_enable=0#g" /usr/local/etc/php/conf.d/xdebug.ini
-    sed -i "s#xdebug.remote_autostart=1#xdebug.remote_autostart=0#g" /usr/local/etc/php/conf.d/xdebug.ini
-    sed -i "s#xdebug.remote_connect_back=1#xdebug.remote_connect_back=0#g" /usr/local/etc/php/conf.d/xdebug.ini
-    sed -i "s#xdebug.profiler_enable=1#xdebug.profiler_enable=0#g" /usr/local/etc/php/conf.d/xdebug.ini
+    sed -i "s#xdebug.mode=debug,develop,trace=1#xdebug.mode=off#g" /usr/local/etc/php/conf.d/xdebug.ini
+    if "$2" == "false"; then
+      sed -i "s#xdebug.profiler_enable=1#xdebug.profiler_enable=0#g" /usr/local/etc/php/conf.d/xdebug.ini
+    fi
   fi
 }
 
@@ -67,8 +66,7 @@ addPathToBashProfile "$USER"
 phpSettings "$USER"
 installComposer
 installMagerun
-xdebugConfig "$XDEBUG_ENABLE" "$PROFILER"
-
+xdebugConfig "${XDEBUG_ENABLE}" "${XDEBUG_PROFILER}" "${XDEBUG_KEY}"
 php-fpm -F
 
 exec "$@"

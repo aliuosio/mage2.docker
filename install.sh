@@ -104,7 +104,7 @@ magentoComposerJson() {
     [[ -n $5 ]] && VERSION="=$5" || VERSION=""
 
     message "docker exec -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} ."
-    docker exec -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} .
+    docker exec -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition"${VERSION}" .
 
     message "docker exec -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
     docker exec -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp

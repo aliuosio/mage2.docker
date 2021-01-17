@@ -56,8 +56,8 @@ services:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
+      - db_socket:/var/run/mysqld
       - composer_cache:/home/${USER}/.composer:delegated
-      - ssh_keys:/home/${USER}/.ssh:delegated
       - ssh_keys:/home/${USER}/.ssh:delegated
 
   db:
@@ -80,6 +80,7 @@ services:
       retries: 10
     volumes:
       - db_data:/var/lib/mysql/
+      - db_socket:/var/run/mysqld
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
 
   redis:
@@ -138,6 +139,7 @@ services:
 volumes:
   php_socket:
   redis_data_socket:
+  db_socket:
   db_data:
   elastic_data:
   redis_pagespeed_data:

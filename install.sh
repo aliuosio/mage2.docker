@@ -76,9 +76,16 @@ dockerRefresh() {
     osxExtraPackages
     rePlaceInEnv "false" "SSL"
     osxDockerSync
+
+    message "docker-compose -f docker-compose.osx.yml down -v"
+    docker-compose -f docker-compose.osx.yml down -v
+
     message "docker-compose -f docker-compose.osx.yml up -d"
     docker-compose -f docker-compose.osx.yml up -d
   else
+    message "docker-compose down -v"
+    docker-compose down -v
+
     message "docker-compose up -d;"
     docker-compose up -d
   fi
@@ -139,7 +146,7 @@ installMagento() {
   docker exec -u "$1" "$3" chmod +x bin/magento
 
   message "docker exec -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
-    --db-host=db \
+    --db-host=/var/run/mysqld/mysqld.sock \
     --db-name=$4 \
     --db-user=$5 \
     --db-password=<see .env for password> \
@@ -172,7 +179,7 @@ installMagento() {
     --elasticsearch-port=9200"
 
   docker exec -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
-    --db-host=db \
+    --db-host=/var/run/mysqld/mysqld.sock \
     --db-name="$4" \
     --db-user="$5" \
     --db-password="$6" \

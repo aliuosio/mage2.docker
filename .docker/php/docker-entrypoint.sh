@@ -2,28 +2,32 @@
 
 set -e
 
-permissionsSet() {
-  # shellcheck disable=SC2039
-  if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
-    adduser -D "$1" "$1" &&
-      usermod -o -u 1000 "$1" &&
-      chown -R "$1":"$1" "$2"
-  fi
+message() {
+  echo ""
+  echo -e "$1"
+  seq ${#1} | awk '{printf "-"}'
+  echo ""
 }
 
 addPathToBashProfile() {
-  echo "export PATH=/home/$1/html/node_modules/.bin:\$PATH" >>/home/"$1"/.bash_profile
+  echo "export PATH=/var/www/node_modules/.bin:\$PATH" >>/home/php/.bash_profile
 }
 
 phpSettings() {
-  sed -i "s#__user#$1#g" /usr/local/etc/php-fpm.d/zz-docker.conf
-  sed -i "s#osio#$1#g" /usr/local/etc/php-fpm.d/zz-docker.conf
+  sed -i "s#__user#php#g" /usr/local/etc/php-fpm.d/zz-docker.conf
 }
 
-composerInstall() {
+installComposer() {
+  message "Composer 1 Install"
   curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer &&
-    chmod +x /usr/bin/composer
-  composer self-update --1
+    chmod +x /usr/bin/composer &&
+    composer self-update --1
+}
+
+installMagerun() {
+  message "Magerun 2 Install"
+  curl https://files.magerun.net/n98-magerun2.phar >/usr/bin/n98-magerun2.phar &&
+    chmod +x /usr/bin/n98-magerun2.phar
 }
 
 xdebugConfig() {
@@ -50,10 +54,10 @@ xdebugConfig() {
   fi
 }
 
-permissionsSet "$USER" "$WORKDIR_SERVER"
-addPathToBashProfile "$USER"
-phpSettings "$USER"
-composerInstall
+addPathToBashProfile
+phpSettings
+installComposer
+installMagerun
 xdebugConfig "$XDEBUG_ENABLE" "$PROFILER"
 
 php-fpm -F

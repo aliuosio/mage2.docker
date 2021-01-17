@@ -1,11 +1,7 @@
 ARG PHP_VERSION_SET
-
 FROM php:${PHP_VERSION_SET}-fpm-alpine
-
 ARG PHP_VERSION_SET
-
 LABEL maintainer="Osiozekhai Aliu"
-
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
 RUN apk update && apk upgrade
 RUN apk add --virtual build-dependencies \
@@ -53,12 +49,10 @@ RUN apk add --virtual build-dependencies \
     && pecl channel-update pecl.php.net \
     && pecl install -o -f redis imagick apcu-5.1.18 \
     && docker-php-ext-enable redis imagick apcu;
-
 RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         apk add libmcrypt-dev \
         && docker-php-ext-install mcrypt; \
     fi
-
 RUN if [ $(echo "$PHP_VERSION_SET < 7.4"|bc) -eq 1 ]; then \
         docker-php-ext-configure gd \
             --with-freetype-dir=/usr/include/freetype2 \
@@ -71,13 +65,15 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.4"|bc) -eq 1 ]; then \
     fi
 
 RUN docker-php-ext-install gd;
-
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-
 RUN rm -rf /var/cache/apk/* \
     && docker-php-source delete \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \
     && rm -rf /tmp/pear;
+RUN adduser -D --uid 1000 php \
+    && chown -R php:php "/home/php" \
+    && chown -R php:php "/var/www";
+USER php

@@ -3,6 +3,7 @@ version: '3.7'
 services:
 
   nginx:
+    container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx-pagespeed:mage_2
     working_dir: /home/${USER}/html
     depends_on:
@@ -18,11 +19,11 @@ services:
       AUTH_PASS: ${AUTH_PASS}
       SHOPURI: ${SHOPURI}
       TZ: ${TZ}
-      WORKDIR_SERVER: /home/${USER}/html
+      WORKDIR_SERVER: /var/www
       SSL: ${SSL}
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
-      - app_data:/home/${USER}/html:delegated
+      - app_data:/var/www:ro
       - php_socket:/var/run/php
 
   php:
@@ -31,6 +32,7 @@ services:
     sysctls:
       net.core.somaxconn: 65536
     working_dir: /home/${USER}/html
+    user: php
     links:
       - db
     depends_on:
@@ -39,15 +41,14 @@ services:
       - elasticsearch
     environment:
       TZ: ${TZ}
-      USER: ${USER}
-      WORKDIR_SERVER: /home/${USER}/html
+      WORKDIR_SERVER: /var/www
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
       PROFILER: ${PROFILER}
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - redis_data_socket:/var/run/redis
-      - app_data:/home/${USER}/html:delegated
+      - app_data:/var/www:delegated
       - php_socket:/var/run/php
       - composer_cache:/home/${USER}/.composer:delegated
       - ssh_keys:/home/${USER}/.ssh:delegated
@@ -62,6 +63,10 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - ${MYSQL_PORT}:3306
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     volumes:
       - mariadb_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d

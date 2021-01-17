@@ -41,7 +41,7 @@ xdebugConfig() {
     if "$2" == "true"; then
       sed -i "s#xdebug.profiler_enable=0#xdebug.profiler_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini
     fi
-    rm -rf /tmp/pear;
+    rm -rf /tmp/pear
   else
     pecl uninstall xdebug
     if test -f "$path"; then
@@ -55,11 +55,13 @@ xdebugConfig() {
 }
 
 setUser() {
-  addgroup -g 1000 "$1"
-  adduser -D --uid 1000 --ingroup "$1" "$1"
-  chown -R "$1":"$1" /home/"$1"
-  chmod -R 755 /home/"$1"
-  su "$1"
+  if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
+    addgroup -g 1000 "$1";
+    adduser -D --uid 1000 --ingroup "$1" "$1";
+    chown -R "$1":"$1" /home/"$1";
+    chmod -R 755 /home/"$1";
+    su "$1";
+  fi
 }
 
 phpSettings "$USER"
@@ -71,3 +73,4 @@ addPathToBashProfile "$USER"
 php-fpm -F
 
 exec "$@"
+1

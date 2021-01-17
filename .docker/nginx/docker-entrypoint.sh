@@ -51,8 +51,10 @@ sslConfig() {
 }
 
 setUser() {
-  addgroup -g 1000 "$1"
-  adduser -D --uid 1000 --ingroup "$1" "$1"
+  if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
+    addgroup -g 1000 "$1"
+    adduser -D --uid 1000 --ingroup "$1" "$1"
+  fi
 }
 
 mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}

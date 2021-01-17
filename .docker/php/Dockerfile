@@ -73,7 +73,3 @@ RUN rm -rf /var/cache/apk/* \
     && docker-php-source delete \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \
     && rm -rf /tmp/pear;
-RUN adduser -D --uid 1000 php \
-    && chown -R php:php "/home/php" \
-    && chown -R php:php "/var/www";
-USER php

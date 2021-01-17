@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -10,11 +10,11 @@ message() {
 }
 
 addPathToBashProfile() {
-  echo "export PATH=/var/www/node_modules/.bin:\$PATH" >>/home/php/.bash_profile
+  echo "export PATH=/home/$1/html/node_modules/.bin:\$PATH" >>/home/$1/.bash_profile
 }
 
 phpSettings() {
-  sed -i "s#__user#php#g" /usr/local/etc/php-fpm.d/zz-docker.conf
+  sed -i "s#__user#$1#g" /usr/local/etc/php-fpm.d/zz-docker.conf
 }
 
 installComposer() {
@@ -54,8 +54,17 @@ xdebugConfig() {
   fi
 }
 
-addPathToBashProfile
-phpSettings
+setUser() {
+  addgroup -g 1000 "$1";
+  adduser -D --uid 1000 --ingroup "$1" "$1";
+  chown -R "$1":"$1" /home/"$1";
+  chmod -R 755 /home/"$1";
+  su "$1";
+}
+
+setUser "$USER"
+addPathToBashProfile "$USER"
+phpSettings "$USER"
 installComposer
 installMagerun
 xdebugConfig "$XDEBUG_ENABLE" "$PROFILER"

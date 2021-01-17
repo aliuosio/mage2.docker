@@ -53,7 +53,6 @@ sslConfig() {
 setUser() {
   addgroup -g 1000 "$1"
   adduser -D --uid 1000 --ingroup "$1" "$1"
-  su "$1"
 }
 
 mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}

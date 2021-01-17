@@ -41,6 +41,7 @@ xdebugConfig() {
     if "$2" == "true"; then
       sed -i "s#xdebug.profiler_enable=0#xdebug.profiler_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini
     fi
+    rm -rf /tmp/pear;
   else
     pecl uninstall xdebug
     if test -f "$path"; then

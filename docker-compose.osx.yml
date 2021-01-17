@@ -43,7 +43,8 @@ services:
       TZ: ${TZ}
       WORKDIR_SERVER: /home/${USER}/html
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-      PROFILER: ${PROFILER}
+      XDEBUG_PROFILER: ${XDEBUG_PROFILER}
+      XDEBUG_KEY: ${XDEBUG_KEY}
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
     entrypoint: ["docker-entrypoint.sh"]
     volumes:

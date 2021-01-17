@@ -47,10 +47,6 @@ services:
       XDEBUG_KEY: ${XDEBUG_KEY}
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
     entrypoint: ["docker-entrypoint.sh"]
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      timeout: 20s
-      retries: 10
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated

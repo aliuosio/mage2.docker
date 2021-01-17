@@ -82,6 +82,8 @@ dockerRefresh() {
     message "docker-compose up -d;"
     docker-compose up -d
   fi
+
+  sleep 15
 }
 
 deleteMagentoEnv() {
@@ -93,29 +95,29 @@ deleteMagentoEnv() {
 }
 
 magentoComposerJson() {
-  message "docker exec  -u $1 $2 composer global require hirak/prestissimo;"
-  docker exec  -u "$1" "$2" composer global require hirak/prestissimo
+  message "docker exec -u $1 $2 composer global require hirak/prestissimo;"
+  docker exec -u "$1" "$2" composer global require hirak/prestissimo
 
   if test ! -f "$3/composer.json"; then
     message "Magento 2 Fresh Install"
 
     [[ -n $5 ]] && VERSION="=$5" || VERSION=""
 
-    message "docker exec  -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} ."
-    docker exec  -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} .
+    message "docker exec -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} ."
+    docker exec -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} .
 
-    message "docker exec  -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
-    docker exec  -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
+    message "docker exec -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
+    docker exec -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
 
     if [[ $4 == *"local"* ]]; then
-      message "docker exec  -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
+      message "docker exec -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
       docker exec -u "$1" "$2" composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
     fi
   else
     message "Magento 2 composer.json found"
     if [[ $4 == *"local"* ]]; then
       message "docker exec -u $1 $2 composer install"
-      docker exec  -u "$1" "$2" composer install
+      docker exec -u "$1" "$2" composer install
     else
       message "docker exec -u $1 $2 composer install --no-dev;"
       docker exec -u "$1" "$2" composer install --no-dev
@@ -133,8 +135,8 @@ installMagento() {
   url_secure="https://$2/"
   url_unsecure="http://$2/"
 
-  message "docker exec $3 chmod +x bin/magento"
-  docker exec "$3" chmod +x bin/magento
+  message "docker exec -u $1 $3 chmod +x bin/magento"
+  docker exec -u "$1" "$3" chmod +x bin/magento
 
   message "docker exec -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
     --db-host=db \
@@ -226,11 +228,27 @@ mailHogConfig() {
 }
 
 magentoRefresh() {
-  message "docker exec  -u $1 $2 bin/magento se:up;"
+  message "docker exec -u $1 $2 bin/magento se:up;"
   docker exec -u "$1" "$2" bin/magento se:up
 
-  message "docker exec $2 bin/magento c:c;"
-  docker exec "$1" "$2" bin/magento c:c
+  message "docker exec -u $1  $2 bin/magento c:c;"
+  docker exec -u "$1" "$2" bin/magento c:c
+}
+
+getMagerun() {
+  if [[ $3 == *"local"* ]]; then
+    message "curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar"
+    curl -L https://files.magerun.net/n98-magerun2.phar >n98-magerun2.phar
+
+    message "chmod +x n98-magerun2.phar"
+    chmod +x n98-magerun2.phar
+
+    message "docker cp -a n98-magerun2.phar $2:/home/$1/html/n98-magerun2.phar"
+    docker cp -a n98-magerun2.phar "$2":/home/"$1"/html/n98-magerun2.phar
+
+    message "rm -rf ./n98-magerun2.phar;"
+    rm -rf ./n98-magerun2.phar
+  fi
 }
 
 workDirCreate() {
@@ -272,6 +290,12 @@ DBDumpImport() {
 
 createAdminUser() {
   if [ -n "$3" ]; then
+    message "docker exec -u $1 $2 bin/magento admin:user:create \
+      --admin-lastname=mage2_admin \
+      --admin-firstname=mage2_admin \
+      --admin-email=admin@example.com \
+      --admin-user=mage2_admin \
+      --admin-password=mage2_admin123#T"
     docker exec -u "$1" "$2" bin/magento admin:user:create \
       --admin-lastname=mage2_admin \
       --admin-firstname=mage2_admin \
@@ -367,7 +391,7 @@ productionModeOnLive() {
 }
 
 composerOptimzerWithAPCu() {
-  message "docker exec $2 composer dump-autoload -o --apcu"
+  message "docker exec -u $1 $2 composer dump-autoload -o --apcu"
   docker exec -u "$1" "$2" composer dump-autoload -o --apcu
 }
 
@@ -405,8 +429,8 @@ http://$1"
 }
 
 MagentoTwoFactorAuthDisable() {
-  message "docker exec $2 bin/magento module:disable -c Magento_TwoFactorAuth"
-  docker exec "$2" bin/magento module:disable -c Magento_TwoFactorAuth
+  message "docker exec -u $1 $2 bin/magento module:disable -c Magento_TwoFactorAuth"
+  docker exec -u "$1" "$2" bin/magento module:disable -c Magento_TwoFactorAuth
 }
 
 startAll=$(date +%s)

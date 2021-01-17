@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -9,23 +9,12 @@ message() {
   echo ""
 }
 
-permissionsSet() {
-  # shellcheck disable=SC2039
-  if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
-    adduser -D "$1" "$1" &&
-      usermod -o -u 1000 "$1" &&
-      mkdir -p "/home/$1/html" &&
-      chown -R "$1":"$1" "/home/$1"
-  fi
-}
-
 addPathToBashProfile() {
-  echo "export PATH=/home/$1/html/node_modules/.bin:\$PATH" >>/home/"$1"/.bash_profile
+  echo "export PATH=/home/$1/html/node_modules/.bin:\$PATH" >>/home/$1/.bash_profile
 }
 
 phpSettings() {
   sed -i "s#__user#$1#g" /usr/local/etc/php-fpm.d/zz-docker.conf
-  sed -i "s#osio#$1#g" /usr/local/etc/php-fpm.d/zz-docker.conf
 }
 
 installComposer() {
@@ -65,7 +54,15 @@ xdebugConfig() {
   fi
 }
 
-permissionsSet "$USER" "$WORKDIR_SERVER"
+setUser() {
+  addgroup -g 1000 "$1";
+  adduser -D --uid 1000 --ingroup "$1" "$1";
+  chown -R "$1":"$1" /home/"$1";
+  chmod -R 755 /home/"$1";
+  su "$1";
+}
+
+setUser "$USER"
 addPathToBashProfile "$USER"
 phpSettings "$USER"
 installComposer

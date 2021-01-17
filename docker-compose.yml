@@ -39,8 +39,8 @@ services:
       - redis
       - elasticsearch
     environment:
+      USER: $USER
       TZ: ${TZ}
-      USER: ${USER}
       WORKDIR_SERVER: /home/${USER}/html
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
       PROFILER: ${PROFILER}
@@ -67,6 +67,10 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - ${MYSQL_PORT}:3306
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     volumes:
       - mariadb_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d

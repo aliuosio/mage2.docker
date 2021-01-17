@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -29,11 +29,6 @@ mainConfig() {
     && sed -i "s#mh.localhost#$4#g" /etc/nginx/conf.d/default_ssl.conf \
     && apk del tzdata \
     && rm -rf /var/cache/apk/*;
-
-    if [[ $(grep -c $2 /etc/passwd) == 0 ]]; then
-        adduser -D $2 $2 \
-        && usermod -o -u 1000 $2
-    fi
 }
 
 sslConfig() {
@@ -55,11 +50,14 @@ sslConfig() {
     fi
 }
 
-getThumb() {
-    set -- $1
-    return $3;
+setUser() {
+  adduser -D --uid 1000 "$1";
+  chown -R "$1":"$1" /home/"$1";
+  chmod -R 755 /home/"$1";
+  su "$1";
 }
 
+setUser "$USER"
 mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
 sslConfig ${SSL} ${USER} ${SHOPURI}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}

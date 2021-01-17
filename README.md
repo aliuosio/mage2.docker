@@ -67,7 +67,7 @@ See `.docker-sync/daemon.log` for progress
 
 ### PHP Container Usage
     
-    docker exec -it -u $USER mage2_php_<PHP_VERSION_SET> bash -l
+    docker exec -it -u $USER mage2_php bash -l
     
 ### Elasticsearch Usage
 
@@ -119,7 +119,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * **PHP Opcache** enabled
 * **PHP redis** enabled
 * us your local User ssh keys from host in PHP container
-* permissions set following [Magento 2 Install Guide](https://devdocs.magento.com/guides/v2.3/config-guide/prod/prod_file-sys-perms.html)
 * set Project Name and Namespace through `ìnstall.sh` prompt
 * create backup of `.env` after `install.sh` usage
 * only create `mage2_admin` user on fresh install in `install.sh`
@@ -130,7 +129,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes
 * install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
-* use [vishnubob / wait-for-it](https://github.com/vishnubob/wait-for-it) instead of sleep function after dockerRefresh Method in `ìnstall.sh`
 * `install.sh` can decompress archiv files for DB Import
 * Exchange `docker-sync` with `Mutagen`
 * set Time and Zone according to host

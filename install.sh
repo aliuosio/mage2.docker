@@ -76,31 +76,34 @@ dockerRefresh() {
     osxExtraPackages
     rePlaceInEnv "false" "SSL"
     osxDockerSync
+
+    message "docker-compose -f docker-compose.osx.yml down -v"
+    docker-compose -f docker-compose.osx.yml down -v
+
     message "docker-compose -f docker-compose.osx.yml up -d"
     docker-compose -f docker-compose.osx.yml up -d
   else
+    message "docker-compose down -v"
+    docker-compose down -v
+
     message "docker-compose up -d;"
     docker-compose up -d
   fi
 
-  message "sleep for 1min"
-  sleep 60
+  sleep 15
 }
 
 deleteMagentoEnv() {
   path="$1/app/etc/env.php"
-  if test  -f "$path"; then
+  if test -f "$path"; then
     message "rm $path"
     rm "$path"
   fi
 }
 
 magentoComposerJson() {
-  message "docker exec -it chown -R $1:${getGroup} /home/$1;"
-  docker exec -it "$2" chown -R "$1":"${getGroup}" /home/"$1"
-
-  message "docker exec -it -u $1 $2 composer global require hirak/prestissimo;"
-  docker exec -it -u "$1" "$2" composer global require hirak/prestissimo
+  message "docker exec -u $1 $2 composer global require hirak/prestissimo;"
+  docker exec -u "$1" "$2" composer global require hirak/prestissimo
 
   if test ! -f "$3/composer.json"; then
     message "Magento 2 Fresh Install"
@@ -108,29 +111,23 @@ magentoComposerJson() {
     [[ -n $5 ]] && VERSION="=$5" || VERSION=""
 
     message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} ."
-    docker exec -it -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} .
+    docker exec -it -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition"${VERSION}" .
 
-    message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
-    docker exec -it -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
+    message "docker exec -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
+    docker exec -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
 
     if [[ $4 == *"local"* ]]; then
-      message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
-      docker exec -it -u "$1" "$2" composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
+      message "docker exec -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
+      docker exec -u "$1" "$2" composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
     fi
   else
     message "Magento 2 composer.json found"
     if [[ $4 == *"local"* ]]; then
-      message "docker exec -it -u $1 $2 composer install"
-      docker exec -it -u "$1" "$2" composer install
-
-      message "docker exec -it -u $1 $2 composer update"
-      docker exec -it -u "$1" "$2" composer update
+      message "docker exec -u $1 $2 composer install"
+      docker exec -u "$1" "$2" composer install
     else
-      message "docker exec -it -u $1 $2 composer install --no-dev;"
-      docker exec -it -u "$1" "$2" composer install --no-dev
-
-      message "docker exec -it -u $1 $2 composer update --no-dev;"
-      docker exec -it -u "$1" "$2" composer update --no-dev
+      message "docker exec -u $1 $2 composer install --no-dev;"
+      docker exec -u "$1" "$2" composer install --no-dev
     fi
   fi
 }
@@ -145,11 +142,11 @@ installMagento() {
   url_secure="https://$2/"
   url_unsecure="http://$2/"
 
-  message "docker exec -it -u $1 $3 chmod +x bin/magento"
-  docker exec -it -u "$1" "$3" chmod +x bin/magento
+  message "docker exec -u $1 $3 chmod +x bin/magento"
+  docker exec -u "$1" "$3" chmod +x bin/magento
 
-  message "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
-    --db-host=db \
+  message "docker exec -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
+    --db-host=/var/run/mysqld/mysqld.sock \
     --db-name=$4 \
     --db-user=$5 \
     --db-password=<see .env for password> \
@@ -181,8 +178,8 @@ installMagento() {
     --elasticsearch-host=elasticsearch \
     --elasticsearch-port=9200"
 
-  docker exec -it -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
-    --db-host=db \
+  docker exec -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
+    --db-host=/var/run/mysqld/mysqld.sock \
     --db-name="$4" \
     --db-user="$5" \
     --db-password="$6" \
@@ -221,9 +218,9 @@ setDomainAndCookieName() {
   SET_URL_COOKIE="USE $1; INSERT core_config_data(scope, value, path) VALUES('default', '$5', 'web/cookie/cookie_domain') ON DUPLICATE KEY UPDATE value='$5', path='web/cookie/cookie_domain', scope='default';"
 
   message "URL Settings and Cookie Domain"
-  docker exec -it "$4" mysql -u "$2" -p"$3" -e "${SET_URL_SECURE}"
-  docker exec -it "$4" mysql -u "$2" -p"$3" -e "${SET_URL_UNSECURE}"
-  docker exec -it "$4" mysql -u "$2" -p"$3" -e "${SET_URL_COOKIE}"
+  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_SECURE}"
+  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_UNSECURE}"
+  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_COOKIE}"
 }
 
 mailHogConfig() {
@@ -232,17 +229,17 @@ mailHogConfig() {
   SET_URL_PORT="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtpport', '1025') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtpport', value='1025';"
 
   message "Mailhog Config"
-  docker exec -it "$4" mysql -u "$2" -p"$3" -e "${SET_URL_SSL}"
-  docker exec -it "$4" mysql -u "$2" -p"$3" -e "${SET_URL_HOST}"
-  docker exec -it "$4" mysql -u "$2" -p"$3" -e "${SET_URL_PORT}"
+  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_SSL}"
+  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_HOST}"
+  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_PORT}"
 }
 
 magentoRefresh() {
-    message "docker exec -it -u $1 $2 bin/magento se:up;"
-    docker exec -it -u "$1" "$2" bin/magento se:up
+  message "docker exec -u $1 $2 bin/magento se:up;"
+  docker exec -u "$1" "$2" bin/magento se:up
 
-    message "docker exec -it -u $1 $2 bin/magento c:c;"
-    docker exec -it -u "$1" "$2" bin/magento c:c
+  message "docker exec -u $1  $2 bin/magento c:c;"
+  docker exec -u "$1" "$2" bin/magento c:c
 }
 
 getMagerun() {
@@ -259,22 +256,6 @@ getMagerun() {
     message "rm -rf ./n98-magerun2.phar;"
     rm -rf ./n98-magerun2.phar
   fi
-}
-
-permissionsSet() {
-  message "Setting permissions... takes time... It took 90 sec the last time."
-
-  start=$(date +%s)
-  message "docker exec -it $1 find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;"
-  docker exec -it "$1" find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;
-
-  message "docker exec -it $1 find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;"
-  docker exec -it "$1" find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
-
-  end=$(date +%s)
-  runtime=$((end - start))
-
-  message "Setting permissions time: ${runtime} Sec"
 }
 
 workDirCreate() {
@@ -316,7 +297,13 @@ DBDumpImport() {
 
 createAdminUser() {
   if [ -n "$3" ]; then
-    docker exec -it -u "$1" "$2" bin/magento admin:user:create \
+    message "docker exec -u $1 $2 bin/magento admin:user:create \
+      --admin-lastname=mage2_admin \
+      --admin-firstname=mage2_admin \
+      --admin-email=admin@example.com \
+      --admin-user=mage2_admin \
+      --admin-password=mage2_admin123#T"
+    docker exec -u "$1" "$2" bin/magento admin:user:create \
       --admin-lastname=mage2_admin \
       --admin-firstname=mage2_admin \
       --admin-email=admin@example.com \
@@ -399,25 +386,25 @@ message() {
 
 productionModeOnLive() {
   if [[ $3 != *"local"* ]]; then
-    message "docker exec -it -u $1 $2 bin/magento c:e full_page;"
-    docker exec -it -u "$1" "$2" bin/magento c:e full_page
+    message "docker exec -u $1 $2 bin/magento c:e full_page;"
+    docker exec -u "$1" "$2" bin/magento c:e full_page
 
-    message "docker exec -it -u $1 $2 bin/magento c:c;"
-    docker exec -it -u "$1" "$2" bin/magento c:c
+    message "docker exec -u $1 $2 bin/magento c:c;"
+    docker exec -u "$1" "$2" bin/magento c:c
 
-    message "docker exec -it -u $1 $2 bin/magento deploy:mode:set production;"
-    docker exec -it -u "$1" "$2" bin/magento deploy:mode:set production
+    message "docker exec -u $1 $2 bin/magento deploy:mode:set production;"
+    docker exec -u "$1" "$2" bin/magento deploy:mode:set production
   fi
 }
 
 composerOptimzerWithAPCu() {
-  message "docker exec -it -u $1 $2 composer dump-autoload -o --apcu"
-  docker exec -it -u "$1" "$2" composer dump-autoload -o --apcu
+  message "docker exec -u $1 $2 composer dump-autoload -o --apcu"
+  docker exec -u "$1" "$2" composer dump-autoload -o --apcu
 }
 
 showSuccess() {
   if [ -n "$2" ]; then
-        message "Yeah, You done !"
+    message "Yeah, You done !"
     message "Backend:\
 
 http://$1/admin\
@@ -448,6 +435,11 @@ http://$1"
 
 }
 
+MagentoTwoFactorAuthDisable() {
+  message "docker exec -u $1 $2 bin/magento module:disable -c Magento_TwoFactorAuth"
+  docker exec -u "$1" "$2" bin/magento module:disable -c Magento_TwoFactorAuth
+}
+
 startAll=$(date +%s)
 
 getLogo
@@ -463,7 +455,7 @@ specialPrompt "Use Project DB [d]ump, [s]ample data or [n]one of the above?"
 prompt "rePlaceInEnv" "SSL enable (current: ${SSL})" "SSL"
 prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
-prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.11, 7.8.1, 7.9.0, 7.9.1) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
+prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.11, 7.6.2, 7.8.1, 7.9.0, 7.9.1) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
 
 # shellcheck disable=SC1090
 . "${PWD}"/.env
@@ -482,18 +474,17 @@ setAuthConfig "${AUTH_CONFIG}" "${AUTH_USER}" "${AUTH_PASS}"
 setComposerCache
 deleteMagentoEnv "${WORKDIR}"
 dockerRefresh
-magentoComposerJson "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
-installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
+magentoComposerJson "${USER}" "${NAMESPACE}"_php "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
+installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
 DBDumpImport "${DB_DUMP}" "${NAMESPACE}" root "${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}"
 setDomainAndCookieName "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db "${SHOPURI}"
 mailHogConfig "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db
-createAdminUser "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${DUMP}"
+createAdminUser "${USER}" "${NAMESPACE}"_php "${DUMP}"
 sampleDataInstall "${SAMPLE_DATA}"
-magentoRefresh "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}" "${SAMPLE_DATA}"
-productionModeOnLive "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
-#composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}"
-getMagerun "${USER}" "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${SHOPURI}"
-permissionsSet "${NAMESPACE}"_php_"${PHP_VERSION_SET}" "${USER}" "${WORKDIR}"
+MagentoTwoFactorAuthDisable "${USER}" "${NAMESPACE}"_php
+magentoRefresh "${USER}" "${NAMESPACE}"_php "${SHOPURI}" "${SAMPLE_DATA}"
+productionModeOnLive "${USER}" "${NAMESPACE}"_php "${SHOPURI}"
+#composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php
 duplicateEnv "${COMPOSE_PROJECT_NAME}"
 
 endAll=$(date +%s)

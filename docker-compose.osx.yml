@@ -23,11 +23,11 @@ services:
       SSL: ${SSL}
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
-      - app_data:/home/${USER}/html:delegated
+      - app_data:/home/${USER}/html:ro
       - php_socket:/var/run/php
 
   php:
-    container_name: ${NAMESPACE}_php_${PHP_VERSION_SET}
+    container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
@@ -39,17 +39,19 @@ services:
       - redis
       - elasticsearch
     environment:
+      USER: $USER
       TZ: ${TZ}
-      USER: ${USER}
       WORKDIR_SERVER: /home/${USER}/html
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-      PROFILER: ${PROFILER}
+      XDEBUG_PROFILER: ${XDEBUG_PROFILER}
+      XDEBUG_KEY: ${XDEBUG_KEY}
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
+      - db_socket:/var/run/mysqld
       - composer_cache:/home/${USER}/.composer:delegated
       - ssh_keys:/home/${USER}/.ssh:delegated
 
@@ -63,12 +65,15 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - ${MYSQL_PORT}:3306
+    healthcheck:
+      test: mysql --user=$$MYSQL_USER --password=$$MYSQL_PASSWORD -e 'SHOW DATABASES;'
+      interval: 3s
+      timeout: 1s
+      retries: 5
     volumes:
-      - mariadb_data:/var/lib/mysql/
+      - db_data:/var/lib/mysql/
+      - db_socket:/var/run/mysqld
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
-    command: >
-      --character-set-server=utf8mb4
-      --collation-server=utf8mb4_unicode_ci
 
   redis:
     container_name: ${NAMESPACE}_redis
@@ -97,7 +102,7 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
-    container_name: ${NAMESPACE}_elasticsearch_${ELASTICSEARCH_VERSION}
+    container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
       - bootstrap.memory_lock=true
@@ -122,7 +127,8 @@ services:
 volumes:
   php_socket:
   redis_data_socket:
-  mariadb_data:
+  db_socket:
+  db_data:
   elastic_data:
   redis_pagespeed_data:
   redis_data:

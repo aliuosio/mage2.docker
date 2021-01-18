@@ -126,11 +126,10 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * added prompt for SSL to `ìnstall.sh`
 
 ### Todos
+* no magento 2 install on SQL File input
+* Exchange `docker-sync` with `Mutagen`
 * generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes
-* install and configure `xdebug` only over `docker-entrypoint.sh` for PHP Container
-* `install.sh` can decompress archiv files for DB Import
-* Exchange `docker-sync` with `Mutagen`
 * set Time and Zone according to host
 * Docker letsencrypt certification Container
 * prompt to disable Two Factor Auth (for example in local enviroment)
@@ -142,6 +141,9 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * simplify letsencrypt certificate embedding in nginx container
 * optimize pagespeed caching
 * Nginx Header Config passes at https://securityheaders.com/
+
+### Bugs
+* fix SSL
 
 #### Support
 If you encounter any problems or bugs, please create an issue on [GitHub](https://github.com/aliuosio/mage2.docker/issues).

@@ -126,7 +126,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * added prompt for SSL to `ìnstall.sh`
 
 ### Todos
-* no magento 2 install on SQL File input
+* ~~no magento 2 install on SQL File input~~
 * Exchange `docker-sync` with `Mutagen`
 * generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes

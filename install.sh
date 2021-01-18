@@ -2,12 +2,6 @@
 
 set -e
 
-setGroup() {
-  getGroup=$(groups "$1" | cut -d' ' -f1)
-}
-
-setGroup "${USER}"
-
 getLogo() {
   echo "                             _____      _            _             "
   echo "                            / __  \    | |          | |            "
@@ -123,38 +117,35 @@ magentoComposerJson() {
   else
     message "Magento 2 composer.json found"
     if [[ $4 == *"local"* ]]; then
-      message "docker exec -u $1 $2 composer install"
+      message "docker exec -u "$1" "$2" composer install"
       docker exec -u "$1" "$2" composer install
     else
-      message "docker exec -u $1 $2 composer install --no-dev;"
+      message "docker exec -u "$1" "$2" composer install --no-dev"
       docker exec -u "$1" "$2" composer install --no-dev
     fi
   fi
 }
 
 installMagento() {
-  if [[ "$7" == "true" ]]; then
-    secure=1
-  else
-    secure=0
-  fi
+  if [[ ! -f "$8" ]]; then
+    if [[ "$7" == "true" ]]; then
+      secure=1
+    else
+      secure=0
+    fi
 
-  url_secure="https://$2/"
-  url_unsecure="http://$2/"
+    url_secure="https://$2/"
+    url_unsecure="http://$2/"
 
-  message "docker exec -u $1 $3 chmod +x bin/magento"
-  docker exec -u "$1" "$3" chmod +x bin/magento
+    message "docker exec -u $1 $3 chmod +x bin/magento"
+    docker exec -u "$1" "$3" chmod +x bin/magento
 
-  message "docker exec -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
+    message "docker exec -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
     --db-host=/var/run/mysqld/mysqld.sock \
     --db-name=$4 \
     --db-user=$5 \
     --db-password=<see .env for password> \
     --backend-frontname=admin \
-    --base-url=${url_unsecure} \
-    --base-url-secure=${url_secure} \
-    --use-secure=${secure} \
-    --use-secure-admin=${secure} \
     --language=de_DE \
     --timezone=Europe/Berlin \
     --currency=EUR \
@@ -178,38 +169,35 @@ installMagento() {
     --elasticsearch-host=elasticsearch \
     --elasticsearch-port=9200"
 
-  docker exec -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
-    --db-host=/var/run/mysqld/mysqld.sock \
-    --db-name="$4" \
-    --db-user="$5" \
-    --db-password="$6" \
-    --backend-frontname=admin \
-    --base-url="${url_unsecure}" \
-    --base-url-secure="${url_secure}" \
-    --use-secure=${secure} \
-    --use-secure-admin=${secure} \
-    --language=de_DE \
-    --timezone=Europe/Berlin \
-    --currency=EUR \
-    --admin-lastname=mage2_admin \
-    --admin-firstname=mage2_admin \
-    --admin-email=admin@example.com \
-    --admin-user=mage2_admin \
-    --admin-password=mage2_admin123#T \
-    --cleanup-database \
-    --use-rewrites=1 \
-    --session-save=redis \
-    --session-save-redis-host=/var/run/redis/redis.sock \
-    --session-save-redis-db=0 --session-save-redis-password='' \
-    --cache-backend=redis \
-    --cache-backend-redis-server=/var/run/redis/redis.sock \
-    --cache-backend-redis-db=1 \
-    --page-cache=redis \
-    --page-cache-redis-server=/var/run/redis/redis.sock \
-    --page-cache-redis-db=2 \
-    --search-engine=elasticsearch7 \
-    --elasticsearch-host=elasticsearch \
-    --elasticsearch-port=9200
+    docker exec -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
+      --db-host=/var/run/mysqld/mysqld.sock \
+      --db-name="$4" \
+      --db-user="$5" \
+      --db-password="$6" \
+      --backend-frontname=admin \
+      --language=de_DE \
+      --timezone=Europe/Berlin \
+      --currency=EUR \
+      --admin-lastname=mage2_admin \
+      --admin-firstname=mage2_admin \
+      --admin-email=admin@example.com \
+      --admin-user=mage2_admin \
+      --admin-password=mage2_admin123#T \
+      --cleanup-database \
+      --use-rewrites=1 \
+      --session-save=redis \
+      --session-save-redis-host=/var/run/redis/redis.sock \
+      --session-save-redis-db=0 --session-save-redis-password='' \
+      --cache-backend=redis \
+      --cache-backend-redis-server=/var/run/redis/redis.sock \
+      --cache-backend-redis-db=1 \
+      --page-cache=redis \
+      --page-cache-redis-server=/var/run/redis/redis.sock \
+      --page-cache-redis-db=2 \
+      --search-engine=elasticsearch7 \
+      --elasticsearch-host=elasticsearch \
+      --elasticsearch-port=9200
+  fi
 }
 
 setDomainAndCookieName() {
@@ -283,10 +271,28 @@ setComposerCache() {
 
 DBDumpImport() {
   if [[ -n $1 && -f $1 ]]; then
-      message "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
-      docker exec -i "$2"_db mysql -u "$3" -p"$4" "$5" <"$1"
+    message "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
+    docker exec -i "$2"_db mysql -u "$3" -p"$4" "$5" <"$1"
   else
     message "SQL File not found"
+  fi
+}
+
+setConfigAfterDBImport() {
+  path="$5/app/etc/env.php"
+
+  cp .docker/config_blueprints/env.php $path
+
+  if [[ $(uname -s) == "Darwin" ]]; then
+    sed -i "" "s@__host@$1@" $path
+    sed -i "" "s@__dbname@$2@" $path
+    sed -i "" "s@__username@$3@" $path
+    sed -i "" "s@__password@$4@" $path
+  else
+    sed -i "s@__host@$1@" $path
+    sed -i "s@__dbname@$2@" $path
+    sed -i "s@__username@$3@" $path
+    sed -i "s@__password@$4@" $path
   fi
 }
 
@@ -452,7 +458,6 @@ prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
 prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.11, 7.6.2, 7.8.1, 7.9.0, 7.9.1) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
 
-# shellcheck disable=SC1090
 . "${PWD}"/.env
 if test ! -f "${WORKDIR}/composer.json"; then
   MAGE_LATEST="latest"
@@ -462,20 +467,15 @@ fi
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 
-# shellcheck disable=SC1090
 . "${PWD}"/.env
 setAuthConfig "${AUTH_CONFIG}" "${AUTH_USER}" "${AUTH_PASS}"
-#workDirCreate "${WORKDIR}" "${USER}"
 setComposerCache
 deleteMagentoEnv "${WORKDIR}"
 dockerRefresh
 magentoComposerJson "${USER}" "${NAMESPACE}"_php "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
-
-if [[ ! -z "$DB_DUMP" && ! -f "$DB_DUMP" ]]; then
-  installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
-fi
-
+installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}" "$DB_DUMP"
 DBDumpImport "${DB_DUMP}" "${NAMESPACE}" root "${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}"
+setConfigAfterDBImport "/var/run/mysqld/mysqld.sock" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${WORKDIR}"
 setDomainAndCookieName "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db "${SHOPURI}"
 mailHogConfig "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db
 createAdminUser "${USER}" "${NAMESPACE}"_php "${DUMP}"
@@ -483,7 +483,6 @@ sampleDataInstall "${SAMPLE_DATA}"
 MagentoTwoFactorAuthDisable "${USER}" "${NAMESPACE}"_php
 magentoRefresh "${USER}" "${NAMESPACE}"_php "${SHOPURI}" "${SAMPLE_DATA}"
 productionModeOnLive "${USER}" "${NAMESPACE}"_php "${SHOPURI}"
-#composerOptimzerWithAPCu "${USER}" "${NAMESPACE}"_php
 duplicateEnv "${COMPOSE_PROJECT_NAME}"
 
 endAll=$(date +%s)

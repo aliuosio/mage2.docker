@@ -283,13 +283,8 @@ setComposerCache() {
 
 DBDumpImport() {
   if [[ -n $1 && -f $1 ]]; then
-    if file --mime-type "$1" | grep -q zip$; then
-      message "docker exec -i $2_db unzip -p $1 | mysql -u $3 -p$4 $5"
-      docker exec -i "$2"_db unzip -p "$1" | mysql -u "$3" -p"$4" "$5"
-    else
       message "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
       docker exec -i "$2"_db mysql -u "$3" -p"$4" "$5" <"$1"
-    fi
   else
     message "SQL File not found"
   fi
@@ -475,7 +470,11 @@ setComposerCache
 deleteMagentoEnv "${WORKDIR}"
 dockerRefresh
 magentoComposerJson "${USER}" "${NAMESPACE}"_php "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
-installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
+
+if [[ ! -z "$DB_DUMP" && ! -f "$DB_DUMP" ]]; then
+  installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}"
+fi
+
 DBDumpImport "${DB_DUMP}" "${NAMESPACE}" root "${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}"
 setDomainAndCookieName "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db "${SHOPURI}"
 mailHogConfig "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db

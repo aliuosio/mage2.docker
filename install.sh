@@ -419,7 +419,6 @@ Frontend:\
 
 http://$1"
   else
-    message "Yeah, You done !"
     message "Backend:\
 
 http://$1/admin\
@@ -468,25 +467,29 @@ prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_C
 prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 
 . "${PWD}"/.env
-setAuthConfig "${AUTH_CONFIG}" "${AUTH_USER}" "${AUTH_PASS}"
+PHP="${NAMESPACE}_php"
+DB="${NAMESPACE}_db";
+MYSQL_SOCKET="/var/run/mysqld/mysqld.sock";
+
+setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 setComposerCache
-deleteMagentoEnv "${WORKDIR}"
+deleteMagentoEnv ${WORKDIR}
 dockerRefresh
-magentoComposerJson "${USER}" "${NAMESPACE}"_php "${WORKDIR}" "${SHOPURI}" "${MAGENTO_VERSION}"
-installMagento "${USER}" "${SHOPURI}" "${NAMESPACE}"_php "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${SSL}" "$DB_DUMP"
-DBDumpImport "${DB_DUMP}" "${NAMESPACE}" root "${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}"
-setConfigAfterDBImport "/var/run/mysqld/mysqld.sock" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${WORKDIR}"
-setDomainAndCookieName "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db "${SHOPURI}"
-mailHogConfig "${NAMESPACE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${NAMESPACE}"_db
-createAdminUser "${USER}" "${NAMESPACE}"_php "${DUMP}"
-sampleDataInstall "${SAMPLE_DATA}"
-MagentoTwoFactorAuthDisable "${USER}" "${NAMESPACE}"_php
-magentoRefresh "${USER}" "${NAMESPACE}"_php "${SHOPURI}" "${SAMPLE_DATA}"
-productionModeOnLive "${USER}" "${NAMESPACE}"_php "${SHOPURI}"
-duplicateEnv "${COMPOSE_PROJECT_NAME}"
+magentoComposerJson ${USER} ${PHP} ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
+installMagento ${USER} ${SHOPURI} ${PHP} ${MYSQL_DATABASE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL} "$DB_DUMP"
+DBDumpImport ${DB_DUMP} ${NAMESPACE} root ${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE}
+setConfigAfterDBImport ${MYSQL_SOCKET} ${MYSQL_DATABASE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${WORKDIR}
+setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${DB} ${SHOPURI}
+mailHogConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${DB}
+createAdminUser ${USER} ${PHP} ${DUMP}
+sampleDataInstall ${SAMPLE_DATA}
+MagentoTwoFactorAuthDisable ${USER} ${PHP}
+magentoRefresh ${USER} ${PHP} ${SHOPURI} ${SAMPLE_DATA}
+productionModeOnLive ${USER} ${PHP} ${SHOPURI}
+duplicateEnv ${COMPOSE_PROJECT_NAME}
 
 endAll=$(date +%s)
 runtimeAll=$((endAll - startAll))
 message "Setup Time: ${runtimeAll} Sec"
 
-showSuccess "${SHOPURI}" "${DUMP}"
+showSuccess ${SHOPURI} ${DUMP}

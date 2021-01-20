@@ -60,6 +60,9 @@ setUser() {
     adduser -D --uid 1000 --ingroup "$1" "$1";
     chown -R "$1":"$1" /home/"$1";
     chmod -R 755 /home/"$1";
+    chmod 600 "/home/$1/.ssh/id_rsa"
+    chmod 644 "/home/$1/.ssh/id_rsa.pub";
+    # shellcheck disable=SC2117
     su "$1";
   fi
 }

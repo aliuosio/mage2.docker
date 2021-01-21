@@ -21,6 +21,7 @@ mainConfig() {
     sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default.conf &&
     sed -i "s#htdocs#$3#g" /etc/nginx/conf.d/default.conf &&
     sed -i "s#__shopuri#$4#g" /etc/nginx/conf.d/default.conf &&
+    sed -i "s#__shopalias#$5#g" /etc/nginx/conf.d/default.conf &&
     sed -i "s#mage2.localhost#$4#g" /etc/nginx/conf.d/default.conf &&
     sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default_ssl.conf &&
     sed -i "s#htdocs#$3#g" /etc/nginx/conf.d/default_ssl.conf &&
@@ -57,7 +58,7 @@ setUser() {
   fi
 }
 
-mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI}
+mainConfig ${TZ} ${USER} ${WORKDIR_SERVER} ${SHOPURI} ${SHOPALIAS}
 sslConfig ${SSL} ${USER} ${SHOPURI}
 authConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
 setUser "$USER"

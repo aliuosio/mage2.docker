@@ -18,6 +18,7 @@ services:
       AUTH_USER: ${AUTH_USER}
       AUTH_PASS: ${AUTH_PASS}
       SHOPURI: ${SHOPURI}
+      SHOPALIAS: ${SHOPALIAS}
       TZ: ${TZ}
       WORKDIR_SERVER: /home/${USER}/html
       SSL: ${SSL}

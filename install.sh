@@ -140,7 +140,7 @@ installMagento() {
     message "docker exec -u $1 $3 chmod +x bin/magento"
     docker exec -u "$1" "$3" chmod +x bin/magento
 
-    message "docker exec -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
+    message "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
     --db-host=/var/run/mysqld/mysqld.sock \
     --db-name=$4 \
     --db-user=$5 \
@@ -169,7 +169,7 @@ installMagento() {
     --elasticsearch-host=elasticsearch \
     --elasticsearch-port=9200"
 
-    docker exec -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
+    docker exec -it  -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
       --db-host=/var/run/mysqld/mysqld.sock \
       --db-name="$4" \
       --db-user="$5" \

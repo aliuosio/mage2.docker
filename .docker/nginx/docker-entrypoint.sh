@@ -63,5 +63,5 @@ sslConfig "$SSL" "$USER" "$SHOPURI"
 authConfig "$AUTH_CONFIG" "$AUTH_USER" "$AUTH_PASS"
 setUser "$USER"
 
-/usr/sbin/nginx -g "daemon off; error_log /dev/stderr debug;";
-# /usr/sbin/nginx -g "daemon off; error_log /dev/stderr info;";
+/usr/sbin/nginx -g "daemon off; error_log /dev/stderr info;";
+# /usr/sbin/nginx -g "daemon off; error_log /dev/stderr debug;";

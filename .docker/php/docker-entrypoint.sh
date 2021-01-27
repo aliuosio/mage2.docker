@@ -30,6 +30,16 @@ installMagerun() {
     chmod +x /usr/bin/n98-magerun2.phar
 }
 
+installWaitForIt() {
+  message "wait-for-it.sh install"
+  curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh >/usr/bin/wait-for-it.sh &&
+    chmod +x /usr/bin/wait-for-it.sh
+}
+
+runWaitForIt() {
+  wait-for-it.sh db:3306
+}
+
 xdebugConfig() {
   path="/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
   if "$1" == "true"; then
@@ -56,24 +66,25 @@ xdebugConfig() {
 
 setUser() {
   if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
-    addgroup -g 1000 "$1";
-    adduser -D --uid 1000 --ingroup "$1" "$1";
-    chown -R "$1":"$1" /home/"$1";
-    chmod -R 755 /home/"$1";
+    addgroup -g 1000 "$1"
+    adduser -D --uid 1000 --ingroup "$1" "$1"
+    chown -R "$1":"$1" /home/"$1"
+    chmod -R 755 /home/"$1"
     chmod 600 "/home/$1/.ssh/id_rsa"
-    chmod 644 "/home/$1/.ssh/id_rsa.pub";
+    chmod 644 "/home/$1/.ssh/id_rsa.pub"
     # shellcheck disable=SC2117
-    su "$1";
+    su "$1"
   fi
 }
 
 phpSettings "$USER"
 installComposer
 installMagerun
+installWaitForIt
 xdebugConfig "${XDEBUG_ENABLE}" "${XDEBUG_PROFILER}" "${XDEBUG_KEY}"
 setUser "$USER"
 addPathToBashProfile "$USER"
+runWaitForIt
 php-fpm -F
 
 exec "$@"
-1

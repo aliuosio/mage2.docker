@@ -471,25 +471,25 @@ PHP="${NAMESPACE}_php"
 DB="${NAMESPACE}_db";
 MYSQL_SOCKET="/var/run/mysqld/mysqld.sock";
 
-setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
+setAuthConfig "$AUTH_CONFIG" "$AUTH_USER" "$AUTH_PASS"
 setComposerCache
-deleteMagentoEnv ${WORKDIR}
+deleteMagentoEnv "$WORKDIR"
 dockerRefresh
-magentoComposerJson ${USER} ${PHP} ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
-installMagento ${USER} ${SHOPURI} ${PHP} ${MYSQL_DATABASE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL} "$DB_DUMP"
-DBDumpImport ${DB_DUMP} ${NAMESPACE} root ${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE}
-setConfigAfterDBImport ${MYSQL_SOCKET} ${MYSQL_DATABASE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${WORKDIR}
-setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${DB} ${SHOPURI}
-mailHogConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${DB}
-createAdminUser ${USER} ${PHP} ${DUMP}
-sampleDataInstall ${SAMPLE_DATA}
-MagentoTwoFactorAuthDisable ${USER} ${PHP}
-magentoRefresh ${USER} ${PHP} ${SHOPURI} ${SAMPLE_DATA}
-productionModeOnLive ${USER} ${PHP} ${SHOPURI}
-duplicateEnv ${COMPOSE_PROJECT_NAME}
+magentoComposerJson "$USER" "$PHP" "$WORKDIR" "$SHOPURI" "$MAGENTO_VERSION"
+installMagento "$USER" "$SHOPURI" "$PHP" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$SSL" "$DB_DUMP"
+DBDumpImport "$DB_DUMP" "$NAMESPACE" root "$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE"
+setConfigAfterDBImport "$MYSQL_SOCKET" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$WORKDIR"
+setDomainAndCookieName "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB" "$SHOPURI"
+mailHogConfig "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB"
+createAdminUser "$USER" "$PHP" "$DUMP"
+sampleDataInstall "$SAMPLE_DATA"
+MagentoTwoFactorAuthDisable "$USER" "$PHP"
+magentoRefresh "$USER" "$PHP" "$SHOPURI" "$SAMPLE_DATA"
+productionModeOnLive "$USER" "$PHP" "$SHOPURI"
+duplicateEnv "$COMPOSE_PROJECT_NAME"
 
 endAll=$(date +%s)
 runtimeAll=$((endAll - startAll))
-message "Setup Time: ${runtimeAll} Sec"
+message "Setup Time: $runtimeAll Sec"
 
-showSuccess ${SHOPURI} ${DUMP}
+showSuccess "$SHOPURI" "$DUMP"

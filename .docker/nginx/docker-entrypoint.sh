@@ -22,9 +22,7 @@ mainConfig() {
     sed -i "s#htdocs#$3#g" /etc/nginx/conf.d/default.conf &&
     sed -i "s#__shopuri#$4#g" /etc/nginx/conf.d/default.conf &&
     sed -i "s#__shopalias#$5#g" /etc/nginx/conf.d/default.conf &&
-    sed -i "s#mage2.localhost#$4#g" /etc/nginx/conf.d/default.conf &&
-    apk del tzdata &&
-    rm -rf /var/cache/apk/*
+    sed -i "s#mage2.localhost#$4#g" /etc/nginx/conf.d/default.conf
 }
 
 setUser() {

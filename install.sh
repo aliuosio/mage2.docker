@@ -201,6 +201,17 @@ setDomainAndCookieName() {
   docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_COOKIE}"
 }
 
+setElasticsearchAfterDBImport() {
+  SET_ELASTIC_1="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'elasticsearch7', 'catalog/search/engine') ON DUPLICATE KEY UPDATE value='elasticsearch7', path='catalog/search/engine', scope='default';"
+  SET_ELASTIC_2="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'elasticsearch', 'catalog/search/elasticsearch7_server_hostname') ON DUPLICATE KEY UPDATE value='elasticsearch', path='catalog/search/elasticsearch7_server_hostname', scope='default';"
+  SET_ELASTIC_3="USE $1; INSERT core_config_data(scope, value, path) VALUES('default', '9200', 'catalog/search/elasticsearch7_server_port') ON DUPLICATE KEY UPDATE value='9200', path='catalog/search/elasticsearch7_server_port', scope='default';"
+
+  message "Elasticsearch DB Config "
+  docker exec "$2" mysql -u "$3" -p"$4" -e "${SET_ELASTIC_1}"
+  docker exec "$2" mysql -u "$3" -p"$4" -e "${SET_ELASTIC_2}"
+  docker exec "$2" mysql -u "$3" -p"$4" -e "${SET_ELASTIC_3}"
+}
+
 mailHogConfig() {
   SET_URL_SSL="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/ssl', 'none') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/ssl', value='none';"
   SET_URL_HOST="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtphost', 'mailhog') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtphost', value='mailhog';"
@@ -467,6 +478,7 @@ dockerRefresh
 magentoComposerJson "$USER" "$PHP" "$WORKDIR" "$SHOPURI" "$MAGENTO_VERSION"
 installMagento "$USER" "$SHOPURI" "$PHP" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$SSL" "$DB_DUMP"
 DBDumpImport "$DB_DUMP" "$NAMESPACE" root "$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE"
+setElasticsearchAfterDBImport "$MYSQL_DATABASE" "$DB" "$MYSQL_USER" "$MYSQL_PASSWORD"
 setConfigAfterDBImport "$MYSQL_SOCKET" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$WORKDIR"
 setDomainAndCookieName "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB" "$SHOPURI"
 mailHogConfig "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB"
@@ -476,5 +488,9 @@ MagentoTwoFactorAuthDisable "$USER" "$PHP"
 magentoRefresh "$USER" "$PHP" "$SHOPURI" "$SAMPLE_DATA"
 productionModeOnLive "$USER" "$PHP" "$SHOPURI"
 duplicateEnv "$COMPOSE_PROJECT_NAME"
-message "Setup Time: $(($(date +%s) - startAll)) Sec"
+
+endAll=$(date +%s)
+runtimeAll=$((endAll - startAll))
+message "Setup Time: ${runtimeAll} Sec"
+
 showSuccess "$SHOPURI" "$DUMP"

@@ -96,8 +96,8 @@ deleteMagentoEnv() {
 }
 
 magentoComposerJson() {
-  message "docker exec -u $1 $2 composer global require hirak/prestissimo;"
-  docker exec -u "$1" "$2" composer global require hirak/prestissimo
+  message "docker exec -it -u $1 $2 composer global require hirak/prestissimo;"
+  docker exec  -it -u "$1" "$2" composer global require hirak/prestissimo
 
   if test ! -f "$3/composer.json"; then
     message "Magento 2 Fresh Install"
@@ -107,21 +107,21 @@ magentoComposerJson() {
     message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} ."
     docker exec -it -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition"${VERSION}" .
 
-    message "docker exec -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
-    docker exec -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
+    message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
+    docker exec -it -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
 
     if [[ $4 == *"local"* ]]; then
-      message "docker exec -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
-      docker exec -u "$1" "$2" composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
+      message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
+      docker exec -it -u"$1" "$2" composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
     fi
   else
     message "Magento 2 composer.json found"
     if [[ $4 == *"local"* ]]; then
-      message "docker exec -u "$1" "$2" composer install"
-      docker exec -u "$1" "$2" composer install
+      message "docker exec -it -u "$1" "$2" composer install"
+      docker exec -it -u "$1" "$2" composer install
     else
-      message "docker exec -u "$1" "$2" composer install --no-dev"
-      docker exec -u "$1" "$2" composer install --no-dev
+      message "docker exec -it -u "$1" "$2" composer install --no-dev"
+      docker exec -it -u "$1" "$2" composer install --no-dev
     fi
   fi
 }
@@ -140,7 +140,7 @@ installMagento() {
     message "docker exec -u $1 $3 chmod +x bin/magento"
     docker exec -u "$1" "$3" chmod +x bin/magento
 
-    message "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
+    echo "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
     --db-host=/var/run/mysqld/mysqld.sock \
     --db-name=$4 \
     --db-user=$5 \

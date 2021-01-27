@@ -96,52 +96,42 @@ deleteMagentoEnv() {
 }
 
 magentoComposerJson() {
-  message "docker exec -u $1 $2 composer global require hirak/prestissimo;"
-  docker exec -u "$1" "$2" composer global require hirak/prestissimo
+  message "docker exec -it -u $1 $2 composer global require hirak/prestissimo;"
+  docker exec -it -u "$1" "$2" composer global require hirak/prestissimo
 
-  if test ! -f "$3/composer.json"; then
+  if [[ -f "$3/composer.json" ]]; then
+    message "Magento 2 composer.json found"
+    if [[ $4 == *"local"* ]]; then
+      message "docker exec -it -u $1 $2 composer install"
+      docker exec -it -u "$1" "$2" composer install
+    else
+      message "docker exec -u $1 $2 composer install --no-dev"
+      docker exec -it -u "$1" "$2" composer install --no-dev
+    fi
+  else
     message "Magento 2 Fresh Install"
-
     [[ -n $5 ]] && VERSION="=$5" || VERSION=""
 
     message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} ."
     docker exec -it -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition"${VERSION}" .
 
-    message "docker exec -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
-    docker exec -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
+    message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
+    docker exec -it -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
 
     if [[ $4 == *"local"* ]]; then
-      message "docker exec -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
-      docker exec -u "$1" "$2" composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
-    fi
-  else
-    message "Magento 2 composer.json found"
-    if [[ $4 == *"local"* ]]; then
-      message "docker exec -u "$1" "$2" composer install"
-      docker exec -u "$1" "$2" composer install
-    else
-      message "docker exec -u "$1" "$2" composer install --no-dev"
-      docker exec -u "$1" "$2" composer install --no-dev
+      message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3"
+      docker exec -it -u "$1" "$2" composer require --dev vpietri/adm-quickdevbar mage2tv/magento-cache-clean allure-framework/allure-phpunit ~1.2.3
     fi
   fi
 }
 
 installMagento() {
   if [[ ! -f "$8" ]]; then
-    if [[ "$7" == "true" ]]; then
-      secure=1
-    else
-      secure=0
-    fi
-
-    url_secure="https://$2/"
-    url_unsecure="http://$2/"
-
     message "docker exec -u $1 $3 chmod +x bin/magento"
     docker exec -u "$1" "$3" chmod +x bin/magento
 
-    message "docker exec -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
-    --db-host=/var/run/mysqld/mysqld.sock \
+    echo "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
+    --db-host=db \
     --db-name=$4 \
     --db-user=$5 \
     --db-password=<see .env for password> \
@@ -169,8 +159,8 @@ installMagento() {
     --elasticsearch-host=elasticsearch \
     --elasticsearch-port=9200"
 
-    docker exec -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
-      --db-host=/var/run/mysqld/mysqld.sock \
+    docker exec -it -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
+      --db-host=db \
       --db-name="$4" \
       --db-user="$5" \
       --db-password="$6" \
@@ -281,18 +271,18 @@ DBDumpImport() {
 setConfigAfterDBImport() {
   path="$5/app/etc/env.php"
 
-  cp .docker/config_blueprints/env.php $path
+  cp .docker/config_blueprints/env.php "$path"
 
   if [[ $(uname -s) == "Darwin" ]]; then
-    sed -i "" "s@__host@$1@" $path
-    sed -i "" "s@__dbname@$2@" $path
-    sed -i "" "s@__username@$3@" $path
-    sed -i "" "s@__password@$4@" $path
+    sed -i "" "s@__host@$1@" "$path"
+    sed -i "" "s@__dbname@$2@" "$path"
+    sed -i "" "s@__username@$3@" "$path"
+    sed -i "" "s@__password@$4@" "$path"
   else
-    sed -i "s@__host@$1@" $path
-    sed -i "s@__dbname@$2@" $path
-    sed -i "s@__username@$3@" $path
-    sed -i "s@__password@$4@" $path
+    sed -i "s@__host@$1@" "$path"
+    sed -i "s@__dbname@$2@" "$path"
+    sed -i "s@__username@$3@" "$path"
+    sed -i "s@__password@$4@" "$path"
   fi
 }
 
@@ -468,28 +458,24 @@ prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABL
 
 . "${PWD}"/.env
 PHP="${NAMESPACE}_php"
-DB="${NAMESPACE}_db";
-MYSQL_SOCKET="/var/run/mysqld/mysqld.sock";
+DB="${NAMESPACE}_db"
+MYSQL_SOCKET="db"
 
-setAuthConfig ${AUTH_CONFIG} ${AUTH_USER} ${AUTH_PASS}
+setAuthConfig "$AUTH_CONFIG" "$AUTH_USER" "$AUTH_PASS"
 setComposerCache
-deleteMagentoEnv ${WORKDIR}
+deleteMagentoEnv "$WORKDIR"
 dockerRefresh
-magentoComposerJson ${USER} ${PHP} ${WORKDIR} ${SHOPURI} ${MAGENTO_VERSION}
-installMagento ${USER} ${SHOPURI} ${PHP} ${MYSQL_DATABASE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${SSL} "$DB_DUMP"
-DBDumpImport ${DB_DUMP} ${NAMESPACE} root ${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE}
-setConfigAfterDBImport ${MYSQL_SOCKET} ${MYSQL_DATABASE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${WORKDIR}
-setDomainAndCookieName ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${DB} ${SHOPURI}
-mailHogConfig ${NAMESPACE} ${MYSQL_USER} ${MYSQL_PASSWORD} ${DB}
-createAdminUser ${USER} ${PHP} ${DUMP}
-sampleDataInstall ${SAMPLE_DATA}
-MagentoTwoFactorAuthDisable ${USER} ${PHP}
-magentoRefresh ${USER} ${PHP} ${SHOPURI} ${SAMPLE_DATA}
-productionModeOnLive ${USER} ${PHP} ${SHOPURI}
-duplicateEnv ${COMPOSE_PROJECT_NAME}
-
-endAll=$(date +%s)
-runtimeAll=$((endAll - startAll))
-message "Setup Time: ${runtimeAll} Sec"
-
-showSuccess ${SHOPURI} ${DUMP}
+magentoComposerJson "$USER" "$PHP" "$WORKDIR" "$SHOPURI" "$MAGENTO_VERSION"
+installMagento "$USER" "$SHOPURI" "$PHP" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$SSL" "$DB_DUMP"
+DBDumpImport "$DB_DUMP" "$NAMESPACE" root "$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE"
+setConfigAfterDBImport "$MYSQL_SOCKET" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$WORKDIR"
+setDomainAndCookieName "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB" "$SHOPURI"
+mailHogConfig "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB"
+createAdminUser "$USER" "$PHP" "$DUMP"
+sampleDataInstall "$SAMPLE_DATA"
+MagentoTwoFactorAuthDisable "$USER" "$PHP"
+magentoRefresh "$USER" "$PHP" "$SHOPURI" "$SAMPLE_DATA"
+productionModeOnLive "$USER" "$PHP" "$SHOPURI"
+duplicateEnv "$COMPOSE_PROJECT_NAME"
+message "Setup Time: $(($(date +%s) - startAll)) Sec"
+showSuccess "$SHOPURI" "$DUMP"

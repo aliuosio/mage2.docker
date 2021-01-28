@@ -307,7 +307,6 @@ setConfigAfterDBImport() {
 }
 
 createAdminUser() {
-  if [ -n "$3" ]; then
     message "docker exec -u $1 $2 bin/magento admin:user:create \
       --admin-lastname=mage2_admin \
       --admin-firstname=mage2_admin \
@@ -320,7 +319,6 @@ createAdminUser() {
       --admin-email=admin@example.com \
       --admin-user=mage2_admin \
       --admin-password=mage2_admin123#T
-  fi
 }
 
 sampleDataInstall() {
@@ -492,9 +490,9 @@ setToHTTP "$MYSQL_DATABASE" "$DB" "$MYSQL_USER" "$MYSQL_PASSWORD"
 setConfigAfterDBImport "$MYSQL_SOCKET" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$WORKDIR"
 setDomainAndCookieName "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB" "$SHOPURI"
 mailHogConfig "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB"
-createAdminUser "$USER" "$PHP" "$DUMP"
 sampleDataInstall "$SAMPLE_DATA"
 MagentoTwoFactorAuthDisable "$USER" "$PHP"
+createAdminUser "$USER" "$PHP" "$DUMP"
 magentoRefresh "$USER" "$PHP" "$SHOPURI" "$SAMPLE_DATA"
 productionModeOnLive "$USER" "$PHP" "$SHOPURI"
 duplicateEnv "$COMPOSE_PROJECT_NAME"

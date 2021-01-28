@@ -212,6 +212,15 @@ setElasticsearchAfterDBImport() {
   docker exec "$2" mysql -u "$3" -p"$4" -e "${SET_ELASTIC_3}"
 }
 
+setToHTTP() {
+  message "Set to HTTP only"
+  IS_SECURE_2="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', '0', 'web/secure/use_in_adminhtml') ON DUPLICATE KEY UPDATE value='0', path='web/secure/use_in_adminhtml', scope='default';"
+  IS_SECURE_1="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', '0', 'web/secure/use_in_frontend') ON DUPLICATE KEY UPDATE value='0', path='web/secure/use_in_frontend', scope='default';"
+
+  docker exec "$2" mysql -u "$3" -p"$4" -e "${IS_SECURE_1}"
+  docker exec "$2" mysql -u "$3" -p"$4" -e "${IS_SECURE_2}"
+}
+
 mailHogConfig() {
   SET_URL_SSL="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/ssl', 'none') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/ssl', value='none';"
   SET_URL_HOST="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtphost', 'mailhog') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtphost', value='mailhog';"
@@ -479,6 +488,7 @@ magentoComposerJson "$USER" "$PHP" "$WORKDIR" "$SHOPURI" "$MAGENTO_VERSION"
 installMagento "$USER" "$SHOPURI" "$PHP" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$SSL" "$DB_DUMP"
 DBDumpImport "$DB_DUMP" "$NAMESPACE" root "$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE"
 setElasticsearchAfterDBImport "$MYSQL_DATABASE" "$DB" "$MYSQL_USER" "$MYSQL_PASSWORD"
+setToHTTP "$MYSQL_DATABASE" "$DB" "$MYSQL_USER" "$MYSQL_PASSWORD"
 setConfigAfterDBImport "$MYSQL_SOCKET" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$WORKDIR"
 setDomainAndCookieName "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB" "$SHOPURI"
 mailHogConfig "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB"

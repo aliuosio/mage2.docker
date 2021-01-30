@@ -201,6 +201,26 @@ setDomainAndCookieName() {
   docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_COOKIE}"
 }
 
+setElasticsearchAfterDBImport() {
+  SET_ELASTIC_1="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'elasticsearch7', 'catalog/search/engine') ON DUPLICATE KEY UPDATE value='elasticsearch7', path='catalog/search/engine', scope='default';"
+  SET_ELASTIC_2="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'elasticsearch', 'catalog/search/elasticsearch7_server_hostname') ON DUPLICATE KEY UPDATE value='elasticsearch', path='catalog/search/elasticsearch7_server_hostname', scope='default';"
+  SET_ELASTIC_3="USE $1; INSERT core_config_data(scope, value, path) VALUES('default', '9200', 'catalog/search/elasticsearch7_server_port') ON DUPLICATE KEY UPDATE value='9200', path='catalog/search/elasticsearch7_server_port', scope='default';"
+
+  message "Elasticsearch DB Config "
+  docker exec "$2" mysql -u "$3" -p"$4" -e "${SET_ELASTIC_1}"
+  docker exec "$2" mysql -u "$3" -p"$4" -e "${SET_ELASTIC_2}"
+  docker exec "$2" mysql -u "$3" -p"$4" -e "${SET_ELASTIC_3}"
+}
+
+setToHTTP() {
+  message "Set to HTTP only"
+  IS_SECURE_2="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', '0', 'web/secure/use_in_adminhtml') ON DUPLICATE KEY UPDATE value='0', path='web/secure/use_in_adminhtml', scope='default';"
+  IS_SECURE_1="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', '0', 'web/secure/use_in_frontend') ON DUPLICATE KEY UPDATE value='0', path='web/secure/use_in_frontend', scope='default';"
+
+  docker exec "$2" mysql -u "$3" -p"$4" -e "${IS_SECURE_1}"
+  docker exec "$2" mysql -u "$3" -p"$4" -e "${IS_SECURE_2}"
+}
+
 mailHogConfig() {
   SET_URL_SSL="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/ssl', 'none') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/ssl', value='none';"
   SET_URL_HOST="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtphost', 'mailhog') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtphost', value='mailhog';"
@@ -287,7 +307,6 @@ setConfigAfterDBImport() {
 }
 
 createAdminUser() {
-  if [ -n "$3" ]; then
     message "docker exec -u $1 $2 bin/magento admin:user:create \
       --admin-lastname=mage2_admin \
       --admin-firstname=mage2_admin \
@@ -300,7 +319,6 @@ createAdminUser() {
       --admin-email=admin@example.com \
       --admin-user=mage2_admin \
       --admin-password=mage2_admin123#T
-  fi
 }
 
 sampleDataInstall() {
@@ -442,7 +460,6 @@ prompt "rePlaceInEnv" "Project Name (alphanumeric only) (current: ${COMPOSE_PROJ
 prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [d]ump, [s]ample data or [n]one of the above?"
-prompt "rePlaceInEnv" "SSL enable (current: ${SSL})" "SSL"
 prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
 prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.11, 7.6.2, 7.8.1, 7.9.0, 7.9.1) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
@@ -468,14 +485,20 @@ dockerRefresh
 magentoComposerJson "$USER" "$PHP" "$WORKDIR" "$SHOPURI" "$MAGENTO_VERSION"
 installMagento "$USER" "$SHOPURI" "$PHP" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$SSL" "$DB_DUMP"
 DBDumpImport "$DB_DUMP" "$NAMESPACE" root "$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE"
+setElasticsearchAfterDBImport "$MYSQL_DATABASE" "$DB" "$MYSQL_USER" "$MYSQL_PASSWORD"
+setToHTTP "$MYSQL_DATABASE" "$DB" "$MYSQL_USER" "$MYSQL_PASSWORD"
 setConfigAfterDBImport "$MYSQL_SOCKET" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$WORKDIR"
 setDomainAndCookieName "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB" "$SHOPURI"
 mailHogConfig "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB"
-createAdminUser "$USER" "$PHP" "$DUMP"
 sampleDataInstall "$SAMPLE_DATA"
 MagentoTwoFactorAuthDisable "$USER" "$PHP"
+createAdminUser "$USER" "$PHP" "$DUMP"
 magentoRefresh "$USER" "$PHP" "$SHOPURI" "$SAMPLE_DATA"
 productionModeOnLive "$USER" "$PHP" "$SHOPURI"
 duplicateEnv "$COMPOSE_PROJECT_NAME"
-message "Setup Time: $(($(date +%s) - startAll)) Sec"
+
+endAll=$(date +%s)
+runtimeAll=$((endAll - startAll))
+message "Setup Time: ${runtimeAll} Sec"
+
 showSuccess "$SHOPURI" "$DUMP"

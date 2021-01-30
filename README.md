@@ -1,9 +1,4 @@
 ## Magento 2 OSX/Linux Docker
-**Update: Magento 2.4 compatible**
-> `./install.sh` only works for Magento 2.4 at the moment.
-> Working on a generic solution to guarantee backward compatibility
-
-**[Nginx with Pagespeed](https://en.wikipedia.org/wiki/Google_PageSpeed_Tools#PageSpeed_Module), [MariaDB](https://en.wikipedia.org/wiki/MariaDB), [PHP 7](https://en.wikipedia.org/wiki/PHP), [Redis](https://redis.io/), [Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch), [Mailhog](https://github.com/mailhog/MailHog), [Watchtower](https://containrrr.github.io/watchtower/)**
 
 * Good Docker Performance on **MacOS** by using [http://docker-sync.io/](http://docker-sync.io/)
 * With `install.sh` you can include your **running project** files with its DB Dump or Magento Sample Data, create **fresh Magento 2 Install**, create **fresh Magento Install with Sample Data**
@@ -102,8 +97,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * using watchtower container to keep the containers current
 * set project directory to where ever you want (as configurable option in .env)
 * set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option
-* **http basic authentication** 
-* Nginx uses **Pagespeed** Module
+* **http basic authentication**
 * container to register SSL Cert by letsencrypt (only with valid domain)
 * setup valid **SSL certificates** with [Let's Encrypt](https://en.wikipedia.org/wiki/Let%27s_Encrypt) container
 * [Mailhog](https://github.com/mailhog/MailHog) container
@@ -139,7 +133,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * move `install.sh` methods to extra script run in php container native
 * move `sampledata.sh` methods to extra script run in php container native
 * simplify letsencrypt certificate embedding in nginx container
-* optimize pagespeed caching
 * Nginx Header Config passes at https://securityheaders.com/
 
 ### Bugs

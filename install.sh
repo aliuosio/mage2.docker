@@ -86,8 +86,6 @@ dockerRefresh() {
     message "docker-compose up -d;"
     docker-compose up -d
   fi
-
-  sleep 15
 }
 
 deleteMagentoEnv() {

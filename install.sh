@@ -80,9 +80,6 @@ dockerRefresh() {
     message "docker-compose -f docker-compose.osx.yml up -d"
     docker-compose -f docker-compose.osx.yml up -d
   else
-    message "docker-compose down -v"
-    docker-compose down -v
-
     message "docker-compose up -d;"
     docker-compose up -d
   fi

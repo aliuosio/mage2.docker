@@ -77,9 +77,6 @@ dockerRefresh() {
     rePlaceInEnv "false" "SSL"
     osxDockerSync
 
-    message "docker-compose -f docker-compose.osx.yml down -v"
-    docker-compose -f docker-compose.osx.yml down -v
-
     message "docker-compose -f docker-compose.osx.yml up -d"
     docker-compose -f docker-compose.osx.yml up -d
   else

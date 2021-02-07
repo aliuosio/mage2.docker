@@ -22,6 +22,12 @@ createEnv() {
   fi
 }
 
+createHtdocs() {
+  if [ ! -d htdocs ]; then
+    mkdir htdocs;
+  fi
+}
+
 duplicateEnv() {
   if [[ -f ./.env_"$1" ]]; then
     message "rm ./.env_$1"
@@ -478,6 +484,7 @@ PHP="${NAMESPACE}_php"
 DB="${NAMESPACE}_db"
 MYSQL_SOCKET="db"
 
+createHtdocs
 setAuthConfig "$AUTH_CONFIG" "$AUTH_USER" "$AUTH_PASS"
 setComposerCache
 deleteMagentoEnv "$WORKDIR"

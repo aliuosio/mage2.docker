@@ -17,24 +17,6 @@ phpSettings() {
   sed -i "s#__user#$1#g" /usr/local/etc/php-fpm.d/zz-docker.conf
 }
 
-installComposer() {
-  message "Composer 1 Install"
-  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer &&
-    chmod +x /usr/bin/composer &&
-    composer self-update --1
-}
-
-installMagerun() {
-  message "Magerun 2 Install"
-  curl https://files.magerun.net/n98-magerun2.phar >/usr/bin/n98-magerun2.phar &&
-    chmod +x /usr/bin/n98-magerun2.phar
-}
-
-installWaitForIt() {
-  message "wait-for-it.sh install"
-  curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh >/usr/bin/wait-for-it.sh &&
-    chmod +x /usr/bin/wait-for-it.sh
-}
 
 runWaitForIt() {
   wait-for-it.sh db:3306
@@ -78,9 +60,6 @@ setUser() {
 }
 
 phpSettings "$USER"
-installComposer
-installMagerun
-installWaitForIt
 xdebugConfig "${XDEBUG_ENABLE}" "${XDEBUG_PROFILER}" "${XDEBUG_KEY}"
 setUser "$USER"
 addPathToBashProfile "$USER"

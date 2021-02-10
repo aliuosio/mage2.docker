@@ -69,7 +69,17 @@ COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
 RUN rm -rf /var/cache/apk/* \
     && docker-php-source delete \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \
     && rm -rf /tmp/pear;
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
+    && chmod +x /usr/bin/composer \
+    && composer self-update --1
+
+ADD https://files.magerun.net/n98-magerun2.phar /usr/bin/n98-magerun2.phar
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/bin/wait-for-it.sh
+RUN chmod +x /usr/bin/n98-magerun2.phar \
+    && chmod +x /usr/bin/wait-for-it.sh

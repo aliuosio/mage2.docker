@@ -1,5 +1,7 @@
 ## Magento 2 OSX/Linux Docker
 
+  [Demo](https://asciinema.org/a/olUS41p9k1CGbWltoLPSMRzVA)
+   
 * Good Docker Performance on **MacOS** by using [http://docker-sync.io/](http://docker-sync.io/)
 * With `install.sh` you can include your **running project** files with its DB Dump or Magento Sample Data, create **fresh Magento 2 Install**, create **fresh Magento Install with Sample Data**
 * Change settings under `.env` in root folder  

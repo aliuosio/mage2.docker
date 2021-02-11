@@ -95,22 +95,20 @@ services:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
   elasticsearch:
-    build:
-      context: ./.docker/elasticsearch
-      args:
-        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
-    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false
       - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
       - http.host=0.0.0.0
       - transport.host=127.0.0.1
+      - discovery.type:single-node
     ulimits:
       memlock:
         soft: -1
         hard: -1
+    command: bash -c "elasticsearch-plugin list | grep analysis-icu || elasticsearch-plugin install -b analysis-icu && elasticsearch-plugin list | grep analysis-phonetic || elasticsearch-plugin install -b analysis-phonetic && docker-entrypoint.sh"
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 

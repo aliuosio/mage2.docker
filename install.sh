@@ -97,7 +97,9 @@ magentoComposerJson() {
   message "docker exec -it -u $1 $2 composer global require hirak/prestissimo;"
   docker exec -it -u "$1" "$2" composer global require hirak/prestissimo
 
-  if [ -f "$3/composer.json" ]; then
+  JSON=$3/composer.json
+
+  if [[ -f "$JSON" ]]; then
     message "Magento 2 composer.json found"
     if [[ $4 == *"local"* ]]; then
       message "docker exec -it -u $1 $2 composer install"

@@ -126,7 +126,6 @@ magentoComposerJson() {
 }
 
 installMagento() {
-  if [[ ! -f "$8" ]]; then
     message "docker exec -u $1 $3 chmod +x bin/magento"
     docker exec -u "$1" "$3" chmod +x bin/magento
 
@@ -187,7 +186,6 @@ installMagento() {
       --search-engine=elasticsearch7 \
       --elasticsearch-host=elasticsearch \
       --elasticsearch-port=9200
-  fi
 }
 
 setDomainAndCookieName() {

@@ -58,7 +58,7 @@ services:
       - php_socket:/var/run/php
       - composer_cache:/home/${USER}/.composer:delegated
       - ssh_keys:/home/${USER}/.ssh:delegated
-      - .docker/php/conf.d:/usr/local/etc/php/conf.d:delegated
+      - .docker/php/conf.d:/usr/local/etc/php/conf.d:cached
 
   db:
     build:

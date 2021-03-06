@@ -94,9 +94,6 @@ deleteMagentoEnv() {
 }
 
 magentoComposerJson() {
-  message "docker exec -it -u $1 $2 composer global require hirak/prestissimo;"
-  docker exec -it -u "$1" "$2" composer global require hirak/prestissimo
-
   JSON=$3/composer.json
 
   if [[ -f "$JSON" ]]; then

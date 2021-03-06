@@ -35,14 +35,12 @@ setUser() {
 }
 
 composerInstall() {
-  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
+  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer;
+  chmod +x /usr/local/bin/composer;
   if [ "$1" -lt '2.4.2' ]; then
-    composer self-update --1
-    composer global require hirak/prestissimo
+    composer self-update --1;
+    composer global require hirak/prestissimo;
   fi
-
-  chmod +x /usr/local/bin/composer
 }
 
 phpSettings "$USER"

@@ -46,8 +46,8 @@ composerInstall() {
 phpSettings "$USER"
 setUser "$USER"
 addPathToBashProfile "$USER"
+chown -R "$USER":"$USER" /home/"$USER"
 composerInstall "$MAGENTO_VERSION"
 runWaitForIt
 php-fpm -F
-
 exec "$@"

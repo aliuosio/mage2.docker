@@ -50,6 +50,7 @@ services:
       XDEBUG_PROFILER: ${XDEBUG_PROFILER}
       XDEBUG_KEY: ${XDEBUG_KEY}
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
+      MAGENTO_VERSION: ${MAGENTO_VERSION}
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - redis_data_socket:/var/run/redis

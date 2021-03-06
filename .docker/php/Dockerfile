@@ -66,7 +66,6 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.4"|bc) -eq 1 ]; then \
 
 RUN docker-php-ext-install gd;
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-COPY conf.d/php-ini-overrides.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN rm -rf /var/cache/apk/* \

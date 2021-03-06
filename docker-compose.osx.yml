@@ -45,6 +45,7 @@ services:
       XDEBUG_PROFILER: ${XDEBUG_PROFILER}
       XDEBUG_KEY: ${XDEBUG_KEY}
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
+      MAGENTO_VERSION: ${MAGENTO_VERSION}
     entrypoint: ["docker-entrypoint.sh"]
     volumes:
       - redis_data_socket:/var/run/redis
@@ -52,7 +53,8 @@ services:
       - php_socket:/var/run/php
       - composer_cache:/home/${USER}/.composer:delegated
       - ssh_keys:/home/${USER}/.ssh:delegated
-      - .docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - .docker/php/conf.d/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:delegated
+      - .docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:delegated
 
   db:
     container_name: ${NAMESPACE}_db

@@ -124,7 +124,8 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * added prompt for SSL to `ìnstall.sh`
 
 ### Todos
-* ~~no magento 2 install on SQL File input~~
+* map local user to php container www-data user
+* install composer version according to magento 2 version
 * Exchange `docker-sync` with `Mutagen`
 * generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes

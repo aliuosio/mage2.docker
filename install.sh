@@ -469,7 +469,6 @@ if test ! -f "${WORKDIR}/composer.json"; then
 fi
 
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
-prompt "rePlaceInEnv" "enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 
 . "${PWD}"/.env
 PHP="${NAMESPACE}_php"

@@ -24,7 +24,6 @@ RUN apk add --virtual build-dependencies \
         imagemagick \
         bc \
         procps \
-        yarn \
         openssh-keygen \
         openssh-client \
     && apk add --virtual .php-deps \

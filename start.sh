@@ -2,6 +2,9 @@
 
 set -e
 
+. "${PWD}"/.env
+PHP="${NAMESPACE}_php"
+
 message() {
   echo ""
   echo -e "$1"
@@ -16,15 +19,16 @@ dockerRefresh() {
     fi
 
     if [[ $(uname -s) == "Darwin" ]]; then
-        message "docker-sync start"
-        docker-sync start;
-
-        message "docker-compose -f docker-compose.osx.yml up -d"
-        docker-compose -f docker-compose.osx.yml up -d
+    docker-compose -f docker-compose.osx.yml up -d;
+    mutagen daemon start
+    mutagen sync create --name=ssh-keys /home/"${USER}"/.ssh docker://"$USER"@"$PHP"/home/"${USER}"/.ssh
+    mutagen sync create --name=composer-cache /home/"${USER}"/.composer docker://"$USER"@"$PHP"/home/"${USER}"/.composer
+    mutagen sync create --name=app-data "${WORKDIR}" docker://"$USER"@"$PHP"/home/"${USER}"/html
     else
         message "docker-compose up -d;"
         docker-compose up -d
     fi
 }
+
 
 dockerRefresh

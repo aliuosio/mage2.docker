@@ -11,3 +11,4 @@ auth.json
 !/.docker/redis/conf/redis.conf
 .env
 .env*
+.DS_Store

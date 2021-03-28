@@ -1,6 +1,6 @@
 ## Magento 2 OSX/Linux Docker
 
-* Good Docker Performance on **MacOS** by using [http://docker-sync.io/](http://docker-sync.io/)
+* Good Docker Performance on **MacOS** by using [Mutagen](https://mutagen.io/)
 * With `install.sh` you can include your **running project** files with its DB Dump or Magento Sample Data, create **fresh Magento 2 Install**, create **fresh Magento Install with Sample Data**
 * Change settings under `.env` in root folder  
 * Change **PHP Versions 7.1, 7.2, 7.3, 7.4 with xdebug** all based on **php:alpine** docker images
@@ -14,7 +14,7 @@
 ### Requirements
 
 **MacOS:**
-Install [Docker](https://docs.docker.com/docker-for-mac/install/) and [docker-sync](http://docker-sync.io/)
+Install [Docker](https://docs.docker.com/docker-for-mac/install/) and [Mutagen](https://mutagen.io/)
 
 **Linux:** 
 Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
@@ -42,8 +42,6 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
 ### Frontend
     http://mage2.localhost
 
-OSX: on first run very slow due to docker-sync update of local shop files volume in the background. 
-See `.docker-sync/daemon.log` for progress
     
 ### next startup after reboot of Host
     ./start.sh
@@ -92,7 +90,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 ### Features
 * Fresh Install or use magento 2 project on your file system using `./install.sh`
 * Nginx uses http2
-* alternative **OSX docker-compose** file using docker-sync **for better performance**
+* alternative **OSX docker-compose** file using mutagen **for better performance**
 * set Magento 2 Versions as configurable option of `ìnstall.sh`
 * using watchtower container to keep the containers current
 * set project directory to where ever you want (as configurable option in .env)
@@ -123,7 +121,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * add magento 2 version prompt
 * map local user to php container www-data user
 * ~~install composer version according to magento 2 version~~
-* Exchange `docker-sync` with `Mutagen`
+* ~~Exchange docker-sync with Mutagen~~
 * generic solution for `./install.sh`to guarantee backward compatibility
 * reduce the number of volumes
 * set Time and Zone according to host

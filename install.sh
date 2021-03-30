@@ -480,7 +480,7 @@ setConfigAfterDBImport "$MYSQL_SOCKET" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_P
 setDomainAndCookieName "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB" "$SHOPURI"
 mailHogConfig "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB"
 sampleDataInstall "$SAMPLE_DATA"
-MagentoTwoFactorAuthDisable "$USER" "$PHP"
+# MagentoTwoFactorAuthDisable "$USER" "$PHP"
 createAdminUser "$USER" "$PHP" "$DUMP"
 magentoRefresh "$USER" "$PHP" "$SHOPURI" "$SAMPLE_DATA"
 productionModeOnLive "$USER" "$PHP" "$SHOPURI"

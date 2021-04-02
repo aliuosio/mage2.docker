@@ -22,12 +22,6 @@ createEnv() {
   fi
 }
 
-createHtdocs() {
-  if [ ! -d htdocs ]; then
-    mkdir htdocs;
-  fi
-}
-
 duplicateEnv() {
   if [[ -f ./.env_"$1" ]]; then
     message "rm ./.env_$1"
@@ -85,6 +79,13 @@ dockerRefresh() {
   fi
 }
 
+magento_umask() {
+  filepath=$1/magento_umask
+  if [ ! -f "$filepath" ]; then
+    echo 022 >"$filepath"
+  fi
+}
+
 deleteMagentoEnv() {
   path="$1/app/etc/env.php"
   if test -f "$path"; then
@@ -123,10 +124,10 @@ magentoComposerJson() {
 }
 
 installMagento() {
-    message "docker exec -u $1 $3 chmod +x bin/magento"
-    docker exec -u "$1" "$3" chmod +x bin/magento
+  message "docker exec -u $1 $3 chmod +x bin/magento"
+  docker exec -u "$1" "$3" chmod +x bin/magento
 
-    echo "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
+  echo "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
     --db-host=db \
     --db-name=$4 \
     --db-user=$5 \
@@ -155,34 +156,34 @@ installMagento() {
     --elasticsearch-host=elasticsearch \
     --elasticsearch-port=9200"
 
-    docker exec -it -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
-      --db-host=db \
-      --db-name="$4" \
-      --db-user="$5" \
-      --db-password="$6" \
-      --backend-frontname=admin \
-      --language=de_DE \
-      --timezone=Europe/Berlin \
-      --currency=EUR \
-      --admin-lastname=mage2_admin \
-      --admin-firstname=mage2_admin \
-      --admin-email=admin@example.com \
-      --admin-user=mage2_admin \
-      --admin-password=mage2_admin123#T \
-      --cleanup-database \
-      --use-rewrites=1 \
-      --session-save=redis \
-      --session-save-redis-host=/var/run/redis/redis.sock \
-      --session-save-redis-db=0 --session-save-redis-password='' \
-      --cache-backend=redis \
-      --cache-backend-redis-server=/var/run/redis/redis.sock \
-      --cache-backend-redis-db=1 \
-      --page-cache=redis \
-      --page-cache-redis-server=/var/run/redis/redis.sock \
-      --page-cache-redis-db=2 \
-      --search-engine=elasticsearch7 \
-      --elasticsearch-host=elasticsearch \
-      --elasticsearch-port=9200
+  docker exec -it -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
+    --db-host=db \
+    --db-name="$4" \
+    --db-user="$5" \
+    --db-password="$6" \
+    --backend-frontname=admin \
+    --language=de_DE \
+    --timezone=Europe/Berlin \
+    --currency=EUR \
+    --admin-lastname=mage2_admin \
+    --admin-firstname=mage2_admin \
+    --admin-email=admin@example.com \
+    --admin-user=mage2_admin \
+    --admin-password=mage2_admin123#T \
+    --cleanup-database \
+    --use-rewrites=1 \
+    --session-save=redis \
+    --session-save-redis-host=/var/run/redis/redis.sock \
+    --session-save-redis-db=0 --session-save-redis-password='' \
+    --cache-backend=redis \
+    --cache-backend-redis-server=/var/run/redis/redis.sock \
+    --cache-backend-redis-db=1 \
+    --page-cache=redis \
+    --page-cache-redis-server=/var/run/redis/redis.sock \
+    --page-cache-redis-db=2 \
+    --search-engine=elasticsearch7 \
+    --elasticsearch-host=elasticsearch \
+    --elasticsearch-port=9200
 }
 
 setDomainAndCookieName() {
@@ -302,18 +303,18 @@ setConfigAfterDBImport() {
 }
 
 createAdminUser() {
-    message "docker exec -u $1 $2 bin/magento admin:user:create \
+  message "docker exec -u $1 $2 bin/magento admin:user:create \
       --admin-lastname=mage2_admin \
       --admin-firstname=mage2_admin \
       --admin-email=admin@example.com \
       --admin-user=mage2_admin \
       --admin-password=mage2_admin123#T"
-    docker exec -u "$1" "$2" bin/magento admin:user:create \
-      --admin-lastname=mage2_admin \
-      --admin-firstname=mage2_admin \
-      --admin-email=admin@example.com \
-      --admin-user=mage2_admin \
-      --admin-password=mage2_admin123#T
+  docker exec -u "$1" "$2" bin/magento admin:user:create \
+    --admin-lastname=mage2_admin \
+    --admin-firstname=mage2_admin \
+    --admin-email=admin@example.com \
+    --admin-user=mage2_admin \
+    --admin-password=mage2_admin123#T
 }
 
 sampleDataInstall() {
@@ -472,11 +473,12 @@ PHP="${NAMESPACE}_php"
 DB="${NAMESPACE}_db"
 MYSQL_SOCKET="db"
 
-createHtdocs
+workDirCreate "$WORKDIR"
 setAuthConfig "$AUTH_CONFIG" "$AUTH_USER" "$AUTH_PASS"
 setComposerCache
 deleteMagentoEnv "$WORKDIR"
 dockerRefresh
+#magento_umask "$WORKDIR"
 magentoComposerJson "$USER" "$PHP" "$WORKDIR" "$SHOPURI" "$MAGENTO_VERSION"
 installMagento "$USER" "$SHOPURI" "$PHP" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$SSL" "$DB_DUMP"
 DBDumpImport "$DB_DUMP" "$NAMESPACE" root "$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE"

@@ -52,6 +52,7 @@ services:
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
       MAGENTO_VERSION: ${MAGENTO_VERSION}
     entrypoint: ["docker-entrypoint.sh"]
+    restart: on-failure
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated

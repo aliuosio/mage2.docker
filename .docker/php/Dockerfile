@@ -24,7 +24,7 @@ RUN apk add --virtual build-dependencies \
         imagemagick \
         bc \
         procps \
-        yarn \
+        npm \
         openssh-keygen \
         openssh-client \
     && apk add --virtual .php-deps \
@@ -67,6 +67,10 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.4"|bc) -eq 1 ]; then \
 RUN docker-php-ext-install gd;
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+RUN apk add nasm automake libtool
+
+RUN npm install -g gulp;
 
 RUN rm -rf /var/cache/apk/* \
     && docker-php-source delete \

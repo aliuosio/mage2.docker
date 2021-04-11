@@ -72,7 +72,5 @@ RUN rm -rf /var/cache/apk/* \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \
     && rm -rf /tmp/pear;
 
-ADD https://files.magerun.net/n98-magerun2.phar /usr/bin/n98-magerun2.phar
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/bin/wait-for-it.sh
-RUN chmod +x /usr/bin/n98-magerun2.phar \
-    && chmod +x /usr/bin/wait-for-it.sh
+RUN chmod +x /usr/bin/wait-for-it.sh

@@ -20,7 +20,7 @@ services:
       SHOPALIAS: ${SHOPALIAS}
       TZ: ${TZ}
       WORKDIR_SERVER: /home/${USER}/html
-    entrypoint: ["docker-entrypoint.sh"]
+    entrypoint: [ "docker-entrypoint.sh" ]
     volumes:
       - app_data:/home/${USER}/html:ro
       - php_socket:/var/run/php
@@ -46,7 +46,11 @@ services:
       XDEBUG_KEY: ${XDEBUG_KEY}
       COMPOSER_CACHE_DIR: /home/${USER}/.composer
       MAGENTO_VERSION: ${MAGENTO_VERSION}
-    entrypoint: ["docker-entrypoint.sh"]
+    entrypoint: [ "docker-entrypoint.sh" ]
+    restart: on-failure
+    ports:
+      - 3000:3000
+      - 3001:3001
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
@@ -76,7 +80,7 @@ services:
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
-    command: ["/etc/redis/redis.conf", "--appendonly", "yes"]
+    command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
     volumes:
       - redis_data_socket:/var/run/redis
       - redis_data:/data

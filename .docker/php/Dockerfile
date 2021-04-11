@@ -13,6 +13,7 @@ RUN apk add --virtual build-dependencies \
         libzip-dev \
     && set -xe \
     && apk add \
+        yarn \
         git \
         bash \
         bash-completion \
@@ -24,7 +25,6 @@ RUN apk add --virtual build-dependencies \
         imagemagick \
         bc \
         procps \
-        yarn \
         openssh-keygen \
         openssh-client \
     && apk add --virtual .php-deps \
@@ -47,8 +47,8 @@ RUN apk add --virtual build-dependencies \
         sockets \
         pcntl \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis imagick apcu-5.1.18 xdebug \
-    && docker-php-ext-enable redis imagick apcu xdebug;
+    && pecl install -o -f redis imagick apcu-5.1.18 \
+    && docker-php-ext-enable redis imagick apcu;
 RUN if [ $(echo "$PHP_VERSION_SET < 7.2"|bc) -eq 1 ]; then \
         apk add libmcrypt-dev \
         && docker-php-ext-install mcrypt; \

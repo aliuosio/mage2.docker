@@ -457,6 +457,7 @@ prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running p
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [d]ump, [s]ample data or [n]one of the above?"
 prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
+prompt "rePlaceInEnv" "Enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
 prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.x, 7.6.x, 7.8.x, 7.9.x) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
 

@@ -118,9 +118,12 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
     command: >
-      bash -c "elasticsearch-plugin list | grep analysis-icu || elasticsearch-plugin install -b analysis-icu  &&
-        elasticsearch-plugin list | grep analysis-phonetic || elasticsearch-plugin install -b analysis-phonetic &&
-        docker-entrypoint.sh"
+      bash -c
+      '
+      elasticsearch-plugin list | grep analysis-icu || elasticsearch-plugin install -b analysis-icu  &&
+      elasticsearch-plugin list | grep analysis-phonetic || elasticsearch-plugin install -b analysis-phonetic &&
+      docker-entrypoint.sh;
+      '
 
   watchtower:
     container_name: ${NAMESPACE}_watchtower

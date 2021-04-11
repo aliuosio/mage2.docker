@@ -43,9 +43,29 @@ composerInstall() {
   fi
 }
 
+xdebugConfig() {
+  path="/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
+  if "$1" == "true"; then
+    pecl channel-update pecl.php.net
+    pecl install -o -f xdebug
+    docker-php-ext-enable xdebug
+    sed -i "s#xdebug.mode=off#xdebug.mode=debug,develop,trace,coverage#g" /usr/local/etc/php/conf.d/xdebug.ini
+    if "$2" == "true"; then
+      sed -i "s#xdebug.profiler_enable=0#xdebug.profiler_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini
+    fi
+  else
+    pecl uninstall xdebug
+    if test -f "$path"; then
+      rm $path
+    fi
+    sed -i "s#xdebug.mode=debug,develop,trace,coverage,profile#xdebug.mode=off#g" /usr/local/etc/php/conf.d/xdebug.ini
+  fi
+}
+
 phpSettings "$USER"
 setUser "$USER"
 addPathToBashProfile "$USER"
+xdebugConfig "${XDEBUG_ENABLE}" "${XDEBUG_PROFILER}" "${XDEBUG_KEY}"
 chown -R "$USER":"$USER" /home/"$USER"
 composerInstall "$MAGENTO_VERSION"
 runWaitForIt

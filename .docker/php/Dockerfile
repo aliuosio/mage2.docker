@@ -13,7 +13,6 @@ RUN apk add --virtual build-dependencies \
         libzip-dev \
     && set -xe \
     && apk add \
-        yarn \
         git \
         bash \
         bash-completion \

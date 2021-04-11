@@ -11,3 +11,5 @@ auth.json
 !/.docker/redis/conf/redis.conf
 .env
 .env*
+/.docker/mysql/db_dumps/*
+!/.docker/mysql/db_dumps

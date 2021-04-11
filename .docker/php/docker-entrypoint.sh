@@ -35,11 +35,11 @@ setUser() {
 }
 
 composerInstall() {
-  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer;
-  chmod +x /usr/local/bin/composer;
+  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+  chmod +x /usr/local/bin/composer
   if [[ "$1" != "2.4.2" ]]; then
-    composer self-update --1;
-    composer global require hirak/prestissimo;
+    composer self-update --1
+    composer global require hirak/prestissimo
   fi
 }
 
@@ -49,25 +49,21 @@ xdebugConfig() {
     pecl channel-update pecl.php.net
     pecl install -o -f xdebug
     docker-php-ext-enable xdebug
-    sed -i "s#xdebug.mode=off#xdebug.mode=debug,develop,trace,coverage#g" /usr/local/etc/php/conf.d/xdebug.ini
-    if "$2" == "true"; then
-      sed -i "s#xdebug.profiler_enable=0#xdebug.profiler_enable=1#g" /usr/local/etc/php/conf.d/xdebug.ini
-    fi
   else
     pecl uninstall xdebug
     if test -f "$path"; then
       rm $path
     fi
-    sed -i "s#xdebug.mode=debug,develop,trace,coverage,profile#xdebug.mode=off#g" /usr/local/etc/php/conf.d/xdebug.ini
   fi
 }
 
 phpSettings "$USER"
 setUser "$USER"
 addPathToBashProfile "$USER"
-xdebugConfig "${XDEBUG_ENABLE}" "${XDEBUG_PROFILER}" "${XDEBUG_KEY}"
+xdebugConfig "${XDEBUG_ENABLE}"
 chown -R "$USER":"$USER" /home/"$USER"
 composerInstall "$MAGENTO_VERSION"
 runWaitForIt
+
 php-fpm -F
 exec "$@"

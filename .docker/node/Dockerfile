@@ -4,3 +4,4 @@ LABEL maintainer="Osiozekhai Aliu"
 RUN apk update && apk upgrade
 RUN apk add bash bash-completion && \
     rm -rf /var/cache/apk/*
+RUN npm install -g gulp

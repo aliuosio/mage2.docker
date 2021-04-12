@@ -26,6 +26,7 @@ RUN apk add --virtual build-dependencies \
         procps \
         openssh-keygen \
         openssh-client \
+        npm \
     && apk add --virtual .php-deps \
         make \
     && apk add --virtual .build-deps \

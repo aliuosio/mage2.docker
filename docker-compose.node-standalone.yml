@@ -7,6 +7,9 @@ services:
     image: node:${NODE_VERSION}-alpine
     working_dir: /home/node/html
     tty: true
+    ports:
+      - 3000:3000
+      - 3001:3001
     command: >
       sh -c
       '

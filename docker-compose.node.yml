@@ -3,21 +3,18 @@ version: '3.8'
 services:
 
   node:
+    build:
+      context: ./.docker/node
+      args:
+        NODE_VERSION: ${NODE_VERSION}
     container_name: ${NAMESPACE}_node
-    image: node:${NODE_VERSION}-alpine
+    image: osioaliu/node:${NODE_VERSION}-alpine
     working_dir: /home/node/html
     tty: true
-    #user: node
+    user: node
     ports:
       - 3000:3000
       - 3001:3001
-    command: >
-      sh -c
-      '
-      apk add bash bash-completion &&
-      rm -rf /var/cache/apk/* &&
-      docker-entrypoint.sh
-      '
     volumes:
       - app_data_node:/home/node/html:delegated
 

@@ -3,6 +3,7 @@ version: '3.8'
 services:
 
   nginx:
+    # build: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx
     working_dir: /home/${USER}/html
@@ -26,6 +27,10 @@ services:
       - php_socket:/var/run/php
 
   php:
+    # build:
+    #  context: ./.docker/php
+    #  args:
+    #    PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
@@ -61,6 +66,10 @@ services:
       - .docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:delegated
 
   db:
+    #build:
+    #  context: ./.docker/mysql
+    #  args:
+    #    MARIADB_VERSION: ${MARIADB_VERSION}
     container_name: ${NAMESPACE}_db
     image: osioaliu/mariadb:${MARIADB_VERSION}
     environment:
@@ -123,7 +132,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 900
 
-volumes:
+volumes: # see config in docker-sync.yml and .env files
   php_socket:
   redis_data_socket:
   db_data:

@@ -7,7 +7,7 @@ services:
     image: node:${NODE_VERSION}-alpine
     working_dir: /home/node/html
     tty: true
-    user: node
+    #user: node
     ports:
       - 3000:3000
       - 3001:3001
@@ -19,10 +19,10 @@ services:
       docker-entrypoint.sh
       '
     volumes:
-      - app_data:/home/node/html:delegated
+      - app_data_node:/home/node/html:delegated
 
 volumes:
-  app_data:
+  app_data_node:
     driver_opts:
       type: none
       o: bind

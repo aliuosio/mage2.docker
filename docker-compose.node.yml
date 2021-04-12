@@ -3,10 +3,11 @@ version: '3.8'
 services:
 
   node:
-    #build:
-    # context: ./.docker/node
-    # args:
-    #   NODE_VERSION: ${NODE_VERSION}
+    # build:
+    #   context: ./.docker/node
+    #     args:
+    #       NODE_VERSION: ${NODE_VERSION}
+    #       NPM_VERSION: ${NPM_VERSION}
     container_name: ${NAMESPACE}_node
     image: osioaliu/node:${NODE_VERSION}-alpine
     working_dir: /home/node/html

@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+
+  node:
+    container_name: ${NAMESPACE}_node
+    image: node:${NODE_VERSION}-alpine
+    working_dir: /home/node/html
+    tty: true
+    command: >
+      sh -c
+      '
+      apk add bash bash-completion &&
+      rm -rf /var/cache/apk/* &&
+      docker-entrypoint.sh
+      '
+    volumes:
+      - app_data:/home/node/html:delegated
+
+volumes:
+  app_data:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${WORKDIR}

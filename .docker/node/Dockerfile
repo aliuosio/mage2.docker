@@ -1,11 +1,8 @@
 ARG NODE_VERSION
-ARG NPM_VERSION
 FROM node:${NODE_VERSION}-alpine
 LABEL maintainer="Osiozekhai Aliu"
-RUN apk update && apk upgrade
 
-RUN apk add bash bash-completion nano git openssh-client && \
-    rm -rf /var/cache/apk/*
+RUN apk --no-cache add bash bash-completion nano git openssh-client autoconf yarn
+RUN rm -rf /var/cache/apk/*
 
-RUN npm install -g npm@${NPM_VERSION} && \
-    npm install -g gulp
+RUN npm install -g gulp

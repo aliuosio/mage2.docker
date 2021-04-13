@@ -17,7 +17,7 @@ services:
       - 3000:3000
       - 3001:3001
     volumes:
-      - app_data_node:/home/node/html:delegated
+      - app_data_node:/home/node/html:cached
 
 volumes:
   app_data_node:

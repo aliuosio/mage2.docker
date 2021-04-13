@@ -1,8 +1,10 @@
 ARG NODE_VERSION
-FROM node:${NODE_VERSION}-alpine
+FROM node:${NODE_VERSION}-buster-slim
 LABEL maintainer="Osiozekhai Aliu"
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install --no-install-recommends -y \
+    bash bash-completion nano git openssh-client yarn
 
-RUN apk --no-cache add bash bash-completion nano git openssh-client autoconf yarn
 RUN rm -rf /var/cache/apk/*
 
-RUN npm install -g gulp
+RUN yarn global add gulp

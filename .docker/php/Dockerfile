@@ -13,6 +13,7 @@ RUN apk add --virtual build-dependencies \
         libzip-dev \
     && set -xe \
     && apk add \
+        yarn \
         git \
         bash \
         bash-completion \
@@ -71,6 +72,6 @@ RUN rm -rf /var/cache/apk/* \
     && docker-php-source delete \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \
     && rm -rf /tmp/pear;
-
+RUN yarn global add gulp
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/bin/wait-for-it.sh
 RUN chmod +x /usr/bin/wait-for-it.sh

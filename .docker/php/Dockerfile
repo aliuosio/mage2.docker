@@ -66,11 +66,13 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.4"|bc) -eq 1 ]; then \
 
 RUN docker-php-ext-install gd;
 COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY less-cleanup.sh /usr/local/bin/less-cleanup.sh
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN rm -rf /var/cache/apk/* \
     && docker-php-source delete \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && chmod +x /usr/local/bin/less-cleanup.sh \
     && rm -rf /tmp/pear;
 RUN yarn global add gulp
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/bin/wait-for-it.sh

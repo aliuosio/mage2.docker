@@ -3,7 +3,7 @@
 set -e
 
 run() {
-  bin/magento se:up
+  # bin/magento se:up
   bin/magento dev:source-theme:deploy --locale=de_DE --theme="$1"
   bin/magento dev:source-theme:deploy --locale=de_DE --theme="$2"
   bin/magento s:s:d -f de_DE

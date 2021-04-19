@@ -79,6 +79,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
+      - .docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
 
   redis:
     container_name: ${NAMESPACE}_redis

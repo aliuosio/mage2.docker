@@ -22,6 +22,11 @@ services:
       TZ: ${TZ}
       WORKDIR_SERVER: /home/${USER}/html
     entrypoint: [ "docker-entrypoint.sh" ]
+    networks:
+      default:
+        aliases:
+          - ${SHOPURI}
+          - ${SHOPALIAS}
     volumes:
       - app_data:/home/${USER}/html:ro
       - php_socket:/var/run/php
@@ -66,12 +71,8 @@ services:
       - .docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:delegated
 
   db:
-    #build:
-    #  context: ./.docker/mysql
-    #  args:
-    #    MARIADB_VERSION: ${MARIADB_VERSION}
     container_name: ${NAMESPACE}_db
-    image: osioaliu/mariadb:${MARIADB_VERSION}
+    image: mariadb:${MARIADB_VERSION}
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}

@@ -27,10 +27,10 @@ services:
       - php_socket:/var/run/php
 
   php:
-    # build:
-    #  context: ./.docker/php
-    #  args:
-    #    PHP_VERSION_SET: ${PHP_VERSION_SET}
+    #    build:
+    #      context: ./.docker/php
+    #      args:
+    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
@@ -53,6 +53,9 @@ services:
       MAGENTO_VERSION: ${MAGENTO_VERSION}
     entrypoint: [ "docker-entrypoint.sh" ]
     restart: on-failure
+    ports:
+      - 3000:3000
+      - 3001:3001
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated

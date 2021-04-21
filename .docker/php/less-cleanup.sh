@@ -31,11 +31,11 @@ setupUpgrade() {
 }
 
 run() {
-  setupUpgrade
+  # setupUpgrade
   createSource "$@"
   createStaticFiles
-  cacheClear
-  InstallPackages
+  # cacheClear
+  # InstallPackages
   gulpCommands
 }
 

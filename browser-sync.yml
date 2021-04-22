@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+
+  bs:
+    container_name: ${NAMESPACE}_bs
+    image: ustwo/browser-sync
+    command: start --notify true --open false --proxy "web.lehner.t23dev" --files "pub/static/**/*.css"
+    user: node
+    volumes:
+      - app_data:/home/node
+    working_dir: /home/node
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+
+volumes:
+  app_data:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${WORKDIR}

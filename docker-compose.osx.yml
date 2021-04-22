@@ -9,6 +9,11 @@ services:
     working_dir: /home/${USER}/html
     depends_on:
       - php
+    networks:
+      default:
+        aliases:
+          - ${SHOPURI}
+          - ${SHOPALIAS}
     ports:
       - ${WEBSERVER_SECURE_PORT}:443
       - ${WEBSERVER_UNSECURE_PORT}:80
@@ -22,11 +27,6 @@ services:
       TZ: ${TZ}
       WORKDIR_SERVER: /home/${USER}/html
     entrypoint: [ "docker-entrypoint.sh" ]
-    networks:
-      default:
-        aliases:
-          - ${SHOPURI}
-          - ${SHOPALIAS}
     volumes:
       - app_data:/home/${USER}/html:ro
       - php_socket:/var/run/php
@@ -58,9 +58,6 @@ services:
       MAGENTO_VERSION: ${MAGENTO_VERSION}
     entrypoint: [ "docker-entrypoint.sh" ]
     restart: on-failure
-    ports:
-      - 3000:3000
-      - 3001:3001
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
@@ -134,7 +131,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 900
 
-volumes: # see config in docker-sync.yml and .env files
+volumes:
   php_socket:
   redis_data_socket:
   db_data:

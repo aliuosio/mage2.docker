@@ -9,11 +9,6 @@ services:
     working_dir: /home/${USER}/html
     depends_on:
       - php
-    networks:
-      default:
-        aliases:
-          - ${SHOPURI}
-          - ${SHOPALIAS}
     ports:
       - ${WEBSERVER_SECURE_PORT}:443
       - ${WEBSERVER_UNSECURE_PORT}:80
@@ -27,15 +22,20 @@ services:
       TZ: ${TZ}
       WORKDIR_SERVER: /home/${USER}/html
     entrypoint: [ "docker-entrypoint.sh" ]
+    networks:
+      default:
+        aliases:
+          - ${SHOPURI}
+          - ${SHOPALIAS}
     volumes:
       - app_data:/home/${USER}/html:ro
       - php_socket:/var/run/php
 
   php:
-    #    build:
-    #      context: ./.docker/php
-    #      args:
-    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    build:
+      context: ./.docker/php
+      args:
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
@@ -58,14 +58,17 @@ services:
       MAGENTO_VERSION: ${MAGENTO_VERSION}
     entrypoint: [ "docker-entrypoint.sh" ]
     restart: on-failure
+    ports:
+      - 3000:3000
+      - 3001:3001
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
       - composer_cache:/home/${USER}/.composer:delegated
-      - ssh_keys:/home/${USER}/.ssh:delegated
-      - .docker/php/conf.d/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:delegated
-      - .docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:delegated
+      - ssh_keys:/home/${USER}/.ssh:ro
+      - .docker/php/conf.d/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
+      - .docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
 
   db:
     container_name: ${NAMESPACE}_db

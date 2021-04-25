@@ -8,7 +8,7 @@ createSource() {
   done
 }
 
-InstallPackages() {
+installPackages() {
   yarn install
   yarn upgrade
 }
@@ -31,11 +31,11 @@ setupUpgrade() {
 }
 
 run() {
-  # setupUpgrade
+  setupUpgrade
   createSource "$@"
   createStaticFiles
-  # cacheClear
-  # InstallPackages
+  cacheClear
+  installPackages
   gulpCommands
 }
 

@@ -63,12 +63,13 @@ services:
       - 3001:3001
     volumes:
       - redis_data_socket:/var/run/redis
-      - app_data:/home/${USER}/html:delegated
       - php_socket:/var/run/php
+      - app_data:/home/${USER}/html:delegated
       - composer_cache:/home/${USER}/.composer:delegated
       - ssh_keys:/home/${USER}/.ssh:delegated
       - .docker/php/conf.d/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
       - .docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
+
 
   db:
     container_name: ${NAMESPACE}_db

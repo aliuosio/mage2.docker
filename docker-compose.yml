@@ -64,7 +64,7 @@ services:
     volumes:
       - redis_data_socket:/var/run/redis
       - php_socket:/var/run/php
-      - app_data:/home/${USER}/html:delegated
+      - app_data:/home/${USER}/html
       - composer_cache:/home/${USER}/.composer
       - ssh_keys:/home/${USER}/.ssh
       - .docker/php/conf.d/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro

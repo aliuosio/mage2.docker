@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   nginx:
-    # build: ./.docker/nginx
+    build: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx
     working_dir: /home/${USER}/html
@@ -18,7 +18,6 @@ services:
       AUTH_USER: ${AUTH_USER}
       AUTH_PASS: ${AUTH_PASS}
       SHOPURI: ${SHOPURI}
-      SHOPALIAS: ${SHOPALIAS}
       TZ: ${TZ}
       WORKDIR_SERVER: /home/${USER}/html
     entrypoint: [ "docker-entrypoint.sh" ]
@@ -26,7 +25,6 @@ services:
       default:
         aliases:
           - ${SHOPURI}
-          - ${SHOPALIAS}
     volumes:
       - app_data:/home/${USER}/html
       - php_socket:/var/run/php

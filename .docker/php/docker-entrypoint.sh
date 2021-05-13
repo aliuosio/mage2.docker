@@ -23,8 +23,8 @@ runWaitForIt() {
 
 setUser() {
   if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
-    addgroup -g 1000 "$1"
-    adduser -D --uid 1000 --ingroup "$1" "$1"
+    addgroup -g 1001 "$1"
+    adduser -D --uid 1001 --ingroup "$1" "$1"
     chown -R "$1":"$1" /home/"$1"
     chmod -R 755 /home/"$1"
     chmod 600 "/home/$1/.ssh/id_rsa"

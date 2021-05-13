@@ -21,14 +21,13 @@ mainConfig() {
     sed -i "s#__working_dir#$3#g" /etc/nginx/conf.d/default.conf &&
     sed -i "s#htdocs#$3#g" /etc/nginx/conf.d/default.conf &&
     sed -i "s#__shopuri#$4#g" /etc/nginx/conf.d/default.conf &&
-    sed -i "s#__shopalias#$5#g" /etc/nginx/conf.d/default.conf &&
     sed -i "s#mage2.localhost#$4#g" /etc/nginx/conf.d/default.conf
 }
 
 setUser() {
   if [[ $(grep -c "$1" /etc/passwd) == 0 ]]; then
-    addgroup -g 1000 "$1"
-    adduser -D --uid 1000 --ingroup "$1" "$1"
+    addgroup -g 1001 "$1"
+    adduser -D --uid 1001 --ingroup "$1" "$1"
   fi
 }
 

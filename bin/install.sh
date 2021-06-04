@@ -452,8 +452,9 @@ createEnv
 # shellcheck disable=SC1090
 . "${PWD}"/.env
 message "Press [ENTER] alone to keep the current values"
+message "Make sure you have a auth.json when using a running projects"
 prompt "rePlaceInEnv" "Project Name (alphanumeric only) (current: ${COMPOSE_PROJECT_NAME})" "COMPOSE_PROJECT_NAME"
-prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
+prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project(current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [d]ump, [s]ample data or [n]one of the above?"
 prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"

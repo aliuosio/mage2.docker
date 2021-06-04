@@ -335,7 +335,7 @@ specialPrompt() {
       rePlaceInEnv "" "DB_DUMP"
     elif [[ ${RESPONSE} == 'd' || ${RESPONSE} == 'D' ]]; then
       rePlaceInEnv "false" "SAMPLE_DATA"
-      prompt "rePlaceInEnv" "Set Absolute Path to Project DB Dump (current: ${DB_DUMP})" "DB_DUMP"
+      prompt "rePlaceInEnv" "Set Absolute Path to Project DB Dump(sql only) (current: ${DB_DUMP})" "DB_DUMP"
     fi
   fi
 }

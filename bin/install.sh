@@ -475,6 +475,12 @@ PHP="${NAMESPACE}_php"
 DB="${NAMESPACE}_db"
 MYSQL_SOCKET="db"
 
+sudo sysctl vm.overcommit_memory=1;
+sudo echo never /sys/kernel/mm/transparent_hugepage/enabled;
+sudo sysctl vm.max_map_count=262144
+
+sudo systemctl daemon-reload
+
 workDirCreate "$WORKDIR"
 setAuthConfig "$AUTH_CONFIG" "$AUTH_USER" "$AUTH_PASS"
 setComposerCache

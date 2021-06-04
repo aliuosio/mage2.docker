@@ -14,7 +14,7 @@ addPathToBashProfile() {
 }
 
 phpSettings() {
-  sed -i "s#__user#$1#g" /usr/local/etc/php-fpm.d/zz-docker.conf
+  sed -i "s#__user#$1#g" /usr/local/etc/php-fpm.d/zz-docker.config
 }
 
 runWaitForIt() {

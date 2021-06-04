@@ -1,7 +1,7 @@
 .idea/
 /htdocs/*
 /htdocs/.*
-!/.docker/php/conf/composer.json
+!/.docker/php/config/composer.json
 certs/*
 /.docker-sync/
 auth.json

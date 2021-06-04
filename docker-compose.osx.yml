@@ -6,39 +6,37 @@ services:
     build: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx
-    working_dir: /home/${USER}/html
+    working_dir: ${WORKDIR_SERVER}
     depends_on:
       - php
     ports:
       - ${WEBSERVER_SECURE_PORT}:443
       - ${WEBSERVER_UNSECURE_PORT}:80
     environment:
-      USER: ${USER}
       AUTH_CONFIG: ${AUTH_CONFIG}
       AUTH_USER: ${AUTH_USER}
       AUTH_PASS: ${AUTH_PASS}
       SHOPURI: ${SHOPURI}
-      TZ: ${TZ}
-      WORKDIR_SERVER: /home/${USER}/html
     entrypoint: [ "docker-entrypoint.sh" ]
+    extra_hosts:
+      - ${SHOPURI}:127.0.0.1
     networks:
       default:
         aliases:
           - ${SHOPURI}
     volumes:
-      - app_data:/home/${USER}/html
-      - php_socket:/var/run/php
+      - app_data:${WORKDIR_SERVER}
 
   php:
-    #    build:
-    #      context: ./.docker/php
-    #      args:
-    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    build:
+      context: ./.docker/php
+      args:
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
-    working_dir: /home/${USER}/html
+    working_dir: ${WORKDIR_SERVER}
     links:
       - db
     depends_on:
@@ -46,27 +44,22 @@ services:
       - redis
       - elasticsearch
     environment:
-      USER: $USER
       TZ: ${TZ}
-      WORKDIR_SERVER: /home/${USER}/html
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
       XDEBUG_PROFILER: ${XDEBUG_PROFILER}
       XDEBUG_KEY: ${XDEBUG_KEY}
-      COMPOSER_CACHE_DIR: /home/${USER}/.composer
+      COMPOSER_CACHE_DIR: /home/www/.composer
       MAGENTO_VERSION: ${MAGENTO_VERSION}
     entrypoint: [ "docker-entrypoint.sh" ]
     restart: on-failure
-    ports:
-      - 3000:3000
-      - 3001:3001
     volumes:
+      - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/config.d/php-ini-overrides.ini:ro
+      - .docker/php/config/xdebug.ini:/usr/local/etc/php/config.d/xdebug.ini:ro
+      - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
       - redis_data_socket:/var/run/redis
-      - php_socket:/var/run/php
-      - app_data:/home/${USER}/html
-      - composer_cache:/home/${USER}/.composer
-      - ssh_keys:/home/${USER}/.ssh
-      - .docker/php/conf.d/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
-      - .docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
+      - app_data:${WORKDIR_SERVER}
+      - composer_cache:/home/www/.composer
+      - ssh_keys:/home/www/.ssh
 
   db:
     container_name: ${NAMESPACE}_db
@@ -81,7 +74,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
-      - .docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
+      - .docker/mysql/config/my.cnf:/etc/mysql/my.cnf
 
   redis:
     container_name: ${NAMESPACE}_redis
@@ -89,11 +82,11 @@ services:
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
-    command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
+    command: [ "/etc/redis/redis.config", "--appendonly", "yes" ]
     volumes:
       - redis_data_socket:/var/run/redis
       - redis_data:/data
-      - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf
+      - ./.docker/redis/config/redis.config:/etc/redis/redis.config
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog

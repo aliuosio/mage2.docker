@@ -65,7 +65,6 @@ RUN if [ $(echo "$PHP_VERSION_SET < 7.4"|bc) -eq 1 ]; then \
     fi
 
 RUN docker-php-ext-install gd;
-COPY conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY less-cleanup.sh /usr/local/bin/less-cleanup.sh
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 

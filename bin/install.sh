@@ -151,10 +151,7 @@ installMagento() {
     --cache-backend-redis-db=1 \
     --page-cache=redis \
     --page-cache-redis-server=/var/run/redis/redis.sock \
-    --page-cache-redis-db=2 \
-    --search-engine=elasticsearch7 \
-    --elasticsearch-host=elasticsearch \
-    --elasticsearch-port=9200"
+    --page-cache-redis-db=2"
 
   docker exec -it -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
     --db-host=db \
@@ -180,10 +177,7 @@ installMagento() {
     --cache-backend-redis-db=1 \
     --page-cache=redis \
     --page-cache-redis-server=/var/run/redis/redis.sock \
-    --page-cache-redis-db=2 \
-    --search-engine=elasticsearch7 \
-    --elasticsearch-host=elasticsearch \
-    --elasticsearch-port=9200
+    --page-cache-redis-db=2
 }
 
 setDomainAndCookieName() {

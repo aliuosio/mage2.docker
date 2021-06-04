@@ -110,8 +110,8 @@ magentoComposerJson() {
     message "Magento 2 Fresh Install"
     [[ -n $5 ]] && VERSION="=$5" || VERSION=""
 
-    message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition${VERSION} ."
-    docker exec -it -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition"${VERSION}" .
+    message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
+    docker exec -it -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition"=${MAGENTO_VERSION}" .
 
     message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
     docker exec -it -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
@@ -455,12 +455,6 @@ prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP
 prompt "rePlaceInEnv" "Enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
 prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.x, 7.6.x, 7.8.x, 7.9.x) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
-
-. "${PWD}"/.env
-if test ! -f "${WORKDIR}/composer.json"; then
-  MAGE_LATEST="latest"
-  read -rp "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGENTO_VERSION
-fi
 
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 

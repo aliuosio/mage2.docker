@@ -377,8 +377,6 @@ startAll=$(date +%s)
 getLogo
 createEnv
 
-# shellcheck disable=SC1090
-. "${PWD}"/.env
 message "Press [ENTER] alone to keep the current values"
 message "Make sure you have a auth.json when using a running projects"
 prompt "rePlaceInEnv" "Project Name (alphanumeric only) (current: ${COMPOSE_PROJECT_NAME})" "COMPOSE_PROJECT_NAME"
@@ -389,7 +387,6 @@ prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP
 prompt "rePlaceInEnv" "Enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABLE"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
 prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.x, 7.6.x, 7.8.x, 7.9.x) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
-
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 
 . "${PWD}"/.env

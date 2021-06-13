@@ -15,8 +15,7 @@ getLogo() {
 
 createEnv() {
   if [[ ! -f ./.env ]]; then
-    message "cp ./.env.template ./.env"
-    cp ./.env.template ./.env
+    runCommand "cp ./.env.template ./.env"
   else
     message ".env File exists already"
   fi
@@ -36,15 +35,14 @@ workDirCreate() {
 
 sampleDataInstall() {
   if [[ "$1" == "true" ]]; then
-    chmod +x sample-data.sh
-    ./sample-data.sh
+    runCommand "chmod +x sample-data.sh"
+    runCommand "./sample-data.sh"
   fi
 }
 
 DBDumpImport() {
   if [[ -n $1 && -f $1 ]]; then
-    message "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
-    docker exec -i "$2"_db mysql -u "$3" -p"$4" "$5" <"$1"
+    runCommand "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
   else
     message "SQL File not found"
   fi
@@ -118,16 +116,13 @@ osxExtraPackages() {
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
   fi
   if [[ ! -x "$(command -v unison)" ]]; then
-    message "brew install unison"
-    brew install unison
+    runCommand "brew install unison"
   fi
   if [[ ! -d /usr/local/opt/unox ]]; then
-    message "brew install eugenmayer/dockersync/unox"
-    brew install eugenmayer/dockersync/unox
+    runCommand "brew install eugenmayer/dockersync/unox"
   fi
   if [[ ! -x "$(command -v docker-sync)" ]]; then
-    message "gem install docker-sync;"
-    sudo gem install docker-syncÌ
+    runCommand "gem install docker-sync;"
   fi
 }
 
@@ -161,8 +156,7 @@ gitUpdate() {
 }
 
 composerOptimzerWithAPCu() {
-  message "docker exec -u $1 $2 composer dump-autoload -o --apcu"
-  docker exec -u "$1" "$2" composer dump-autoload -o --apcu
+  runCommand "docker exec -u $1 $2 composer dump-autoload -o --apcu"
 }
 
 makeExecutable() {
@@ -268,8 +262,7 @@ http://$1"
 }
 
 MagentoTwoFactorAuthDisable() {
-  message "docker exec -u $1 $2 bin/magento module:disable -c Magento_TwoFactorAuth"
-  docker exec -u "$1" "$2" bin/magento module:disable -c Magento_TwoFactorAuth
+  runCommand "docker exec -u $1 $2 bin/magento module:disable -c Magento_TwoFactorAuth"
 }
 
 startAll=$(date +%s)

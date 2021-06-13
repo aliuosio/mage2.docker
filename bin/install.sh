@@ -305,7 +305,7 @@ gitUpdate
 workDirCreate "${WORKDIR}"
 setNginxVhost
 dockerRefresh
-magentoConfig
+#magentoConfig
 notice
 showDockerLogs "${NAMESPACE}"_db
 callStartBash

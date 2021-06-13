@@ -39,6 +39,15 @@ dockerRefresh() {
     setHostSettings
     runCommand "docker-compose up -d;"
   fi
+
+  removeHTMLFolder
+}
+
+removeHTMLFolder() {
+  DIR="${WORKDIR}/html"
+  if [ -d ${DIR} ]; then
+    runCommand "rm -rf ${DIR}"
+  fi
 }
 
 conposerFunctions() {

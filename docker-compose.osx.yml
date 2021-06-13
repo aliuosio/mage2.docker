@@ -54,8 +54,7 @@ services:
       WORKDIR_SERVER: /var/www
       COMPOSER_CACHE_DIR: /home/www/.composer
     restart: on-failure
-    command: >
-      bash -lc 'composer selfupdate --1; /usr/local/sbin/php-fpm -F'
+    command: [ "php-fpm", "-F" ]
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/var/www:delegated

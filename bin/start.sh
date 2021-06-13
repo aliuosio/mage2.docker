@@ -113,7 +113,7 @@ magentoInstall() {
     --admin-user=${ADMIN_USER} \
     --admin-password=${ADMIN_PASS} \
     --cleanup-database \
-    --use-rewrites=1 \
+    --use-rewrites=0 \
     --session-save=redis \
     --session-save-redis-host=/var/run/redis/redis.sock \
     --session-save-redis-db=0 --session-save-redis-password='' \

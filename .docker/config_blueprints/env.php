@@ -13,10 +13,10 @@ return [
         'table_prefix' => '',
         'connection' => [
             'default' => [
-                'host' => '__host',
-                'dbname' => '__dbname',
-                'username' => '__username',
-                'password' => '__password',
+                'host' => 'db',
+                'dbname' => 'amorelie',
+                'username' => 'root',
+                'password' => 'mage2',
                 'model' => 'mysql4',
                 'engine' => 'innodb',
                 'initStatements' => 'SET NAMES utf8;',
@@ -33,7 +33,7 @@ return [
         ]
     ],
     'x-frame-options' => 'SAMEORIGIN',
-    'MAGE_MODE' => 'default',
+    'MAGE_MODE' => 'developer',
     'session' => [
         'save' => 'redis',
         'redis' => [
@@ -97,7 +97,7 @@ return [
         ]
     ],
     'directories' => [
-        'document_root_is_pub' => false
+        'document_root_is_pub' => true
     ],
     'cache_types' => [
         'config' => 1,

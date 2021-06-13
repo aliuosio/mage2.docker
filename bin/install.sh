@@ -240,7 +240,7 @@ createEnv
 . "${PWD}"/.env
 
 message "Press [ENTER] alone to keep the current values"
-prompt "rePlaceInEnv" "GIT Repo (current: ${GIT_URL})" "GIT_URL"
+prompt "rePlaceInEnv" "GIT Repo (if work directory has to be cloned) (current: ${GIT_URL})" "GIT_URL"
 prompt "rePlaceInEnv" "Project Name (alphanumeric only) (current: ${COMPOSE_PROJECT_NAME})" "COMPOSE_PROJECT_NAME"
 prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"

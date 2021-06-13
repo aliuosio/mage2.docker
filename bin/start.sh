@@ -182,3 +182,4 @@ magentoRefresh
 restoreGitIgnoreAfterComposerInstall
 setMagentoCron >/dev/null
 #showDockerLogs "${NAMESPACE}_php"
+showSuccess "$SHOPURI" "$DUMP"

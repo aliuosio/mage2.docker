@@ -194,6 +194,43 @@ callStartBash() {
   fi
 }
 
+showSuccess() {
+  if [ -n "$2" ]; then
+    message "Yeah, You done !"
+    message "Backend:\
+
+http://$1/admin\
+
+User: <Backend Users from Your DB Dump>\
+
+Password: <Backend Users Passwords from Your DB Dump>\
+
+
+Frontend:\
+
+http://$1"
+  else
+    message "Backend:\
+
+http://$1/admin\
+
+User: mage2_admin\
+
+Password: mage2_admin123#T\
+
+
+Frontend:\
+
+http://$1"
+  fi
+
+}
+
+MagentoTwoFactorAuthDisable() {
+  message "docker exec -u $1 $2 bin/magento module:disable -c Magento_TwoFactorAuth"
+  docker exec -u "$1" "$2" bin/magento module:disable -c Magento_TwoFactorAuth
+}
+
 startAll=$(date +%s)
 
 getLogo

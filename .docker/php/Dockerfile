@@ -43,7 +43,7 @@ RUN apt-get -y install \
 
 RUN apt-get -y install freetype* libwebp-dev
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/freetype2 --with-jpeg-dir=/usr/include --with-png-dir=/usr/include;
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg;
 
 RUN docker-php-ext-configure \
   opcache --enable-opcache

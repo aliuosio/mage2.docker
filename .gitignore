@@ -3,3 +3,4 @@
 /.env
 /.docker-sync/daemon.pid
 /.docker-sync/daemon.log
+.DS_Store

@@ -1,3 +1,5 @@
 /.idea/*
 /.docker/config_blueprints/auth.json
 /.env
+/.docker-sync/daemon.pid
+/.docker-sync/daemon.log

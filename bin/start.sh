@@ -179,7 +179,7 @@ dockerRefresh
 setPermissions
 magentoSetup
 magentoRefresh
-restoreGitIgnoreAfterComposerInstall
+#restoreGitIgnoreAfterComposerInstall
 setMagentoCron >/dev/null
 #showDockerLogs "${NAMESPACE}_php"
 showSuccess "$SHOPURI" "$DUMP"

@@ -22,6 +22,34 @@ createEnv() {
   fi
 }
 
+workDirCreate() {
+  if [[ ! -d "$1" ]]; then
+    if ! mkdir -p "$1"; then
+      message "Folder can not be created"
+    else
+      message "Folder created"
+    fi
+  else
+    message "Folder already exits"
+  fi
+}
+
+sampleDataInstall() {
+  if [[ "$1" == "true" ]]; then
+    chmod +x sample-data.sh
+    ./sample-data.sh
+  fi
+}
+
+DBDumpImport() {
+  if [[ -n $1 && -f $1 ]]; then
+    message "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
+    docker exec -i "$2"_db mysql -u "$3" -p"$4" "$5" <"$1"
+  else
+    message "SQL File not found"
+  fi
+}
+
 specialPrompt() {
   if [[ -n "$1" ]]; then
     read -rp "$1" RESPONSE
@@ -118,14 +146,23 @@ runCommand() (
 )
 
 gitUpdate() {
-  if [ ! -d "$WORKDIR" ]; then
+  if [ ! -d "$WORKDIR" ] && [ "$GIT_URL" ] && [ "$GIT_BRANCH" ]; then
     runCommand "git clone --branch $GIT_BRANCH $GIT_URL $WORKDIR"
   fi
 
   if [ -f "$WORKDIR/.git/config" ]; then
-    runCommand "sed -i 's@filemode = true@filemode = false@' $WORKDIR/.git/config"
+    if [[ $(uname -s) == "Darwin" ]]; then
+      runCommand "sed -i "" 's@filemode = true@filemode = false@' $WORKDIR/.git/config"
+    else
+      runCommand "sed -i 's@filemode = true@filemode = false@' $WORKDIR/.git/config"
+    fi
     runCommand "git -C $WORKDIR fetch -p -a && git pull"
   fi
+}
+
+composerOptimzerWithAPCu() {
+  message "docker exec -u $1 $2 composer dump-autoload -o --apcu"
+  docker exec -u "$1" "$2" composer dump-autoload -o --apcu
 }
 
 makeExecutable() {
@@ -133,7 +170,11 @@ makeExecutable() {
 }
 
 setNginxVhost() {
-  runCommand "sed -i 's@mage2.localhost@$SHOPURI@' .docker/nginx/conf/default.conf"
+  if [[ $(uname -s) == "Darwin" ]]; then
+    runCommand "sed -i '' 's@mage2.localhost@$SHOPURI@' .docker/nginx/conf/default.conf"
+  else
+    runCommand "sed -i 's@mage2.localhost@$SHOPURI@' .docker/nginx/conf/default.conf"
+  fi
 }
 
 # @todo: test on OSX
@@ -261,6 +302,7 @@ prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_C
 createComposerFolder
 makeExecutable
 gitUpdate
+workDirCreate "${WORKDIR}"
 setNginxVhost
 dockerRefresh
 magentoConfig

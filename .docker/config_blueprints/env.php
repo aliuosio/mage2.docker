@@ -97,7 +97,7 @@ return [
         ]
     ],
     'directories' => [
-        'document_root_is_pub' => false
+        'document_root_is_pub' => true
     ],
     'cache_types' => [
         'config' => 1,

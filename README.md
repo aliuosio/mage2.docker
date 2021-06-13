@@ -1,16 +1,5 @@
 ## Magento 2 OSX/Linux Docker
 
-* Good Docker Performance on **MacOS** by using [http://docker-sync.io/](http://docker-sync.io/)
-* With `bin/install.sh` you can include your **running project** files with its DB Dump or Magento Sample Data, create **fresh Magento 2 Install**, create **fresh Magento Install with Sample Data**
-* Change settings under `.env` in root folder  
-* Change **PHP Versions 7.1, 7.2, 7.3, 7.4 with xdebug** all based on **php:alpine** docker images
-* PHP, Redis containers connect via sockets
-* A preconfigured `env.php` connects to redis via sockets with `bin/install.sh`
-* Elastic Search container ist preconfigured with `bin/install.sh`
-* Redis container ist preconfigured with `bin/install.sh`
-* Mailhog Connection in Magento 2 DB ist preconfigured with `bin/install.sh`
-
-> be sure to use `allure-framework/allure-phpunit` `1.2.3` instead of `1.2.0` due to this [issue](https://github.com/docker-library/php/issues/719) 
 ### Requirements
 
 **MacOS:**
@@ -18,7 +7,6 @@ Install [Docker](https://docs.docker.com/docker-for-mac/install/) and [docker-sy
 
 **Linux:** 
 Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
-> Use `bin/docker.sh` to install `docker` and `docker-compose` on debian or Ubuntu based Systems
 
 ### Get Source
 
@@ -31,7 +19,6 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     chmod +x bin/*.sh
     bin/install.sh 
     
-> set absolute Path to a Shop Folder (Empty or Project) in installer
 > use .env to change values after installation and activate on restart of containers 
 
 ### Backend

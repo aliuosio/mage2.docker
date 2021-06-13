@@ -1,6 +1,6 @@
 #!/bin/bash
-
 set -e
+export TERM=ansi
 
 getLogo() {
   echo "                             _____      _            _             "
@@ -15,234 +15,9 @@ getLogo() {
 
 createEnv() {
   if [[ ! -f ./.env ]]; then
-    message "cp ./.env.template ./.env"
-    cp ./.env.template ./.env
+    runCommand "cp ./.env.template ./.env"
   else
     message ".env File exists already"
-  fi
-}
-
-duplicateEnv() {
-  if [[ -f ./.env_"$1" ]]; then
-    message "rm ./.env_$1"
-    rm ./.env_"$1"
-  fi
-
-  message "cp ./.env ./.env_$1;"
-  cp ./.env ./.env_"$1"
-}
-
-getLatestFromRepo() {
-  message "git fetch && git pull;"
-  git fetch && git pull
-}
-
-osxExtraPackages() {
-  if [[ ! -x "$(command -v brew)" ]]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  fi
-  if [[ ! -x "$(command -v unison)" ]]; then
-    message "brew install unison"
-    brew install unison
-  fi
-  if [[ ! -d /usr/local/opt/unox ]]; then
-    message "brew install eugenmayer/dockersync/unox"
-    brew install eugenmayer/dockersync/unox
-  fi
-  if [[ ! -x "$(command -v docker-sync)" ]]; then
-    message "gem install docker-sync;"
-    sudo gem install docker-syncÌ
-  fi
-}
-
-osxDockerSync() {
-  message "docker-sync start"
-  docker-sync start
-}
-
-dockerRefresh() {
-  if ! [[ -x "$(command -v docker-compose)" ]]; then
-    message 'Error: docker-compose is not installed.' >&2
-    exit 1
-  fi
-
-  if [[ $(uname -s) == "Darwin" ]]; then
-    osxExtraPackages
-    rePlaceInEnv "false" "SSL"
-    osxDockerSync
-
-    message "docker-compose -f docker-compose.osx.yml up -d"
-    docker-compose -f docker-compose.osx.yml up -d
-  else
-    message "docker-compose up -d;"
-    docker-compose up -d
-  fi
-}
-
-magento_umask() {
-  filepath=$1/magento_umask
-  if [ ! -f "$filepath" ]; then
-    echo 022 >"$filepath"
-  fi
-}
-
-deleteMagentoEnv() {
-  path="$1/app/etc/env.php"
-  if test -f "$path"; then
-    message "rm $path"
-    rm "$path"
-  fi
-}
-
-magentoComposerJson() {
-  JSON=$3/composer.json
-
-  if [[ -f "$JSON" ]]; then
-    message "Magento 2 composer.json found"
-    if [[ $4 == *"local"* ]]; then
-      message "docker exec -it -u $1 $2 composer install"
-      docker exec -it -u "$1" "$2" composer install
-    else
-      message "docker exec -u $1 $2 composer install --no-dev"
-      docker exec -it -u "$1" "$2" composer install --no-dev
-    fi
-  else
-    message "Magento 2 Fresh Install"
-    [[ -n $5 ]] && VERSION="=$5" || VERSION=""
-
-    message "docker exec -it -u $1 $2 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
-    docker exec -it -u "$1" "$2" composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition"=${MAGENTO_VERSION}" .
-
-    message "docker exec -it -u $1 $2 composer require magepal/magento2-gmailsmtpapp"
-    docker exec -it -u "$1" "$2" composer require magepal/magento2-gmailsmtpapp
-
-    if [[ $4 == *"local"* ]]; then
-      message "docker exec -it -u $1 $2 composer require --dev vpietri/adm-quickdevbar allure-framework/allure-phpunit ~1.2.3"
-      docker exec -it -u "$1" "$2" composer require --dev vpietri/adm-quickdevbar allure-framework/allure-phpunit ~1.2.3
-    fi
-  fi
-}
-
-installMagento() {
-  message "docker exec -u $1 $3 chmod +x bin/magento"
-  docker exec -u "$1" "$3" chmod +x bin/magento
-
-  echo "docker exec -it -u $1 $3 php -dmemory_limit=-1 bin/magento setup:install \
-    --db-host=db \
-    --db-name=$4 \
-    --db-user=$5 \
-    --db-password=<see .env for password> \
-    --backend-frontname=admin \
-    --language=de_DE \
-    --timezone=Europe/Berlin \
-    --currency=EUR \
-    --admin-lastname=mage2_admin \
-    --admin-firstname=mage2_admin \
-    --admin-email=admin@example.com \
-    --admin-user=mage2_admin \
-    --admin-password=mage2_admin123#T \
-    --cleanup-database \
-    --use-rewrites=1 \
-    --session-save=redis \
-    --session-save-redis-host=/var/run/redis/redis.sock \
-    --session-save-redis-db=0 --session-save-redis-password='' \
-    --cache-backend=redis \
-    --cache-backend-redis-server=/var/run/redis/redis.sock \
-    --cache-backend-redis-db=1 \
-    --page-cache=redis \
-    --page-cache-redis-server=/var/run/redis/redis.sock \
-    --page-cache-redis-db=2"
-
-  docker exec -it -u "$1" "$3" php -dmemory_limit=-1 bin/magento setup:install \
-    --db-host=db \
-    --db-name="$4" \
-    --db-user="$5" \
-    --db-password="$6" \
-    --backend-frontname=admin \
-    --language=de_DE \
-    --timezone=Europe/Berlin \
-    --currency=EUR \
-    --admin-lastname=mage2_admin \
-    --admin-firstname=mage2_admin \
-    --admin-email=admin@example.com \
-    --admin-user=mage2_admin \
-    --admin-password=mage2_admin123#T \
-    --cleanup-database \
-    --use-rewrites=1 \
-    --session-save=redis \
-    --session-save-redis-host=/var/run/redis/redis.sock \
-    --session-save-redis-db=0 --session-save-redis-password='' \
-    --cache-backend=redis \
-    --cache-backend-redis-server=/var/run/redis/redis.sock \
-    --cache-backend-redis-db=1 \
-    --page-cache=redis \
-    --page-cache-redis-server=/var/run/redis/redis.sock \
-    --page-cache-redis-db=2
-}
-
-setDomainAndCookieName() {
-  SET_URL_SECURE="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'http://$5/', 'web/unsecure/base_url') ON DUPLICATE KEY UPDATE value='http://$5/', path='web/unsecure/base_url', scope='default';"
-  SET_URL_UNSECURE="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'https://$5/', 'web/secure/base_url') ON DUPLICATE KEY UPDATE value='https://$5/', path='web/secure/base_url', scope='default';"
-  SET_URL_COOKIE="USE $1; INSERT core_config_data(scope, value, path) VALUES('default', '$5', 'web/cookie/cookie_domain') ON DUPLICATE KEY UPDATE value='$5', path='web/cookie/cookie_domain', scope='default';"
-
-  message "URL Settings and Cookie Domain"
-  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_SECURE}"
-  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_UNSECURE}"
-  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_COOKIE}"
-}
-
-setElasticsearchAfterDBImport() {
-  SET_ELASTIC_1="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'elasticsearch7', 'catalog/search/engine') ON DUPLICATE KEY UPDATE value='elasticsearch7', path='catalog/search/engine', scope='default';"
-  SET_ELASTIC_2="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', 'elasticsearch', 'catalog/search/elasticsearch7_server_hostname') ON DUPLICATE KEY UPDATE value='elasticsearch', path='catalog/search/elasticsearch7_server_hostname', scope='default';"
-  SET_ELASTIC_3="USE $1; INSERT core_config_data(scope, value, path) VALUES('default', '9200', 'catalog/search/elasticsearch7_server_port') ON DUPLICATE KEY UPDATE value='9200', path='catalog/search/elasticsearch7_server_port', scope='default';"
-
-  message "Elasticsearch DB Config "
-  docker exec "$2" mysql -u "$3" -p"$4" -e "${SET_ELASTIC_1}"
-  docker exec "$2" mysql -u "$3" -p"$4" -e "${SET_ELASTIC_2}"
-  docker exec "$2" mysql -u "$3" -p"$4" -e "${SET_ELASTIC_3}"
-}
-
-setToHTTP() {
-  message "Set to HTTP only"
-  IS_SECURE_2="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', '0', 'web/secure/use_in_adminhtml') ON DUPLICATE KEY UPDATE value='0', path='web/secure/use_in_adminhtml', scope='default';"
-  IS_SECURE_1="USE $1; INSERT INTO core_config_data(scope, value, path) VALUES('default', '0', 'web/secure/use_in_frontend') ON DUPLICATE KEY UPDATE value='0', path='web/secure/use_in_frontend', scope='default';"
-
-  docker exec "$2" mysql -u "$3" -p"$4" -e "${IS_SECURE_1}"
-  docker exec "$2" mysql -u "$3" -p"$4" -e "${IS_SECURE_2}"
-}
-
-mailHogConfig() {
-  SET_URL_SSL="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/ssl', 'none') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/ssl', value='none';"
-  SET_URL_HOST="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtphost', 'mailhog') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtphost', value='mailhog';"
-  SET_URL_PORT="USE $1; INSERT INTO core_config_data(scope, path, value) VALUES('default', 'system/gmailsmtpapp/smtpport', '1025') ON DUPLICATE KEY UPDATE scope='default', path='system/gmailsmtpapp/smtpport', value='1025';"
-
-  message "Mailhog Config"
-  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_SSL}"
-  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_HOST}"
-  docker exec "$4" mysql -u "$2" -p"$3" -e "${SET_URL_PORT}"
-}
-
-magentoRefresh() {
-  message "docker exec -u $1 $2 bin/magento se:up;"
-  docker exec -u "$1" "$2" bin/magento se:up
-
-  message "docker exec -u $1  $2 bin/magento c:c;"
-  docker exec -u "$1" "$2" bin/magento c:c
-}
-
-getMagerun() {
-  if [[ $3 == *"local"* ]]; then
-    message "curl -L https://files.magerun.net/n98-magerun2.phar > n98-magerun2.phar"
-    curl -L https://files.magerun.net/n98-magerun2.phar >n98-magerun2.phar
-
-    message "chmod +x n98-magerun2.phar"
-    chmod +x n98-magerun2.phar
-
-    message "docker cp -a n98-magerun2.phar $2:/home/$1/html/n98-magerun2.phar"
-    docker cp -a n98-magerun2.phar "$2":/home/"$1"/html/n98-magerun2.phar
-
-    message "rm -rf ./n98-magerun2.phar;"
-    rm -rf ./n98-magerun2.phar
   fi
 }
 
@@ -258,63 +33,11 @@ workDirCreate() {
   fi
 }
 
-setAuthConfig() {
-  if [[ "$1" == "true" ]]; then
-    prompt "rePlaceInEnv" "Login User Name (current: $2)" "AUTH_USER"
-    prompt "rePlaceInEnv" "Login User Password (current: $3)" "AUTH_PASS"
-  fi
-}
-
-setComposerCache() {
-  mkdir -p ~/.composer
-}
-
 DBDumpImport() {
   if [[ -n $1 && -f $1 ]]; then
-    message "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
-    docker exec -i "$2"_db mysql -u "$3" -p"$4" "$5" <"$1"
+    runCommand "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
   else
     message "SQL File not found"
-  fi
-}
-
-setConfigAfterDBImport() {
-  path="$5/app/etc/env.php"
-
-  cp .docker/config_blueprints/env.php "$path"
-
-  if [[ $(uname -s) == "Darwin" ]]; then
-    sed -i "" "s@__host@$1@" "$path"
-    sed -i "" "s@__dbname@$2@" "$path"
-    sed -i "" "s@__username@$3@" "$path"
-    sed -i "" "s@__password@$4@" "$path"
-  else
-    sed -i "s@__host@$1@" "$path"
-    sed -i "s@__dbname@$2@" "$path"
-    sed -i "s@__username@$3@" "$path"
-    sed -i "s@__password@$4@" "$path"
-  fi
-}
-
-createAdminUser() {
-  message "docker exec -u $1 $2 bin/magento admin:user:create \
-      --admin-lastname=mage2_admin \
-      --admin-firstname=mage2_admin \
-      --admin-email=admin@example.com \
-      --admin-user=mage2_admin \
-      --admin-password=mage2_admin123#T"
-  docker exec -u "$1" "$2" bin/magento admin:user:create \
-    --admin-lastname=mage2_admin \
-    --admin-firstname=mage2_admin \
-    --admin-email=admin@example.com \
-    --admin-user=mage2_admin \
-    --admin-password=mage2_admin123#T
-}
-
-sampleDataInstall() {
-  if [[ "$1" == "true" ]]; then
-    chmod +x sample-data.sh
-    ./sample-data.sh
   fi
 }
 
@@ -329,7 +52,7 @@ specialPrompt() {
       rePlaceInEnv "" "DB_DUMP"
     elif [[ ${RESPONSE} == 'd' || ${RESPONSE} == 'D' ]]; then
       rePlaceInEnv "false" "SAMPLE_DATA"
-      prompt "rePlaceInEnv" "Set Absolute Path to Project DB Dump(sql only) (current: ${DB_DUMP})" "DB_DUMP"
+      prompt "rePlaceInEnv" "Set Absolute Path to Project DB Dump (current: ${DB_DUMP})" "DB_DUMP"
     fi
   fi
 }
@@ -375,30 +98,121 @@ prompt() {
     $($1 "${VALUE}" "$3")
   fi
 }
-
 message() {
   echo ""
   echo -e "$1"
   seq ${#1} | awk '{printf "-"}'
   echo ""
 }
+osxExtraPackages() {
+  if [[ ! -x "$(command -v brew)" ]]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  fi
+  if [[ ! -x "$(command -v unison)" ]]; then
+    runCommand "brew install unison"
+  fi
+  if [[ ! -d /usr/local/opt/unox ]]; then
+    runCommand "brew install eugenmayer/dockersync/unox"
+  fi
+  if [[ ! -x "$(command -v docker-sync)" ]]; then
+    runCommand "gem install docker-sync;"
+  fi
+}
 
-productionModeOnLive() {
-  if [[ $3 != *"local"* ]]; then
-    message "docker exec -u $1 $2 bin/magento c:e full_page;"
-    docker exec -u "$1" "$2" bin/magento c:e full_page
+setHostSettings() {
+  sudo sysctl vm.overcommit_memory=1
+  sudo echo never /sys/kernel/mm/transparent_hugepage/enabled
+  sudo sysctl vm.max_map_count=262144
+  sudo systemctl daemon-reload
+}
 
-    message "docker exec -u $1 $2 bin/magento c:c;"
-    docker exec -u "$1" "$2" bin/magento c:c
+runCommand() (
+  #tput setaf 1; echo "Method in bin/install.sh: $2"
+  tput setaf 6
+  message "$1"
+  eval "$1"
+)
 
-    message "docker exec -u $1 $2 bin/magento deploy:mode:set production;"
-    docker exec -u "$1" "$2" bin/magento deploy:mode:set production
+gitUpdate() {
+  if [ ! -d "$WORKDIR" ] && [ "$GIT_URL" ] && [ "$GIT_BRANCH" ]; then
+    runCommand "git clone --branch $GIT_BRANCH $GIT_URL $WORKDIR"
+  fi
+
+  if [ -f "$WORKDIR/.git/config" ]; then
+    if [[ $(uname -s) == "Darwin" ]]; then
+      runCommand "sed -i "" 's@filemode = true@filemode = false@' $WORKDIR/.git/config"
+    else
+      runCommand "sed -i 's@filemode = true@filemode = false@' $WORKDIR/.git/config"
+    fi
+    runCommand "git -C $WORKDIR fetch -p -a && git pull"
   fi
 }
 
 composerOptimzerWithAPCu() {
-  message "docker exec -u $1 $2 composer dump-autoload -o --apcu"
-  docker exec -u "$1" "$2" composer dump-autoload -o --apcu
+  runCommand "docker exec -u $1 $2 composer dump-autoload -o --apcu"
+}
+
+makeExecutable() {
+  runCommand "chmod +x bin/*.sh;"
+}
+
+setNginxVhost() {
+  if [[ $(uname -s) == "Darwin" ]]; then
+    runCommand "sed -i '' 's@mage2.localhost@$SHOPURI@' .docker/nginx/conf/default.conf"
+  else
+    runCommand "sed -i 's@mage2.localhost@$SHOPURI@' .docker/nginx/conf/default.conf"
+  fi
+}
+
+# @todo: test on OSX
+dockerRefresh() {
+  if [[ $(uname -s) == "Darwin" ]]; then
+    runCommand "docker-compose -f docker-compose.osx.yml down"
+    runCommand "docker-sync stop"
+    runCommand "docker-sync start"
+    runCommand "docker-compose -f docker-compose.osx.yml up -d"
+  else
+    runCommand setHostSettings
+    runCommand "docker-compose down"
+    runCommand "docker-compose up -d"
+  fi
+}
+
+notice() {
+  dbDump=".docker/mysql/db_dumps/dev.sql.gz"
+  if [ -f $dbDump ]; then
+    tput setaf 3
+    message "$NOTICE_INSTALL"
+    echo ""
+  fi
+}
+
+setAuthConfig() {
+  if [[ "$1" == "true" ]]; then
+    prompt "rePlaceInEnv" "Login User Name (current: $2)" "AUTH_USER"
+    prompt "rePlaceInEnv" "Login User Password (current: $3)" "AUTH_PASS"
+  fi
+}
+
+showDockerLogs() {
+  dbDump=".docker/mysql/db_dumps/dev.sql.gz"
+  if [ -f $dbDump ]; then
+    tput setaf 6
+    docker logs "$1" --follow
+  fi
+}
+
+createComposerFolder() {
+  if [ ! -d ~/.composer ]; then
+    mkdir -p ~/.composer
+  fi
+}
+
+callStartBash() {
+  dbDump=".docker/mysql/db_dumps/dev.sql.gz"
+  if [ ! -f $dbDump ]; then
+    bin/start.sh
+  fi
 }
 
 showSuccess() {
@@ -433,11 +247,6 @@ http://$1"
 
 }
 
-MagentoTwoFactorAuthDisable() {
-  message "docker exec -u $1 $2 bin/magento module:disable -c Magento_TwoFactorAuth"
-  docker exec -u "$1" "$2" bin/magento module:disable -c Magento_TwoFactorAuth
-}
-
 startAll=$(date +%s)
 
 getLogo
@@ -445,10 +254,11 @@ createEnv
 
 # shellcheck disable=SC1090
 . "${PWD}"/.env
+
 message "Press [ENTER] alone to keep the current values"
-message "Make sure you have a auth.json when using a running projects"
+prompt "rePlaceInEnv" "GIT Repo (if work directory has to be cloned) (current: ${GIT_URL})" "GIT_URL"
 prompt "rePlaceInEnv" "Project Name (alphanumeric only) (current: ${COMPOSE_PROJECT_NAME})" "COMPOSE_PROJECT_NAME"
-prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project(current: ${WORKDIR})" "WORKDIR"
+prompt "rePlaceInEnv" "Absolute path to empty folder(fresh install) or running project (current: ${WORKDIR})" "WORKDIR"
 prompt "rePlaceInEnv" "Domain Name (current: ${SHOPURI})" "SHOPURI"
 specialPrompt "Use Project DB [d]ump, [s]ample data or [n]one of the above?"
 prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: ${PHP_VERSION_SET})" "PHP_VERSION_SET"
@@ -456,39 +266,23 @@ prompt "rePlaceInEnv" "Enable Xdebug? (current: ${XDEBUG_ENABLE})" "XDEBUG_ENABL
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: ${MARIADB_VERSION})" "MARIADB_VERSION"
 prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.x, 7.6.x, 7.8.x, 7.9.x) (current: ${ELASTICSEARCH_VERSION})" "ELASTICSEARCH_VERSION"
 
+if test ! -f "${WORKDIR}/composer.json"; then
+  MAGE_LATEST="latest"
+  read -rp "Which Magento 2 Version? (current: ${MAGE_LATEST})" MAGENTO_VERSION
+fi
+
 prompt "rePlaceInEnv" "Create a login screen? (current: ${AUTH_CONFIG})" "AUTH_CONFIG"
 
 . "${PWD}"/.env
-PHP="${NAMESPACE}_php"
-DB="${NAMESPACE}_db"
-MYSQL_SOCKET="db"
-
-sudo sysctl vm.overcommit_memory=1;
-sudo echo never /sys/kernel/mm/transparent_hugepage/enabled;
-sudo sysctl vm.max_map_count=262144
-
-sudo systemctl daemon-reload
-
-workDirCreate "$WORKDIR"
-setAuthConfig "$AUTH_CONFIG" "$AUTH_USER" "$AUTH_PASS"
-setComposerCache
-deleteMagentoEnv "$WORKDIR"
+createComposerFolder
+makeExecutable
+gitUpdate
+workDirCreate "${WORKDIR}"
+setNginxVhost
 dockerRefresh
-#magento_umask "$WORKDIR"
-magentoComposerJson "$USER" "$PHP" "$WORKDIR" "$SHOPURI" "$MAGENTO_VERSION"
-installMagento "$USER" "$SHOPURI" "$PHP" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$SSL" "$DB_DUMP"
-DBDumpImport "$DB_DUMP" "$NAMESPACE" root "$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE"
-setElasticsearchAfterDBImport "$MYSQL_DATABASE" "$DB" "$MYSQL_USER" "$MYSQL_PASSWORD"
-setToHTTP "$MYSQL_DATABASE" "$DB" "$MYSQL_USER" "$MYSQL_PASSWORD"
-setConfigAfterDBImport "$MYSQL_SOCKET" "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$WORKDIR"
-setDomainAndCookieName "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB" "$SHOPURI"
-mailHogConfig "$NAMESPACE" "$MYSQL_USER" "$MYSQL_PASSWORD" "$DB"
-sampleDataInstall "$SAMPLE_DATA"
-MagentoTwoFactorAuthDisable "$USER" "$PHP"
-createAdminUser "$USER" "$PHP" "$DUMP"
-magentoRefresh "$USER" "$PHP" "$SHOPURI" "$SAMPLE_DATA"
-productionModeOnLive "$USER" "$PHP" "$SHOPURI"
-duplicateEnv "$COMPOSE_PROJECT_NAME"
+notice
+showDockerLogs "${NAMESPACE}"_db
+callStartBash
 
 endAll=$(date +%s)
 runtimeAll=$((endAll - startAll))

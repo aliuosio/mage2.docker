@@ -2,15 +2,28 @@
 
 set -e
 
+message() {
+  echo ""
+  echo -e "$1"
+  seq ${#1} | awk '{printf "-"}'
+  echo ""
+}
+
+runCommand() (
+  #tput setaf 1; echo "Method in bin/install.sh: $2"
+  tput setaf 6
+  message "$1"
+  eval "$1"
+)
+
 sampledata_install() {
-	docker exec -it -u "$1" "$2" bin/magento sampledata:deploy;
-	docker exec -u "$1" "$2" bin/magento se:up;
-	# docker exec -u $1 $2 bin/magento se:di:co;
-	docker exec -u "$1" "$2" bin/magento i:rei;
-	docker exec -u "$1" "$2" bin/magento c:c;
-	# docker exec -u $1 $2 bin/magento setup:static-content:deploy -f de_DE en_US;
+  phpContainer="docker exec -it ${NAMESPACE}_php"
+	runCommand "$phpContainer bin/magento sampledata:deploy;"
+	runCommand "$phpContainer bin/magento se:up;"
+	runCommand "$phpContainer bin/magento i:rei;"
+	runCommand "$phpContainer bin/magento c:c;"
 }
 
 . "${PWD}"/.env;
 
-sampledata_install "${USER}" "${NAMESPACE}"_php
+sampledata_install

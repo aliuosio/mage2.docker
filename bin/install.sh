@@ -33,13 +33,6 @@ workDirCreate() {
   fi
 }
 
-sampleDataInstall() {
-  if [[ "$1" == "true" ]]; then
-    runCommand "chmod +x sample-data.sh"
-    runCommand "./sample-data.sh"
-  fi
-}
-
 DBDumpImport() {
   if [[ -n $1 && -f $1 ]]; then
     runCommand "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
@@ -185,13 +178,6 @@ dockerRefresh() {
   fi
 }
 
-magentoConfig() {
-  configDir="${WORKDIR}/app/etc"
-  if [ -d "$configDir" ]; then
-    runCommand "cp .docker/config_blueprints/env.php ${configDir}/env.php"
-  fi
-}
-
 notice() {
   dbDump=".docker/mysql/db_dumps/dev.sql.gz"
   if [ -f $dbDump ]; then
@@ -261,10 +247,6 @@ http://$1"
 
 }
 
-MagentoTwoFactorAuthDisable() {
-  runCommand "docker exec -u $1 $2 bin/magento module:disable -c Magento_TwoFactorAuth"
-}
-
 startAll=$(date +%s)
 
 getLogo
@@ -298,7 +280,6 @@ gitUpdate
 workDirCreate "${WORKDIR}"
 setNginxVhost
 dockerRefresh
-#magentoConfig
 notice
 showDockerLogs "${NAMESPACE}"_db
 callStartBash

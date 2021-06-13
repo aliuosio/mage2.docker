@@ -130,11 +130,6 @@ magentoInstall() {
   runCommand "$phpContainer '$commands'"
 }
 
-magentoSampleData() {
-  commands="bin/magento sampledata:deploy"
-  runCommand "$phpContainer '$commands'"
-}
-
 removeAll() {
   if [ -d "$WORKDIR" ]; then
     commands="rm -rf /var/www/*; rm -rf /var/www/.*"
@@ -162,7 +157,6 @@ magentoSetup() {
   else
     magentoPreInstall
     magentoInstall
-    #magentoSampleData
   fi
 }
 
@@ -222,10 +216,23 @@ http://$1"
 
 }
 
+sampleDataInstall() {
+  if [[ "$SAMPLE_DATA" == "true" ]]; then
+    runCommand "chmod +x bin/sample-data.sh"
+    runCommand "bin/sample-data.sh"
+  fi
+}
+
+MagentoTwoFactorAuthDisable() {
+  runCommand "$phpContainer bin/magento module:disable -c Magento_TwoFactorAuth"
+}
+
 dockerRefresh
 setPermissions
 magentoSetup
+MagentoTwoFactorAuthDisable
 magentoRefresh
+sampleDataInstall
 #restoreGitIgnoreAfterComposerInstall
 setMagentoCron >/dev/null
 #showDockerLogs "${NAMESPACE}_php"

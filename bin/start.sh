@@ -42,7 +42,12 @@ dockerRefresh() {
 }
 
 conposerFunctions() {
-  commands="composer i --ignore-platform-reqs"
+  if [ -f "$WORKDIR/composer.lock" ]; then
+    commands="composer i --ignore-platform-reqs"
+  else
+    commands="composer u"
+  fi
+
   runCommand "$phpContainer '$commands'"
 }
 
@@ -74,8 +79,12 @@ magentoConfig() {
 }
 
 magentoPreInstall() {
-  commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} .;"
-  runCommand "$phpContainer '$commands'"
+  if [ -f "$WORKDIR/composer.json" ]; then
+    conposerFunctions
+  else
+    commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} .;"
+    runCommand "$phpContainer '$commands'"
+  fi
 }
 
 magentoInstall() {
@@ -142,12 +151,9 @@ magentoSetup() {
     magentoConfigImport
     magentoConfig
   else
-    #removeAll
-    #magentoPreInstall
-    conposerFunctions
+    magentoPreInstall
     magentoInstall
     #magentoSampleData
-    #restoreAll
   fi
 }
 

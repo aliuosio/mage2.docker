@@ -158,10 +158,10 @@ makeExecutable() {
 
 setNginxVhost() {
   if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "sed -i '' 's@mage2.localhost@$SHOPURI:$WEBSERVER_UNSECURE_PORT@' .docker/nginx/conf/default.conf"
+    runCommand "sed -i '' 's@mage2.localhost@$SHOPURI@' .docker/nginx/conf/default.conf"
     runCommand "sed -i '' 's@listen 80;@listen $WEBSERVER_UNSECURE_PORT;@' .docker/nginx/conf/default.conf"
   else
-    runCommand "sed -i 's@mage2.localhost@$SHOPURI:$WEBSERVER_UNSECURE_PORT@' .docker/nginx/conf/default.conf"
+    runCommand "sed -i 's@mage2.localhost@$SHOPURI@' .docker/nginx/conf/default.conf"
     runCommand "sed -i 's@listen 80;@listen $WEBSERVER_UNSECURE_PORT;@' .docker/nginx/conf/default.conf"
   fi
 }

@@ -81,5 +81,7 @@ RUN curl -o /home/www/bin/n98-magerun2.phar https://files.magerun.net/n98-mageru
 RUN echo "PATH=/var/www/node_modules/.bin:\$PATH" >>/home/www/.profile
 RUN echo "alias ll='ls -lha'" >>/home/www/.profile
 
-ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/bin/wait-for-it.sh
-RUN chmod +x /usr/bin/wait-for-it.sh
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /home/www/bin/wait-for-it.sh
+RUN chmod +x /home/www/bin/wait-for-it.sh
+
+RUN chown -R www:www /home/www/bin;

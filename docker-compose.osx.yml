@@ -144,7 +144,7 @@ volumes:
   elastic_data:
   redis_pagespeed_data:
   redis_data:
-  rabbitmqdata:
+  #rabbitmq_data:
   ssh_keys:
     external: true
   composer_cache:

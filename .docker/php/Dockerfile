@@ -44,6 +44,7 @@ RUN apt-get -y install \
 RUN apt-get -y install freetype* libwebp-dev
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg;
+#RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/freetype2 --with-jpeg-dir=/usr/include --with-png-dir=/usr/include;
 
 RUN docker-php-ext-configure \
   opcache --enable-opcache
@@ -79,3 +80,6 @@ RUN curl -o /home/www/bin/n98-magerun2.phar https://files.magerun.net/n98-mageru
 
 RUN echo "PATH=/var/www/node_modules/.bin:\$PATH" >>/home/www/.profile
 RUN echo "alias ll='ls -lha'" >>/home/www/.profile
+
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/bin/wait-for-it.sh
+RUN chmod +x /usr/bin/wait-for-it.sh

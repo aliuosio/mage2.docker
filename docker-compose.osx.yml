@@ -30,10 +30,10 @@ services:
       - app_data:/var/www
 
   php:
-    #    build:
-    #      context: ./.docker/php
-    #      args:
-    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    # build:
+    #   context: ./.docker/php
+    #   args:
+    #     PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-buster
     stdin_open: true
@@ -54,7 +54,12 @@ services:
       WORKDIR_SERVER: /var/www
       COMPOSER_CACHE_DIR: /home/www/.composer
     restart: on-failure
-    command: [ "php-fpm", "-F" ]
+    command: >
+      bash -c
+      '
+      /home/www/bin/wait-for-it.sh -t 0 db:3306 -- echo DB is up;
+      php-fpm -F;
+      '
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/var/www:delegated

@@ -23,7 +23,7 @@ if [[ "$(grep -Ei 'debian' /etc/*release)" ]]; then
     VERSION="buster";
 elif [[ "$(grep -Ei 'ubuntu|mint' /etc/*release)" ]]; then
     OS="ubuntu";
-    VERSION="bionic";
+    VERSION="hirsute";
 fi
 
 sudo curl -fsSL https://download.docker.com/linux/${OS}/gpg | sudo apt-key add -

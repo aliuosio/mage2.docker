@@ -234,7 +234,7 @@ magentoSetup
 MagentoTwoFactorAuthDisable
 magentoRefresh
 sampleDataInstall
-#restoreGitIgnoreAfterComposerInstall
+setPermissions
 setMagentoCron >/dev/null
-#showDockerLogs "${NAMESPACE}_php"
 showSuccess "$SHOPURI" "$DUMP"
+showDockerLogs "${NAMESPACE}_php"

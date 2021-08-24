@@ -46,7 +46,7 @@ dockerRefresh() {
 removeHTMLFolder() {
   DIR="${WORKDIR}/html"
   if [ -d ${DIR} ]; then
-    runCommand "rm -rf ${DIR}"
+    $ [ "$(ls -A /tmp)" ] && echo "Not Empty" || runCommand "rm -rf ${DIR}"
   fi
 }
 
@@ -180,7 +180,12 @@ showDockerLogs() {
 }
 
 setPermissions() {
-  commands="chown -R www:www .; chmod -R 775 ."
+
+  commands="
+  find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} +
+  && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} +
+  && chmod u+x bin/magento
+  "
   runCommand "$phpContainerRoot '$commands'"
 }
 
@@ -229,12 +234,11 @@ MagentoTwoFactorAuthDisable() {
 }
 
 dockerRefresh
-setPermissions
 magentoSetup
 MagentoTwoFactorAuthDisable
 magentoRefresh
 sampleDataInstall
-setPermissions
 setMagentoCron >/dev/null
+setPermissions
 showSuccess "$SHOPURI" "$DUMP"
 showDockerLogs "${NAMESPACE}_php"

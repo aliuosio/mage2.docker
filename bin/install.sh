@@ -19,6 +19,7 @@ prompt "rePlaceInEnv" "Enable Xdebug? (current: $XDEBUG_ENABLE)" "XDEBUG_ENABLE"
 prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: $MARIADB_VERSION)" "MARIADB_VERSION"
 prompt "rePlaceInEnv" "Which Elasticsearch Version? (6.8.x, 7.6.x, 7.8.x, 7.9.x) (current: $ELASTICSEARCH_VERSION)" "ELASTICSEARCH_VERSION"
 prompt "rePlaceInEnv" "Create a login screen? (current: $AUTH_CONFIG)" "AUTH_CONFIG"
+
 . "$project_root/.env"
 
 createComposerFolder
@@ -26,8 +27,15 @@ makeExecutable
 gitUpdate
 workDirCreate "$WORKDIR"
 setNginxVhost
-notice
-callStartBash
+dockerRefresh
+setPermissionsComposer
+removeHTMLFolder
+magentoSetup
+MagentoTwoFactorAuthDisable
+setPermissionsHost
+sampleDataInstall
+setMagentoCron >/dev/null
+setPermissionsContainer
 showSuccess "$SHOPURI" "$DUMP"
 endAll=$(date +%s)
 

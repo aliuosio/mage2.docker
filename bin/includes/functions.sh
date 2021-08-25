@@ -115,6 +115,7 @@ message() {
   seq ${#1} | awk '{printf "-"}'
   echo ""
 }
+
 osxExtraPackages() {
   if [[ ! -x "$(command -v brew)" ]]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -191,15 +192,6 @@ dockerRefresh() {
   fi
 }
 
-notice() {
-  dbDump=".docker/mysql/db_dumps/dev.sql.gz"
-  if [ -f $dbDump ]; then
-    tput setaf 3
-    message "$NOTICE_INSTALL"
-    echo ""
-  fi
-}
-
 setAuthConfig() {
   if [[ "$1" == "true" ]]; then
     prompt "rePlaceInEnv" "Login User Name (current: $2)" "AUTH_USER"
@@ -216,9 +208,13 @@ showDockerLogs() {
 }
 
 createComposerFolder() {
-  if [ ! -d ~/.composer ]; then
-    mkdir -p ~/.composer
+  dir="${HOME}/.composer"
+
+  if [ ! -d $dir ]; then
+    runCommand "mkdir -p $dir"
+    runCommand "chown -R $USER:$GROUP $dir"
   fi
+
 }
 
 callStartBash() {
@@ -250,7 +246,7 @@ setHostSettings() {
 
 conposerFunctions() {
   if [ -f "$WORKDIR/composer.lock" ]; then
-    commands="composer i --ignore-platform-reqs"
+    commands="composer i"
   else
     commands="composer u"
   fi
@@ -358,11 +354,11 @@ magentoSetup() {
     setCredentials
     conposerFunctions
     magentoConfigImport
-    magentoConfig
   else
     magentoPreInstall
     magentoInstall
   fi
+  magentoConfig
 }
 
 magentoRefresh() {
@@ -384,13 +380,25 @@ showDockerLogs() {
   docker logs "$1" --follow
 }
 
-setPermissions() {
-  commands="
-  find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} + \
-  && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
-  && chmod u+x bin/magento
-  "
+setPermissionsContainer() {
+  commands="find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} + \
+            && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
+            && chown -R www:www /var/www \
+            && chmod u+x bin/magento"
+
   runCommand "$phpContainerRoot '$commands'"
+}
+
+setPermissionsComposer() {
+  commands="chown -R www:www /home/www/.composer";
+
+  runCommand "$phpContainerRoot '$commands'"
+}
+
+setPermissionsHost() {
+  commands="sudo chown -R $USER:$USER $WORKDIR";
+
+  runCommand "$commands"
 }
 
 showSuccess() {

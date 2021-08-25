@@ -89,8 +89,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * setup valid **SSL certificates** with [Let's Encrypt](https://en.wikipedia.org/wiki/Let%27s_Encrypt) container
 * [Mailhog](https://github.com/mailhog/MailHog) container
 * [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2
-* **Extra Composer Packages**
-    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer package
 * **Extra Composer Packages with Magento 2 Installer**
     * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
     * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar

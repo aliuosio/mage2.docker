@@ -181,13 +181,13 @@ setNginxVhost() {
 # @todo: test on OSX
 dockerRefresh() {
   if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "docker-compose -f docker-compose.osx.yml down"
+    #runCommand "docker-compose -f docker-compose.osx.yml down"
     runCommand "docker-sync stop"
     runCommand "docker-sync start"
     runCommand "docker-compose -f docker-compose.osx.yml up -d"
   else
     runCommand setHostSettings
-    runCommand "docker-compose down"
+    #runCommand "docker-compose down"
     runCommand "docker-compose up -d"
   fi
 }
@@ -196,14 +196,6 @@ setAuthConfig() {
   if [[ "$1" == "true" ]]; then
     prompt "rePlaceInEnv" "Login User Name (current: $2)" "AUTH_USER"
     prompt "rePlaceInEnv" "Login User Password (current: $3)" "AUTH_PASS"
-  fi
-}
-
-showDockerLogs() {
-  dbDump=".docker/mysql/db_dumps/dev.sql.gz"
-  if [ -f $dbDump ]; then
-    tput setaf 6
-    docker logs "$1" --follow
   fi
 }
 
@@ -217,12 +209,13 @@ createComposerFolder() {
 
 }
 
-callStartBash() {
+showLog() {
   if [ -f ".docker/mysql/db_dumps/dev.sql.gz" ]; then
-    showDockerLogs "${NAMESPACE}_db"
+    container="${NAMESPACE}_db"
   else
-    bin/start.sh
+    container="${NAMESPACE}_php"
   fi
+  docker logs "$container" --follow
 }
 
 message() {
@@ -326,7 +319,7 @@ magentoInstall() {
 
 removeAll() {
   if [ -d "$WORKDIR" ]; then
-    commands="rm -rf /var/www/*; rm -rf /var/www/.*"
+    commands="rm -rf $WORKDIR_SERVER/*;"
     runCommand "$phpContainerRoot '$commands'"
   fi
 }
@@ -383,41 +376,51 @@ showDockerLogs() {
 setPermissionsContainer() {
   commands="find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} + \
             && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
-            && chown -R www:www /var/www \
+            && chown -R www:www $WORKDIR_SERVER \
             && chmod u+x bin/magento"
 
   runCommand "$phpContainerRoot '$commands'"
 }
 
 setPermissionsComposer() {
-  commands="chown -R www:www /home/www/.composer";
+  commands="chown -R www:www /home/www/.composer"
 
   runCommand "$phpContainerRoot '$commands'"
 }
 
 setPermissionsHost() {
-  commands="sudo chown -R $USER:$USER $WORKDIR";
+  commands="sudo chown -R $USER:$USER $WORKDIR"
 
   runCommand "$commands"
 }
 
 showSuccess() {
   if [ -n "$2" ]; then
-    message "
-    Backend:\
-    http://$1/admin\
-    User: <Backend Users from Your DB Dump>\
-    Password: <Backend Users Passwords from Your DB Dump>\
-    Frontend:\
-    http://$1"
+    message "Backend:\
+
+http://$1/admin\
+
+User: <Backend Users from Your DB Dump>\
+
+Password: <Backend Users Passwords from Your DB Dump>\
+
+
+Frontend:\
+
+http://$1"
   else
-    message "
-    Backend:\
-    http://$1/admin\
-    User: mage2_admin\
-    Password: mage2_admin123#T\
-    Frontend:\
-    http://$1"
+    message "Backend:\
+
+http://$1/admin\
+
+User: mage2_admin\
+
+Password: mage2_admin123#T\
+
+
+Frontend:\
+
+http://$1"
   fi
 
 }

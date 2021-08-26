@@ -30,10 +30,10 @@ services:
       - app_data:/var/www
 
   php:
-    # build:
-    #   context: ./.docker/php
-    #   args:
-    #     PHP_VERSION_SET: ${PHP_VERSION_SET}
+    #    build:
+    #      context: ./.docker/php
+    #      args:
+    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-buster
     stdin_open: true
@@ -147,7 +147,6 @@ volumes:
   redis_data_socket:
   db_data:
   elastic_data:
-  redis_pagespeed_data:
   redis_data:
   #rabbitmq_data:
   ssh_keys:

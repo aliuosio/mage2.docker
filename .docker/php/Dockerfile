@@ -1,5 +1,5 @@
 ARG PHP_VERSION_SET
-FROM php:${PHP_VERSION_SET}-fpm-buster
+FROM php:${PHP_VERSION_SET}-bullseye
 LABEL maintainer="Osiozekhai Aliu"
 
 ENV DEBIAN_FRONTEND noninteractive

@@ -346,12 +346,20 @@ magentoSetup() {
   if [ -f $dbDump ]; then
     setCredentials
     conposerFunctions
+    composerExtraPackages
     magentoConfigImport
   else
     magentoPreInstall
+    composerExtraPackages
     magentoInstall
   fi
   magentoConfig
+}
+
+composerExtraPackages() {
+  commands="composer req --dev mage2tv/magento-cache-clean && composer req magepal/magento2-gmailsmtpapp yireo/magento2-webp2"
+
+  runCommand "$phpContainer '$commands'"
 }
 
 magentoRefresh() {
@@ -366,11 +374,6 @@ restoreGitIgnoreAfterComposerInstall() {
 setMagentoCron() {
   commands="bin/magento cron:install"
   runCommand "$phpContainerRoot '$commands'"
-}
-
-showDockerLogs() {
-  tput setaf 6
-  docker logs "$1" --follow
 }
 
 setPermissionsContainer() {
@@ -389,7 +392,7 @@ setPermissionsComposer() {
 }
 
 setPermissionsHost() {
-  commands="sudo chown -R $USER:$USER $WORKDIR"
+  commands="sudo chown -R $USER:$GROUP $WORKDIR"
 
   runCommand "$commands"
 }

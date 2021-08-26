@@ -35,7 +35,7 @@ services:
 #      args:
 #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
-    image: osioaliu/php:${PHP_VERSION_SET}-fpm-buster
+    image: osioaliu/php:${PHP_VERSION_SET}-bullseye
     stdin_open: true
     tty: true
     sysctls:

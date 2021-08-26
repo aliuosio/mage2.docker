@@ -9,10 +9,9 @@ RUN groupadd www \
     && mkdir -p /home/www/bin \
     && chown -R www:www /home/www && chmod 775 /home/www \
     && chown -R www:www /var/www && chmod 775 /var/www
-
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-RUN apt-get -y update && apt-get upgrade -y
-RUN apt-get -y install apt-utils
+RUN apt-get upgrade -y
 RUN apt-get -y install \
         mariadb-client \
         ghostscript \
@@ -38,8 +37,7 @@ RUN apt-get -y install \
         nano \
         cron \
         wget \
-        lsb-release \
-        gnupg \
+        nodejs \
         libwebp-dev \
         freetype*
 

@@ -85,3 +85,6 @@ ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.s
 RUN chmod +x /home/www/bin/wait-for-it.sh
 
 RUN chown -R www:www /home/www/bin;
+
+ADD https://github.com/rosell-dk/webp-convert/raw/master/src/Convert/Converters/Binaries/cwebp-120-linux-x86-64 /usr/local/bin/cwebp
+RUN chmod +x /usr/local/bin/cwebp

@@ -147,7 +147,6 @@ volumes:
   redis_data_socket:
   db_data:
   elastic_data:
-  redis_pagespeed_data:
   redis_data:
   #rabbitmq_data:
   ssh_keys:

@@ -257,12 +257,12 @@ magentoConfig() {
       bin/magento config:set web/secure/use_in_frontend 0 && \
       bin/magento config:set web/secure/use_in_adminhtml 0  && \
       bin/magento config:set web/seo/use_rewrites 0 && \
-      bin/magento config:set catalog/search/engine elasticsearch6 && \
+      bin/magento config:set catalog/search/engine elasticsearch7 && \
       bin/magento config:set catalog/search/enable_eav_indexer 1 && \
-      bin/magento config:set catalog/search/elasticsearch6_server_hostname elasticsearch && \
-      bin/magento config:set catalog/search/elasticsearch6_server_port 9200 && \
-      bin/magento config:set catalog/search/elasticsearch6_index_prefix magento && \
-      bin/magento config:set catalog/search/elasticsearch6_enable_auth 0 && \
+      bin/magento config:set catalog/search/elasticsearch7_server_hostname elasticsearch && \
+      bin/magento config:set catalog/search/elasticsearch7_server_port 9200 && \
+      bin/magento config:set catalog/search/elasticsearch7_index_prefix magento && \
+      bin/magento config:set catalog/search/elasticsearch7_enable_auth 0 && \
       bin/magento deploy:mode:set -s $DEPLOY_MODE && \
       bin/magento admin:user:create \
         --admin-user=$ADMIN_USER \

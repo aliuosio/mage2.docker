@@ -21,6 +21,10 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     
 > use .env to change values after installation and activate on restart of containers 
 
+> If you have a `composer.json` in th workdir these packages will be installed
+
+> If you have a DB Dump in `.docker/mysql/db_dumps` this will be imported. Formats allowed `*.sql` of `*.gz`
+
 ### Backend
     http://mage2.localhost/admin
     User: mage2_admin

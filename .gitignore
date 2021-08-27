@@ -4,3 +4,5 @@
 /.docker-sync/*
 .DS_Store
 /htdocs/
+*.sql
+*.gz

@@ -439,3 +439,9 @@ MagentoTwoFactorAuthDisable() {
   commands="bin/magento module:disable -c Magento_TwoFactorAuth"
   runCommand "$phpContainer '$commands'"
 }
+
+findImport() {
+  if [[ $(find $DB_DUMP_FOLDER -maxdepth 1 -type f -name "*.gz") ]]; then
+    echo 'IS DA';
+  fi
+}

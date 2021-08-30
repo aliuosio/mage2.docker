@@ -39,13 +39,6 @@ See `.docker-sync/daemon.log` for progress
 ### next startup after reboot of Host
     bin/start.sh
 
-### to fix Redis Performance Issues (Linux Only)
-    sudo sysctl vm.overcommit_memory=1;
-    echo never /sys/kernel/mm/transparent_hugepage/enabled;
-    
-### to fix ElasticSearch Performance Issues (Linux Only)
-    sudo sysctl vm.max_map_count=262144
-
 ### Install sample data
 
     chmod +x sample-data.sh
@@ -95,7 +88,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2
 * **Extra Composer Packages with Magento 2 Installer**
     * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
-    * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar
+    * [yireo/magento2-webp2](https://github.com/yireo/Yireo_Webp2) WebP Converter
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
 * both **PHP GD and PHP Imagick** are installed
 * **PHP Xdebug** as configurable option (xdebug.idekey=docker)

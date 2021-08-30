@@ -22,21 +22,22 @@ prompt "rePlaceInEnv" "Create a login screen? (current: $AUTH_CONFIG)" "AUTH_CON
 
 . "$project_root/.env"
 
-createComposerFolder
-makeExecutable
-gitUpdate
-workDirCreate "$WORKDIR"
-setNginxVhost
-dockerRefresh
-setPermissionsComposer
-removeHTMLFolder
-magentoSetup
-MagentoTwoFactorAuthDisable
-setPermissionsHost
-sampleDataInstall
-setMagentoCron >/dev/null
-setPermissionsContainer
-showSuccess "$SHOPURI" "$DUMP"
-endAll=$(date +%s)
-message "Setup Time: runtimeAll=$((endAll - startAll)) Sec"
-showLog
+findImport
+#createComposerFolder
+#makeExecutable
+#gitUpdate
+#workDirCreate "$WORKDIR"
+#setNginxVhost
+#dockerRefresh
+#setPermissionsComposer
+#removeHTMLFolder
+#magentoSetup
+#MagentoTwoFactorAuthDisable
+#setPermissionsHost
+#sampleDataInstall
+#setMagentoCron >/dev/null
+#setPermissionsContainer
+#showSuccess "$SHOPURI" "$DUMP"
+#endAll=$(date +%s)
+#message "Setup Time: runtimeAll=$((endAll - startAll)) Sec"
+#showLog

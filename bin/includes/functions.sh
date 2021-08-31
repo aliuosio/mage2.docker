@@ -348,12 +348,12 @@ magentoSetup() {
     conposerFunctions
     composerExtraPackages
     magentoConfigImport
+    magentoConfig
   else
     magentoPreInstall
     composerExtraPackages
     magentoInstall
   fi
-  magentoConfig
 }
 
 composerExtraPackages() {

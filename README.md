@@ -7,6 +7,7 @@ Install [Docker](https://docs.docker.com/docker-for-mac/install/) and [docker-sy
 
 **Linux:** 
 Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
+> on Debian based OS (Example: Ubuntu, Linux Mint) use `bin/docker.sh` instead of following the above two links 
 
 ### Get Source
 
@@ -17,7 +18,9 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     
     cd mage2.docker
     chmod +x bin/*.sh
-    bin/install.sh 
+    bin/install.sh
+
+> with `bin/install kickit` you can avoid the prompts to install right away if `.env` is found (tmplate: `.env.temp`)
     
 > use .env to change values after installation and activate on restart of containers 
 

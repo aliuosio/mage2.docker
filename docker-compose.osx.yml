@@ -57,7 +57,6 @@ services:
     command: >
       bash -c
       '
-      /home/www/bin/wait-for-it.sh -t 0 db:3306 -- echo DB is up;
       php-fpm -F;
       '
     volumes:
@@ -150,8 +149,14 @@ volumes:
   redis_data:
   #rabbitmq_data:
   ssh_keys:
-    external: true
+    ex
   composer_cache:
-    external: true
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/.composer
   app_data:
-    external: true
+    driver_opts:
+      type: none
+      o: bind
+      device: ${WORKDIR}

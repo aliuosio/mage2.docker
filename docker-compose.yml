@@ -57,7 +57,6 @@ services:
     command: >
       bash -c
       '
-      /home/www/bin/wait-for-it.sh -t 0 db:3306 -- echo DB is up;
       php-fpm -F;
       '
     volumes:

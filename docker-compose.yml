@@ -18,16 +18,16 @@ services:
       AUTH_PASS: ${AUTH_PASS}
       SHOPURI: ${SHOPURI}
       TZ: ${TZ}
-      WORKDIR_SERVER: /var/www
+      WORKDIR_SERVER: ${WORKDIR_SERVER}
     command: '/usr/sbin/nginx -g "daemon off; error_log /dev/stderr info;"'
     networks:
       default:
         aliases:
           - ${SHOPURI}
-    working_dir: /var/www
+    working_dir: ${WORKDIR_SERVER}
     volumes:
       - .docker/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - app_data:/var/www
+      - app_data:${WORKDIR_SERVER}
 
   php:
 #    build:
@@ -40,7 +40,7 @@ services:
     tty: true
     sysctls:
       net.core.somaxconn: 65536
-    working_dir: /var/www
+    working_dir: ${WORKDIR_SERVER}
     user: www
     links:
       - db
@@ -51,17 +51,14 @@ services:
     environment:
       USER: www
       TZ: ${TZ}
-      WORKDIR_SERVER: /var/www
+      WORKDIR_SERVER: ${WORKDIR_SERVER}
       COMPOSER_CACHE_DIR: /home/www/.composer
     restart: on-failure
     command: >
-      bash -c
-      '
-      php-fpm -F;
-      '
+      bash -c 'php-fpm -F;'
     volumes:
       - redis_data_socket:/var/run/redis
-      - app_data:/var/www:delegated
+      - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www/.composer:delegated
       - ssh_keys:/home/${USER}/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
@@ -127,7 +124,7 @@ services:
   #      - "15672:15672"
   #      - "5672:5672"
   #    volumes:
-  #      - rabbitmqdata:/var/lib/rabbitmq
+  #      - rabbitmq_data:/var/lib/rabbitmq
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog

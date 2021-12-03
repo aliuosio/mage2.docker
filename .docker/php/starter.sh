@@ -34,7 +34,6 @@ setMagentoCron() {
   runCommand "$commands"
 }
 
-
 magentoRefresh
 setPermissionsContainer
 setMagentoCron

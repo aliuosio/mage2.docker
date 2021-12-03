@@ -105,6 +105,13 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * added prompt for SSL to `bin/ìnstall.sh`
 
 ### Todos
+* ~~move functions from `bin/start.sh` to PHP container~~
+* ~~move functions from `bin/install.sh` to PHP container~~
+* move `sampe-data.sh` to PHP container
+* modify installer to use config flag instead of flag kickit
+* add Healtchecks to docker-compose
+* add DB Import functions and logs
+* refactor docker-compose.osx.yml
 * add magento 2 version prompt
 * map local user to php container www-data user
 * ~~install composer version according to magento 2 version~~

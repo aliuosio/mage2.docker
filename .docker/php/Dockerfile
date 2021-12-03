@@ -73,17 +73,12 @@ RUN apt-get clean && apt-get autoclean && apt-get autoremove \
     && pecl install -o -f redis imagick apcu-5.1.20 xdebug \
     && docker-php-ext-enable redis imagick apcu xdebug \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/home/www/bin/ --filename=composer \
-    && chmod +x /home/www/bin/composer \
     && curl -o /home/www/bin/n98-magerun2.phar https://files.magerun.net/n98-magerun2.phar \
-    && chmod +x /home/www/bin/n98-magerun2.phar \
-    && curl -sS https://accounts.magento.cloud/cli/installer | php -- --install-dir=/home/www/bin/ --filename=magento-cloud \
     && echo "PATH=/var/www/node_modules/.bin:\$PATH" >>/home/www/.profile \
-    && echo "alias ll='ls -lha'" >>/home/www/.profile \
-    && chown -R www:www /home/www/bin \
-    && chown -R www:www /var/www;
+    && echo "alias ll='ls -lha'" >>/home/www/.profile
 
 ADD https://github.com/rosell-dk/webp-convert/raw/master/src/Convert/Converters/Binaries/cwebp-120-linux-x86-64 /usr/local/bin/cwebp
-RUN chmod +x /usr/local/bin/cwebp
+COPY installer.sh starter.sh /usr/local/bin/
 
-COPY start.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/start.sh
+RUN chown -R www:www /home/www/bin /var/www
+RUN chmod +x /home/www/bin/composer /home/www/bin/n98-magerun2.phar /usr/local/bin/installer.sh /usr/local/bin/starter.sh

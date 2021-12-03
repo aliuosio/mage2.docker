@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   nginx:
-    build: ./.docker/nginx
+#    build: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx
     stdin_open: true
@@ -53,8 +53,18 @@ services:
       TZ: ${TZ}
       WORKDIR_SERVER: ${WORKDIR_SERVER}
       COMPOSER_CACHE_DIR: /home/www/.composer
+      DEPLOY_MODE: ${DEPLOY_MODE}
+      ADMIN_USER: ${ADMIN_USER}
+      ADMIN_PASS:  ${ADMIN_PASS}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_NAME: ${ADMIN_NAME}
+      ADMIN_SURNAME: ${ADMIN_SURNAME}
+      MAGENTO_VERSION: ${MAGENTO_VERSION}
+      SHOPURI: ${SHOPURI}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     restart: on-failure
-    command: bash -c '/usr/local/bin/start.sh && php-fpm -F'
+    command: bash -c 'php-fpm -F'
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:${WORKDIR_SERVER}:delegated
@@ -139,11 +149,11 @@ services:
     command: --interval 3600
 
 volumes:
+  #rabbitmq_data:
   redis_data_socket:
   db_data:
   elastic_data:
   redis_data:
-  #rabbitmq_data:
   ssh_keys:
     driver_opts:
       type: none

@@ -84,3 +84,6 @@ RUN apt-get clean && apt-get autoclean && apt-get autoremove \
 
 ADD https://github.com/rosell-dk/webp-convert/raw/master/src/Convert/Converters/Binaries/cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 RUN chmod +x /usr/local/bin/cwebp
+
+COPY start.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/start.sh

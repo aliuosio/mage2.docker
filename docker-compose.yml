@@ -54,8 +54,7 @@ services:
       WORKDIR_SERVER: ${WORKDIR_SERVER}
       COMPOSER_CACHE_DIR: /home/www/.composer
     restart: on-failure
-    command: >
-      bash -c 'php-fpm -F;'
+    command: bash -c '/usr/local/bin/start.sh && php-fpm -F'
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:${WORKDIR_SERVER}:delegated

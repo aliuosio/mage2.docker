@@ -2,6 +2,10 @@
 
 set -e
 
+# shellcheck disable=SC2046
+project_root=$(dirname $(dirname $(realpath "$0")))
+. "$project_root/bin/includes/functions.sh" "$project_root"
+
 message() {
   echo ""
   echo -e "$1"
@@ -16,14 +20,5 @@ runCommand() (
   eval "$1"
 )
 
-sampledata_install() {
-  phpContainer="docker exec -it ${NAMESPACE}_php"
-	runCommand "$phpContainer bin/magento sampledata:deploy;"
-	runCommand "$phpContainer bin/magento se:up;"
-	runCommand "$phpContainer bin/magento i:rei;"
-	runCommand "$phpContainer bin/magento c:c;"
-}
-
-. "${PWD}"/.env;
-
-sampledata_install
+commands="/usr/local/bin/sample-data.sh"
+runCommand "$phpContainer '$commands'"

@@ -323,8 +323,8 @@ http://$1"
 
 sampleDataInstall() {
   if [[ "$SAMPLE_DATA" == "true" ]]; then
-    runCommand "chmod +x bin/sample-data.sh"
-    runCommand "bin/sample-data.sh"
+    commands="/usr/local/bin/sample-data.sh"
+    runCommand "$phpContainer '$commands'"
   fi
 }
 

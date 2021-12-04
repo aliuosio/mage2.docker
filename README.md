@@ -107,7 +107,8 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 ### Todos
 * ~~move functions from `bin/start.sh` to PHP container~~
 * ~~move functions from `bin/install.sh` to PHP container~~
-* move `sampe-data.sh` to PHP container
+* ~~move `sampe-data.sh` to PHP container~~
+* add downloader script to clone and install App
 * modify installer to use config flag instead of flag kickit
 * add Healtchecks to docker-compose
 * add DB Import functions and logs

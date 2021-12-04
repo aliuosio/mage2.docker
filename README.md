@@ -109,6 +109,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~move functions from `bin/install.sh` to PHP container~~
 * ~~move `sampe-data.sh` to PHP container~~
 * ~~add Healtchecks to docker-compose~~
+* fix OSX Installer
 * modify installer to use config flag instead of flag kickit
 * add downloader script to clone and install App
 * add DB Import functions and logs

@@ -45,9 +45,10 @@ services:
     links:
       - db
     depends_on:
-      - db
-      - redis
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       USER: www
       TZ: ${TZ}
@@ -84,6 +85,11 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - ${MYSQL_PORT}:3306
+    healthcheck:
+      test: 'mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD}'
+      interval: 30s
+      timeout: 30s
+      retries: 3
     volumes:
       - db_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
@@ -96,6 +102,11 @@ services:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
     command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
+    healthcheck:
+      test: 'redis-cli -s /var/run/redis/redis.sock ping || exit 1'
+      interval: 30s
+      timeout: 30s
+      retries: 3
     volumes:
       - redis_data_socket:/var/run/redis
       - redis_data:/data
@@ -116,6 +127,14 @@ services:
       memlock:
         soft: -1
         hard: -1
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
     command: >

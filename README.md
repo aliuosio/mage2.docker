@@ -110,8 +110,9 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~move `sampe-data.sh` to PHP container~~
 * ~~add Healtchecks to docker-compose~~
 * ~~modify installer to use config flag instead of flag kickit~~
-* add downloader script to clone and install App
 * fix OSX Installer
+* set user and group ids for docker-sync
+* add downloader script to clone and install App
 * add DB Import functions and logs
 * refactor docker-compose.osx.yml
 * add magento 2 version prompt

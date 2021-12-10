@@ -20,7 +20,7 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
     chmod +x bin/*.sh
     bin/install.sh
 
-> with `bin/install kickit` you can avoid the prompts to install right away if `.env` is found (tmplate: `.env.temp`)
+> with `bin/install config` you can use prompts to configure install
     
 > use .env to change values after installation and activate on restart of containers 
 
@@ -109,9 +109,9 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~move functions from `bin/install.sh` to PHP container~~
 * ~~move `sampe-data.sh` to PHP container~~
 * ~~add Healtchecks to docker-compose~~
-* fix OSX Installer
-* modify installer to use config flag instead of flag kickit
+* ~~modify installer to use config flag instead of flag kickit~~
 * add downloader script to clone and install App
+* fix OSX Installer
 * add DB Import functions and logs
 * refactor docker-compose.osx.yml
 * add magento 2 version prompt

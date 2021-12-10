@@ -7,7 +7,7 @@ project_root=$(dirname $(dirname $(realpath "$0")))
 . "$project_root/bin/includes/functions.sh" "$project_root"
 
 getLogo
-if [[ $1 != "kickit" ]]; then
+if [[ $1 == "config" ]]; then
   message "Press [ENTER] alone to keep the current values"
   prompt "rePlaceInEnv" "Path to empty folder(fresh install) or running project (current: $WORKDIR)" "WORKDIR"
   prompt "rePlaceInEnv" "Git Repo (if work directory has to be cloned) (current: $GIT_URL)" "GIT_URL"

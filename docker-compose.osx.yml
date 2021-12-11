@@ -113,8 +113,12 @@ services:
       - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf:ro
 
   elasticsearch:
+    #    build:
+    #      context: ./.docker/elasticsearch
+    #      args:
+    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
+    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
       - include_type_name=true
       - bootstrap.memory_lock=true
@@ -135,15 +139,9 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
+    command: bash -c 'docker-entrypoint.sh'
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
-    command: >
-      bash -c
-      '
-      elasticsearch-plugin list | grep analysis-icu || elasticsearch-plugin install -b analysis-icu  &&
-      elasticsearch-plugin list | grep analysis-phonetic || elasticsearch-plugin install -b analysis-phonetic &&
-      docker-entrypoint.sh;
-      '
 
   #  rabbitmq:
   #    container_name: ${NAMESPACE}_rabbitmq

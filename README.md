@@ -110,6 +110,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~move `sampe-data.sh` to PHP container~~
 * ~~add Healtchecks to docker-compose~~
 * ~~modify installer to use config flag instead of flag kickit~~
+* ~~build own ElasticSearch Image with required Plugins for Magento 2~~ 
 * add downloader script to clone and install App
 * fix OSX Installer
 * set user and group ids for docker-sync

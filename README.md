@@ -29,12 +29,12 @@
 > If you have a DB Dump in `.docker/mysql/db_dumps` this will be imported. Formats allowed `*.sql` of `*.gz`
 
 ### Backend
-    http://mage2.localhost/admin
+    http://localhost/admin
     User: mage2_admin
     Password: mage2_admin123#T
     
 ### Frontend
-    http://mage2.localhost
+    http://localhost
 
 OSX: on first run very slow due to docker-sync update of local shop files volume in the background. 
 See `.docker-sync/daemon.log` for progress

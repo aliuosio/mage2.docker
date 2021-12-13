@@ -111,10 +111,11 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~add Healtchecks to docker-compose~~
 * ~~modify installer to use config flag instead of flag kickit~~
 * ~~build own ElasticSearch Image with required Plugins for Magento 2~~ 
+* modify for running Magento 2 project
 * add downloader script to clone and install App
+* add DB Import functions and logs
 * fix OSX Installer
 * set user and group ids for docker-sync
-* add DB Import functions and logs
 * refactor docker-compose.osx.yml
 * add magento 2 version prompt
 * map local user to php container www-data user

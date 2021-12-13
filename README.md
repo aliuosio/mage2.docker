@@ -7,7 +7,7 @@
 
 **Linux:** 
 [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/), [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
-> on Debian based OS (Example: Ubuntu, Linux Mint) use `bin/docker.sh` instead of following the above two links 
+> on Debian based OS (Example: Ubuntu, Linux Mint) use `bin/docker.sh` to install `docker` and `docker-compose`
 
 ### Get Source
 

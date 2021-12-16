@@ -66,7 +66,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 ### Mailhog Usage
 
     Mail Client
-    http://mage2.localhost:8025 
+    http://localhost:8025 
 
     In Magento 2 Backend `stores` -`Configuration` -`Advanced` -`System` 
     -`Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`

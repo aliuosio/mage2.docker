@@ -30,7 +30,6 @@ gitUpdate
 workDirCreate "$WORKDIR"
 setNginxVhost
 dockerRefresh
-setPermissionsComposer
 removeHTMLFolder
 installer
 MagentoTwoFactorAuthDisable

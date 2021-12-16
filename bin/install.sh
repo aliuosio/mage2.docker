@@ -24,7 +24,9 @@ fi
 . "$project_root/.env"
 
 # findImport
+
 osxExtraPackages
+setUserAndGroupIdsInDockerSync
 createComposerFolder
 makeExecutable
 gitUpdate

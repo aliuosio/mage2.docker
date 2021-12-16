@@ -6,3 +6,4 @@
 /htdocs/*
 *.sql
 *.gz
+/docker-sync.yml

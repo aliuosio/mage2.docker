@@ -118,6 +118,7 @@ message() {
 
 osxExtraPackages() {
   if [[ $(uname -s) == "Darwin" ]]; then
+    runCommand "brew install coreutils"
     if [[ ! -x "$(command -v brew)" ]]; then
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     fi

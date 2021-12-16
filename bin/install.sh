@@ -24,6 +24,7 @@ fi
 . "$project_root/.env"
 
 # findImport
+osxExtraPackages
 createComposerFolder
 makeExecutable
 gitUpdate

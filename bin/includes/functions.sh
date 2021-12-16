@@ -117,17 +117,19 @@ message() {
 }
 
 osxExtraPackages() {
-  if [[ ! -x "$(command -v brew)" ]]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  fi
-  if [[ ! -x "$(command -v unison)" ]]; then
-    runCommand "brew install unison"
-  fi
-  if [[ ! -d /usr/local/opt/unox ]]; then
-    runCommand "brew install eugenmayer/dockersync/unox"
-  fi
-  if [[ ! -x "$(command -v docker-sync)" ]]; then
-    runCommand "gem install docker-sync;"
+  if [[ $(uname -s) == "Darwin" ]]; then
+    if [[ ! -x "$(command -v brew)" ]]; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    fi
+    if [[ ! -x "$(command -v unison)" ]]; then
+      runCommand "brew install unison"
+    fi
+    if [[ ! -d /usr/local/opt/unox ]]; then
+      runCommand "brew install eugenmayer/dockersync/unox"
+    fi
+    if [[ ! -x "$(command -v docker-sync)" ]]; then
+      runCommand "gem install docker-sync;"
+    fi
   fi
 }
 
@@ -342,4 +344,8 @@ starter() {
 installer() {
   commands="/usr/local/bin/installer.sh"
   runCommand "$phpContainer '$commands'"
+}
+
+setUserAndGroupIdsInDockerSync() {
+
 }

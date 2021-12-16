@@ -264,11 +264,6 @@ restoreGitIgnoreAfterComposerInstall() {
   runCommand "git -C $WORKDIR checkout .gitignore"
 }
 
-setMagentoCron() {
-  commands="bin/magento cron:install"
-  runCommand "$phpContainerRoot '$commands'"
-}
-
 setPermissionsComposer() {
   commands="chown -R www:www /home/www/.composer"
 

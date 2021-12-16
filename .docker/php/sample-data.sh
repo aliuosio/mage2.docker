@@ -22,4 +22,4 @@ sampledataInstall() {
   runCommand "$command"
 }
 
-sampleDataInstall
+sampledataInstall

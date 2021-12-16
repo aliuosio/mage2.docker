@@ -346,13 +346,3 @@ installer() {
   commands="/usr/local/bin/installer.sh"
   runCommand "$phpContainer '$commands'"
 }
-
-setUserAndGroupIdsInDockerSync() {
-  if [[ $(uname -s) == "Darwin" ]]; then
-    MY_UID=$(id -u "$USER");
-    MY_GID=$(id -g "$USER");
-
-    runCommand "sed -i '' 's@sync_userid: 1000@sync_userid: $MY_UID@' docker-sync.yml"
-    runCommand "sed -i '' 's@sync_groupid: 1000@sync_groupid: $MY_GID@' docker-sync.yml"
-  fi
-}

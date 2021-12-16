@@ -26,7 +26,6 @@ fi
 # findImport
 
 osxExtraPackages
-setUserAndGroupIdsInDockerSync
 createComposerFolder
 makeExecutable
 gitUpdate

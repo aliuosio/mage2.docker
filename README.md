@@ -6,7 +6,7 @@
 [Docker](https://docs.docker.com/docker-for-mac/install/), [docker-sync](http://docker-sync.io/), [Git](http://docker-sync.io/)
 
 **Linux:** 
-[Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/), [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
+[Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/), [Docker-compose](https://docs.docker.com/compose/install/#install-compose), [Git](https://git-scm.com/)
 > on Debian based OS (Example: Ubuntu, Linux Mint) use `bin/docker.sh` to install `docker` and `docker-compose`
 
 ### Get Source
@@ -23,10 +23,6 @@
 > with `bin/install config` you can use prompts to configure install
     
 > use .env to change values after installation and activate on restart of containers 
-
-> If you have a `composer.json` in th workdir these packages will be installed
-
-> If you have a DB Dump in `.docker/mysql/db_dumps` this will be imported. Formats allowed `*.sql` of `*.gz`
 
 ### Backend
     http://localhost/admin
@@ -66,7 +62,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 ### Mailhog Usage
 
     Mail Client
-    http://mage2.localhost:8025 
+    http://localhost:8025 
 
     In Magento 2 Backend `stores` -`Configuration` -`Advanced` -`System` 
     -`Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
@@ -110,13 +106,14 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~move `sampe-data.sh` to PHP container~~
 * ~~add Healtchecks to docker-compose~~
 * ~~modify installer to use config flag instead of flag kickit~~
-* ~~build own ElasticSearch Image with required Plugins for Magento 2~~ 
+* ~~build own ElasticSearch Image with required Plugins for Magento 2~~
+* fix OSX Installer
 * modify for running Magento 2 project
 * add downloader script to clone and install App
 * add DB Import functions and logs
-* fix OSX Installer
 * set user and group ids for docker-sync
 * refactor docker-compose.osx.yml
+* change PHP container OS from debian to alpine
 * add magento 2 version prompt
 * map local user to php container www-data user
 * ~~install composer version according to magento 2 version~~

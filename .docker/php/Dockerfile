@@ -70,14 +70,13 @@ RUN docker-php-ext-install -j$(nproc) \
 RUN apt-get clean && apt-get autoclean && apt-get autoremove \
     && rm -rf /var/lib/apt-get/lists/* \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis imagick apcu-5.1.20 xdebug \
+    && pecl install -o -f redis imagick apcu-5.1.21 xdebug \
     && docker-php-ext-enable redis imagick apcu xdebug \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/home/www/bin/ --filename=composer \
     && curl -o /home/www/bin/n98-magerun2.phar https://files.magerun.net/n98-magerun2.phar \
     && echo "PATH=/var/www/node_modules/.bin:\$PATH" >>/home/www/.profile \
     && echo "alias ll='ls -lha'" >>/home/www/.profile
 
-ADD https://github.com/rosell-dk/webp-convert/raw/master/src/Convert/Converters/Binaries/cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 COPY installer.sh starter.sh sample-data.sh /usr/local/bin/
 
 RUN chown -R www:www /home/www/bin /var/www
@@ -86,3 +85,5 @@ RUN chmod +x /home/www/bin/composer \
     /usr/local/bin/installer.sh \
     /usr/local/bin/starter.sh \
     /usr/local/bin/sample-data.sh
+
+ADD https://github.com/rosell-dk/webp-convert/raw/master/src/Convert/Converters/Binaries/cwebp-120-linux-x86-64 /usr/local/bin/cwebp

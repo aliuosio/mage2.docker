@@ -117,6 +117,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * add DB Import functions and logs
 * set user and group ids for docker-sync
 * refactor docker-compose.osx.yml
+* change PHP container OS from debian to alpine
 * add magento 2 version prompt
 * map local user to php container www-data user
 * ~~install composer version according to magento 2 version~~

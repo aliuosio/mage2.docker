@@ -29,12 +29,12 @@
 > If you have a DB Dump in `.docker/mysql/db_dumps` this will be imported. Formats allowed `*.sql` of `*.gz`
 
 ### Backend
-    http://mage2.localhost/admin
+    http://localhost/admin
     User: mage2_admin
     Password: mage2_admin123#T
     
 ### Frontend
-    http://mage2.localhost
+    http://localhost
 
 OSX: on first run very slow due to docker-sync update of local shop files volume in the background. 
 See `.docker-sync/daemon.log` for progress
@@ -110,11 +110,11 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~move `sampe-data.sh` to PHP container~~
 * ~~add Healtchecks to docker-compose~~
 * ~~modify installer to use config flag instead of flag kickit~~
-* ~~build own ElasticSearch Image with required Plugins for Magento 2~~ 
+* ~~build own ElasticSearch Image with required Plugins for Magento 2~~
+* fix OSX Installer
 * modify for running Magento 2 project
 * add downloader script to clone and install App
 * add DB Import functions and logs
-* fix OSX Installer
 * set user and group ids for docker-sync
 * refactor docker-compose.osx.yml
 * add magento 2 version prompt

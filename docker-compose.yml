@@ -70,7 +70,7 @@ services:
       - redis_data_socket:/var/run/redis
       - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www/.composer:delegated
-      - ssh_keys:/home/${USER}/.ssh:delegated
+      - ${HOME}/.ssh:${HOME}/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
@@ -171,11 +171,6 @@ volumes:
   db_data:
   elastic_data:
   redis_data:
-  ssh_keys:
-    driver_opts:
-      type: none
-      o: bind
-      device: ${HOME}/.ssh
   composer_cache:
     driver_opts:
       type: none

@@ -20,7 +20,6 @@ syncs:
       - "-ignore='Path var/*'"    # don't share the cache
       - "-ignore='Path node_modules/*'" # remove this if you need code completion
       - "-ignore='Path pub/*'"
-
   composer_cache:
     src: ${HOME}/.composer
     sync_strategy: 'native_osx'

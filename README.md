@@ -74,7 +74,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     
 ### Features
 * Fresh Install or use magento 2 project on your file system using `bin/install.sh`
-* Nginx uses http2
+* Varnish Cache Container
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
 * set Magento 2 Versions as configurable option of `bin/ìnstall.sh`
 * using watchtower container to keep the containers current
@@ -107,11 +107,11 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~add Healtchecks to docker-compose~~
 * ~~modify installer to use config flag instead of flag kickit~~
 * ~~build own ElasticSearch Image with required Plugins for Magento 2~~
-* fix OSX Installer
+* ~~fix OSX Installer~~
+* set user and group ids for docker-sync
 * modify for running Magento 2 project
 * add downloader script to clone and install App
 * add DB Import functions and logs
-* set user and group ids for docker-sync
 * refactor docker-compose.osx.yml
 * change PHP container OS from debian to alpine
 * add magento 2 version prompt
@@ -122,12 +122,9 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * reduce the number of volumes
 * set Time and Zone according to host
 * Docker letsencrypt certification Container
-* prompt to disable Two Factor Auth (for example in local enviroment)
 * ~~exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again~~
 * make Webserver(Apache or Nginx) configurable in `bin/install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config
-* move `bin/install.sh` methods to extra script run in php container native
-* move `bin/sampledata.sh` methods to extra script run in php container native
 * simplify letsencrypt certificate embedding in nginx container
 * Nginx Header Config passes at https://securityheaders.com/
 

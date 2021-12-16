@@ -346,6 +346,6 @@ installer() {
   runCommand "$phpContainer '$commands'"
 }
 
-setUserAndGroupIdsInDockerSync() {
+#setUserAndGroupIdsInDockerSync() {
 
-}
+#}

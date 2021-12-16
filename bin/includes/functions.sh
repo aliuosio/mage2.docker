@@ -42,16 +42,6 @@ workDirCreate() {
   fi
 }
 
-sshFolder() {
-if [[ ! -d "$1" ]]; then
-  if ! mkdir -p "$1"; then
-    message "Folder can not be created"
-  else
-    message "Folder created"
-  fi
-fi
-}
-
 DBDumpImport() {
   if [[ -n $1 && -f $1 ]]; then
     runCommand "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"

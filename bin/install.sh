@@ -2,6 +2,11 @@
 set -e
 
 startAll=$(date +%s)
+
+if [[ $(uname -s) == "Darwin" ]]; then
+  brew install coreutils
+fi
+
 # shellcheck disable=SC2046
 project_root=$(dirname $(dirname $(realpath "$0")))
 . "$project_root/bin/includes/functions.sh" "$project_root"
@@ -27,6 +32,7 @@ fi
 createComposerFolder
 makeExecutable
 gitUpdate
+sshFolder "$SSHDIR"
 workDirCreate "$WORKDIR"
 setNginxVhost
 dockerRefresh

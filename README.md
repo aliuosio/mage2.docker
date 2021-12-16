@@ -74,7 +74,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     
 ### Features
 * Fresh Install or use magento 2 project on your file system using `bin/install.sh`
-* Varnish Cache Container
+* Varnish Cache Container (WIP)
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
 * set Magento 2 Versions as configurable option of `bin/ìnstall.sh`
 * using watchtower container to keep the containers current
@@ -108,7 +108,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~modify installer to use config flag instead of flag kickit~~
 * ~~build own ElasticSearch Image with required Plugins for Magento 2~~
 * ~~fix OSX Installer~~
-* set user and group ids for docker-sync
 * modify for running Magento 2 project
 * add downloader script to clone and install App
 * add DB Import functions and logs

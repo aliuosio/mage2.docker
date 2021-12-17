@@ -74,7 +74,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     
 ### Features
 * Fresh Install or use magento 2 project on your file system using `bin/install.sh`
-* Varnish Cache Container (WIP)
+* Varnish Cache Container
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
 * set Magento 2 Versions as configurable option of `bin/ìnstall.sh`
 * using watchtower container to keep the containers current

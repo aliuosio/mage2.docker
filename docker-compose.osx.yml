@@ -6,12 +6,10 @@ services:
     #    build: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
     image: osioaliu/nginx
-    stdin_open: true
-    tty: true
     depends_on:
       - php
     ports:
-      - ${WEBSERVER_UNSECURE_PORT}:${WEBSERVER_UNSECURE_PORT}
+      - "8080:80"
     environment:
       AUTH_CONFIG: ${AUTH_CONFIG}
       AUTH_USER: ${AUTH_USER}
@@ -36,8 +34,6 @@ services:
     #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-bullseye
-    stdin_open: true
-    tty: true
     sysctls:
       net.core.somaxconn: 65536
     working_dir: ${WORKDIR_SERVER}
@@ -56,7 +52,7 @@ services:
       COMPOSER_CACHE_DIR: /home/www/.composer
       DEPLOY_MODE: ${DEPLOY_MODE}
       ADMIN_USER: ${ADMIN_USER}
-      ADMIN_PASS:  ${ADMIN_PASS}
+      ADMIN_PASS: ${ADMIN_PASS}
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_NAME: ${ADMIN_NAME}
       ADMIN_SURNAME: ${ADMIN_SURNAME}
@@ -135,13 +131,28 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      test: [ "CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1" ]
       interval: 30s
       timeout: 30s
       retries: 3
     command: bash -c 'docker-entrypoint.sh'
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
+
+  varnish:
+    container_name: ${NAMESPACE}_varnish
+    image: varnish:${VARNISH_VERSION}
+    environment:
+      - VARNISH_SIZE=2G
+    tmpfs:
+      - /var/lib/varnish:exec
+    command: "-p default_keep=300"
+    depends_on:
+      - nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
 
   #  rabbitmq:
   #    container_name: ${NAMESPACE}_rabbitmq

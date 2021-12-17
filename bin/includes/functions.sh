@@ -184,10 +184,10 @@ setNginxVhost() {
 # @todo: test on OSX
 dockerRefresh() {
   if [[ $(uname -s) == "Darwin" ]]; then
-    #runCommand "docker-compose -f docker-compose.osx.yml down"
+    #runCommand "docker-compose -f osx.volumes.yml down"
     runCommand "docker-sync stop"
     runCommand "docker-sync start"
-    runCommand "docker-compose -f docker-compose.osx.yml up -d"
+    runCommand "docker-compose -f docker-compose.yml -f osx.volumes.yml up -d"
   else
     runCommand setHostSettings
     #runCommand "docker-compose down"

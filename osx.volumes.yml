@@ -1,0 +1,7 @@
+version: '3.8'
+
+volumes:
+  composer_cache:
+    external: true
+  app_data:
+    external: true

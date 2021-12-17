@@ -9,7 +9,8 @@ services:
     depends_on:
       - php
     ports:
-      - "8080:80"
+      - "80:80"
+      #- "8080:80"
     environment:
       AUTH_CONFIG: ${AUTH_CONFIG}
       AUTH_USER: ${AUTH_USER}
@@ -139,30 +140,6 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 
-  varnish:
-    container_name: ${NAMESPACE}_varnish
-    image: varnish:${VARNISH_VERSION}
-    environment:
-      - VARNISH_SIZE=2G
-    tmpfs:
-      - /var/lib/varnish:exec
-    command: "-p default_keep=300"
-    depends_on:
-      - nginx
-    ports:
-      - "80:80"
-    volumes:
-      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
-
-  #  rabbitmq:
-  #    container_name: ${NAMESPACE}_rabbitmq
-  #    image: rabbitmq:3.7-management-alpine
-  #    ports:
-  #      - "15672:15672"
-  #      - "5672:5672"
-  #    volumes:
-  #      - rabbitmq_data:/var/lib/rabbitmq
-
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
@@ -175,6 +152,30 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 3600
+
+#  varnish:
+#    container_name: ${NAMESPACE}_varnish
+#    image: varnish:${VARNISH_VERSION}
+#    environment:
+#      - VARNISH_SIZE=2G
+#    tmpfs:
+#      - /var/lib/varnish:exec
+#    command: "-p default_keep=300"
+#    depends_on:
+#      - nginx
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
+
+#  rabbitmq:
+#    container_name: ${NAMESPACE}_rabbitmq
+#    image: rabbitmq:3.7-management-alpine
+#    ports:
+#      - "15672:15672"
+#      - "5672:5672"
+#    volumes:
+#      - rabbitmq_data:/var/lib/rabbitmq
 
 volumes:
   #rabbitmq_data:

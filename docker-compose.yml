@@ -9,8 +9,8 @@ services:
     depends_on:
       - php
     ports:
-      - "80:80"
-      #- "8080:80"
+      #- "80:80"
+      - "8080:80"
     environment:
       AUTH_CONFIG: ${AUTH_CONFIG}
       AUTH_USER: ${AUTH_USER}
@@ -153,20 +153,20 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 3600
 
-#  varnish:
-#    container_name: ${NAMESPACE}_varnish
-#    image: varnish:${VARNISH_VERSION}
-#    environment:
-#      - VARNISH_SIZE=2G
-#    tmpfs:
-#      - /var/lib/varnish:exec
-#    command: "-p default_keep=300"
-#    depends_on:
-#      - nginx
-#    ports:
-#      - "80:80"
-#    volumes:
-#      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
+  varnish:
+    container_name: ${NAMESPACE}_varnish
+    image: varnish:${VARNISH_VERSION}
+    environment:
+      - VARNISH_SIZE=2G
+    tmpfs:
+      - /var/lib/varnish:exec
+    command: "-p default_keep=300"
+    depends_on:
+      - nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
 
 #  rabbitmq:
 #    container_name: ${NAMESPACE}_rabbitmq

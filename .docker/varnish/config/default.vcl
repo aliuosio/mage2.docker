@@ -1,10 +1,6 @@
-vcl 4.1;
+vcl 4.0;
 
 backend default {
   .host = "nginx";
   .port = "8080";
-}
-
-acl purge {
-    "nginx";
 }

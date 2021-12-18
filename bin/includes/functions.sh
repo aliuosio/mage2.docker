@@ -346,3 +346,8 @@ installer() {
   commands="/usr/local/bin/installer.sh"
   runCommand "$phpContainer '$commands'"
 }
+
+setMagentoCron() {
+  commands="bin/magento cron:install"
+  runCommand "$phpContainer '$commands'"
+}

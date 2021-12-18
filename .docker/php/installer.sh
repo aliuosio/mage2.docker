@@ -134,11 +134,5 @@ magentoSetup() {
   fi
 }
 
-setMagentoCron() {
-  commands="bin/magento cron:install"
-  runCommand "$commands"
-}
-
 magentoSetup
 setPermissionsComposer
-setMagentoCron

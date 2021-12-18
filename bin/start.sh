@@ -11,5 +11,5 @@ setPermissionsHost
 starter
 showSuccess "$SHOPURI" "$DUMP"
 endAll=$(date +%s)
-message "Setup Time: runtimeAll=$((endAll - startAll)) Sec"
-showLog
+message "Setup Time: $((endAll - startAll)) Sec"
+setMagentoCron

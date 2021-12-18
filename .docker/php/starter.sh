@@ -29,11 +29,5 @@ setPermissionsContainer() {
   runCommand "$commands"
 }
 
-setMagentoCron() {
-  commands="bin/magento cron:install"
-  runCommand "$commands"
-}
-
 magentoRefresh
 setPermissionsContainer
-setMagentoCron

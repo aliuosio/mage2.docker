@@ -3,13 +3,11 @@ version: '3.8'
 services:
 
   nginx:
-    #    build: ./.docker/nginx
     container_name: ${NAMESPACE}_nginx
-    image: osioaliu/nginx
+    image: nginx:stable-alpine
     depends_on:
       - php
     ports:
-      #- "80:80"
       - "8080:80"
     environment:
       AUTH_CONFIG: ${AUTH_CONFIG}

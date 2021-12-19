@@ -8,7 +8,7 @@ project_root=$(dirname $(dirname $(realpath "$0" )))
 
 dockerRefresh
 setPermissionsHost
-starter
+#starter
 showSuccess "$SHOPURI" "$DUMP"
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

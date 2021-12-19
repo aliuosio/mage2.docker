@@ -77,13 +77,12 @@ RUN apt-get clean && apt-get autoclean && apt-get autoremove \
     && echo "PATH=/var/www/node_modules/.bin:\$PATH" >>/home/www/.profile \
     && echo "alias ll='ls -lha'" >>/home/www/.profile
 
-COPY installer.sh starter.sh sample-data.sh /usr/local/bin/
+COPY installer.sh sample-data.sh /usr/local/bin/
 
 RUN chown -R www:www /home/www/bin /var/www
 RUN chmod +x /home/www/bin/composer \
     /home/www/bin/n98-magerun2.phar \
     /usr/local/bin/installer.sh \
-    /usr/local/bin/starter.sh \
     /usr/local/bin/sample-data.sh
 
 ADD https://github.com/rosell-dk/webp-convert/raw/master/src/Convert/Converters/Binaries/cwebp-120-linux-x86-64 /usr/local/bin/cwebp

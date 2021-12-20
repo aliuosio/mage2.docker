@@ -71,13 +71,8 @@ RUN docker-php-ext-configure opcache --enable-opcache
 ARG user=www
 ARG home=/home/www
 
-RUN addgroup -S www
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --home $home \
-    --ingroup www \
-    $user
+RUN addgroup -g 3000 -S $user
+RUN adduser -u 3000 -S -D -G $user $user
 
 RUN mkdir $home/bin
 

@@ -10,8 +10,6 @@ message() {
 }
 
 runCommand() (
-  #tput setaf 1; echo "Method in bin/install.sh: $2"
-  tput setaf 6
   message "$1"
   eval "$1"
 )

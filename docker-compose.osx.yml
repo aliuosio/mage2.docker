@@ -32,7 +32,7 @@ services:
     #      args:
     #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
-    image: osioaliu/php:${PHP_VERSION_SET}-fpm-bullseye
+    image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
     working_dir: ${WORKDIR_SERVER}
@@ -74,6 +74,7 @@ services:
     container_name: ${NAMESPACE}_db
     image: mariadb:${MARIADB_VERSION}
     environment:
+      TZ: ${TZ}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -97,6 +98,8 @@ services:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
     command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
+    environment:
+      TZ: ${TZ}
     healthcheck:
       test: 'redis-cli -s /var/run/redis/redis.sock ping || exit 1'
       interval: 30s
@@ -115,6 +118,7 @@ services:
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
+      - TZ=${TZ}
       - include_type_name=true
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false
@@ -141,6 +145,8 @@ services:
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
+    environment:
+      TZ: ${TZ}
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
@@ -149,6 +155,8 @@ services:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TZ: ${TZ}
     command: --interval 3600
 
   varnish:

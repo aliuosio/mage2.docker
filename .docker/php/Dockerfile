@@ -37,6 +37,7 @@ RUN apk add --no-cache --update --virtual  \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         icu-dev \
+        zlib-dev libxpm-dev \
         g++
 
 RUN docker-php-ext-install -j$(nproc) \

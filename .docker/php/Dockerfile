@@ -2,8 +2,6 @@ ARG PHP_VERSION_SET
 FROM php:${PHP_VERSION_SET}-fpm-alpine
 LABEL maintainer="Osiozekhai Aliu"
 
-COPY installer.sh sample-data.sh /usr/local/bin/
-
 ARG user=www
 ARG home=/home/www
 
@@ -53,6 +51,9 @@ RUN addgroup -S $user \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer \
     && curl -o /usr/local/bin/n98-magerun2.phar https://files.magerun.net/n98-magerun2.phar \
     && chown -R www:www /var/www \
-    && chmod +x /usr/local/bin/composer /usr/local/bin/n98-magerun2.phar /usr/local/bin/installer.sh /usr/local/bin/sample-data.sh
+    && chmod +x /usr/local/bin/composer /usr/local/bin/n98-magerun2.phar
+
+COPY installer.sh sample-data.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/installer.sh /usr/local/bin/sample-data.sh
 
 ADD https://github.com/rosell-dk/webp-convert/raw/master/src/Convert/Converters/Binaries/cwebp-120-linux-x86-64 /usr/local/bin/cwebp

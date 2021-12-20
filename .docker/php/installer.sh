@@ -48,17 +48,15 @@ magentoConfigImport() {
 
 magentoConfig() {
   commands="
+      bin/magento config:set system/full_page_cache/caching_application 2
       bin/magento config:set web/secure/use_in_frontend 0 && \
       bin/magento config:set web/secure/use_in_adminhtml 0  && \
       bin/magento config:set web/seo/use_rewrites 0 && \
       bin/magento config:set catalog/search/enable_eav_indexer 1 && \
-      bin/magento config:set--scope=default--scope-code=0system/full_page_cache/caching_application 2 && \
-      bin/magento config:set ‐‐http‐cache‐hosts=localhost && \
       bin/magento deploy:mode:set -s $DEPLOY_MODE"
 
   runCommand "$commands"
 }
-
 
 magentoPreInstall() {
   if [ -f "$WORKDIR/composer.json" ]; then

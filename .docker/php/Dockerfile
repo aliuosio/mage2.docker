@@ -69,7 +69,7 @@ RUN docker-php-ext-configure opcache --enable-opcache
 RUN apk del .build-deps && rm -rf /var/cache/apk/*
 
 ARG user=www
-ARG home=/var/www
+ARG home=/home/www
 
 RUN addgroup -S $user
 RUN adduser \

@@ -1,7 +1,6 @@
 ARG PHP_VERSION_SET
 FROM php:${PHP_VERSION_SET}-fpm-alpine
 LABEL maintainer="Osiozekhai Aliu"
-COPY installer.sh sample-data.sh /usr/local/bin/
 
 RUN apk add --no-cache --update --virtual  \
     build-dependencies \
@@ -67,25 +66,29 @@ RUN docker-php-ext-enable redis imagick apcu xdebug
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
 RUN docker-php-ext-configure opcache --enable-opcache
+RUN apk del .build-deps && rm -rf /var/cache/apk/*
 
 ARG user=www
 ARG home=/home/www
 
-RUN addgroup -g 3000 -S $user
-RUN adduser -u 3000 -S -D -G $user $user
+RUN addgroup -S $user
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home $home \
+    --ingroup $user \
+    $user
 
 RUN mkdir $home/bin
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 RUN curl -o /usr/local/bin/n98-magerun2.phar https://files.magerun.net/n98-magerun2.phar
 RUN echo "alias ll='ls -lha'" >>$home/.profile
-
 RUN chown -R www:www $home/bin /var/www
+COPY installer.sh sample-data.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/composer \
     /usr/local/bin/n98-magerun2.phar \
     /usr/local/bin/installer.sh \
     /usr/local/bin/sample-data.sh
-
-RUN apk del .build-deps && rm -rf /var/cache/apk/*
 
 ADD https://github.com/rosell-dk/webp-convert/raw/master/src/Convert/Converters/Binaries/cwebp-120-linux-x86-64 /usr/local/bin/cwebp

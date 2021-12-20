@@ -51,19 +51,14 @@ magentoConfig() {
       bin/magento config:set web/secure/use_in_frontend 0 && \
       bin/magento config:set web/secure/use_in_adminhtml 0  && \
       bin/magento config:set web/seo/use_rewrites 0 && \
-      bin/magento config:set catalog/search/engine elasticsearch7 && \
       bin/magento config:set catalog/search/enable_eav_indexer 1 && \
       bin/magento config:set catalog/search/elasticsearch7_server_hostname elasticsearch && \
       bin/magento config:set catalog/search/elasticsearch7_server_port 9200 && \
       bin/magento config:set catalog/search/elasticsearch7_index_prefix magento && \
       bin/magento config:set catalog/search/elasticsearch7_enable_auth 0 && \
-      bin/magento deploy:mode:set -s $DEPLOY_MODE && \
-      bin/magento admin:user:create \
-        --admin-user=$ADMIN_USER \
-        --admin-password=$ADMIN_PASS \
-        --admin-email=$ADMIN_EMAIL \
-        --admin-firstname=$ADMIN_NAME \
-        --admin-lastname=$ADMIN_SURNAME"
+      bin/magento config:set--scope=default--scope-code=0system/full_page_cache/caching_application 2 \
+      bin/magento config:set ‐‐http‐cache‐hosts=localhost \
+      bin/magento deploy:mode:set -s $DEPLOY_MODE
 
   runCommand "$commands"
 }
@@ -109,13 +104,7 @@ magentoInstall() {
     --session-save-redis-db=0 --session-save-redis-password='' \
     --cache-backend=redis \
     --cache-backend-redis-server=/var/run/redis/redis.sock \
-    --cache-backend-redis-db=1 \
-    --page-cache=redis \
-    --page-cache-redis-server=/var/run/redis/redis.sock \
-    --page-cache-redis-db=2 \
-    --search-engine=elasticsearch7 \
-    --elasticsearch-host=elasticsearch \
-    --elasticsearch-port=9200"
+    --cache-backend-redis-db=1
 
   runCommand "$commands"
 }
@@ -131,6 +120,7 @@ magentoSetup() {
     magentoPreInstall
     composerExtraPackages
     magentoInstall
+    magentoConfig
   fi
 }
 

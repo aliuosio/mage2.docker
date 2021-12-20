@@ -69,7 +69,7 @@ RUN docker-php-ext-configure opcache --enable-opcache
 RUN apk del .build-deps && rm -rf /var/cache/apk/*
 
 ARG user=www
-ARG home=/home/www
+ARG home=/var/www
 
 RUN addgroup -S $user
 RUN adduser \
@@ -79,12 +79,9 @@ RUN adduser \
     --ingroup $user \
     $user
 
-RUN mkdir $home/bin
-
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 RUN curl -o /usr/local/bin/n98-magerun2.phar https://files.magerun.net/n98-magerun2.phar
-RUN echo "alias ll='ls -lha'" >>$home/.profile
-RUN chown -R www:www $home/bin /var/www
+RUN chown -R www:www /var/www
 COPY installer.sh sample-data.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/composer \
     /usr/local/bin/n98-magerun2.phar \

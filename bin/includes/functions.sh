@@ -349,5 +349,5 @@ installer() {
 
 setMagentoCron() {
   commands="bin/magento cron:install"
-  runCommand "$phpContainer '$commands'"
+  runCommand "$phpContainerRoot '$commands'"
 }

@@ -81,13 +81,13 @@ RUN adduser \
 
 RUN mkdir $home/bin
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/home/www/bin/ --filename=composer
-RUN curl -o $home/bin/n98-magerun2.phar https://files.magerun.net/n98-magerun2.phar
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
+RUN curl -o /usr/local/bin/n98-magerun2.phar https://files.magerun.net/n98-magerun2.phar
 RUN echo "alias ll='ls -lha'" >>$home/.profile
 
 RUN chown -R www:www $home/bin /var/www
-RUN chmod +x $home/bin/composer \
-    $home/bin/n98-magerun2.phar \
+RUN chmod +x /usr/local/bin/composer \
+    /usr/local/bin/n98-magerun2.phar \
     /usr/local/bin/installer.sh \
     /usr/local/bin/sample-data.sh
 

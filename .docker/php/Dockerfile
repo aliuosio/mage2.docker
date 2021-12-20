@@ -10,25 +10,17 @@ RUN apk add --no-cache --update --virtual  \
     mariadb-client \
     git \
     libxslt-dev \
-    freetype-dev \
-    libjpeg-turbo-dev \
-    libpng \
     libzip-dev \
     tzdata \
-    libpng-dev \
     bzip2-dev \
     aspell \
     gettext-dev \
     bash-completion \
-    libwebp-dev \
     wget \
     gmp-dev \
     icu-libs \
     zlib \
     openssh \
-    imagemagick \
-    imagemagick-libs \
-    imagemagick-dev \
     && set -xe \
     && apk add --update \
         icu \
@@ -37,7 +29,14 @@ RUN apk add --no-cache --update --virtual  \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         icu-dev \
-        zlib-dev libxpm-dev \
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libpng \
+        libwebp-dev \
+        imagemagick \
+        imagemagick-libs \
+        imagemagick-dev \
         g++
 
 RUN docker-php-ext-install -j$(nproc) \

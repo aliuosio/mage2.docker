@@ -10,9 +10,6 @@ services:
     ports:
       - "8080:80"
     environment:
-      AUTH_CONFIG: ${AUTH_CONFIG}
-      AUTH_USER: ${AUTH_USER}
-      AUTH_PASS: ${AUTH_PASS}
       SHOPURI: ${SHOPURI}
       TZ: ${TZ}
       WORKDIR_SERVER: ${WORKDIR_SERVER}
@@ -49,16 +46,7 @@ services:
       TZ: ${TZ}
       WORKDIR_SERVER: ${WORKDIR_SERVER}
       COMPOSER_CACHE_DIR: /home/www/.composer
-      DEPLOY_MODE: ${DEPLOY_MODE}
-      ADMIN_USER: ${ADMIN_USER}
-      ADMIN_PASS: ${ADMIN_PASS}
-      ADMIN_EMAIL: ${ADMIN_EMAIL}
-      ADMIN_NAME: ${ADMIN_NAME}
-      ADMIN_SURNAME: ${ADMIN_SURNAME}
-      MAGENTO_VERSION: ${MAGENTO_VERSION}
       SHOPURI: ${SHOPURI}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     restart: on-failure
     command: bash -c 'php-fpm -F'
     volumes:
@@ -163,6 +151,7 @@ services:
     container_name: ${NAMESPACE}_varnish
     image: varnish:${VARNISH_VERSION}
     environment:
+      - TZ=${TZ}
       - VARNISH_SIZE=2G
     tmpfs:
       - /var/lib/varnish:exec

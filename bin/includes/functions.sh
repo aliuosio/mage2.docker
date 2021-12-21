@@ -173,11 +173,11 @@ makeExecutable() {
 
 setNginxVhost() {
   if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "sed -i '' 's@mage2.localhost@$SHOPURI@' .docker/nginx/conf/default.conf"
-    runCommand "sed -i '' 's@listen 80;@listen $WEBSERVER_UNSECURE_PORT;@' .docker/nginx/conf/default.conf"
+    runCommand "sed -i '' 's@mage2.localhost@$SHOPURI@' .docker/nginx/config/default.conf"
+    runCommand "sed -i '' 's@listen 80;@listen $WEBSERVER_UNSECURE_PORT;@' .docker/nginx/config/default.conf"
   else
-    runCommand "sed -i 's@mage2.localhost@$SHOPURI@' .docker/nginx/conf/default.conf"
-    runCommand "sed -i 's@listen 80;@listen $WEBSERVER_UNSECURE_PORT;@' .docker/nginx/conf/default.conf"
+    runCommand "sed -i 's@mage2.localhost@$SHOPURI@' .docker/nginx/config/default.conf"
+    runCommand "sed -i 's@listen 80;@listen $WEBSERVER_UNSECURE_PORT;@' .docker/nginx/config/default.conf"
   fi
 }
 
@@ -268,7 +268,7 @@ restoreGitIgnoreAfterComposerInstall() {
 }
 
 setPermissionsComposer() {
-  commands="chown -R www:www /home/www/.composer"
+  commands="chown -R $USER:$USER /home/www/.composer"
 
   runCommand "$phpContainerRoot '$commands'"
 }
@@ -276,7 +276,7 @@ setPermissionsComposer() {
 setPermissionsContainer() {
   commands="find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} + \
             && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
-            && chown -R www:www $WORKDIR_SERVER \
+            && chown -R $USER:$USER $WORKDIR_SERVER \
             && chmod u+x bin/magento"
 
   runCommand "$phpContainerRoot '$commands'"
@@ -319,10 +319,20 @@ http://$1"
 
 }
 
+setMagentoCron() {
+  commands="bin/magento cron:install"
+  runCommand "$phpContainerRoot '$commands'"
+}
+
 sampleDataInstall() {
-  if [[ "$SAMPLE_DATA" == "true" ]]; then
-    commands="/usr/local/bin/sample-data.sh"
+    commands="bin/magento sampledata:deploy && bin/magento se:up && bin/magento i:rei && bin/magento c:c;"
+
     runCommand "$phpContainer '$commands'"
+}
+
+sampleDataInstallMustInstall() {
+  if [[ "$SAMPLE_DATA" == "true" ]]; then
+    sampleDataInstall
   fi
 }
 
@@ -337,17 +347,96 @@ findImport() {
   fi
 }
 
-starter() {
-  commands="/usr/local/bin/starter.sh"
+conposerFunctions() {
+  # shellcheck disable=SC2154
+  if [ -f "$composerLockFile" ]; then
+    commands="composer i"
+  else
+    commands="composer u"
+  fi
+
   runCommand "$phpContainer '$commands'"
 }
 
-installer() {
-  commands="/usr/local/bin/installer.sh"
+composerExtraPackages() {
+  commands="composer req --dev mage2tv/magento-cache-clean && composer req magepal/magento2-gmailsmtpapp yireo/magento2-webp2"
+
   runCommand "$phpContainer '$commands'"
 }
 
-setMagentoCron() {
-  commands="bin/magento cron:install"
-  runCommand "$phpContainerRoot '$commands'"
+magentoConfigImport() {
+  commands="bin/magento app:config:import"
+  runCommand "$phpContainer '$commands'"
+}
+
+magentoConfig() {
+  commands="
+      bin/magento config:set system/full_page_cache/caching_application 2
+      bin/magento config:set web/secure/use_in_frontend 0 && \
+      bin/magento config:set web/secure/use_in_adminhtml 0  && \
+      bin/magento config:set web/seo/use_rewrites 0 && \
+      bin/magento config:set catalog/search/enable_eav_indexer 1 && \
+      bin/magento deploy:mode:set -s $DEPLOY_MODE"
+
+  runCommand "$phpContainer '$commands'"
+}
+
+magentoPreInstall() {
+    commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} .;"
+    runCommand "$phpContainer '$commands'"
+}
+
+composerExtraPackages() {
+  commands="composer req --dev mage2tv/magento-cache-clean && composer req magepal/magento2-gmailsmtpapp yireo/magento2-webp2"
+
+  runCommand "$phpContainer '$commands'"
+}
+
+magentoInstall() {
+  commands="bin/magento setup:install \
+    --base-url=http://$SHOPURI/ \
+    --db-host=db \
+    --db-name=$MYSQL_DATABASE \
+    --db-user=root \
+    --db-password=$MYSQL_ROOT_PASSWORD \
+    --backend-frontname=admin \
+    --language=de_DE \
+    --timezone=Europe/Berlin \
+    --currency=EUR \
+    --admin-lastname=$ADMIN_NAME \
+    --admin-firstname=$ADMIN_SURNAME \
+    --admin-email=$ADMIN_EMAIL \
+    --admin-user=$ADMIN_USER \
+    --admin-password=$ADMIN_PASS \
+    --cleanup-database \
+    --use-rewrites=0 \
+    --session-save=redis \
+    --session-save-redis-host=/var/run/redis/redis.sock \
+    --session-save-redis-db=0 --session-save-redis-password='' \
+    --cache-backend=redis \
+    --cache-backend-redis-server=/var/run/redis/redis.sock \
+    --cache-backend-redis-db=1 \
+    --search-engine=elasticsearch7 \
+    --elasticsearch-host=elasticsearch \
+    --elasticsearch-port=9200"
+  runCommand "$phpContainer '$commands'"
+}
+
+magentoSetup() {
+  # shellcheck disable=SC2154
+  if [ -f "$composerJsonFile" ]; then
+    conposerFunctions
+  fi
+
+  magentoPreInstall
+  composerExtraPackages
+  magentoInstall
+  magentoConfigImport
+  magentoConfig
+}
+
+setPermissionsComposer() {
+  commands="chown -R www:www /home/www/.composer"
+
+  runCommand "$phpContainer '$commands'"
 }

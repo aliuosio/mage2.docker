@@ -101,25 +101,20 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * added prompt for SSL to `bin/ìnstall.sh`
 
 ### Todos
-* ~~move functions from `bin/start.sh` to PHP container~~
-* ~~move functions from `bin/install.sh` to PHP container~~
-* ~~move `sampe-data.sh` to PHP container~~
 * ~~add Healtchecks to docker-compose~~
 * ~~modify installer to use config flag instead of flag kickit~~
 * ~~build own ElasticSearch Image with required Plugins for Magento 2~~
 * ~~fix OSX Installer~~
-* modify for running Magento 2 project
-* add downloader script to clone and install App
+* ~~change PHP container OS from debian to alpine~~
+* ~~set Time and Zone according to host~~
 * add DB Import functions and logs
+* add downloader script to clone and install App
+* modify for running Magento 2 project
 * refactor docker-compose.osx.yml
-* change PHP container OS from debian to alpine
 * add magento 2 version prompt
 * map local user to php container www-data user
-* ~~install composer version according to magento 2 version~~
 * Exchange `docker-sync` with `Mutagen`
-* generic solution for `bin//install.sh`to guarantee backward compatibility
 * reduce the number of volumes
-* set Time and Zone according to host
 * Docker letsencrypt certification Container
 * ~~exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again~~
 * make Webserver(Apache or Nginx) configurable in `bin/install.sh` and `docker-entrypoint.sh`

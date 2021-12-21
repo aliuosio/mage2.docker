@@ -33,10 +33,12 @@ workDirCreate "$WORKDIR"
 setNginxVhost
 dockerRefresh
 removeHTMLFolder
-installer
+magentoSetup
+setPermissionsComposer
 MagentoTwoFactorAuthDisable
+sampleDataInstallMustInstall
 setPermissionsHost
-sampleDataInstall
+setPermissionsContainer
 showSuccess "$SHOPURI" "$DUMP"
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

@@ -4,7 +4,7 @@ services:
 
   nginx:
     container_name: ${NAMESPACE}_nginx
-    image: nginx:stable-alpine
+    image: nginx:${NGINX_VERSION}
     depends_on:
       - php
     ports:
@@ -20,20 +20,21 @@ services:
           - ${SHOPURI}
     working_dir: ${WORKDIR_SERVER}
     volumes:
-      - .docker/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf:ro
       - app_data:${WORKDIR_SERVER}
+      - .docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
 
   php:
-#    build:
-#      context: ./.docker/php
-#      args:
-#        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    build:
+      context: ./.docker/php
+      args:
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
     working_dir: ${WORKDIR_SERVER}
-    user: www
+    user: ${USER}
     links:
       - db
     depends_on:
@@ -42,17 +43,14 @@ services:
       redis:
         condition: service_healthy
     environment:
-      USER: www
       TZ: ${TZ}
-      WORKDIR_SERVER: ${WORKDIR_SERVER}
       COMPOSER_CACHE_DIR: /home/www/.composer
-      SHOPURI: ${SHOPURI}
     restart: on-failure
     command: bash -c 'php-fpm -F'
     volumes:
-      - redis_data_socket:/var/run/redis
       - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www/.composer:delegated
+      - redis_data_socket:/var/run/redis
       - ${HOME}/.ssh:${HOME}/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
@@ -77,7 +75,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
-      - .docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
+      - .docker/mysql/config/my.cnf:/etc/mysql/my.cnf
 
   redis:
     container_name: ${NAMESPACE}_redis
@@ -96,7 +94,7 @@ services:
     volumes:
       - redis_data_socket:/var/run/redis
       - redis_data:/data
-      - ./.docker/redis/conf/redis.conf:/etc/redis/redis.conf:ro
+      - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
   elasticsearch:
     #    build:
@@ -152,7 +150,7 @@ services:
     image: varnish:${VARNISH_VERSION}
     environment:
       - TZ=${TZ}
-      - VARNISH_SIZE=2G
+      - VARNISH_SIZE=1G
     tmpfs:
       - /var/lib/varnish:exec
     command: "-p default_keep=300"

@@ -33,11 +33,13 @@ workDirCreate "$WORKDIR"
 dockerRefresh
 createComposerFolderContainer
 setPermissionsComposer
+setPermissionsHost
 setPermissionsServer
 magentoSetup
 MagentoTwoFactorAuthDisable
 sampleDataInstallMustInstall
 setPermissionsHost
+setPermissionsServer
 setPermissionsContainer
 showSuccess "$SHOPURI" "$DUMP"
 endAll=$(date +%s)

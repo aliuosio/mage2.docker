@@ -16,8 +16,8 @@ RUN docker-php-ext-configure hash --with-mhash \
     && docker-php-ext-configure gd --with-webp --with-jpeg --with-freetype \
     && docker-php-ext-install gd bcmath intl mysqli pdo_mysql opcache soap sockets xsl zip
 
-RUN pecl channel-update pecl.php.net && pecl install -o -f redis imagick apcu-5.1.21 \
-    && docker-php-ext-enable redis imagick apcu
+RUN pecl channel-update pecl.php.net && pecl install -o -f redis imagick apcu-5.1.21
+RUN docker-php-ext-enable redis imagick apcu
 
 RUN rm -rf /var/cache/apk/* \
     && docker-php-source delete \

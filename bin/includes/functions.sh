@@ -205,11 +205,16 @@ setAuthConfig() {
 createComposerFolder() {
   dir="${HOME}/.composer"
 
-  if [ ! -d $dir ]; then
+  if [ ! -d "$dir" ]; then
     runCommand "mkdir -p $dir"
     runCommand "chown -R $USER:$GROUP $dir"
   fi
 
+}
+
+createComposerFolderContainer() {
+  runCommand "$phpContainerRoot 'mkdir -p $HOME_PHP/.composer'"
+  runCommand "$phpContainerRoot 'chown -R $PHP_USER:$PHP_USER $HOME_PHP/.composer'"
 }
 
 showLog() {

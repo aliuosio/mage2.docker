@@ -61,14 +61,14 @@ services:
     environment:
       PHP_USER: $PHP_USER
       TZ: ${TZ}
-      COMPOSER_CACHE_DIR: $HOME_PHP/.composer
+      COMPOSER_CACHE_DIR: /home/www-data/.composer
     restart: on-failure
     command: bash -c 'php-fpm -F'
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:${WORKDIR_SERVER}:delegated
-      - composer_cache:$HOME_PHP/.composer:delegated
-      - ${HOME}/.ssh:${HOME}/.ssh:delegated
+      - composer_cache:/home/www-data/.composer:delegated
+      - ${HOME}/.ssh:/home/www-data/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro

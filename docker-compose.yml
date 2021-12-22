@@ -2,6 +2,22 @@ version: '3.8'
 
 services:
 
+  varnish:
+    container_name: ${NAMESPACE}_varnish
+    image: varnish:${VARNISH_VERSION}
+    environment:
+      - TZ=${TZ}
+      - VARNISH_SIZE=1G
+    tmpfs:
+      - /var/lib/varnish:exec
+    command: "-p default_keep=300"
+    depends_on:
+      - nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
+
   nginx:
     container_name: ${NAMESPACE}_nginx
     image: nginx:${NGINX_VERSION}
@@ -20,21 +36,21 @@ services:
           - ${SHOPURI}
     working_dir: ${WORKDIR_SERVER}
     volumes:
-      - app_data:${WORKDIR_SERVER}
       - .docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
       - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - app_data:${WORKDIR_SERVER}
 
   php:
-    build:
-      context: ./.docker/php
-      args:
-        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    #    build:
+    #      context: ./.docker/php
+    #      args:
+    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
     working_dir: ${WORKDIR_SERVER}
-    user: ${USER}
+    user: ${PHP_USER}
     links:
       - db
     depends_on:
@@ -44,17 +60,49 @@ services:
         condition: service_healthy
     environment:
       TZ: ${TZ}
-      COMPOSER_CACHE_DIR: /home/www/.composer
+      COMPOSER_CACHE_DIR: $HOME/.composer
     restart: on-failure
     command: bash -c 'php-fpm -F'
     volumes:
-      - app_data:${WORKDIR_SERVER}:delegated
-      - composer_cache:/home/www/.composer:delegated
       - redis_data_socket:/var/run/redis
+      - app_data:${WORKDIR_SERVER}:delegated
+      - composer_cache:$HOME/.composer:delegated
       - ${HOME}/.ssh:${HOME}/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
+
+  elasticsearch:
+    #    build:
+    #      context: ./.docker/elasticsearch
+    #      args:
+    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+    container_name: ${NAMESPACE}_elasticsearch
+    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
+    environment:
+      - TZ=${TZ}
+      - include_type_name=true
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+      - discovery.type:single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    command: bash -c 'docker-entrypoint.sh'
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
 
   db:
     container_name: ${NAMESPACE}_db
@@ -96,38 +144,6 @@ services:
       - redis_data:/data
       - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
-  elasticsearch:
-    #    build:
-    #      context: ./.docker/elasticsearch
-    #      args:
-    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
-    container_name: ${NAMESPACE}_elasticsearch
-    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
-    environment:
-      - TZ=${TZ}
-      - include_type_name=true
-      - bootstrap.memory_lock=true
-      - xpack.security.enabled=false
-      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
-      - http.host=0.0.0.0
-      - transport.host=127.0.0.1
-      - discovery.type:single-node
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    depends_on:
-      db:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1" ]
-      interval: 30s
-      timeout: 30s
-      retries: 3
-    command: bash -c 'docker-entrypoint.sh'
-    volumes:
-      - elastic_data:/usr/share/elasticsearch/data
-
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
@@ -144,22 +160,6 @@ services:
     environment:
       TZ: ${TZ}
     command: --interval 3600
-
-  varnish:
-    container_name: ${NAMESPACE}_varnish
-    image: varnish:${VARNISH_VERSION}
-    environment:
-      - TZ=${TZ}
-      - VARNISH_SIZE=1G
-    tmpfs:
-      - /var/lib/varnish:exec
-    command: "-p default_keep=300"
-    depends_on:
-      - nginx
-    ports:
-      - "80:80"
-    volumes:
-      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
 
 #  rabbitmq:
 #    container_name: ${NAMESPACE}_rabbitmq

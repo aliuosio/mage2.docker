@@ -268,7 +268,7 @@ restoreGitIgnoreAfterComposerInstall() {
 }
 
 setPermissionsComposer() {
-  commands="chown -R $USER:$USER /home/www/.composer"
+  commands="chown -R $USER:$USER /home/www-data/.composer"
 
   runCommand "$phpContainerRoot '$commands'"
 }
@@ -436,7 +436,7 @@ magentoSetup() {
 }
 
 setPermissionsComposer() {
-  commands="chown -R www:www /home/www/.composer"
+  commands="chown -R www:www /home/www-data/.composer"
 
   runCommand "$phpContainer '$commands'"
 }

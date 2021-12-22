@@ -30,9 +30,7 @@ createComposerFolder
 makeExecutable
 gitUpdate
 workDirCreate "$WORKDIR"
-setNginxVhost
 dockerRefresh
-#createComposerFolderContainer
 removeHTMLFolder
 magentoSetup
 setPermissionsComposer

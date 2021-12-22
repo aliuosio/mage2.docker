@@ -171,16 +171,6 @@ makeExecutable() {
   runCommand "chmod +x bin/*.sh;"
 }
 
-setNginxVhost() {
-  if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "sed -i '' 's@mage2.localhost@$SHOPURI@' .docker/nginx/config/default.conf"
-    runCommand "sed -i '' 's@listen 80;@listen $WEBSERVER_UNSECURE_PORT;@' .docker/nginx/config/default.conf"
-  else
-    runCommand "sed -i 's@mage2.localhost@$SHOPURI@' .docker/nginx/config/default.conf"
-    runCommand "sed -i 's@listen 80;@listen $WEBSERVER_UNSECURE_PORT;@' .docker/nginx/config/default.conf"
-  fi
-}
-
 # @todo: test on OSX
 dockerRefresh() {
   if [[ $(uname -s) == "Darwin" ]]; then
@@ -210,11 +200,6 @@ createComposerFolder() {
     runCommand "chown -R $USER:$GROUP $dir"
   fi
 
-}
-
-createComposerFolderContainer() {
-  runCommand "$phpContainerRoot 'mkdir -p $HOME_PHP/.composer'"
-  runCommand "$phpContainerRoot 'chown -R $PHP_USER:$PHP_USER $HOME_PHP/.composer'"
 }
 
 showLog() {

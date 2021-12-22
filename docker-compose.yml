@@ -60,13 +60,13 @@ services:
         condition: service_healthy
     environment:
       TZ: ${TZ}
-      COMPOSER_CACHE_DIR: $HOME/.composer
+      COMPOSER_CACHE_DIR: $HOME_PHP/.composer
     restart: on-failure
     command: bash -c 'php-fpm -F'
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:${WORKDIR_SERVER}:delegated
-      - composer_cache:$HOME/.composer:delegated
+      - composer_cache:$HOME_PHP/.composer:delegated
       - ${HOME}/.ssh:${HOME}/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro

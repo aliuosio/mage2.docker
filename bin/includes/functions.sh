@@ -17,7 +17,7 @@ setEnvironment() {
 setEnvironment "$1"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
-phpContainer="docker exec -it ${NAMESPACE}_php bash -lc"
+phpContainer="docker exec -it -u www-data ${NAMESPACE}_php bash -lc"
 
 getLogo() {
   echo "                             _____      _            _             "
@@ -192,6 +192,10 @@ setAuthConfig() {
   fi
 }
 
+createComposerFolderContainer() {
+  runCommand "$phpContainer 'mkdir -p /home/www-data/.composer'"
+}
+
 createComposerFolder() {
   dir="${HOME}/.composer"
 
@@ -237,13 +241,6 @@ removeAll() {
   fi
 }
 
-removeHTMLFolder() {
-  DIR="$WORKDIR/html"
-  if [ -n "$(find "$DIR" -maxdepth 0 -type d -empty 2>/dev/null)" ]; then
-    runCommand "rm -rf $DIR"
-  fi
-}
-
 restoreAll() {
   git checkout "$WORKDIR/*"
 }
@@ -258,15 +255,20 @@ restoreGitIgnoreAfterComposerInstall() {
 }
 
 setPermissionsComposer() {
-  commands="chown -R $USER:$USER /home/www-data/.composer"
+  commands="chown -R $PHP_USER:$PHP_USER /home/www-data/.composer"
 
+  runCommand "$phpContainerRoot '$commands'"
+}
+
+setPermissionsServer() {
+  commands="chown -R $PHP_USER:$PHP_USER $WORKDIR_SERVER"
   runCommand "$phpContainerRoot '$commands'"
 }
 
 setPermissionsContainer() {
   commands="find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} + \
             && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
-            && chown -R $USER:$USER $WORKDIR_SERVER \
+            && chown -R $PHP_USER:$PHP_USER $WORKDIR_SERVER \
             && chmod u+x bin/magento"
 
   runCommand "$phpContainerRoot '$commands'"
@@ -423,10 +425,4 @@ magentoSetup() {
   magentoInstall
   magentoConfigImport
   magentoConfig
-}
-
-setPermissionsComposer() {
-  commands="chown -R www:www /home/www-data/.composer"
-
-  runCommand "$phpContainer '$commands'"
 }

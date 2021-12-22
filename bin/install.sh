@@ -31,9 +31,10 @@ makeExecutable
 gitUpdate
 workDirCreate "$WORKDIR"
 dockerRefresh
-removeHTMLFolder
-magentoSetup
+createComposerFolderContainer
 setPermissionsComposer
+setPermissionsServer
+magentoSetup
 MagentoTwoFactorAuthDisable
 sampleDataInstallMustInstall
 setPermissionsHost

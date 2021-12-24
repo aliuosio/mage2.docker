@@ -74,10 +74,10 @@ services:
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
   elasticsearch:
-    #    build:
-    #      context: ./.docker/elasticsearch
-    #      args:
-    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+#    build:
+#      context: ./.docker/elasticsearch
+#      args:
+#        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:

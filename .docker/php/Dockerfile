@@ -2,6 +2,7 @@ ARG PHP_VERSION_SET
 FROM php:${PHP_VERSION_SET}-fpm-alpine
 LABEL maintainer="Osiozekhai Aliu"
 
+RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies \
         libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev \
     && set -xe \

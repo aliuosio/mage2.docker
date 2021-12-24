@@ -17,7 +17,7 @@ setEnvironment() {
 setEnvironment "$1"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
-phpContainer="docker exec -it -u www-data ${NAMESPACE}_php bash -lc"
+phpContainer="docker exec -it ${NAMESPACE}_php bash -lc"
 
 getLogo() {
   echo "                             _____      _            _             "
@@ -260,11 +260,6 @@ setPermissionsComposer() {
   runCommand "$phpContainerRoot '$commands'"
 }
 
-setPermissionsServer() {
-  commands="chown -R $PHP_USER:$PHP_USER $WORKDIR_SERVER"
-  runCommand "$phpContainerRoot '$commands'"
-}
-
 setPermissionsContainer() {
   commands="find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} + \
             && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
@@ -274,10 +269,10 @@ setPermissionsContainer() {
   runCommand "$phpContainerRoot '$commands'"
 }
 
-setPermissionsHost() {
-  commands="sudo chown -R $USER:$GROUP $WORKDIR"
+setUserContainer() {
+    commands="chown -R $PHP_USER:$PHP_USER /var/www/html"
 
-  runCommand "$commands"
+    runCommand "$phpContainerRoot '$commands'"
 }
 
 showSuccess() {

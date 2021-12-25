@@ -59,7 +59,6 @@ services:
       TZ: ${TZ}
       COMPOSER_CACHE_DIR: /home/www-data/.composer
     restart: on-failure
-    command: bash -c 'php-fpm -F'
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:${WORKDIR_SERVER}:delegated
@@ -97,7 +96,7 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
-    command: bash -c 'docker-entrypoint.sh'
+    entrypoint: 'docker-entrypoint.sh'
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 

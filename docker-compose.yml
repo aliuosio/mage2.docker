@@ -51,12 +51,8 @@ services:
       net.core.somaxconn: 65536
     working_dir: ${WORKDIR_SERVER}
     user: ${PHP_USER}
-    links:
-      - db
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      redis:
+      db:
         condition: service_healthy
     environment:
       PHP_USER: $PHP_USER

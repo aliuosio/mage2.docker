@@ -41,22 +41,18 @@ services:
       - app_data:${WORKDIR_SERVER}
 
   php:
-#    build:
-#      context: ./.docker/php
-#      args:
-#        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    #    build:
+    #      context: ./.docker/php
+    #      args:
+    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
     working_dir: ${WORKDIR_SERVER}
     user: ${PHP_USER}
-    links:
-      - db
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      redis:
+      db:
         condition: service_healthy
     environment:
       PHP_USER: $PHP_USER
@@ -74,10 +70,10 @@ services:
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
   elasticsearch:
-#    build:
-#      context: ./.docker/elasticsearch
-#      args:
-#        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+    #    build:
+    #      context: ./.docker/elasticsearch
+    #      args:
+    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:

@@ -50,7 +50,6 @@ services:
     sysctls:
       net.core.somaxconn: 65536
     working_dir: ${WORKDIR_SERVER}
-    user: ${PHP_USER}
     depends_on:
       db:
         condition: service_healthy

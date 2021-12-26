@@ -192,20 +192,6 @@ setAuthConfig() {
   fi
 }
 
-createComposerFolderContainer() {
-  runCommand "$phpContainer 'mkdir -p /home/www-data/.composer'"
-}
-
-createComposerFolder() {
-  dir="${HOME}/.composer"
-
-  if [ ! -d "$dir" ]; then
-    runCommand "mkdir -p $dir"
-    runCommand "chown -R $USER:$GROUP $dir"
-  fi
-
-}
-
 showLog() {
   if [ -f ".docker/mysql/db_dumps/dev.sql.gz" ]; then
     container="${NAMESPACE}_db"
@@ -266,7 +252,7 @@ setPermissionsContainer() {
             && chown -R $PHP_USER:$PHP_USER $WORKDIR_SERVER \
             && chmod u+x bin/magento"
 
-  runCommand "$phpContainerRoot '$commands'"
+  runCommand "$phpContainer '$commands'"
 }
 
 setUserContainer() {

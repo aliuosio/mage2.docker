@@ -26,18 +26,12 @@ fi
 # findImport
 
 osxExtraPackages
-createComposerFolder
 makeExecutable
-gitUpdate
 workDirCreate "$WORKDIR"
 dockerRefresh
-createComposerFolderContainer
-setPermissionsComposer
-setUserContainer
 magentoSetup
 MagentoTwoFactorAuthDisable
 sampleDataInstallMustInstall
-setPermissionsContainer
 showSuccess "$SHOPURI" "$DUMP"
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

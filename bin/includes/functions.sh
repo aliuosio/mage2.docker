@@ -59,7 +59,7 @@ createComposerFolder() {
 }
 
 createComposerFolderContainer() {
-  dir="/var/$PHP_USER/.composer"
+  dir="/home/$PHP_USER/.composer"
   runCommand "$phpContainerRoot 'mkdir -p $dir && chown -R $PHP_USER:$PHP_USER $dir'"
 }
 
@@ -246,7 +246,7 @@ restoreGitIgnoreAfterComposerInstall() {
 }
 
 setPermissionsDir() {
-  commands="chown -R $PHP_USER:$PHP_USER /var/$PHP_USER/"
+  commands="chown -R $PHP_USER:$PHP_USER /home/$PHP_USER/"
   runCommand "$phpContainerRoot '$commands'"
 }
 

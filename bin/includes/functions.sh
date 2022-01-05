@@ -50,6 +50,19 @@ DBDumpImport() {
   fi
 }
 
+createComposerFolder() {
+  dir="${HOME}/.composer"
+
+  if [ ! -d $dir ]; then
+    runCommand "mkdir -p $dir && chown -R $USER:$GROUP $dir"
+  fi
+}
+
+createComposerFolderContainer() {
+  dir="/var/$PHP_USER/.composer"
+  runCommand "$phpContainerRoot 'mkdir -p $dir && chown -R $PHP_USER:$PHP_USER $dir'"
+}
+
 specialPrompt() {
   if [[ -n "$1" ]]; then
     read -rp "$1" RESPONSE
@@ -141,13 +154,6 @@ setHostSettings() {
   sudo systemctl daemon-reload
 }
 
-runCommand() (
-  #tput setaf 1; echo "Method in bin/install.sh: $2"
-  tput setaf 6
-  message "$1"
-  eval "$1"
-)
-
 gitUpdate() {
   if [ ! -d "$WORKDIR" ] && [ "$GIT_URL" ] && [ "$GIT_BRANCH" ]; then
     runCommand "git clone --branch $GIT_BRANCH $GIT_URL $WORKDIR"
@@ -174,14 +180,13 @@ makeExecutable() {
 # @todo: test on OSX
 dockerRefresh() {
   if [[ $(uname -s) == "Darwin" ]]; then
-    #runCommand "docker-compose -f docker-compose.osx.yml down"
-    runCommand "docker-sync stop"
-    runCommand "docker-sync start"
-    runCommand "docker-compose -f docker-compose.osx.yml up -d"
+    runCommand "docker-compose -f docker-compose.osx.yml down &&
+                docker-sync stop &&
+                docker-sync start &&
+                docker-compose -f docker-compose.osx.yml up -d"
   else
     runCommand setHostSettings
-    #runCommand "docker-compose down"
-    runCommand "docker-compose up -d"
+    runCommand "docker-compose down && docker-compose up -d"
   fi
 }
 
@@ -223,7 +228,7 @@ setHostSettings() {
 removeAll() {
   if [ -d "$WORKDIR" ]; then
     commands="rm -rf $WORKDIR_SERVER/*;"
-    runCommand "$phpContainerRoot '$commands'"
+    runCommand "$phpContainer '$commands'"
   fi
 }
 
@@ -240,9 +245,8 @@ restoreGitIgnoreAfterComposerInstall() {
   runCommand "git -C $WORKDIR checkout .gitignore"
 }
 
-setPermissionsComposer() {
-  commands="chown -R $PHP_USER:$PHP_USER /home/www-data/.composer"
-
+setPermissionsDir() {
+  commands="chown -R $PHP_USER:$PHP_USER /var/$PHP_USER/"
   runCommand "$phpContainerRoot '$commands'"
 }
 
@@ -256,9 +260,9 @@ setPermissionsContainer() {
 }
 
 setUserContainer() {
-    commands="chown -R $PHP_USER:$PHP_USER /var/www/html"
+  commands="chown -R $PHP_USER:$PHP_USER /var/www/html"
 
-    runCommand "$phpContainerRoot '$commands'"
+  runCommand "$phpContainer '$commands'"
 }
 
 showSuccess() {
@@ -294,13 +298,13 @@ http://$1"
 
 setMagentoCron() {
   commands="bin/magento cron:install"
-  runCommand "$phpContainerRoot '$commands'"
+  runCommand "$phpContainer '$commands'"
 }
 
 sampleDataInstall() {
-    commands="bin/magento sampledata:deploy && bin/magento se:up && bin/magento i:rei && bin/magento c:c;"
+  commands="bin/magento sampledata:deploy && bin/magento se:up && bin/magento i:rei && bin/magento c:c;"
 
-    runCommand "$phpContainer '$commands'"
+  runCommand "$phpContainer '$commands'"
 }
 
 sampleDataInstallMustInstall() {
@@ -321,13 +325,7 @@ findImport() {
 }
 
 conposerFunctions() {
-  # shellcheck disable=SC2154
-  if [ -f "$composerLockFile" ]; then
-    commands="composer i"
-  else
-    commands="composer u"
-  fi
-
+  commands="composer i"
   runCommand "$phpContainer '$commands'"
 }
 
@@ -355,8 +353,8 @@ magentoConfig() {
 }
 
 magentoPreInstall() {
-    commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} .;"
-    runCommand "$phpContainer '$commands'"
+  commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} .;"
+  runCommand "$phpContainer '$commands'"
 }
 
 composerExtraPackages() {

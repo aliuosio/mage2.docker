@@ -28,10 +28,14 @@ fi
 osxExtraPackages
 makeExecutable
 workDirCreate "$WORKDIR"
+createComposerFolder
 dockerRefresh
+createComposerFolderContainer
+setPermissionsDir
 magentoSetup
 MagentoTwoFactorAuthDisable
 sampleDataInstallMustInstall
+setPermissionsContainer
 showSuccess "$SHOPURI" "$DUMP"
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

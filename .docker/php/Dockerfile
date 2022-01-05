@@ -2,13 +2,11 @@ ARG PHP_VERSION_SET
 FROM php:${PHP_VERSION_SET}-fpm-alpine
 LABEL maintainer="Osiozekhai Aliu"
 
-RUN apk update \
-    && apk upgrade \
-    && apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev \
+RUN apk add --no-cache --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev \
     && set -xe \
-    && apk add git bash bash-completion nano tzdata icu php7-curl imagemagick-dev imagemagick procps nodejs \
-    && apk add --virtual .php-deps make \
-    && apk add --virtual .build-deps $PHPIZE_DEPS zlib-dev icu-dev g++ \
+    && apk add --no-cache git bash bash-completion nano tzdata icu php7-curl imagemagick-dev imagemagick procps nodejs \
+    && apk add --no-cache --virtual .php-deps make \
+    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS zlib-dev icu-dev g++ \
     && docker-php-ext-configure hash --with-mhash \
     && docker-php-ext-configure gd --with-webp --with-jpeg --with-freetype \
     && docker-php-ext-install gd bcmath intl pdo_mysql opcache soap sockets xsl zip \

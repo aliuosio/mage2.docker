@@ -53,11 +53,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       PHP_USER: $PHP_USER
       TZ: ${TZ}
       COMPOSER_CACHE_DIR: /home/www-data/.composer
     restart: on-failure
+    user: www-data
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:${WORKDIR_SERVER}:delegated

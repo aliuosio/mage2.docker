@@ -30,18 +30,6 @@ getLogo() {
   echo "                 |___/                                             "
 }
 
-workDirCreate() {
-  if [[ ! -d "$1" ]]; then
-    if ! mkdir -p "$1"; then
-      message "Folder can not be created"
-    else
-      message "Folder created"
-    fi
-  else
-    message "Folder already exits"
-  fi
-}
-
 DBDumpImport() {
   if [[ -n $1 && -f $1 ]]; then
     runCommand "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
@@ -50,12 +38,16 @@ DBDumpImport() {
   fi
 }
 
-createComposerFolder() {
+createFolderHost() {
   dir="${HOME}/.composer"
+  commands="mkdir -p $dir $WORKDIR"
+  runCommand "$commands"
+}
 
-  if [ ! -d $dir ]; then
-    runCommand "mkdir -p $dir && chown -R $USER:$GROUP $dir"
-  fi
+setPermissionsHost() {
+  dir="${HOME}/.composer"
+  commands="sudo chown -R $USER:$USER $dir && sudo chown -R $USER:$USER $WORKDIR"
+  runCommand "$commands"
 }
 
 createComposerFolderContainer() {
@@ -80,7 +72,7 @@ specialPrompt() {
 }
 
 rePlaceInEnv() {
-  file="$project_root/.env"
+  file="./.env"
   if [[ -n "$1" ]]; then
     rePlaceIn "$1" "$2" "./.env"
     if [[ $2 == "COMPOSE_PROJECT_NAME" ]]; then
@@ -245,18 +237,19 @@ restoreGitIgnoreAfterComposerInstall() {
   runCommand "git -C $WORKDIR checkout .gitignore"
 }
 
-setPermissionsDir() {
-  commands="chown -R $PHP_USER:$PHP_USER /home/$PHP_USER/"
-  runCommand "$phpContainerRoot '$commands'"
-}
-
-setPermissionsContainer() {
+setMagentoPermissions() {
   commands="find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} + \
             && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
-            && chown -R $PHP_USER:$PHP_USER $WORKDIR_SERVER \
             && chmod u+x bin/magento"
 
   runCommand "$phpContainer '$commands'"
+}
+
+setPermissionsContainer() {
+  commands="chown -R $PHP_USER:$PHP_USER $WORKDIR_SERVER \
+            && chown -R $PHP_USER:$PHP_USER /home/$PHP_USER/.composer"
+
+  runCommand "$phpContainerRoot '$commands'"
 }
 
 setUserContainer() {
@@ -298,12 +291,11 @@ http://$1"
 
 setMagentoCron() {
   commands="bin/magento cron:install"
-  runCommand "$phpContainer '$commands'"
+  runCommand "$phpContainerRoot '$commands'"
 }
 
 sampleDataInstall() {
   commands="bin/magento sampledata:deploy && bin/magento se:up && bin/magento i:rei && bin/magento c:c;"
-
   runCommand "$phpContainer '$commands'"
 }
 
@@ -319,7 +311,7 @@ MagentoTwoFactorAuthDisable() {
 }
 
 findImport() {
-  if [[ $(find $DB_DUMP_FOLDER -maxdepth 1 -type f -name "*.gz") ]]; then
+  if [[ $(find "$DB_DUMP_FOLDER" -maxdepth 1 -type f -name "*.gz") ]]; then
     echo 'IS DA'
   fi
 }
@@ -329,9 +321,18 @@ conposerFunctions() {
   runCommand "$phpContainer '$commands'"
 }
 
+setNginxVhost() {
+  if [[ $(uname -s) == "Darwin" ]]; then
+    runCommand "sed -i '' 's@localhost@$SHOPURI@' .docker/nginx/config/default.conf"
+    runCommand "sed -i '' 's@/var/www-data/html@$WORKDIR_SERVER' .docker/nginx/config/default.conf"
+  else
+    runCommand "sed -i 's@localhost@$SHOPURI@' .docker/nginx/config/default.conf"
+    runCommand "sed -i 's@/var/www-data/html@$WORKDIR_SERVER@' .docker/nginx/config/default.conf"
+  fi
+}
+
 composerExtraPackages() {
   commands="composer req --dev mage2tv/magento-cache-clean && composer req magepal/magento2-gmailsmtpapp yireo/magento2-webp2"
-
   runCommand "$phpContainer '$commands'"
 }
 
@@ -353,7 +354,8 @@ magentoConfig() {
 }
 
 magentoPreInstall() {
-  commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} .;"
+  commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
+
   runCommand "$phpContainer '$commands'"
 }
 
@@ -383,10 +385,12 @@ magentoInstall() {
     --use-rewrites=0 \
     --session-save=redis \
     --session-save-redis-host=/var/run/redis/redis.sock \
-    --session-save-redis-db=0 --session-save-redis-password='' \
+    --session-save-redis-db=0 \
+    --session-save-redis-password='' \
     --cache-backend=redis \
     --cache-backend-redis-server=/var/run/redis/redis.sock \
     --cache-backend-redis-db=1 \
+    --cache-backend-redis-port=6379 \
     --search-engine=elasticsearch7 \
     --elasticsearch-host=elasticsearch \
     --elasticsearch-port=9200"

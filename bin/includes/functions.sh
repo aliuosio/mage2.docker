@@ -23,12 +23,11 @@ setEnvironment() {
 
 setEnvironment "$1"
 
-if [[ -n $GROUP ]]; then
-  GROUP=$USER
-else
-  message "User Group Name is present on host"
-fi
+#if [[ -z "$var" ]]; then
+   # Do what you want
+#fi
 
+GROUP_HOST="docker"
 PHP_USER=www-data
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it ${NAMESPACE}_php bash -lc"
@@ -55,12 +54,13 @@ DBDumpImport() {
 createFolderHost() {
   dir="${HOME}/.composer"
   commands="mkdir -p $dir $WORKDIR"
+
   runCommand "$commands"
 }
 
 setPermissionsHost() {
   dir="${HOME}/.composer"
-  commands="sudo chown -R $USER:$GROUP $dir && sudo chown -R $USER:$GROUP $WORKDIR"
+  commands="sudo chown -R $USER:$GROUP_HOST $dir && sudo chown -R $USER:$GROUP_HOST $WORKDIR"
   runCommand "$commands"
 }
 
@@ -249,7 +249,7 @@ setMagentoPermissions() {
             && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
             && chmod u+x bin/magento"
 
-  runCommand "$phpContainer '$commands'"
+  runCommand "$phpContainerRoot '$commands'"
 }
 
 setPermissionsContainer() {

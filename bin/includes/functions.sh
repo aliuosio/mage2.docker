@@ -16,6 +16,7 @@ setEnvironment() {
 
 setEnvironment "$1"
 
+PHP_USER=www-data
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it ${NAMESPACE}_php bash -lc"
 

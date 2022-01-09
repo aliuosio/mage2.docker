@@ -56,7 +56,7 @@ services:
       redis:
         condition: service_healthy
     environment:
-      PHP_USER: $PHP_USER
+      PHP_USER: www-data
       TZ: ${TZ}
       COMPOSER_CACHE_DIR: /home/www-data/.composer
     restart: on-failure

@@ -7,22 +7,16 @@
 
 **Linux:** 
 [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/), [Docker-compose](https://docs.docker.com/compose/install/#install-compose), [Git](https://git-scm.com/)
-> on Debian based OS (Example: Ubuntu, Linux Mint) use `bin/docker.sh` to install `docker` and `docker-compose`
-
-### Get Source
-
-    git clone https://github.com/aliuosio/mage2.docker.git
+on Debian based OS (Example: Ubuntu, Linux Mint) use `bin/docker.sh` to install `docker` and `docker-compose`
 
 ### Installation
  Fresh Installation (latest magento 2 version) or your running project when located in your filesystem
     
-    cd mage2.docker
-    chmod +x bin/*.sh
-    bin/install.sh
+    wget https://raw.githubusercontent.com/aliuosio/mage2.docker/main/bin/install.sh -q -O - |bash
 
-> with `bin/install config` you can use prompts to configure install
-    
-> use .env to change values after installation and activate on restart of containers 
+with `bin/install config` you can use prompts to configure install
+get uppdates with `git fetch && git pull`
+use `.env` to change values after installation and activate on restart of containers 
 
 ### Backend
     http://localhost/admin
@@ -108,7 +102,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~change PHP container OS from debian to alpine~~
 * ~~set Time and Zone according to host~~
 * add DB Import functions and logs
-* add downloader script to clone and install App
+* ~~add downloader script to clone and install App~~
 * modify for running Magento 2 project
 * refactor docker-compose.osx.yml
 * add magento 2 version prompt

@@ -4,7 +4,17 @@ set -e
 startAll=$(date +%s)
 # shellcheck disable=SC2046
 project_root=$(dirname $(dirname $(realpath "$0")))
-. "$project_root/bin/includes/functions.sh" "$project_root"
+functions="$project_root/bin/includes/functions.sh"
+
+if [ -f "$functions" ]; then
+    # shellcheck disable=SC1090
+    . "$functions" "$project_root"
+  else
+    git clone https://github.com/aliuosio/mage2.docker.git
+    cd mage2.docker
+    chmod +x bin/*.sh
+    bin/install.sh
+fi
 
 getLogo
 if [[ $1 == "config" ]]; then

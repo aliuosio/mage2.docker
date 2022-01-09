@@ -174,13 +174,13 @@ volumes:
   db_data:
   elastic_data:
   redis_data:
-  composer_cache:
-    driver_opts:
-      type: none
-      o: bind
-      device: ${HOME}/.composer
   app_data:
     driver_opts:
       type: none
       o: bind
       device: ${WORKDIR}
+  composer_cache:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/.composer

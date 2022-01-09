@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+message() {
+  echo ""
+  echo -e "$1"
+  seq ${#1} | awk '{printf "-"}'
+  echo ""
+}
+
 setEnvironment() {
   if [[ $1 ]]; then
     file="$1/.env"
@@ -15,6 +22,12 @@ setEnvironment() {
 }
 
 setEnvironment "$1"
+
+if [[ -n $GROUP ]]; then
+  GROUP=$USER
+else
+  message "User Group Name is present on host"
+fi
 
 PHP_USER=www-data
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
@@ -47,7 +60,7 @@ createFolderHost() {
 
 setPermissionsHost() {
   dir="${HOME}/.composer"
-  commands="sudo chown -R $USER:$USER $dir && sudo chown -R $USER:$USER $WORKDIR"
+  commands="sudo chown -R $USER:$GROUP $dir && sudo chown -R $USER:$GROUP $WORKDIR"
   runCommand "$commands"
 }
 
@@ -113,13 +126,6 @@ prompt() {
     # shellcheck disable=SC2091
     $($1 "${VALUE}" "$3")
   fi
-}
-
-message() {
-  echo ""
-  echo -e "$1"
-  seq ${#1} | awk '{printf "-"}'
-  echo ""
 }
 
 osxExtraPackages() {

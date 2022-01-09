@@ -324,8 +324,8 @@ conposerFunctions() {
 
 setNginxVhost() {
   if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "sed -i '' 's@localhost@$SHOPURI@' .docker/nginx/config/default.conf"
-    runCommand "sed -i '' 's@/var/www-data/html@$WORKDIR_SERVER' .docker/nginx/config/default.conf"
+    runCommand "sed -i '' 's@localhost@$SHOPURI@'.docker/nginx/config/default.conf"
+    runCommand "sed -i '' 's@/var/www-data/html@$WORKDIR_SERVER@' .docker/nginx/config/default.conf"
   else
     runCommand "sed -i 's@localhost@$SHOPURI@' .docker/nginx/config/default.conf"
     runCommand "sed -i 's@/var/www-data/html@$WORKDIR_SERVER@' .docker/nginx/config/default.conf"

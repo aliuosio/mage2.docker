@@ -40,6 +40,7 @@ makeExecutable
 createFolderHost
 setNginxVhost
 dockerRefresh
+setPermissionsContainer
 magentoSetup
 sampleDataInstallMustInstall
 MagentoTwoFactorAuthDisable

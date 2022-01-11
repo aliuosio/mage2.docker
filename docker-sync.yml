@@ -5,8 +5,8 @@ syncs:
   app_data:
     src: ${WORKDIR}
     sync_strategy: 'native_osx'
-    sync_userid: 1000
-    sync_groupid: 1000
+    sync_userid: $UID
+    sync_groupid: $GID
     sync_args:
       - "-prefer newer"
       - "-ignore='Path .bash_history'"          # no need to send PHPStorm config to container
@@ -19,8 +19,8 @@ syncs:
   composer_cache:
     src: ${HOME}/.composer
     sync_strategy: 'native_osx'
-    sync_userid: 1000
-    sync_groupid: 1000
+    sync_userid: $UID
+    sync_groupid: $GID
     sync_args:
       - "-prefer newer"
       - "-ignore='Path .git'"

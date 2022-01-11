@@ -29,10 +29,9 @@ setEnvironment "$1"
 # Do what you want
 #fi
 
-GROUP_HOST="docker"
-PHP_USER=www-data
+PHP_USER="www-data"
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
-phpContainer="docker exec -it ${NAMESPACE}_php bash -lc"
+phpContainer="docker exec -it -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
 
 getLogo() {
   echo "                             _____      _            _             "
@@ -244,8 +243,8 @@ setMagentoPermissions() {
 }
 
 setPermissionsContainer() {
-  commands="chown -R www-data:www-data $WORKDIR_SERVER \
-            && chown -R www-data:www-data /home/www-data/.composer"
+  commands="chown -R ${PHP_USER}:${PHP_USER} $WORKDIR_SERVER \
+            && chown -R ${PHP_USER}:${PHP_USER} /home/${PHP_USER}/.composer"
 
   runCommand "$phpContainerRoot '$commands'"
 }
@@ -391,11 +390,12 @@ magentoInstall() {
 
 magentoSetup() {
   # shellcheck disable=SC2154
-  if [ -f "$composerJsonFile" ]; then
+  if [ -f "$WORKDIR/composer.json" ]; then
     conposerFunctions
+  else
+    magentoPreInstall
   fi
 
-  magentoPreInstall
   composerExtraPackages
   magentoInstall
   magentoConfigImport

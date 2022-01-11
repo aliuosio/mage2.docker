@@ -40,14 +40,12 @@ makeExecutable
 createFolderHost
 setNginxVhost
 dockerRefresh
-setPermissionsHost
-setPermissionsContainer
 magentoSetup
 sampleDataInstallMustInstall
 MagentoTwoFactorAuthDisable
-setMagentoCron
 setMagentoPermissions
+setMagentoCron
 setPermissionsContainer
-showSuccess "$SHOPURI" "$DUMP"
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"
+showSuccess "$SHOPURI" "$DUMP"

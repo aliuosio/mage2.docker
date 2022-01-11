@@ -13,9 +13,11 @@ setEnvironment() {
     file="$1/.env"
     if [[ ! -f $file ]]; then
       cp "$1/.env.temp" "$file"
+      echo "UID_GID=$(id -u "$USER"):$(id -g "$USER")" >>.env
     else
       echo ".env File exists already"
     fi
+
     # shellcheck disable=SC1090
     source "$file"
   fi
@@ -24,7 +26,7 @@ setEnvironment() {
 setEnvironment "$1"
 
 #if [[ -z "$var" ]]; then
-   # Do what you want
+# Do what you want
 #fi
 
 GROUP_HOST="docker"
@@ -56,17 +58,6 @@ createFolderHost() {
   commands="mkdir -p $dir $WORKDIR"
 
   runCommand "$commands"
-}
-
-setPermissionsHost() {
-  dir="${HOME}/.composer"
-  commands="sudo chown -R $USER:$GROUP_HOST $dir && sudo chown -R $USER:$GROUP_HOST $WORKDIR"
-  runCommand "$commands"
-}
-
-createComposerFolderContainer() {
-  dir="/home/$PHP_USER/.composer"
-  runCommand "$phpContainerRoot 'mkdir -p $dir && chown -R $PHP_USER:$PHP_USER $dir'"
 }
 
 specialPrompt() {
@@ -249,20 +240,14 @@ setMagentoPermissions() {
             && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
             && chmod u+x bin/magento"
 
-  runCommand "$phpContainerRoot '$commands'"
+  runCommand "$phpContainer '$commands'"
 }
 
 setPermissionsContainer() {
-  commands="chown -R $PHP_USER:$PHP_USER $WORKDIR_SERVER \
-            && chown -R $PHP_USER:$PHP_USER /home/$PHP_USER/.composer"
+  commands="chown -R www-data:www-data $WORKDIR_SERVER \
+            && chown -R www-data:www-data /home/www-data/.composer"
 
   runCommand "$phpContainerRoot '$commands'"
-}
-
-setUserContainer() {
-  commands="chown -R $PHP_USER:$PHP_USER /var/www/html"
-
-  runCommand "$phpContainer '$commands'"
 }
 
 showSuccess() {
@@ -331,10 +316,10 @@ conposerFunctions() {
 setNginxVhost() {
   if [[ $(uname -s) == "Darwin" ]]; then
     runCommand "sed -i '' 's@localhost@$SHOPURI@' .docker/nginx/config/default.conf"
-    runCommand "sed -i '' 's@/var/www-data/html@$WORKDIR_SERVER@' .docker/nginx/config/default.conf"
+    runCommand "sed -i '' 's@/var/www/html@$WORKDIR_SERVER@' .docker/nginx/config/default.conf"
   else
     runCommand "sed -i 's@localhost@$SHOPURI@' .docker/nginx/config/default.conf"
-    runCommand "sed -i 's@/var/www-data/html@$WORKDIR_SERVER@' .docker/nginx/config/default.conf"
+    runCommand "sed -i 's@/var/www/html@$WORKDIR_SERVER@' .docker/nginx/config/default.conf"
   fi
 }
 
@@ -374,33 +359,33 @@ composerExtraPackages() {
 
 magentoInstall() {
   commands="bin/magento setup:install \
-    --base-url=http://$SHOPURI/ \
-    --db-host=db \
-    --db-name=$MYSQL_DATABASE \
-    --db-user=root \
-    --db-password=$MYSQL_ROOT_PASSWORD \
-    --backend-frontname=admin \
-    --language=de_DE \
-    --timezone=Europe/Berlin \
-    --currency=EUR \
-    --admin-lastname=$ADMIN_NAME \
-    --admin-firstname=$ADMIN_SURNAME \
-    --admin-email=$ADMIN_EMAIL \
-    --admin-user=$ADMIN_USER \
-    --admin-password=$ADMIN_PASS \
-    --cleanup-database \
-    --use-rewrites=0 \
-    --session-save=redis \
-    --session-save-redis-host=/var/run/redis/redis.sock \
-    --session-save-redis-db=0 \
-    --session-save-redis-password='' \
-    --cache-backend=redis \
-    --cache-backend-redis-server=/var/run/redis/redis.sock \
-    --cache-backend-redis-db=1 \
-    --cache-backend-redis-port=6379 \
-    --search-engine=elasticsearch7 \
-    --elasticsearch-host=elasticsearch \
-    --elasticsearch-port=9200"
+  --base-url=http://$SHOPURI/ \
+  --db-host=db \
+  --db-name=$MYSQL_DATABASE \
+  --db-user=root \
+  --db-password=$MYSQL_ROOT_PASSWORD \
+  --backend-frontname=admin \
+  --language=de_DE \
+  --timezone=Europe/Berlin \
+  --currency=EUR \
+  --admin-lastname=$ADMIN_NAME \
+  --admin-firstname=$ADMIN_SURNAME \
+  --admin-email=$ADMIN_EMAIL \
+  --admin-user=$ADMIN_USER \
+  --admin-password=$ADMIN_PASS \
+  --cleanup-database \
+  --use-rewrites=0 \
+  --session-save=redis \
+  --session-save-redis-host=/var/run/redis/redis.sock \
+  --session-save-redis-db=0 \
+  --session-save-redis-password='' \
+  --cache-backend=redis \
+  --cache-backend-redis-server=/var/run/redis/redis.sock \
+  --cache-backend-redis-db=1 \
+  --cache-backend-redis-port=6379 \
+  --search-engine=elasticsearch7 \
+  --elasticsearch-host=elasticsearch \
+  --elasticsearch-port=9200"
   runCommand "$phpContainer '$commands'"
 }
 

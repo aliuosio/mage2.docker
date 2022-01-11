@@ -28,39 +28,35 @@ services:
     environment:
       SHOPURI: ${SHOPURI}
       TZ: ${TZ}
-      WORKDIR_SERVER: ${WORKDIR_SERVER}
     command: '/usr/sbin/nginx -g "daemon off; error_log /dev/stderr info;"'
     networks:
       default:
         aliases:
           - ${SHOPURI}
-    working_dir: ${WORKDIR_SERVER}
     volumes:
       - .docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
       - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
       - app_data:${WORKDIR_SERVER}
 
   php:
-    #    build:
-    #      context: ./.docker/php
-    #      args:
-    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
+#    build:
+#      context: ./.docker/php
+#      args:
+#        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
       net.core.somaxconn: 65536
-    working_dir: ${WORKDIR_SERVER}
     depends_on:
       db:
         condition: service_healthy
       redis:
         condition: service_healthy
     environment:
-      PHP_USER: www-data
       TZ: ${TZ}
       COMPOSER_CACHE_DIR: /home/www-data/.composer
+    user: ${UID_GID}
     restart: on-failure
-    user: www-data
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:${WORKDIR_SERVER}:delegated
@@ -90,14 +86,6 @@ services:
       memlock:
         soft: -1
         hard: -1
-    depends_on:
-      db:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1" ]
-      interval: 30s
-      timeout: 30s
-      retries: 3
     entrypoint: 'docker-entrypoint.sh'
     volumes:
       - elastic_data:/usr/share/elasticsearch/data

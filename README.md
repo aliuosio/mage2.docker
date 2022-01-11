@@ -107,12 +107,12 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~fix OSX Installer~~
 * ~~change PHP container OS from debian to alpine~~
 * ~~set Time and Zone according to host~~
+* ~~map local user to php container www-data user~~
 * add DB Import functions and logs
 * add downloader script to clone and install App
 * modify for running Magento 2 project
 * refactor docker-compose.osx.yml
 * add magento 2 version prompt
-* map local user to php container www-data user
 * Exchange `docker-sync` with `Mutagen`
 * reduce the number of volumes
 * Docker letsencrypt certification Container

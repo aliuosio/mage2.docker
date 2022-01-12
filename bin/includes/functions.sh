@@ -40,14 +40,6 @@ getLogo() {
   echo "                 |___/                                             "
 }
 
-DBDumpImport() {
-  if [[ -n $1 && -f $1 ]]; then
-    runCommand "docker exec -i $2_db mysql -u $3 -p<see .env for password> $5 < $1;"
-  else
-    message "SQL File not found"
-  fi
-}
-
 createFolderHost() {
   dir="${HOME}/.composer"
   commands="mkdir -p $dir $WORKDIR"
@@ -179,15 +171,6 @@ dockerRefresh() {
   fi
 }
 
-showLog() {
-  if [ -f ".docker/mysql/db_dumps/dev.sql.gz" ]; then
-    container="${NAMESPACE}_db"
-  else
-    container="${NAMESPACE}_php"
-  fi
-  docker logs "$container" --follow
-}
-
 message() {
   echo ""
   echo -e "$1"
@@ -295,8 +278,10 @@ MagentoTwoFactorAuthDisable() {
 }
 
 findImport() {
-  if [[ $(find "$DB_DUMP_FOLDER" -maxdepth 1 -type f -name "*.gz") ]]; then
-    echo 'IS DA'
+  if [[ -f $DB_DUMP ]]; then
+    runCommand "mv $DB_DUMP .docker/mysql/db_dumps/"
+    message "check progress in a new terminal tab with: docker logs -f  mage2_db"
+    sleep 5
   fi
 }
 

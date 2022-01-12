@@ -34,12 +34,12 @@ fi
 . "$project_root/.env"
 
 gitUpdate
-# findImport
 osxExtraPackages
 makeExecutable
 createFolderHost
 setNginxVhost
 dockerRefresh
+findImport
 setPermissionsContainer
 magentoSetup
 sampleDataInstallMustInstall

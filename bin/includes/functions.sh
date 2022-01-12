@@ -141,7 +141,7 @@ setHostSettings() {
 
 sedForOs() {
   if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "sed -i "" 's@$1@$2@' $3"
+    runCommand "sed -i '' 's@$1@$2@' $3"
   else
     runCommand "sed -i 's@$1@$2@' $3"
   fi

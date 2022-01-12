@@ -25,10 +25,6 @@ setEnvironment() {
 
 setEnvironment "$1"
 
-#if [[ -z "$var" ]]; then
-# Do what you want
-#fi
-
 PHP_USER="www-data"
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
@@ -143,14 +139,18 @@ setHostSettings() {
   sudo systemctl daemon-reload
 }
 
+sedForOs() {
+  if [[ $(uname -s) == "Darwin" ]]; then
+    runCommand "sed -i "" 's@$1@$2@' $3"
+  else
+    runCommand "sed -i 's@$1@$2@' $3"
+  fi
+}
+
 gitUpdate() {
   if [ ! -d "$WORKDIR" ] && [ "$GIT_URL" ]; then
     runCommand "git clone $GIT_URL $WORKDIR"
-    if [[ $(uname -s) == "Darwin" ]]; then
-      runCommand "sed -i "" 's@filemode\ =\ true@filemode\ =\ false@' $WORKDIR/.git/config"
-    else
-      runCommand "sed -i 's@filemode\ =\ true@filemode\ =\ false@' $WORKDIR/.git/config"
-    fi
+    sedForOs "filemode\ =\ true" "filemode\ =\ false" "$WORKDIR/.git/config"
   else
     if [ -f "$WORKDIR/.git/config" ]; then
       runCommand "git -C $WORKDIR fetch -p -a && git pull"
@@ -313,13 +313,8 @@ conposerFunctions() {
 }
 
 setNginxVhost() {
-  if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "sed -i '' 's@localhost@$SHOPURI@' .docker/nginx/config/default.conf"
-    runCommand "sed -i '' 's@/var/www/html@$WORKDIR_SERVER@' .docker/nginx/config/default.conf"
-  else
-    runCommand "sed -i 's@localhost@$SHOPURI@' .docker/nginx/config/default.conf"
-    runCommand "sed -i 's@/var/www/html@$WORKDIR_SERVER@' .docker/nginx/config/default.conf"
-  fi
+  sedForOs "localhost" "$SHOPURI" ".docker/nginx/config/default.conf"
+  sedForOs "/var/www/html" "$WORKDIR_SERVER" ".docker/nginx/config/default.conf"
 }
 
 composerExtraPackages() {

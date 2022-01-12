@@ -33,8 +33,8 @@ if [[ $1 == "config" ]]; then
 fi
 . "$project_root/.env"
 
+gitUpdate
 # findImport
-
 osxExtraPackages
 makeExecutable
 createFolderHost

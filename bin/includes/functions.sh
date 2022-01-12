@@ -144,17 +144,17 @@ setHostSettings() {
 }
 
 gitUpdate() {
-  if [ ! -d "$WORKDIR" ] && [ "$GIT_URL" ] && [ "$GIT_BRANCH" ]; then
-    runCommand "git clone --branch $GIT_BRANCH $GIT_URL $WORKDIR"
-  fi
-
-  if [ -f "$WORKDIR/.git/config" ]; then
+  if [ ! -d "$WORKDIR" ] && [ "$GIT_URL" ]; then
+    runCommand "git clone $GIT_URL $WORKDIR"
     if [[ $(uname -s) == "Darwin" ]]; then
-      runCommand "sed -i "" 's@filemode = true@filemode = false@' $WORKDIR/.git/config"
+      runCommand "sed -i "" 's@filemode\ =\ true@filemode\ =\ false@' $WORKDIR/.git/config"
     else
-      runCommand "sed -i 's@filemode = true@filemode = false@' $WORKDIR/.git/config"
+      runCommand "sed -i 's@filemode\ =\ true@filemode\ =\ false@' $WORKDIR/.git/config"
     fi
-    runCommand "git -C $WORKDIR fetch -p -a && git pull"
+  else
+    if [ -f "$WORKDIR/.git/config" ]; then
+      runCommand "git -C $WORKDIR fetch -p -a && git pull"
+    fi
   fi
 }
 
@@ -390,7 +390,7 @@ magentoInstall() {
 
 magentoSetup() {
   # shellcheck disable=SC2154
-  if [ -f "$WORKDIR/composer.json" ]; then
+  if [ -f "$composerJsonFile" ]; then
     conposerFunctions
   else
     magentoPreInstall

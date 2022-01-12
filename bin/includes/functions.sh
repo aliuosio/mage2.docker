@@ -179,13 +179,6 @@ dockerRefresh() {
   fi
 }
 
-setAuthConfig() {
-  if [[ "$1" == "true" ]]; then
-    prompt "rePlaceInEnv" "Login User Name (current: $2)" "AUTH_USER"
-    prompt "rePlaceInEnv" "Login User Password (current: $3)" "AUTH_PASS"
-  fi
-}
-
 showLog() {
   if [ -f ".docker/mysql/db_dumps/dev.sql.gz" ]; then
     container="${NAMESPACE}_db"

@@ -45,8 +45,8 @@ magentoSetup
 sampleDataInstallMustInstall
 MagentoTwoFactorAuthDisable
 setMagentoPermissions
-setMagentoCron
 setPermissionsContainer
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"
 showSuccess "$SHOPURI" "$DUMP"
+#setMagentoCron

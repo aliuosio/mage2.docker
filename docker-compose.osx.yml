@@ -20,7 +20,7 @@ services:
 
   nginx:
     container_name: ${NAMESPACE}_nginx
-    image: nginx:${NGINX_VERSION}
+    image: nginx:${NGINX_VERSION}-alpine
     depends_on:
       - php
     ports:
@@ -36,13 +36,13 @@ services:
     volumes:
       - .docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
       - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - app_data:${WORKDIR_SERVER}
+      - app_data:/var/www/html:delegated
 
   php:
-#    build:
-#      context: ./.docker/php
-#      args:
-#        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    #    build:
+    #      context: ./.docker/php
+    #      args:
+    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
@@ -59,7 +59,7 @@ services:
     restart: on-failure
     volumes:
       - redis_data_socket:/var/run/redis
-      - app_data:${WORKDIR_SERVER}:delegated
+      - app_data:/var/www/html:delegated
       - composer_cache:/home/www-data/.composer:delegated
       - ${HOME}/.ssh:/home/www-data/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
@@ -86,6 +86,9 @@ services:
       memlock:
         soft: -1
         hard: -1
+    depends_on:
+      db:
+        condition: service_healthy
     entrypoint: 'docker-entrypoint.sh'
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
@@ -130,6 +133,12 @@ services:
       - redis_data:/data
       - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
+  rabbitmq:
+    container_name: ${NAMESPACE}_rabbitmq
+    image: rabbitmq:${RABBITMQ_VERSION}-alpine
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:latest
@@ -147,17 +156,8 @@ services:
       TZ: ${TZ}
     command: --interval 3600
 
-#  rabbitmq:
-#    container_name: ${NAMESPACE}_rabbitmq
-#    image: rabbitmq:3.7-management-alpine
-#    ports:
-#      - "15672:15672"
-#      - "5672:5672"
-#    volumes:
-#      - rabbitmq_data:/var/lib/rabbitmq
-
 volumes:
-  #rabbitmq_data:
+  rabbitmq_data:
   redis_data_socket:
   db_data:
   elastic_data:

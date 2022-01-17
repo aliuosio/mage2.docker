@@ -8,14 +8,16 @@ message() {
   echo ""
 }
 
+runCommand() (
+  message "$1"
+  eval "$1"
+)
+
 setEnvironment() {
   if [[ $1 ]]; then
     file="$1/.env"
-    if [[ ! -f $file ]]; then
-      cp "$1/.env.temp" "$file"
-      echo "UID_GID=$(id -u "$USER"):$(id -g "$USER")" >>.env
-    else
-      echo ".env File exists already"
+    if [ ! -f "$file" ]; then
+      runCommand "cp $1/.env.temp $file"
     fi
 
     # shellcheck disable=SC1090
@@ -26,6 +28,7 @@ setEnvironment() {
 setEnvironment "$1"
 
 PHP_USER="www-data"
+WORKDIR_SERVER=/var/www/html
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
 
@@ -66,6 +69,9 @@ specialPrompt() {
 rePlaceInEnv() {
   file="./.env"
   if [[ -n "$1" ]]; then
+    UID_GID="$(id -u "${USER}"):$(id -g "${USER}")";
+    rePlaceIn "$UID_GID" "UID_GID" "$file"
+
     rePlaceIn "$1" "$2" "./.env"
     if [[ $2 == "COMPOSE_PROJECT_NAME" ]]; then
       rePlaceIn "$1" "NAMESPACE" "$file"
@@ -170,18 +176,6 @@ dockerRefresh() {
     runCommand "docker-compose down && docker-compose up -d"
   fi
 }
-
-message() {
-  echo ""
-  echo -e "$1"
-  seq ${#1} | awk '{printf "-"}'
-  echo ""
-}
-
-runCommand() (
-  message "$1"
-  eval "$1"
-)
 
 setHostSettings() {
   sudo sysctl vm.overcommit_memory=1
@@ -330,46 +324,26 @@ composerExtraPackages() {
 }
 
 magentoInstall() {
-  commands="bin/magento setup:install \
-  --base-url=http://$SHOPURI/ \
-  --db-host=db \
-  --db-name=$MYSQL_DATABASE \
-  --db-user=root \
-  --db-password=$MYSQL_ROOT_PASSWORD \
-  --backend-frontname=admin \
-  --language=de_DE \
-  --timezone=Europe/Berlin \
-  --currency=EUR \
-  --admin-lastname=$ADMIN_NAME \
-  --admin-firstname=$ADMIN_SURNAME \
-  --admin-email=$ADMIN_EMAIL \
-  --admin-user=$ADMIN_USER \
-  --admin-password=$ADMIN_PASS \
-  --cleanup-database \
-  --use-rewrites=0 \
-  --session-save=redis \
-  --session-save-redis-host=/var/run/redis/redis.sock \
-  --session-save-redis-db=0 \
-  --session-save-redis-password='' \
-  --cache-backend=redis \
-  --cache-backend-redis-server=/var/run/redis/redis.sock \
-  --cache-backend-redis-db=1 \
-  --cache-backend-redis-port=6379 \
-  --search-engine=elasticsearch7 \
-  --elasticsearch-host=elasticsearch \
-  --elasticsearch-port=9200"
+  commands="bin/magento setup:install --base-url=http://$SHOPURI/ \
+  --db-host=db --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
+  --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
+  --backend-frontname=admin --language=de_DE --timezone=Europe/Berlin --currency=EUR --cleanup-database --use-rewrites=0 \
+  --session-save=redis --session-save-redis-host=/var/run/redis/redis.sock --session-save-redis-db=0 --session-save-redis-password='' \
+  --cache-backend=redis --cache-backend-redis-server=/var/run/redis/redis.sock --cache-backend-redis-db=1 --cache-backend-redis-port=6379 \
+  --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
+  --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=guest --amqp-password=guest --amqp-virtualhost='/'"
+
   runCommand "$phpContainer '$commands'"
 }
 
 magentoSetup() {
-  # shellcheck disable=SC2154
-  if [ -f "$composerJsonFile" ]; then
+  if [ -f "$WORKDIR/composer.json" ]; then
     conposerFunctions
   else
     magentoPreInstall
+    composerExtraPackages
   fi
 
-  composerExtraPackages
   magentoInstall
   magentoConfigImport
   magentoConfig

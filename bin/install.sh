@@ -42,8 +42,8 @@ dockerRefresh
 findImport
 setPermissionsContainer
 magentoSetup
-sampleDataInstallMustInstall
 MagentoTwoFactorAuthDisable
+sampleDataInstallMustInstall
 setMagentoPermissions
 setPermissionsContainer
 endAll=$(date +%s)

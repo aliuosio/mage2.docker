@@ -3,20 +3,31 @@ return [
     'backend' => [
         'frontName' => 'admin'
     ],
+    'remote_storage' => [
+        'driver' => 'file'
+    ],
     'queue' => [
-        'consumers_wait_for_messages' => 1
+        'consumers_wait_for_messages' => 1,
+        'amqp' => [
+            'host' => 'rabbitmq',
+            'port' => '5672',
+            'user' => 'guest',
+            'password' => 'guest',
+            'virtualhost' => '/',
+            'ssl' => 'false'
+        ]
     ],
     'crypt' => [
-        'key' => 'd8d0ae507ab95182cfaec0f0406be74e'
+        'key' => '259dff91f46aae94d4f4ecb491efef99' // change to a 32 chars alphanumric lowercase value
     ],
     'db' => [
         'table_prefix' => '',
         'connection' => [
             'default' => [
-                'host' => '__host',
-                'dbname' => '__dbname',
-                'username' => '__username',
-                'password' => '__password',
+                'host' => 'db',
+                'dbname' => 'mage2',
+                'username' => 'root',
+                'password' => 'mage2',
                 'model' => 'mysql4',
                 'engine' => 'innodb',
                 'initStatements' => 'SET NAMES utf8;',
@@ -33,7 +44,7 @@ return [
         ]
     ],
     'x-frame-options' => 'SAMEORIGIN',
-    'MAGE_MODE' => 'developer',
+    'MAGE_MODE' => 'default',
     'session' => [
         'save' => 'redis',
         'redis' => [
@@ -64,7 +75,7 @@ return [
     'cache' => [
         'frontend' => [
             'default' => [
-                'id_prefix' => 'e90_',
+                'id_prefix' => '69d_',
                 'backend' => 'Magento\\Framework\\Cache\\Backend\\Redis',
                 'backend_options' => [
                     'server' => '/var/run/redis/redis.sock',
@@ -76,19 +87,10 @@ return [
                 ]
             ],
             'page_cache' => [
-                'id_prefix' => 'e90_',
-                'backend' => 'Magento\\Framework\\Cache\\Backend\\Redis',
-                'backend_options' => [
-                    'server' => '/var/run/redis/redis.sock',
-                    'database' => '2',
-                    'port' => '6379',
-                    'password' => '',
-                    'compress_data' => '0',
-                    'compression_lib' => ''
-                ]
+                'id_prefix' => '69d_'
             ]
         ],
-        'allow_parallel_generation' => false
+        'allow_parallel_generation' => true
     ],
     'lock' => [
         'provider' => 'db',
@@ -117,9 +119,9 @@ return [
         'vertex' => 1
     ],
     'downloadable_domains' => [
-
+        'localhost'
     ],
     'install' => [
-        'date' => 'Mon, 18 Jan 2021 10:52:53 +0000'
+        'date' => 'Mon, 17 Jan 2022 03:22:22 +0000'
     ]
 ];

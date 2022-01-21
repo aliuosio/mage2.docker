@@ -1,4 +1,4 @@
-## Magento 2 OSX/Linux Docker
+## Magento 2 OSX/Linux Docker (One Stack for all Projects)
 
 ### Requirements
 

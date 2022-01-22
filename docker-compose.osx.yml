@@ -57,6 +57,8 @@ services:
       COMPOSER_CACHE_DIR: /home/www-data/.composer
     user: ${UID_GID}
     restart: on-failure
+    entrypoint: [ "fixuid", "docker-php-entrypoint" ]
+    command: [ "php-fpm" ]
     volumes:
       - redis_data_socket:/var/run/redis
       - app_data:/var/www/html:delegated

@@ -27,7 +27,7 @@ RUN apk add --no-cache --virtual build-dependencies libc-dev libxslt-dev freetyp
 && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
 
 COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
-
 RUN chmod +x /usr/local/bin/*
-
 USER $USER:$GROUP
+ENTRYPOINT ["fixuid","docker-php-entrypoint"]
+CMD ["php-fpm"]

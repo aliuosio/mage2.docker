@@ -301,6 +301,7 @@ magentoConfigImport() {
 
 magentoConfig() {
   commands="
+      bin/magento config:set system/full_page_cache/caching_application 2
       bin/magento config:set web/secure/use_in_frontend 0 && \
       bin/magento config:set web/secure/use_in_adminhtml 0  && \
       bin/magento config:set web/seo/use_rewrites 0 && \
@@ -329,7 +330,8 @@ magentoInstall() {
   --backend-frontname=admin --language=de_DE --timezone=Europe/Berlin --currency=EUR --cleanup-database --use-rewrites=0 \
   --session-save=redis --session-save-redis-host=/var/run/redis/redis.sock --session-save-redis-db=0 --session-save-redis-password='' \
   --cache-backend=redis --cache-backend-redis-server=/var/run/redis/redis.sock --cache-backend-redis-db=1 --cache-backend-redis-port=6379 \
-  --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200"
+  --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
+  --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=guest --amqp-password=guest --amqp-virtualhost='/'"
 
   runCommand "$phpContainer '$commands'"
 }

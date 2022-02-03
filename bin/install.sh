@@ -26,6 +26,7 @@ if [[ $1 == "config" ]]; then
   prompt "rePlaceInEnv" "Webserver Port (current: $WEBSERVER_UNSECURE_PORT)" "WEBSERVER_UNSECURE_PORT"
   specialPrompt "Use Project DB [d]ump, [s]ample data or [n]one of the above?"
   prompt "rePlaceInEnv" "Which PHP 7 Version? (7.1, 7.2, 7.3, 7.4) (current: $PHP_VERSION_SET)" "PHP_VERSION_SET"
+  prompt "rePlaceInEnv" "Which Composer Version? (current: $COMPOSER_VERSION)" "COMPOSER_VERSION"
   prompt "rePlaceInEnv" "Enable Xdebug? (current: $XDEBUG_ENABLE)" "XDEBUG_ENABLE"
   prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: $MARIADB_VERSION)" "MARIADB_VERSION"
   prompt "rePlaceInEnv" "Which Elasticsearch Version? (current: $ELASTICSEARCH_VERSION)" "ELASTICSEARCH_VERSION"
@@ -41,6 +42,7 @@ setNginxVhost
 dockerRefresh
 findImport
 setPermissionsContainer
+setComposerVersion
 magentoSetup
 MagentoTwoFactorAuthDisable
 sampleDataInstallMustInstall

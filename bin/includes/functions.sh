@@ -336,6 +336,11 @@ magentoInstall() {
   runCommand "$phpContainer '$commands'"
 }
 
+setComposerVersion() {
+  commands="composer self-update --$COMPOSER_VERSION"
+  runCommand "$phpContainerRoot '$commands'"
+}
+
 magentoSetup() {
   if [ -f "$WORKDIR/composer.json" ]; then
     conposerFunctions

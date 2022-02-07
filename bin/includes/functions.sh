@@ -339,6 +339,11 @@ magentoInstall() {
 setComposerVersion() {
   commands="composer self-update --$COMPOSER_VERSION"
   runCommand "$phpContainerRoot '$commands'"
+
+  if [[ "$COMPOSER_VERSION" == 1 ]]; then
+    commands="composer global require hirak/prestissimo"
+    runCommand "$phpContainer '$commands'"
+  fi
 }
 
 magentoSetup() {

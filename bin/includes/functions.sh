@@ -43,6 +43,14 @@ getLogo() {
   echo "                 |___/                                             "
 }
 
+sedForOs() {
+  if [[ $(uname -s) == "Darwin" ]]; then
+    runCommand "sed -i '' 's#$1#$2#' $3"
+  else
+    runCommand "sed -i 's#$1#$2#' $3"
+  fi
+}
+
 createFolderHost() {
   dir="${HOME}/.composer"
   commands="mkdir -p $dir $WORKDIR"
@@ -97,9 +105,9 @@ rePlaceIn() {
   replacement="$2=$value"
   envFile="$3"
   if [[ $(uname -s) == "Darwin" ]]; then
-    sed -i "" "s@$pattern@$replacement@" "$envFile"
+    sed -i "" "s#$pattern#$replacement#" "$envFile"
   else
-    sed -i "s@$pattern@$replacement@" "$envFile"
+    sed -i "s#$pattern#$replacement#" "$envFile"
   fi
 }
 
@@ -135,14 +143,6 @@ setHostSettings() {
   sudo echo never /sys/kernel/mm/transparent_hugepage/enabled
   sudo sysctl vm.max_map_count=262144
   sudo systemctl daemon-reload
-}
-
-sedForOs() {
-  if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "sed -i '' 's@$1@$2@' $3"
-  else
-    runCommand "sed -i 's@$1@$2@' $3"
-  fi
 }
 
 gitUpdate() {

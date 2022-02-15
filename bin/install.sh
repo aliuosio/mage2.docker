@@ -29,7 +29,6 @@ if [[ $1 == "config" ]]; then
   prompt "rePlaceInEnv" "Enable Xdebug? (current: $XDEBUG_ENABLE)" "XDEBUG_ENABLE"
   prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: $MARIADB_VERSION)" "MARIADB_VERSION"
   prompt "rePlaceInEnv" "Which Elasticsearch Version? (current: $ELASTICSEARCH_VERSION)" "ELASTICSEARCH_VERSION"
-  prompt "rePlaceInEnv" "Create a login screen? (current: $AUTH_CONFIG)" "AUTH_CONFIG"
 fi
 . "$project_root/.env"
 

@@ -17,8 +17,21 @@ return [
             'ssl' => 'false'
         ]
     ],
+    'system' => [
+        'default' => [
+            'smile_elasticsuite_core_base_settings' => [
+                'es_client' => [
+                    'servers' => 'elasticsearch:9200',
+                    'enable_https_mode' => 0,
+                    'http_auth_user' => '',
+                    'http_auth_pwd' => '',
+                    'enable_http_auth' => false
+                ]
+            ]
+        ]
+    ],
     'crypt' => [
-        'key' => '259dff91f46aae94d4f4ecb491efef99' // change to a 32 chars alphanumric lowercase value
+        'key' => 'b78293796122e366ffd2617ae962caab'
     ],
     'db' => [
         'table_prefix' => '',
@@ -44,7 +57,7 @@ return [
         ]
     ],
     'x-frame-options' => 'SAMEORIGIN',
-    'MAGE_MODE' => 'default',
+    'MAGE_MODE' => 'developer',
     'session' => [
         'save' => 'redis',
         'redis' => [
@@ -122,6 +135,6 @@ return [
         'localhost'
     ],
     'install' => [
-        'date' => 'Mon, 17 Jan 2022 03:22:22 +0000'
+        'date' => 'Tue, 08 Feb 2022 00:15:35 +0000'
     ]
 ];

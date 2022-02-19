@@ -29,8 +29,11 @@ setEnvironment "$1"
 
 PHP_USER="www-data"
 WORKDIR_SERVER=/var/www/html
+DB_CONNECT="mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE"
+
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
+dbContainer="docker exec ${NAMESPACE}_db bash -lc"
 
 getLogo() {
   echo "                             _____      _            _             "
@@ -77,7 +80,7 @@ specialPrompt() {
 rePlaceInEnv() {
   file="./.env"
   if [[ -n "$1" ]]; then
-    UID_GID="$(id -u "${USER}"):$(id -g "${USER}")";
+    UID_GID="$(id -u "${USER}"):$(id -g "${USER}")"
     rePlaceIn "$UID_GID" "UID_GID" "$file"
 
     rePlaceIn "$1" "$2" "./.env"
@@ -271,12 +274,45 @@ MagentoTwoFactorAuthDisable() {
   runCommand "$phpContainer '$commands'"
 }
 
-findImport() {
-  if [[ -f $DB_DUMP ]]; then
-    runCommand "mv $DB_DUMP .docker/mysql/db_dumps/"
-    message "check progress in a new terminal tab with: docker logs -f  mage2_db"
-    sleep 5
+setMage2Env() {
+  commands="cp ${PWD}/.docker/config_blueprints/* ${WORKDIR}/app/etc/"
+  runCommand "$commands"
+
+  commands="bin/magento setup:config:set --db-name=$MYSQL_DATABASE && bin/magento module:enable --all"
+  runCommand "$phpContainer '$commands'"
+}
+
+DatabaseDumpCopyToContainer() {
+  commands="docker cp $DB_DUMP ${NAMESPACE}_db:/$1"
+  runCommand "$commands"
+}
+
+DatabaseImportFormatHandle() {
+  if [[ $1 == *".gz"* ]]; then
+    commands="gunzip < /$1 | $DB_CONNECT"
+  else
+    commands="$DB_CONNECT < /$1"
   fi
+
+  runCommand "$dbContainer '$commands'"
+}
+
+DatabaseForeignKeysDisable() {
+  commands="$DB_CONNECT -e \"SET foreign_key_checks = 0;\""
+  runCommand "$dbContainer '$commands'"
+}
+
+DatabaseForeignKeysEnable() {
+  commands="$DB_CONNECT -e \"SET foreign_key_checks = 1;\""
+  runCommand "$dbContainer '$commands'"
+}
+
+DatabaseImport() {
+  FILENAME=$(basename "$DB_DUMP")
+  DatabaseDumpCopyToContainer "$FILENAME"
+  DatabaseForeignKeysDisable
+  DatabaseImportFormatHandle "$FILENAME"
+  DatabaseForeignKeysEnable
 }
 
 conposerFunctions() {
@@ -354,7 +390,18 @@ magentoSetup() {
     composerExtraPackages
   fi
 
-  magentoInstall
+  if [ -n "$DB_DUMP" ]; then
+    if [ -f "$DB_DUMP" ]; then
+      DatabaseImport
+      setMage2Env
+    else
+      echo -e " \033[5mDatabase Dump was not found under: $DB_DUMP\033[0m"
+      exit
+    fi
+  else
+    magentoInstall
+  fi
+
   magentoConfigImport
   magentoConfig
 }

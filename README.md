@@ -93,14 +93,23 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * **PHP Xdebug** as configurable option (xdebug.idekey=docker)
 * **PHP Opcache** enabled
 * **PHP redis** enabled
-* us your local User ssh keys from host in PHP container
 * set Project Name and Namespace through `bin/ìnstall.sh` prompt
-* create backup of `.env` after `bin/install.sh` usage
 * only create `mage2_admin` user on fresh install in `install.sh`
 * `bin/install.sh` creates secure MariaDB passwords and saves them to `.env` 
 * added prompt for SSL to `bin/ìnstall.sh`
 
 ### Todos
+* create backup of `.env` after `bin/install.sh` usage
+* add DB Import progress bar
+* refactor docker-compose.osx.yml
+* Exchange `docker-sync` with `Mutagen`
+* reduce the number of volumes
+* Docker letsencrypt certification Container
+* add downloader script to clone and install App
+* make Webserver(Apache or Nginx) configurable in `bin/install.sh` and `docker-entrypoint.sh`
+* rename config_blueprints to config and move config files to .docker/config
+* simplify letsencrypt certificate embedding in nginx container
+* Nginx Header Config passes at https://securityheaders.com/
 * ~~add Healtchecks to docker-compose~~
 * ~~modify installer to use config flag instead of flag kickit~~
 * ~~build own ElasticSearch Image with required Plugins for Magento 2~~
@@ -108,18 +117,9 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~change PHP container OS from debian to alpine~~
 * ~~set Time and Zone according to host~~
 * ~~map local user to php container www-data user~~ thanks to [fixuid](https://github.com/boxboat/fixuid)
-* add DB Import functions and logs
-* add downloader script to clone and install App
+* ~~add DB Import functions and logs~~
 * ~~modify for running Magento 2 project~~
-* refactor docker-compose.osx.yml
-* Exchange `docker-sync` with `Mutagen`
-* reduce the number of volumes
-* Docker letsencrypt certification Container
 * ~~exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again~~
-* make Webserver(Apache or Nginx) configurable in `bin/install.sh` and `docker-entrypoint.sh`
-* rename config_blueprints to config and move config files to .docker/config
-* simplify letsencrypt certificate embedding in nginx container
-* Nginx Header Config passes at https://securityheaders.com/
 
 ### Bugs
 * fix SSL

@@ -38,12 +38,12 @@ makeExecutable
 createFolderHost
 setNginxVhost
 dockerRefresh
-findImport
 setPermissionsContainer
 setComposerVersion
 magentoSetup
 MagentoTwoFactorAuthDisable
 sampleDataInstallMustInstall
+magentoRefresh
 setMagentoPermissions
 setPermissionsContainer
 endAll=$(date +%s)

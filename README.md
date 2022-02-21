@@ -73,30 +73,16 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     SMTP Port: 1025
     
 ### Features
-* Fresh Install or use magento 2 project on your file system using `bin/install.sh`
-* Varnish Cache Container
+* Fresh Install or use existing magento 2 project on your file system using `bin/install.sh`
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
-* set Magento 2 Versions as configurable option of `bin/ìnstall.sh`
 * using watchtower container to keep the containers current
 * set project directory to where ever you want (as configurable option in .env)
-* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option
-* **http basic authentication**
-* container to register SSL Cert by letsencrypt (only with valid domain)
-* setup valid **SSL certificates** with [Let's Encrypt](https://en.wikipedia.org/wiki/Let%27s_Encrypt) container
 * [Mailhog](https://github.com/mailhog/MailHog) container
-* [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2
 * **Extra Composer Packages with Magento 2 Installer**
     * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
     * [yireo/magento2-webp2](https://github.com/yireo/Yireo_Webp2) WebP Converter
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
-* both **PHP GD and PHP Imagick** are installed
 * **PHP Xdebug** as configurable option (xdebug.idekey=docker)
-* **PHP Opcache** enabled
-* **PHP redis** enabled
-* set Project Name and Namespace through `bin/ìnstall.sh` prompt
-* only create `mage2_admin` user on fresh install in `install.sh`
-* `bin/install.sh` creates secure MariaDB passwords and saves them to `.env` 
-* added prompt for SSL to `bin/ìnstall.sh`
 
 ### Todos
 * create backup of `.env` after `bin/install.sh` usage
@@ -110,6 +96,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * rename config_blueprints to config and move config files to .docker/config
 * simplify letsencrypt certificate embedding in nginx container
 * Nginx Header Config passes at https://securityheaders.com/
+* fix SSL
 * ~~add Healtchecks to docker-compose~~
 * ~~modify installer to use config flag instead of flag kickit~~
 * ~~build own ElasticSearch Image with required Plugins for Magento 2~~
@@ -120,9 +107,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * ~~add DB Import functions and logs~~
 * ~~modify for running Magento 2 project~~
 * ~~exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again~~
-
-### Bugs
-* fix SSL
 
 #### Support
 If you encounter any problems or bugs, please create an issue on [GitHub](https://github.com/aliuosio/mage2.docker/issues).

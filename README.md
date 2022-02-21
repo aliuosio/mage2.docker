@@ -73,16 +73,15 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     SMTP Port: 1025
     
 ### Features
-* Fresh Install or use existing magento 2 project on your file system using `bin/install.sh`
+* Fresh Install or use existing magento 2 project on your file system using `bin/install.sh config`
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
-* using watchtower container to keep the containers current
 * set project directory to where ever you want (as configurable option in .env)
 * [Mailhog](https://github.com/mailhog/MailHog) container
 * **Extra Composer Packages with Magento 2 Installer**
     * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
     * [yireo/magento2-webp2](https://github.com/yireo/Yireo_Webp2) WebP Converter
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
-* **PHP Xdebug** as configurable option (xdebug.idekey=docker)
+* Xdebug as configurable option (xdebug.idekey=docker)
 
 ### Todos
 * create backup of `.env` after `bin/install.sh` usage

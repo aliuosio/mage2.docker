@@ -33,7 +33,7 @@ DB_CONNECT="mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
-dbContainer="docker exec ${NAMESPACE}_db bash -lc"
+dbContainer="docker exec -it ${NAMESPACE}_db bash -lc"
 
 getLogo() {
   echo "                             _____      _            _             "
@@ -289,9 +289,9 @@ DatabaseDumpCopyToContainer() {
 
 DatabaseImportFormatHandle() {
   if [[ $1 == *".gz"* ]]; then
-    commands="gunzip < /$1 | $DB_CONNECT"
+    commands="pv /$1 | gunzip -c | $DB_CONNECT"
   else
-    commands="$DB_CONNECT < /$1"
+    commands="pv /$1 | $DB_CONNECT"
   fi
 
   runCommand "$dbContainer '$commands'"
@@ -307,8 +307,14 @@ DatabaseForeignKeysEnable() {
   runCommand "$dbContainer '$commands'"
 }
 
+pvInstall() {
+  commands="apt update && apt install pv"
+  runCommand "$dbContainer '$commands'"
+}
+
 DatabaseImport() {
   FILENAME=$(basename "$DB_DUMP")
+  pvInstall
   DatabaseDumpCopyToContainer "$FILENAME"
   DatabaseForeignKeysDisable
   DatabaseImportFormatHandle "$FILENAME"

@@ -1,14 +1,5 @@
 ## Magento 2 OSX/Linux Docker (One Stack for all Projects)
 
-### Requirements
-
-**MacOS:**
-[Docker](https://docs.docker.com/docker-for-mac/install/), [docker-sync](http://docker-sync.io/), [Git](http://docker-sync.io/)
-
-**Linux:** 
-[Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/), [Docker-compose](https://docs.docker.com/compose/install/#install-compose), [Git](https://git-scm.com/)
-> on Debian based OS (Example: Ubuntu, Linux Mint) use `bin/docker.sh` to install `docker` and `docker-compose`
-
 ### Get Source
 
     git clone https://github.com/aliuosio/mage2.docker.git

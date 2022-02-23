@@ -1,4 +1,5 @@
-## Magento 2 installer on OSX/Linux Docker stack (One Stack for all Projects)
+## Magento 2 installer on OSX/Linux Docker stack 
+### One Stack for all Projects
 **Docker containers: varnish, nginx, php, elasticsearch, mariadb, redis, rabbitmq, mailhog, watchtower**
 
 *just code don't config*

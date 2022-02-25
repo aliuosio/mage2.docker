@@ -1,24 +1,8 @@
-## Magento 2 OSX/Linux Docker
+## Magento 2 installer on OSX/Linux Docker stack 
+### One Stack for all Projects
+**Docker containers: varnish, nginx, php, elasticsearch, mariadb, redis, rabbitmq, mailhog, watchtower**
 
-* Good Docker Performance on **MacOS** by using [Mutagen](https://mutagen.io/)
-* With `install.sh` you can include your **running project** files with its DB Dump or Magento Sample Data, create **fresh Magento 2 Install**, create **fresh Magento Install with Sample Data**
-* Change settings under `.env` in root folder  
-* Change **PHP Versions 7.1, 7.2, 7.3, 7.4 with xdebug** all based on **php:alpine** docker images
-* PHP, Redis containers connect via sockets
-* A preconfigured `env.php` connects to redis via sockets with `install.sh`
-* Elastic Search container ist preconfigured with `install.sh`
-* Redis container ist preconfigured with `install.sh`
-* Mailhog Connection in Magento 2 DB ist preconfigured with `install.sh`
-
-> be sure to use `allure-framework/allure-phpunit` `1.2.3` instead of `1.2.0` due to this [issue](https://github.com/docker-library/php/issues/719) 
-### Requirements
-
-**MacOS:**
-Install [Docker](https://docs.docker.com/docker-for-mac/install/) and [Mutagen](https://mutagen.io/)
-
-**Linux:** 
-Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
-> Use `docker.sh` to install `docker` and `docker-compose` on debian or Ubuntu based Systems
+*just code don't config*
 
 ### Get Source
 
@@ -28,39 +12,35 @@ Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubu
  Fresh Installation (latest magento 2 version) or your running project when located in your filesystem
     
     cd mage2.docker
-    chmod +x *.sh
-    ./install.sh 
+    chmod +x bin/*.sh
+    bin/install.sh
+
+> with `bin/install config` you can use prompts to configure install
     
-> set absolute Path to a Shop Folder (Empty or Project) in installer
 > use .env to change values after installation and activate on restart of containers 
 
 ### Backend
-    http://mage2.localhost/admin
+    http://localhost/admin
     User: mage2_admin
     Password: mage2_admin123#T
     
 ### Frontend
-    http://mage2.localhost
+    http://localhost
 
+OSX: on first run very slow due to docker-sync update of local shop files volume in the background. 
+See `.docker-sync/daemon.log` for progress
     
 ### next startup after reboot of Host
-    ./start.sh
-
-### to fix Redis Performance Issues (Linux Only)
-    sudo sysctl vm.overcommit_memory=1;
-    echo never /sys/kernel/mm/transparent_hugepage/enabled;
-    
-### to fix ElasticSearch Performance Issues (Linux Only)
-    sudo sysctl vm.max_map_count=262144
+    bin/start.sh
 
 ### Install sample data
 
     chmod +x sample-data.sh
-    ./sample-data.sh
+    bin/sample-data.sh
 
 ### PHP Container Usage
     
-    docker exec -it -u $USER mage2_php bash -l
+    docker exec -it mage2_php bash
     
 ### Elasticsearch Usage
 
@@ -77,7 +57,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 ### Mailhog Usage
 
     Mail Client
-    http://mage2.localhost:8025 
+    http://localhost:8025 
 
     In Magento 2 Backend `stores` -`Configuration` -`Advanced` -`System` 
     -`Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
@@ -88,55 +68,39 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     SMTP Port: 1025
     
 ### Features
-* Fresh Install or use magento 2 project on your file system using `./install.sh`
-* Nginx uses http2
-* alternative **OSX docker-compose** file using mutagen **for better performance**
-* set Magento 2 Versions as configurable option of `ìnstall.sh`
-* using watchtower container to keep the containers current
+* Fresh Install or use existing magento 2 project on your file system using `bin/install.sh config`
+* alternative **OSX docker-compose** file using docker-sync **for better performance**
 * set project directory to where ever you want (as configurable option in .env)
-* set PHP-FPM minor Versions under 7 (7.0, 7.1, 7.2, 7.3) as configurable option
-* **http basic authentication**
-* container to register SSL Cert by letsencrypt (only with valid domain)
-* setup valid **SSL certificates** with [Let's Encrypt](https://en.wikipedia.org/wiki/Let%27s_Encrypt) container
 * [Mailhog](https://github.com/mailhog/MailHog) container
-* [Magerun2](https://github.com/netz98/n98-magerun2) netz98 magerun CLI tools for Magento 2
-* **Extra Composer Packages**
-    * [hirak/prestissimo](https://github.com/hirak/prestissimo) composer package
 * **Extra Composer Packages with Magento 2 Installer**
     * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
-    * [vpietri/adm-quickdevbar](https://github.com/vpietri/magento2-developer-quickdevbar) Developer Toolbar
+    * [yireo/magento2-webp2](https://github.com/yireo/Yireo_Webp2) WebP Converter
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
-* both **PHP GD and PHP Imagick** are installed
-* **PHP Xdebug** as configurable option (xdebug.idekey=docker)
-* **PHP Opcache** enabled
-* **PHP redis** enabled
-* us your local User ssh keys from host in PHP container
-* set Project Name and Namespace through `ìnstall.sh` prompt
-* create backup of `.env` after `install.sh` usage
-* only create `mage2_admin` user on fresh install in `install.sh`
-* `install.sh` creates secure MariaDB passwords and saves them to `.env` 
-* added prompt for SSL to `ìnstall.sh`
+* Xdebug as configurable option (xdebug.idekey=docker)
 
 ### Todos
-* add magento 2 version prompt
-* map local user to php container www-data user
-* ~~install composer version according to magento 2 version~~
-* ~~Exchange docker-sync with Mutagen~~
-* generic solution for `./install.sh`to guarantee backward compatibility
+* create backup of `.env` after `bin/install.sh` usage
+* add DB Import progress bar
+* refactor docker-compose.osx.yml
+* Exchange `docker-sync` with `Mutagen`
 * reduce the number of volumes
-* set Time and Zone according to host
 * Docker letsencrypt certification Container
-* prompt to disable Two Factor Auth (for example in local enviroment)
-* ~~exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again~~
-* make Webserver(Apache or Nginx) configurable in `install.sh` and `docker-entrypoint.sh`
+* add downloader script to clone and install App
+* make Webserver(Apache or Nginx) configurable in `bin/install.sh` and `docker-entrypoint.sh`
 * rename config_blueprints to config and move config files to .docker/config
-* move `install.sh` methods to extra script run in php container native
-* move `sampledata.sh` methods to extra script run in php container native
 * simplify letsencrypt certificate embedding in nginx container
 * Nginx Header Config passes at https://securityheaders.com/
-
-### Bugs
 * fix SSL
+* ~~add Healtchecks to docker-compose~~
+* ~~modify installer to use config flag instead of flag kickit~~
+* ~~build own ElasticSearch Image with required Plugins for Magento 2~~
+* ~~fix OSX Installer~~
+* ~~change PHP container OS from debian to alpine~~
+* ~~set Time and Zone according to host~~
+* ~~map local user to php container www-data user~~ thanks to [fixuid](https://github.com/boxboat/fixuid)
+* ~~add DB Import functions and logs~~
+* ~~modify for running Magento 2 project~~
+* ~~exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again~~
 
 #### Support
 If you encounter any problems or bugs, please create an issue on [GitHub](https://github.com/aliuosio/mage2.docker/issues).

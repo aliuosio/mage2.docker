@@ -3,20 +3,44 @@ return [
     'backend' => [
         'frontName' => 'admin'
     ],
+    'remote_storage' => [
+        'driver' => 'file'
+    ],
     'queue' => [
-        'consumers_wait_for_messages' => 1
+        'consumers_wait_for_messages' => 1,
+        'amqp' => [
+            'host' => 'rabbitmq',
+            'port' => '5672',
+            'user' => 'guest',
+            'password' => 'guest',
+            'virtualhost' => '/',
+            'ssl' => 'false'
+        ]
+    ],
+    'system' => [
+        'default' => [
+            'smile_elasticsuite_core_base_settings' => [
+                'es_client' => [
+                    'servers' => 'elasticsearch:9200',
+                    'enable_https_mode' => 0,
+                    'http_auth_user' => '',
+                    'http_auth_pwd' => '',
+                    'enable_http_auth' => false
+                ]
+            ]
+        ]
     ],
     'crypt' => [
-        'key' => 'd8d0ae507ab95182cfaec0f0406be74e'
+        'key' => 'b78293796122e366ffd2617ae962caab'
     ],
     'db' => [
         'table_prefix' => '',
         'connection' => [
             'default' => [
-                'host' => '__host',
-                'dbname' => '__dbname',
-                'username' => '__username',
-                'password' => '__password',
+                'host' => 'db',
+                'dbname' => 'mage2',
+                'username' => 'root',
+                'password' => 'mage2',
                 'model' => 'mysql4',
                 'engine' => 'innodb',
                 'initStatements' => 'SET NAMES utf8;',
@@ -33,7 +57,7 @@ return [
         ]
     ],
     'x-frame-options' => 'SAMEORIGIN',
-    'MAGE_MODE' => 'default',
+    'MAGE_MODE' => 'developer',
     'session' => [
         'save' => 'redis',
         'redis' => [
@@ -64,7 +88,7 @@ return [
     'cache' => [
         'frontend' => [
             'default' => [
-                'id_prefix' => 'e90_',
+                'id_prefix' => '69d_',
                 'backend' => 'Magento\\Framework\\Cache\\Backend\\Redis',
                 'backend_options' => [
                     'server' => '/var/run/redis/redis.sock',
@@ -76,19 +100,10 @@ return [
                 ]
             ],
             'page_cache' => [
-                'id_prefix' => 'e90_',
-                'backend' => 'Magento\\Framework\\Cache\\Backend\\Redis',
-                'backend_options' => [
-                    'server' => '/var/run/redis/redis.sock',
-                    'database' => '2',
-                    'port' => '6379',
-                    'password' => '',
-                    'compress_data' => '0',
-                    'compression_lib' => ''
-                ]
+                'id_prefix' => '69d_'
             ]
         ],
-        'allow_parallel_generation' => false
+        'allow_parallel_generation' => true
     ],
     'lock' => [
         'provider' => 'db',
@@ -97,7 +112,7 @@ return [
         ]
     ],
     'directories' => [
-        'document_root_is_pub' => false
+        'document_root_is_pub' => true
     ],
     'cache_types' => [
         'config' => 1,
@@ -117,9 +132,9 @@ return [
         'vertex' => 1
     ],
     'downloadable_domains' => [
-
+        'localhost'
     ],
     'install' => [
-        'date' => 'Mon, 18 Jan 2021 10:52:53 +0000'
+        'date' => 'Tue, 08 Feb 2022 00:15:35 +0000'
     ]
 ];

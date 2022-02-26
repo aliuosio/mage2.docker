@@ -1,0 +1,23 @@
+version: '3'
+
+x-mutagen:
+  sync:
+    defaults:
+      ignore:
+        vcs: true
+    app_data:
+      alpha: ${WORKDIR}
+      beta: 'volume://app_data
+      mode: 'two-way-safe'
+      ignore:
+        paths:
+          - '.idea'
+          - '.git'
+          - '.github'
+          - '.gitignore'
+          - 'README.md'
+          - 'generated'
+    composer_cache:
+      alpha: ${HOME}/.composer
+      beta: 'volume://composer_cache
+      mode: 'two-way-safe'

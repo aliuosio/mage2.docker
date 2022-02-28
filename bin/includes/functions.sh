@@ -259,7 +259,7 @@ setMagentoCron() {
 }
 
 sampleDataInstall() {
-  commands="bin/magento sampledata:deploy && bin/magento se:up && bin/magento i:rei && bin/magento c:c;"
+  commands="php -d memory_limit=-1 bin/magento sampledata:deploy && bin/magento se:up && bin/magento i:rei && bin/magento c:c;"
   runCommand "$phpContainer '$commands'"
 }
 

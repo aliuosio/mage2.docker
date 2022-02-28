@@ -39,10 +39,10 @@ services:
       - app_data:/var/www/html:delegated
 
   php:
-#    build:
-#      context: ./.docker/php
-#      args:
-#        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    #    build:
+    #      context: ./.docker/php
+    #      args:
+    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
@@ -163,12 +163,6 @@ volumes:
   elastic_data:
   redis_data:
   app_data:
-    driver_opts:
-      type: none
-      o: bind
-      device: ${WORKDIR}
+    external: true
   composer_cache:
-    driver_opts:
-      type: none
-      o: bind
-      device: ${HOME}/.composer
+    external: true

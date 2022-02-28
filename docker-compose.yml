@@ -36,7 +36,7 @@ services:
     volumes:
       - .docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
       - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - app_data:/var/www/html:delegated
+      - app-data:/var/www/html:delegated
 
   php:
 #    build:
@@ -54,14 +54,13 @@ services:
         condition: service_healthy
     environment:
       TZ: ${TZ}
-      COMPOSER_CACHE_DIR: /home/www-data/.composer
+      composer-cache_DIR: /home/www-data/.composer
     user: ${UID_GID}
     restart: on-failure
     volumes:
       - redis_data_socket:/var/run/redis
-      - app_data:/var/www/html:delegated
-      - composer_cache:/home/www-data/.composer:delegated
-      - ${HOME}/.ssh:/home/www-data/.ssh:delegated
+      - app-data:/var/www/html:delegated
+      - composer-cache:/home/www-data/.composer:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
@@ -162,12 +161,12 @@ volumes:
   db_data:
   elastic_data:
   redis_data:
-  app_data:
+  app-data:
     driver_opts:
       type: none
       o: bind
       device: ${WORKDIR}
-  composer_cache:
+  composer-cache:
     driver_opts:
       type: none
       o: bind

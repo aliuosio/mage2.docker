@@ -125,18 +125,11 @@ prompt() {
 
 osxExtraPackages() {
   if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "brew install coreutils"
     if [[ ! -x "$(command -v brew)" ]]; then
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     fi
-    if [[ ! -x "$(command -v unison)" ]]; then
-      runCommand "brew install unison"
-    fi
-    if [[ ! -d /usr/local/opt/unox ]]; then
-      runCommand "brew install eugenmayer/dockersync/unox"
-    fi
-    if [[ ! -x "$(command -v docker-sync)" ]]; then
-      runCommand "gem install docker-sync;"
+    if [[ ! -x "$(command -v mutagen)" ]]; then
+      runCommand "brew install mutagen-io/mutagen/mutagen;"
     fi
   fi
 }
@@ -170,10 +163,10 @@ makeExecutable() {
 # @todo: test on OSX
 dockerRefresh() {
   if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "docker-compose -f docker-compose.osx.yml down &&
-                docker-sync stop &&
-                docker-sync start &&
-                docker-compose -f docker-compose.osx.yml up -d"
+    runCommand "docker-compose -f docker-compose.osx.yml down && docker-compose -f docker-compose.osx.yml up -d"
+    runCommand "mutagen daemon start"
+    runCommand "bin/mutagen.sh"
+    # runCommand "sleep 300"
   else
     runCommand setHostSettings
     runCommand "docker-compose down && docker-compose up -d"

@@ -14,6 +14,7 @@ syncs:
       - "-ignore='Path .git'"           # ignore the main .git repo
       - "-ignore='BelowPath .git'"      # also ignore .git repos in subfolders such as in composer vendor dirs
       - "-ignore='Path var/*'"    # don't share the cache
+      - "-ignore='Path .generated/*'"    # don't share the cache
       - "-ignore='Path node_modules/*'" # remove this if you need code completion
       - "-ignore='Path pub/*'"
   composer_cache:

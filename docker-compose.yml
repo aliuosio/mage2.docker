@@ -116,7 +116,7 @@ services:
 
   redis:
     container_name: ${NAMESPACE}_redis
-    image: redis:alpine
+    image: redis:${REDIS_VERSION}
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server

@@ -389,7 +389,7 @@ setComposerVersion() {
 }
 
 magerunInstall() {
-  commands="curl -o /usr/local/bin/n98-magerun.phar https://files.magerun.net/n98-magerun2.phar && chmod +x /usr/local/bin/n98-magerun.phar"
+  commands="curl -o /usr/local/bin/n98-magerun.phar https://files.magerun.net/n98-magerun2.phar"
   runCommand "$phpContainerRoot '$commands'"
 }
 

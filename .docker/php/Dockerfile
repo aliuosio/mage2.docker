@@ -5,14 +5,14 @@ LABEL maintainer="Osiozekhai Aliu"
 ENV USER=www-data
 ENV GROUP=www-data
 
-RUN apk add --no-cache --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev \
+RUN apk add --no-cache --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev curl \
 && set -xe \
-&& apk add --no-cache git bash bash-completion nano tzdata icu php7-curl procps nodejs \
+&& apk add --no-cache git bash bash-completion nano tzdata icu procps nodejs \
 && apk add --no-cache --virtual .php-deps make \
-&& apk add --no-cache --virtual .build-deps $PHPIZE_DEPS zlib-dev icu-dev g++ \
+&& apk add --no-cache --virtual .build-deps $PHPIZE_DEPS zlib-dev icu-dev g++ curl-dev \
 && docker-php-ext-configure hash --with-mhash \
 && docker-php-ext-configure gd --with-webp --with-jpeg --with-freetype \
-&& docker-php-ext-install gd bcmath intl pdo_mysql opcache soap sockets xsl zip \
+&& docker-php-ext-install gd bcmath intl pdo_mysql opcache soap sockets xsl zip curl \
 && pecl channel-update pecl.php.net \
 && pecl install -o -f redis apcu-5.1.21 \
 && docker-php-ext-enable redis apcu \

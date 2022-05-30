@@ -368,10 +368,8 @@ composerExtraPackages() {
 magentoInstall() {
   commands="bin/magento setup:install --base-url=http://$SHOPURI/ \
   --db-host=db --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
-  --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
-  --backend-frontname=admin --language=de_DE --timezone=Europe/Berlin --currency=EUR --cleanup-database --use-rewrites=0 \
-  --session-save=redis --session-save-redis-host=/var/run/redis/redis.sock --session-save-redis-db=0 --session-save-redis-password='' \
-  --cache-backend=redis --cache-backend-redis-server=/var/run/redis/redis.sock --cache-backend-redis-db=1 --cache-backend-redis-port=6379 \
+  --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
+  --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
   --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
   --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=guest --amqp-password=guest --amqp-virtualhost='/'"
 

@@ -79,8 +79,8 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Xdebug as configurable option (xdebug.idekey=docker)
 
 ### Todos
+* add PHP 8 to Dockerfile
 * create backup of `.env` after `bin/install.sh` usage
-* add DB Import progress bar
 * refactor docker-compose.osx.yml
 * Exchange `docker-sync` with `Mutagen`
 * reduce the number of volumes
@@ -91,6 +91,8 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * simplify letsencrypt certificate embedding in nginx container
 * Nginx Header Config passes at https://securityheaders.com/
 * fix SSL
+* ~~add magento 2 cronjob~~
+* ~~add DB Import progress bar~~
 * ~~add Healtchecks to docker-compose~~
 * ~~modify installer to use config flag instead of flag kickit~~
 * ~~build own ElasticSearch Image with required Plugins for Magento 2~~

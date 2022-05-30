@@ -7,7 +7,7 @@ project_root=$(dirname $(dirname $(realpath "$0" )))
 . "$project_root/bin/includes/functions.sh" "$project_root"
 
 dockerRefresh
-showSuccess "$SHOPURI" "$DUMP"
+setMagentoCron
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"
-#setMagentoCron
+showSuccess "$SHOPURI" "$DUMP"

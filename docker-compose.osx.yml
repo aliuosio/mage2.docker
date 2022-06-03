@@ -58,7 +58,6 @@ services:
     user: ${UID_GID}
     restart: on-failure
     volumes:
-      - redis_data_socket:/var/run/redis
       - app_data:/var/www/html:delegated
       - composer_cache:/home/www-data/.composer:delegated
       - ${HOME}/.ssh:/home/www-data/.ssh:delegated
@@ -120,18 +119,15 @@ services:
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
-    command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
     environment:
       TZ: ${TZ}
     healthcheck:
-      test: 'redis-cli -s /var/run/redis/redis.sock ping || exit 1'
+      test: 'redis-cli ping || exit 1'
       interval: 30s
       timeout: 30s
       retries: 3
     volumes:
-      - redis_data_socket:/var/run/redis
       - redis_data:/data
-      - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
   rabbitmq:
     container_name: ${NAMESPACE}_rabbitmq
@@ -158,7 +154,6 @@ services:
 
 volumes:
   rabbitmq_data:
-  redis_data_socket:
   db_data:
   elastic_data:
   redis_data:

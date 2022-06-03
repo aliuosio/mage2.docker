@@ -50,4 +50,4 @@ setPermissionsContainer
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"
 showSuccess "$SHOPURI" "$DUMP"
-#setMagentoCron
+setMagentoCron

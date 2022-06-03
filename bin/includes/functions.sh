@@ -346,7 +346,6 @@ magentoConfig() {
       bin/magento config:set system/full_page_cache/caching_application 2
       bin/magento config:set web/secure/use_in_frontend 0 && \
       bin/magento config:set web/secure/use_in_adminhtml 0  && \
-      bin/magento config:set web/seo/use_rewrites 0 && \
       bin/magento config:set catalog/search/enable_eav_indexer 1 && \
       bin/magento deploy:mode:set -s $DEPLOY_MODE"
 
@@ -359,12 +358,6 @@ magentoPreInstall() {
   runCommand "$phpContainer '$commands'"
 }
 
-composerExtraPackages() {
-  commands="composer req --dev mage2tv/magento-cache-clean && composer req magepal/magento2-gmailsmtpapp yireo/magento2-webp2"
-
-  runCommand "$phpContainer '$commands'"
-}
-
 magentoInstall() {
   commands="bin/magento setup:install --base-url=http://$SHOPURI/ \
   --db-host=db --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
@@ -373,7 +366,9 @@ magentoInstall() {
   --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
   --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=guest --amqp-password=guest --amqp-virtualhost='/' \
   --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0 \
-  --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1
+  --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1 \
+  --cleanup-database --use-rewrites=0 \
+  --timezone=Europe/Berlin --currency=EUR --language=de_DE
   "
 
   runCommand "$phpContainer '$commands'"

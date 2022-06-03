@@ -79,8 +79,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Xdebug as configurable option (xdebug.idekey=docker)
 
 ### Todos
-* set german locale, curreny, timezone
-* fix redis socket support
 * create backup of `.env` after `bin/install.sh` usage
 * refactor docker-compose.osx.yml
 * Exchange `docker-sync` with `Mutagen`
@@ -92,6 +90,8 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * simplify letsencrypt certificate embedding in nginx container
 * Nginx Header Config passes at https://securityheaders.com/
 * fix SSL
+* ~~set german locale, curreny, timezone~~
+* ~~fix redis socket support~~
 * ~~add PHP 8 to Dockerfile~~
 * ~~add magento 2 cronjob~~
 * ~~add DB Import progress bar~~

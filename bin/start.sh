@@ -10,4 +10,5 @@ dockerRefresh
 showSuccess "$SHOPURI" "$DUMP"
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"
+setPermissionsContainer
 setMagentoCron

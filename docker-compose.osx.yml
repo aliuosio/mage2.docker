@@ -2,6 +2,16 @@ version: '3.8'
 
 services:
 
+  node:
+    container_name: ${NAMESPACE}_node
+    image: node:${NODE_VERSION}-alpine
+    working_dir: ${WORKDIR_SERVER}
+    environment:
+      - TZ=${TZ}
+    entrypoint: ["tail", "-f", "/dev/null"]
+    volumes:
+      - app_data:${WORKDIR_SERVER}:delegated
+
   varnish:
     container_name: ${NAMESPACE}_varnish
     image: varnish:${VARNISH_VERSION}

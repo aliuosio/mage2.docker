@@ -119,6 +119,7 @@ services:
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
+    command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
     environment:
       TZ: ${TZ}
     healthcheck:
@@ -128,6 +129,7 @@ services:
       retries: 3
     volumes:
       - redis_data:/data
+      - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
   rabbitmq:
     container_name: ${NAMESPACE}_rabbitmq

@@ -2,16 +2,6 @@ version: '3.8'
 
 services:
 
-  node:
-    container_name: ${NAMESPACE}_node
-    image: node:${NODE_VERSION}-alpine
-    working_dir: ${WORKDIR_SERVER}
-    environment:
-      - TZ=${TZ}
-    entrypoint: ["tail", "-f", "/dev/null"]
-    volumes:
-      - app_data:${WORKDIR_SERVER}:delegated
-
   varnish:
     container_name: ${NAMESPACE}_varnish
     image: varnish:${VARNISH_VERSION}
@@ -46,7 +36,7 @@ services:
     volumes:
       - .docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
       - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - app_data:/var/www/html:delegated
+      - app_data:${WORKDIR_SERVER}:delegated
 
   php:
     #    build:
@@ -68,7 +58,7 @@ services:
     user: ${UID_GID}
     restart: on-failure
     volumes:
-      - app_data:/var/www/html:delegated
+      - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www-data/.composer:delegated
       - ${HOME}/.ssh:/home/www-data/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
@@ -164,12 +154,30 @@ services:
       TZ: ${TZ}
     command: --interval 3600
 
+  node:
+    #    build:
+    #      context: ./.docker/nodejs
+    #      args:
+    #        NODE_VERSION: ${NODE_VERSION}
+    container_name: ${NAMESPACE}_node
+    image: osioaliu/node:${NODE_VERSION}-alpine
+    working_dir: ${WORKDIR_SERVER_PWA}
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=${TZ}
+    entrypoint: [ "fixuid", "tail", "-f", "/dev/null" ]
+    volumes:
+      - pwa_data:${WORKDIR_SERVER_PWA}:delegated
+
 volumes:
   rabbitmq_data:
   db_data:
   elastic_data:
   redis_data:
   app_data:
-    external: true
+    external : true
   composer_cache:
-    external: true
+    external : true
+  pwa_data:
+    external : true

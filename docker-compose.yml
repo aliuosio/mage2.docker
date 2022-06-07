@@ -2,18 +2,6 @@ version: '3.8'
 
 services:
 
-  node:
-    container_name: ${NAMESPACE}_node
-    image: node:${NODE_VERSION}-alpine
-    working_dir: ${WORKDIR_SERVER}
-    ports:
-      - "3000:3000"
-    environment:
-      - TZ=${TZ}
-    entrypoint: ["tail", "-f", "/dev/null"]
-    volumes:
-      - app_data:${WORKDIR_SERVER}:delegated
-
   varnish:
     container_name: ${NAMESPACE}_varnish
     image: varnish:${VARNISH_VERSION}
@@ -166,6 +154,22 @@ services:
       TZ: ${TZ}
     command: --interval 3600
 
+  node:
+    #    build:
+    #      context: ./.docker/nodejs
+    #      args:
+    #        NODE_VERSION: ${NODE_VERSION}
+    container_name: ${NAMESPACE}_node
+    image: osioaliu/node:${NODE_VERSION}-alpine
+    working_dir: ${WORKDIR_SERVER_PWA}
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=${TZ}
+    entrypoint: [ "fixuid", "tail", "-f", "/dev/null" ]
+    volumes:
+      - pwa_data:${WORKDIR_SERVER_PWA}:delegated
+
 volumes:
   rabbitmq_data:
   db_data:
@@ -181,3 +185,8 @@ volumes:
       type: none
       o: bind
       device: ${HOME}/.composer
+  pwa_data:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${WORKDIR_PWA}

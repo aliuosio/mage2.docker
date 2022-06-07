@@ -39,10 +39,10 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
 
   php:
-#    build:
-#      context: ./.docker/php
-#      args:
-#        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    #    build:
+    #      context: ./.docker/php
+    #      args:
+    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
     sysctls:
@@ -156,7 +156,7 @@ services:
 
   node:
 #    build:
-#      context: ./.docker/nodejs
+#      context: ./.docker/node
 #      args:
 #        NODE_VERSION: ${NODE_VERSION}
     container_name: ${NAMESPACE}_node
@@ -166,7 +166,7 @@ services:
       - "3000:3000"
     environment:
       - TZ=${TZ}
-    entrypoint: [ "tail", "-f", "/dev/null" ]
+    entrypoint: ["docker-entrypoint.sh", "tail", "-f", "/dev/null"]
     volumes:
       - node_data:${WORKDIR_SERVER_NODE}:delegated
 

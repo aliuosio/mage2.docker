@@ -57,9 +57,10 @@ sedForOs() {
 
 createFolderHost() {
   dir="${HOME}/.composer"
-  commands="mkdir -p $dir $WORKDIR"
-
-  runCommand "$commands"
+  if [ ! -d "$WORKDIR" ]; then
+    commands="mkdir -p $dir $WORKDIR"
+    runCommand "$commands"
+  fi
 }
 
 specialPrompt() {
@@ -386,7 +387,7 @@ setComposerVersion() {
 }
 
 yarnExtraPackages() {
- commands="
+  commands="
   npm install --location=global create-razzle-app
   create-razzle-app pwa
   cd pwa
@@ -406,7 +407,7 @@ yarnExtraPackages() {
   npm install formik --save
   "
 
- runCommand "$nodeContainer '$commands'"
+  runCommand "$nodeContainer '$commands'"
 }
 
 pwaSetup() {
@@ -424,15 +425,11 @@ pwaWatch() {
   runCommand "$nodeContainer '$commands'"
 }
 
-createPWAFolderContainer() {
-  commands="mkdir $WORKDIR_SERVER_NODE"
-  runCommand "$nodeContainer '$commands'"
-}
-
 createPWAFolderHost() {
-  commands="mkdir -p $WORKDIR_NODE"
-
-  runCommand "$commands"
+  if [ ! -d "$WORKDIR_NODE" ]; then
+    commands="mkdir -p $WORKDIR_NODE"
+    runCommand "$commands"
+  fi
 }
 
 magentoSetup() {

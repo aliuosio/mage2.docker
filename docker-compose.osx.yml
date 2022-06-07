@@ -156,7 +156,7 @@ services:
 
   node:
     #    build:
-    #      context: ./.docker/nodejs
+    #      context: ./.docker/node
     #      args:
     #        NODE_VERSION: ${NODE_VERSION}
     container_name: ${NAMESPACE}_node
@@ -166,7 +166,7 @@ services:
       - "3000:3000"
     environment:
       - TZ=${TZ}
-    entrypoint: [ "tail", "-f", "/dev/null" ]
+    entrypoint: ["docker-entrypoint.sh", "tail", "-f", "/dev/null"]
     volumes:
       - node_data:${WORKDIR_SERVER_NODE}:delegated
 

@@ -37,6 +37,7 @@ gitUpdate
 osxExtraPackages
 makeExecutable
 createFolderHost
+createPWAFolderHost
 setNginxVhost
 dockerRefresh
 setPermissionsContainer
@@ -47,7 +48,8 @@ sampleDataInstallMustInstall
 magentoRefresh
 setMagentoPermissions
 setPermissionsContainer
+setMagentoCron
+
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"
 showSuccess "$SHOPURI" "$DUMP"
-setMagentoCron

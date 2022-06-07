@@ -33,6 +33,7 @@ DB_CONNECT="mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
+nodeContainer="docker exec -it ${NAMESPACE}_node sh -lc"
 dbContainer="docker exec -it ${NAMESPACE}_db bash -lc"
 
 getLogo() {
@@ -382,6 +383,56 @@ setComposerVersion() {
     commands="composer global require hirak/prestissimo"
     runCommand "$phpContainer '$commands'"
   fi
+}
+
+yarnExtraPackages() {
+ commands="
+  npm install --location=global create-razzle-app
+  create-razzle-app pwa
+  cd pwa
+  npm start
+  npm install react@latest
+  npm install graphql --save
+  npm install swiper --save
+  npm install node-sass --save
+  npm install apollo-client --save
+  npm install apollo-cache-inmemory --save
+  npm install apollo-link-http --save
+  npm install apollo-link-context --save
+  npm install react-apollo --save
+  npm install graphql-tag --save
+  npm install react-redux --save
+  npm install react-notifications --save
+  npm install formik --save
+  "
+
+ runCommand "$nodeContainer '$commands'"
+}
+
+pwaSetup() {
+  commands="yarn create @magento/pwa"
+  runCommand "$nodeContainer '$commands'"
+}
+
+pwaSSL() {
+  commands="cd $WORKDIR_SERVER/pwa && openssl req -new -newkey rsa:2048 -nodes -keyout pwa.key -out pwa.csr && yarn buildpack create-custom-origin ./"
+  runCommand "$nodeContainer '$commands'"
+}
+
+pwaWatch() {
+  commands="cd $WORKDIR_SERVER/pwa && yarn watch"
+  runCommand "$nodeContainer '$commands'"
+}
+
+createPWAFolderContainer() {
+  commands="mkdir $WORKDIR_SERVER_NODE"
+  runCommand "$nodeContainer '$commands'"
+}
+
+createPWAFolderHost() {
+  commands="mkdir -p $WORKDIR_NODE"
+
+  runCommand "$commands"
 }
 
 magentoSetup() {

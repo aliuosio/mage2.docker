@@ -27,6 +27,12 @@
 ### Frontend
     http://localhost
 
+### PWA Frontend Setup
+    bin/pwa-onilab.sh
+
+### PWA Frontend
+    http://localhost:3000
+
 OSX: on first run very slow due to docker-sync update of local shop files volume in the background. 
 See `.docker-sync/daemon.log` for progress
     

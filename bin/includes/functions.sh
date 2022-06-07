@@ -385,18 +385,13 @@ setComposerVersion() {
   fi
 }
 
-nodeContainerExtraPackages() {
-  commands="apk add --no-cache openssl bash curl dirmngr"
-  runCommand "$nodeContainer '$commands'"
-}
-
 yarnExtraPackages() {
  commands="
+  npm install --location=global create-razzle-app
+  create-razzle-app pwa
+  cd pwa
+  npm start
   npm install react@latest
-  npm install -g create-razzle-app
-  create-razzle-app pwa;
-  cd pwa;
-  npm start;
   npm install graphql --save
   npm install swiper --save
   npm install node-sass --save
@@ -409,8 +404,7 @@ yarnExtraPackages() {
   npm install react-redux --save
   npm install react-notifications --save
   npm install formik --save
-  npm install razzle-plugin-serviceworker --save-dev
-  npm install offline-plugin --save"
+  "
 
  runCommand "$nodeContainer '$commands'"
 }
@@ -428,6 +422,17 @@ pwaSSL() {
 pwaWatch() {
   commands="cd $WORKDIR_SERVER/pwa && yarn watch"
   runCommand "$nodeContainer '$commands'"
+}
+
+createPWAFolderContainer() {
+  commands="mkdir $WORKDIR_SERVER_NODE"
+  runCommand "$nodeContainer '$commands'"
+}
+
+createPWAFolderHost() {
+  commands="mkdir -p $WORKDIR_NODE"
+
+  runCommand "$commands"
 }
 
 magentoSetup() {

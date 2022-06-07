@@ -161,14 +161,14 @@ services:
 #        NODE_VERSION: ${NODE_VERSION}
     container_name: ${NAMESPACE}_node
     image: osioaliu/node:${NODE_VERSION}-alpine
-    working_dir: ${WORKDIR_SERVER_PWA}
+    working_dir: ${WORKDIR_SERVER_NODE}
     ports:
       - "3000:3000"
     environment:
       - TZ=${TZ}
     entrypoint: [ "tail", "-f", "/dev/null" ]
     volumes:
-      - pwa_data:${WORKDIR_SERVER_PWA}:delegated
+      - node_data:${WORKDIR_SERVER_NODE}:delegated
 
 volumes:
   rabbitmq_data:
@@ -185,8 +185,8 @@ volumes:
       type: none
       o: bind
       device: ${HOME}/.composer
-  pwa_data:
+  node_data:
     driver_opts:
       type: none
       o: bind
-      device: ${WORKDIR_PWA}
+      device: ${WORKDIR_NODE}

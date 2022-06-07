@@ -26,8 +26,8 @@ syncs:
       - "-prefer newer"
       - "-ignore='Path .git'"
       - "-ignore='BelowPath .git'"
-  pwa_data:
-    src: ${WORKDIR_PWA}
+  node_data:
+    src: ${WORKDIR_NODE}
     sync_strategy: 'native_osx'
     sync_userid: $UID
     sync_groupid: $GID

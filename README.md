@@ -85,6 +85,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Xdebug as configurable option (xdebug.idekey=docker)
 
 ### Todos
+* set permissons between host node container
 * create backup of `.env` after `bin/install.sh` usage
 * refactor docker-compose.osx.yml
 * Exchange `docker-sync` with `Mutagen`

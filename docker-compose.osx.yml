@@ -166,7 +166,7 @@ services:
       - "3000:3000"
     environment:
       - TZ=${TZ}
-    entrypoint: [ "fixuid", "tail", "-f", "/dev/null" ]
+    entrypoint: [ "tail", "-f", "/dev/null" ]
     volumes:
       - pwa_data:${WORKDIR_SERVER_PWA}:delegated
 
@@ -176,8 +176,8 @@ volumes:
   elastic_data:
   redis_data:
   app_data:
-    external : true
+    external: true
   composer_cache:
-    external : true
+    external: true
   pwa_data:
-    external : true
+    external: true

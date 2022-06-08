@@ -162,11 +162,11 @@ services:
     container_name: ${NAMESPACE}_node
     image: osioaliu/node:${NODE_VERSION}-alpine
     working_dir: ${WORKDIR_SERVER_NODE}
-    user: ${UID_GID}
     ports:
       - "3000:3000"
     environment:
       - TZ=${TZ}
+    entrypoint: ["docker-entrypoint.sh", "tail", "-f", "/dev/null"]
     volumes:
       - node_data:${WORKDIR_SERVER_NODE}:delegated
 

@@ -86,6 +86,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 
 ### Todos
 * set permissons between host node container
+* fix SSL (nginx and node)
 * create backup of `.env` after `bin/install.sh` usage
 * refactor docker-compose.osx.yml
 * Exchange `docker-sync` with `Mutagen`
@@ -96,7 +97,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * rename config_blueprints to config and move config files to .docker/config
 * simplify letsencrypt certificate embedding in nginx container
 * Nginx Header Config passes at https://securityheaders.com/
-* fix SSL
 * ~~set german locale, curreny, timezone~~
 * ~~fix redis socket support~~
 * ~~add PHP 8 to Dockerfile~~

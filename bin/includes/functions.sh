@@ -387,6 +387,7 @@ setComposerVersion() {
 
 yarnExtraPackages() {
   commands="
+  npm install nodeman
   npm install --location=global create-razzle-app
   create-razzle-app pwa
   cd pwa

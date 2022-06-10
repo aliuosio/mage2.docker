@@ -170,16 +170,14 @@ makeExecutable() {
   runCommand "chmod +x bin/*.sh;"
 }
 
-# @todo: test on OSX
 dockerRefresh() {
   if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "docker-compose -f docker-compose.osx.yml down &&
-                docker-sync stop &&
+    runCommand "docker-sync stop &&
                 docker-sync start &&
                 docker-compose -f docker-compose.osx.yml up -d"
   else
     runCommand setHostSettings
-    runCommand "docker-compose down && docker-compose up -d"
+    runCommand "docker-compose up -d"
   fi
 }
 

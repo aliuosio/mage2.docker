@@ -17,9 +17,5 @@ RUN apk add --no-cache curl openssl bash dirmngr bash-completion nano tzdata \
     && mkdir -p /etc/fixuid \
     && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
 
-RUN npm install --location=global npm@8.12.1 \
-    && npm install --location=global create-razzle-app \
-    && npm config set prefix "/home/node/.npm-global"
-
 ENV PATH=/home/node/node_modules/.bin:$PATH
 ENV PATH=/home/node/.npm-global/bin:$PATH

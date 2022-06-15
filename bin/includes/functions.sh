@@ -386,8 +386,7 @@ setComposerVersion() {
 
 npmExtraPackages() {
   commands="
-  create-razzle-app pwa
-  cd pwa
+  npm config set prefix '/home/node/.npm-global'
   npm install --force react@latest
   npm install --force graphql --save
   npm install --force swiper --save
@@ -400,7 +399,8 @@ npmExtraPackages() {
   npm install --force graphql-tag --save
   npm install --force react-redux --save
   npm install --force react-notifications --save
-  npm install --force formik --save"
+  npm install --force formik --save
+  "
 
   runCommand "$nodeContainer '$commands'"
 }

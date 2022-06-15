@@ -33,7 +33,6 @@ DB_CONNECT="mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
-nodeContainerRoot="docker exec -it -u root ${NAMESPACE}_node sh -lc"
 nodeContainer="docker exec -it ${NAMESPACE}_node sh -lc"
 dbContainer="docker exec -it ${NAMESPACE}_db bash -lc"
 
@@ -385,27 +384,23 @@ setComposerVersion() {
   fi
 }
 
-yarnExtraPackages() {
+npmExtraPackages() {
   commands="
-  npm install nodeman
-  npm install --location=global create-razzle-app
   create-razzle-app pwa
   cd pwa
-  npm start
-  npm install react@latest
-  npm install graphql --save
-  npm install swiper --save
-  npm install node-sass --save
-  npm install apollo-client --save
-  npm install apollo-cache-inmemory --save
-  npm install apollo-link-http --save
-  npm install apollo-link-context --save
-  npm install react-apollo --save
-  npm install graphql-tag --save
-  npm install react-redux --save
-  npm install react-notifications --save
-  npm install formik --save
-  "
+  npm install --force react@latest
+  npm install --force graphql --save
+  npm install --force swiper --save
+  npm install --force node-sass --save
+  npm install --force apollo-client --save
+  npm install --force apollo-cache-inmemory --save
+  npm install --force apollo-link-http --save
+  npm install --force apollo-link-context --save
+  npm install --force react-apollo --save
+  npm install --force graphql-tag --save
+  npm install --force react-redux --save
+  npm install --force react-notifications --save
+  npm install --force formik --save"
 
   runCommand "$nodeContainer '$commands'"
 }

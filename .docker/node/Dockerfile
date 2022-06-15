@@ -2,7 +2,24 @@ ARG NODE_VERSION
 FROM node:${NODE_VERSION}-alpine
 LABEL maintainer="Osiozekhai Aliu"
 
-RUN apk add --no-cache curl openssl bash dirmngr bash-completion nano tzdata \
-    && rm -rf /var/cache/apk/*
+ENV USER=node
+ENV GROUP=node
 
-ENTRYPOINT ["docker-entrypoint.sh", "tail", "-f", "/dev/null"]
+RUN apk add --no-cache curl openssl bash dirmngr bash-completion nano tzdata \
+    && rm -rf /var/cache/apk/* \
+    && chmod +x /usr/local/bin/* \
+    && mkdir /home/$USER/node_modules \
+    && mkdir /home/$USER/.npm-global \
+    && mkdir /home/$USER/.npm \
+    && chown -R $USER:$GROUP /home/$USER \
+    && curl -SsL https://github.com/boxboat/fixuid/releases/download/v0.5.1/fixuid-0.5.1-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf - \
+    && chmod 4755 /usr/local/bin/fixuid \
+    && mkdir -p /etc/fixuid \
+    && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
+
+RUN npm install --location=global npm@8.12.1 \
+    && npm install --location=global create-razzle-app \
+    && npm config set prefix "/home/node/.npm-global"
+
+ENV PATH=/home/node/node_modules/.bin:$PATH
+ENV PATH=/home/node/.npm-global/bin:$PATH

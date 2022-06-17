@@ -6,7 +6,7 @@ ENV USER=node
 ENV GROUP=node
 
 RUN apk update \
-    && apk add curl openssl bash dirmngr bash-completion nano tzdata python3 \
+    && apk add curl openssl bash dirmngr bash-completion nano tzdata \
     && rm -rf /var/cache/apk/* \
     && chmod +x /usr/local/bin/* \
     && mkdir /home/$USER/node_modules \
@@ -26,3 +26,5 @@ USER $USER:$GROUP
 
 ENV PATH=/home/node/node_modules/.bin:$PATH
 ENV PATH=/home/node/.npm-global/bin:$PATH
+
+CMD ["node","index.js"]

@@ -5,7 +5,8 @@ LABEL maintainer="Osiozekhai Aliu"
 ENV USER=node
 ENV GROUP=node
 
-RUN apk add --no-cache curl openssl bash dirmngr bash-completion nano tzdata \
+RUN apk update \
+    && apk add curl openssl bash dirmngr bash-completion nano tzdata \
     && rm -rf /var/cache/apk/* \
     && chmod +x /usr/local/bin/* \
     && mkdir /home/$USER/node_modules \
@@ -16,7 +17,9 @@ RUN apk add --no-cache curl openssl bash dirmngr bash-completion nano tzdata \
     && chmod 4755 /usr/local/bin/fixuid \
     && mkdir -p /etc/fixuid \
     && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml \
-    && npm config set prefix "/home/node/.npm-global"
+    && npm config set prefix "/home/node/.npm-global" \
+    && apk add --virtual .gyp python3 make g++ \
+    && apk del .gyp
 
 USER $USER:$GROUP
 

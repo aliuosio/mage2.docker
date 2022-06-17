@@ -41,7 +41,6 @@ createPWAFolderHost
 setNginxVhost
 dockerRefresh
 setPermissionsContainer
-setComposerVersion
 magentoSetup
 MagentoTwoFactorAuthDisable
 sampleDataInstallMustInstall

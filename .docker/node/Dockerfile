@@ -15,7 +15,10 @@ RUN apk add --no-cache curl openssl bash dirmngr bash-completion nano tzdata \
     && curl -SsL https://github.com/boxboat/fixuid/releases/download/v0.5.1/fixuid-0.5.1-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf - \
     && chmod 4755 /usr/local/bin/fixuid \
     && mkdir -p /etc/fixuid \
-    && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
+    && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml \
+    && npm config set prefix "/home/node/.npm-global"
+
+USER $USER:$GROUP
 
 ENV PATH=/home/node/node_modules/.bin:$PATH
 ENV PATH=/home/node/.npm-global/bin:$PATH

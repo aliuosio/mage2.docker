@@ -6,7 +6,10 @@ ENV USER=node
 ENV GROUP=node
 ENV PATH=/home/node/node_modules/.bin:$PATH
 ENV PATH=/home/node/.npm-global/bin:$PATH
-ENV NODE_OPTIONS=--openssl-legacy-provider
+
+CMD if [ "${NODE_VERSION} != 16" ]; then \
+    export NODE_OPTIONS=--openssl-legacy-provider \
+fi
 
 RUN apk update \
     && apk add --no-cache curl openssl bash dirmngr bash-completion nano tzdata \

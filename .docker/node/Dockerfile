@@ -7,7 +7,7 @@ ENV GROUP=node
 ENV PATH=/home/node/node_modules/.bin:$PATH
 ENV PATH=/home/node/.npm-global/bin:$PATH
 
-CMD if [ "${NODE_VERSION} != 16" ]; then \
+CMD if [ "${NODE_VERSION} == 18" ]; then \
     export NODE_OPTIONS=--openssl-legacy-provider \
 fi
 

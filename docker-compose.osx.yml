@@ -168,7 +168,7 @@ services:
     environment:
       - NODE_ENV=development
       - TZ=${TZ}
-    entrypoint: [ "fixuid", "tail", "-f", "/dev/null" ]
+    entrypoint: ["tail", "-f", "/dev/null"]
     volumes:
       - node_data:${WORKDIR_SERVER_NODE}:delegated
 

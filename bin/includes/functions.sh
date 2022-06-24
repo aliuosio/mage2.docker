@@ -381,28 +381,35 @@ pwaOnilab() {
     commands="export NODE_OPTIONS=--openssl-legacy-provider"
   fi
 
-  commands="
-  $commands
-  npm config set prefix '/home/node/.npm-global'
-  yarn add --location=global node-gyp
-  yarn add --location=global create-razzle-app
-  create-razzle-app pwa
-  cd pwa
-  yarn add --force react@latest
-  yarn add --force graphql --save
-  yarn add --force swiper --save
-  yarn add --force node-sass --save
-  yarn add --force apollo-client --save
-  yarn add --force apollo-cache-inmemory --save
-  yarn add --force apollo-link-http --save
-  yarn add --force apollo-link-context --save
-  yarn add --force react-apollo --save
-  yarn add --force graphql-tag --save
-  yarn add --force react-redux --save
-  yarn add --force react-notifications --save
-  yarn add --force formik --save
-  yarn start
-  "
+  if [ ! -d "$WORKDIR_NODE/pwa" ]; then
+      commands="
+      $commands
+      npm config set prefix '/home/node/.npm-global'
+      yarn add --location=global node-gyp
+      yarn add --location=global create-razzle-app
+      create-razzle-app pwa
+      cd pwa
+      yarn add --force react@latest
+      yarn add --force graphql --save
+      yarn add --force swiper --save
+      yarn add --force node-sass --save
+      yarn add --force apollo-client --save
+      yarn add --force apollo-cache-inmemory --save
+      yarn add --force apollo-link-http --save
+      yarn add --force apollo-link-context --save
+      yarn add --force react-apollo --save
+      yarn add --force graphql-tag --save
+      yarn add --force react-redux --save
+      yarn add --force react-notifications --save
+      yarn add --force formik --save
+      "
+  else
+    commands="
+    $commands
+    cd pwa
+    yarn start
+    "
+  fi
 
   runCommand "$nodeContainer '$commands'"
 }

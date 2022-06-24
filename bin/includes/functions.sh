@@ -343,6 +343,10 @@ magentoConfigImport() {
 
 magentoConfig() {
   commands="
+    --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=guest --amqp-password=guest --amqp-virtualhost='/' \
+    --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0 \
+    --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1 \
+    --timezone=Europe/Berlin --currency=EUR --language=de_DE
       bin/magento config:set system/full_page_cache/caching_application 2
       bin/magento config:set web/secure/use_in_frontend 0 && \
       bin/magento config:set web/secure/use_in_adminhtml 0  && \
@@ -364,11 +368,7 @@ magentoInstall() {
   --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
   --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
-  --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=guest --amqp-password=guest --amqp-virtualhost='/' \
-  --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0 \
-  --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1 \
-  --cleanup-database --use-rewrites=0 \
-  --timezone=Europe/Berlin --currency=EUR --language=de_DE
+  --cleanup-database
   "
 
   runCommand "$phpContainer '$commands'"
@@ -412,6 +412,13 @@ pwaOnilab() {
   fi
 
   runCommand "$nodeContainer '$commands'"
+}
+
+setNodeOptionSSL() {
+  if [ "${NODE_VERSION}" -ge 18 ]; then
+    commands="export NODE_OPTIONS=--openssl-legacy-provider"
+    runCommand "$nodeContainer '$commands'"
+  fi
 }
 
 pwaSetup() {

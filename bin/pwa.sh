@@ -8,7 +8,9 @@ project_root=$(dirname $(dirname $(realpath "$0" )))
 
 createPWAFolderHost
 dockerRefresh
-pwaOnilab
+pwaSetup
+pwaSSL
+pwaWatch
 
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

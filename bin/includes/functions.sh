@@ -365,7 +365,7 @@ magentoInstall() {
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
   --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
   --cleanup-database \
-  --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=guest --amqp-password=guest --amqp-virtualhost='/' \
+  --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=admin --amqp-password=admin2017 --amqp-virtualhost='/' \
   --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0 \
   --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1 \
   --timezone=Europe/Berlin --currency=EUR --language=de_DE
@@ -427,7 +427,8 @@ pwaSetup() {
 }
 
 pwaSSL() {
-  commands="cd $WORKDIR_SERVER/pwa && openssl req -new -newkey rsa:2048 -nodes -keyout pwa.key -out pwa.csr && yarn buildpack create-custom-origin ./"
+  commands="yarn buildpack create-custom-origin ./"
+  #commands="cd $WORKDIR_SERVER/pwa && openssl req -new -newkey rsa:2048 -nodes -keyout pwa.key -out pwa.csr && yarn buildpack create-custom-origin ./"
   runCommand "$nodeContainer '$commands'"
 }
 

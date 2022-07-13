@@ -134,6 +134,12 @@ services:
   rabbitmq:
     container_name: ${NAMESPACE}_rabbitmq
     image: rabbitmq:${RABBITMQ_VERSION}-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin2017
+    ports:
+      - "15672:15672"
+      - "5672:5672"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 

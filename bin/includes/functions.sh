@@ -173,10 +173,11 @@ dockerRefresh() {
   if [[ $(uname -s) == "Darwin" ]]; then
     runCommand "docker-sync stop &&
                 docker-sync start &&
+                docker-compose -f docker-compose.osx.yml down &&
                 docker-compose -f docker-compose.osx.yml up -d"
   else
     runCommand setHostSettings
-    runCommand "docker-compose up -d"
+    runCommand "docker-compose down && docker-compose up -d"
   fi
 }
 
@@ -382,7 +383,7 @@ pwaOnilab() {
   fi
 
   if [ ! -d "$WORKDIR_NODE/pwa" ]; then
-      commands="
+    commands="
       $commands
       npm config set prefix '/home/node/.npm-global'
       yarn add --location=global node-gyp
@@ -414,26 +415,37 @@ pwaOnilab() {
   runCommand "$nodeContainer '$commands'"
 }
 
+setNodeOption() {
+  commands="export NODE_OPTIONS=$1"
+  runCommand "$nodeContainer '$commands'"
+}
+
 setNodeOptionSSL() {
-  if [ "${NODE_VERSION}" -ge 18 ]; then
-    commands="export NODE_OPTIONS=--openssl-legacy-provider"
-    runCommand "$nodeContainer '$commands'"
+  if [ "${NODE_VERSION}" -ge 17 ]; then
+    setNodeOption "--openssl-legacy-provider"
+  fi
+}
+
+pwaGet() {
+  if [ ! -f "$WORKDIR_NODE/package.json" ]; then
+    commands="git clone https://github.com/magento/pwa-studio.git $WORKDIR_NODE"
+    runCommand "$commands"
   fi
 }
 
 pwaSetup() {
-  commands="yarn create @magento/pwa"
+  # @source: http://praveenchelumalla.com/2022/02/19/quick-install-magento-pwa/
+  commands="yarn config set prefix '/home/node/.npm-global' \
+  && yarn install \
+  && yarn buildpack create-custom-origin packages/venia-concept \
+  && yarn buildpack create-env-file packages/venia-concept \
+  && yarn run watch:venia"
+
   runCommand "$nodeContainer '$commands'"
 }
 
 pwaSSL() {
   commands="yarn buildpack create-custom-origin ./"
-  #commands="cd $WORKDIR_SERVER/pwa && openssl req -new -newkey rsa:2048 -nodes -keyout pwa.key -out pwa.csr && yarn buildpack create-custom-origin ./"
-  runCommand "$nodeContainer '$commands'"
-}
-
-pwaWatch() {
-  commands="cd $WORKDIR_SERVER/pwa && yarn watch"
   runCommand "$nodeContainer '$commands'"
 }
 

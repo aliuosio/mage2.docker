@@ -8,6 +8,7 @@ project_root=$(dirname $(dirname $(realpath "$0")))
 
 startAll=$(date +%s)
 
+getLogo
 sampleDataInstall
 dockerRefresh
 

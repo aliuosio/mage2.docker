@@ -28,7 +28,7 @@
     http://localhost
 
 ### PWA Frontend Setup
-    bin/pwa-onilab.sh
+    bin/pwa.sh
 
 ### PWA Frontend
     http://localhost:3000
@@ -85,7 +85,6 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Xdebug as configurable option (xdebug.idekey=docker)
 
 ### Todos
-* set permissons between host node container
 * fix SSL (nginx and node)
 * create backup of `.env` after `bin/install.sh` usage
 * refactor docker-compose.osx.yml
@@ -97,6 +96,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * rename config_blueprints to config and move config files to .docker/config
 * simplify letsencrypt certificate embedding in nginx container
 * Nginx Header Config passes at https://securityheaders.com/
+* ~~set permissons between host node container~~
 * ~~set german locale, curreny, timezone~~
 * ~~fix redis socket support~~
 * ~~add PHP 8 to Dockerfile~~

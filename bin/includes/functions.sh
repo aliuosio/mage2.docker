@@ -33,6 +33,7 @@ DB_CONNECT="mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
+nodeContainerRoot="docker exec -it -u root ${NAMESPACE}_node sh -lc"
 nodeContainer="docker exec -it ${NAMESPACE}_node sh -lc"
 dbContainer="docker exec -it ${NAMESPACE}_db bash -lc"
 
@@ -368,7 +369,7 @@ magentoInstall() {
   --cleanup-database \
   --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=admin --amqp-password=admin2017 --amqp-virtualhost='/' \
   --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0 \
-  --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1 \
+  --session-save=redis --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1 \
   --timezone=Europe/Berlin --currency=EUR --language=de_DE
   "
 
@@ -433,20 +434,14 @@ pwaGet() {
   fi
 }
 
+# @source: http://praveenchelumalla.com/2022/02/19/quick-install-magento-pwa/
 pwaSetup() {
-  # @source: http://praveenchelumalla.com/2022/02/19/quick-install-magento-pwa/
-  commands="yarn config set prefix '/home/node/.npm-global' \
-  && yarn install \
+  commands="yarn install \
   && yarn buildpack create-custom-origin packages/venia-concept \
   && yarn buildpack create-env-file packages/venia-concept \
   && yarn run watch:venia"
 
-  runCommand "$nodeContainer '$commands'"
-}
-
-pwaSSL() {
-  commands="yarn buildpack create-custom-origin ./"
-  runCommand "$nodeContainer '$commands'"
+  runCommand "$nodeContainerRoot '$commands'"
 }
 
 createPWAFolderHost() {

@@ -4,7 +4,7 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ENV USER=www-data
 ENV GROUP=www-data
-
+RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev curl \
 && set -xe \
 && apk add --no-cache git bash bash-completion nano tzdata icu procps nodejs \

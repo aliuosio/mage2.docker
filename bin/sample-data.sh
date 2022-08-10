@@ -10,7 +10,7 @@ startAll=$(date +%s)
 
 getLogo
 sampleDataInstall
-dockerRefresh
+# dockerRefresh
 
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

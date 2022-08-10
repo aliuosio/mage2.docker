@@ -6,6 +6,7 @@ ENV USER=node
 ENV GROUP=node
 ENV PATH=/home/node/node_modules/.bin:/home/node/.npm-global/bin:$PATH
 
-RUN apk add --update alpine-sdk curl openssl bash dirmngr bash-completion nano tzdata python3 \
+RUN apk update && apk upgrade \
+    && apk add --update alpine-sdk curl openssl bash dirmngr bash-completion nano tzdata python3 sudo \
     && rm -rf /var/cache/apk/* \
     && chmod +x /usr/local/bin/*

@@ -2,21 +2,21 @@ version: '3.8'
 
 services:
 
-#  varnish:
-#    container_name: ${NAMESPACE}_varnish
-#    image: varnish:${VARNISH_VERSION}
-#    environment:
-#      - TZ=${TZ}
-#      - VARNISH_SIZE=1G
-#    tmpfs:
-#      - /var/lib/varnish:exec
-#    command: "-p default_keep=300"
-#    depends_on:
-#      - nginx
-#    ports:
-#      - "80:80"
-#    volumes:
-#      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
+  varnish:
+    container_name: ${NAMESPACE}_varnish
+    image: varnish:${VARNISH_VERSION}
+    environment:
+      - TZ=${TZ}
+      - VARNISH_SIZE=1G
+    tmpfs:
+      - /var/lib/varnish:exec
+    command: "-p default_keep=300"
+    depends_on:
+      - nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
 
   nginx:
     container_name: ${NAMESPACE}_nginx
@@ -24,7 +24,7 @@ services:
     depends_on:
       - php
     ports:
-      - "80:80"
+      - "8080:80"
     environment:
       SHOPURI: ${SHOPURI}
       TZ: ${TZ}
@@ -171,9 +171,8 @@ services:
     user: ${UID_GID}
     ports:
       - "3000:3000"
-      - "8553:8553"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - TZ=${TZ}
     entrypoint: ["tail", "-f", "/dev/null"]
     volumes:

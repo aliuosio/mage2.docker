@@ -9,5 +9,5 @@ getLogo
 pwaGet
 dockerRefresh
 setNodeOptionSSL
-pwaGet
 pwaSetup
+pwaRun

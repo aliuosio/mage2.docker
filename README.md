@@ -1,8 +1,6 @@
 ## Magento 2 installer on OSX/Linux Docker stack 
 ### One Stack for all Projects
-**Docker containers: varnish, nginx, php, elasticsearch, mariadb, redis, rabbitmq, mailhog, watchtower**
-
-*just code don't config*
+**Docker containers: varnish, nginx, php, elasticsearch, mariadb, redis, rabbitmq, nodejs, mailhog, watchtower**
 
 ### Get Source
 
@@ -85,6 +83,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Xdebug as configurable option (xdebug.idekey=docker)
 
 ### Todos
+* add domain to hosts option for interactive config i `bin/install.sh`
 * fix SSL (nginx and node)
 * create backup of `.env` after `bin/install.sh` usage
 * refactor docker-compose.osx.yml

@@ -366,11 +366,11 @@ magentoInstall() {
   --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
   --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
-  --cleanup-database \
   --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=admin --amqp-password=admin2017 --amqp-virtualhost='/' \
   --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0 \
   --session-save=redis --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1 \
-  --timezone=Europe/Berlin --currency=EUR --language=de_DE
+  --timezone=Europe/Berlin --currency=EUR --language=de_DE \
+  --cleanup-database
   "
 
   runCommand "$phpContainer '$commands'"
@@ -428,7 +428,7 @@ setNodeOptionSSL() {
 }
 
 pwaGet() {
-  if [ ! -f "$WORKDIR_NODE/package.json" ]; then
+  if [ ! -d "$WORKDIR_NODE" ]; then
     commands="git clone https://github.com/magento/pwa-studio.git $WORKDIR_NODE"
     runCommand "$commands"
   fi
@@ -436,12 +436,18 @@ pwaGet() {
 
 # @source: http://praveenchelumalla.com/2022/02/19/quick-install-magento-pwa/
 pwaSetup() {
-  commands="yarn install \
-  && yarn buildpack create-custom-origin packages/venia-concept \
-  && yarn buildpack create-env-file packages/venia-concept \
-  && yarn run watch:venia"
+  #if [ ! -f "/home/osio/projects/mage2.pwa/docker/.env.docker.dev" ]; then
+    commands="yarn install \
+    && yarn buildpack create-custom-origin packages/venia-concept \
+    && yarn buildpack create-env-file packages/venia-concept"
 
-  runCommand "$nodeContainerRoot '$commands'"
+    runCommand "$nodeContainer '$commands'"
+  #fi
+}
+
+pwaRun() {
+    commands="yarn run watch:venia"
+    runCommand "$nodeContainer '$commands'"
 }
 
 createPWAFolderHost() {

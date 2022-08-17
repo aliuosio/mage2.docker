@@ -1,5 +1,5 @@
 ARG PHP_VERSION_SET
-FROM php:${PHP_VERSION_SET}-fpm-alpine
+FROM php:${PHP_VERSION_SET}
 LABEL maintainer="Osiozekhai Aliu"
 
 ENV USER=www-data
@@ -7,7 +7,7 @@ ENV GROUP=www-data
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev curl \
 && set -xe \
-&& apk add --no-cache git bash bash-completion nano tzdata icu procps nodejs \
+&& apk add --no-cache git bash bash-completion nano tzdata icu procps \
 && apk add --no-cache --virtual .php-deps make \
 && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS zlib-dev icu-dev icu-data-full gettext gettext-dev g++ curl-dev \
 && docker-php-ext-configure hash --with-mhash \

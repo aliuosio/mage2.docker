@@ -20,7 +20,7 @@ services:
 
   nginx:
     container_name: ${NAMESPACE}_nginx
-    image: nginx:${NGINX_VERSION}-alpine
+    image: nginx:${NGINX_VERSION}
     depends_on:
       - php
     ports:
@@ -46,7 +46,7 @@ services:
     #      args:
     #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
-    image: osioaliu/php:${PHP_VERSION_SET}-fpm-alpine
+    image: osioaliu/php:${PHP_VERSION_SET}
     sysctls:
       net.core.somaxconn: 65536
     depends_on:
@@ -135,7 +135,7 @@ services:
 
   rabbitmq:
     container_name: ${NAMESPACE}_rabbitmq
-    image: rabbitmq:${RABBITMQ_VERSION}-alpine
+    image: rabbitmq:${RABBITMQ_VERSION}
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin2017
@@ -147,7 +147,7 @@ services:
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog
-    image: mailhog/mailhog:latest
+    image: mailhog/${MAILHOG_VERSION}
     environment:
       TZ: ${TZ}
     ports:
@@ -168,7 +168,7 @@ services:
     #      args:
     #        NODE_VERSION: ${NODE_VERSION}
     container_name: ${NAMESPACE}_node
-    image: osioaliu/node:${NODE_VERSION}-alpine
+    image: osioaliu/node:${NODE_VERSION}
     working_dir: $WORKDIR_SERVER_NODE
     user: ${UID_GID}
     ports:

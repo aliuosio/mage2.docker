@@ -46,8 +46,8 @@ MagentoTwoFactorAuthDisable
 sampleDataInstallMustInstall
 magentoRefresh
 setMagentoPermissions
-setPermissionsContainer
 setMagentoCron
+setPermissionsContainer
 
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

@@ -147,7 +147,7 @@ services:
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog
-    image: mailhog/${MAILHOG_VERSION}
+    image: mailhog/mailhog:${MAILHOG_VERSION}
     environment:
       TZ: ${TZ}
     ports:

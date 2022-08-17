@@ -9,8 +9,8 @@ project_root=$(dirname $(dirname $(realpath "$0")))
 startAll=$(date +%s)
 
 getLogo
+dockerRefresh
 sampleDataInstall
-# dockerRefresh
 
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

@@ -58,8 +58,12 @@ sedForOs() {
 
 createFolderHost() {
   dir="${HOME}/.composer"
+  if [ ! -d "$dir" ]; then
+    commands="mkdir -p $dir"
+    runCommand "$commands"
+  fi
   if [ ! -d "$WORKDIR" ]; then
-    commands="mkdir -p $dir $WORKDIR"
+    commands="mkdir -p $WORKDIR"
     runCommand "$commands"
   fi
 }
@@ -345,7 +349,6 @@ magentoConfigImport() {
 
 magentoConfig() {
   commands="
-      bin/magento config:set system/full_page_cache/caching_application 2
       bin/magento config:set web/secure/use_in_frontend 1 && \
       bin/magento config:set web/secure/use_in_adminhtml 1  && \
       bin/magento config:set catalog/search/enable_eav_indexer 1 && \
@@ -367,8 +370,9 @@ magentoInstall() {
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
   --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
   --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=admin --amqp-password=admin2017 --amqp-virtualhost='/' \
-  --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0 \
-  --session-save=redis --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1 \
+  --page-cache=redis --page-cache-redis-server=redis --page-cache-redis-db=1 \
+  --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=1 \
+  --session-save=redis --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db2 --session-save-redis-db=1 \
   --timezone=Europe/Berlin --currency=EUR --language=de_DE \
   --cleanup-database
   "
@@ -437,17 +441,17 @@ pwaGet() {
 # @source: http://praveenchelumalla.com/2022/02/19/quick-install-magento-pwa/
 pwaSetup() {
   #if [ ! -f "/home/osio/projects/mage2.pwa/docker/.env.docker.dev" ]; then
-    commands="yarn install \
+  commands="yarn install \
     && yarn buildpack create-custom-origin packages/venia-concept \
     && yarn buildpack create-env-file packages/venia-concept"
 
-    runCommand "$nodeContainer '$commands'"
+  runCommand "$nodeContainer '$commands'"
   #fi
 }
 
 pwaRun() {
-    commands="yarn run watch:venia"
-    runCommand "$nodeContainer '$commands'"
+  commands="yarn run watch:venia"
+  runCommand "$nodeContainer '$commands'"
 }
 
 createPWAFolderHost() {

@@ -364,7 +364,7 @@ magentoPreInstall() {
 }
 
 magentoInstall() {
-  commands="bin/magento setup:install --base-url-secure=https://$SHOPURI/ \
+  commands="bin/magento setup:install --base-url-secure=https://$SHOPURI/ --base-url=http://$SHOPURI/ \
   --db-host=db --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
   --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \

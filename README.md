@@ -18,18 +18,12 @@
 > use .env to change values after installation and activate on restart of containers 
 
 ### Backend
-    http://localhost/admin
+    https://localhost/admin
     User: mage2_admin
     Password: mage2_admin123#T
     
 ### Frontend
-    http://localhost
-
-### PWA Frontend Setup
-    bin/pwa.sh
-
-### PWA Frontend
-    http://localhost:3000
+    https://localhost
 
 OSX: on first run very slow due to docker-sync update of local shop files volume in the background. 
 See `.docker-sync/daemon.log` for progress
@@ -61,7 +55,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 ### Mailhog Usage
 
     Mail Client
-    http://localhost:8025 
+    https://localhost:8025 
 
     In Magento 2 Backend `stores` -`Configuration` -`Advanced` -`System` 
     -`Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
@@ -83,8 +77,8 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Xdebug as configurable option (xdebug.idekey=docker)
 
 ### Todos
-* add domain to hosts option for interactive config i `bin/install.sh`
-* fix SSL (nginx and node)
+* add domain to `etc/hosts` option for interactive config in `bin/install.sh`
+* fix SSL (nginx and node)n
 * create backup of `.env` after `bin/install.sh` usage
 * refactor docker-compose.osx.yml
 * Exchange `docker-sync` with `Mutagen`

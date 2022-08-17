@@ -228,7 +228,7 @@ showSuccess() {
   if [ -n "$2" ]; then
     message "Backend:\
 
-http://$1/admin\
+https://$1/admin\
 
 User: <Backend Users from Your DB Dump>\
 
@@ -237,11 +237,11 @@ Password: <Backend Users Passwords from Your DB Dump>\
 
 Frontend:\
 
-http://$1"
+https://$1"
   else
     message "Backend:\
 
-http://$1/admin\
+https://$1/admin\
 
 User: mage2_admin\
 
@@ -250,7 +250,7 @@ Password: mage2_admin123#T\
 
 Frontend:\
 
-http://$1"
+https://$1"
   fi
 
 }
@@ -346,8 +346,8 @@ magentoConfigImport() {
 magentoConfig() {
   commands="
       bin/magento config:set system/full_page_cache/caching_application 2
-      bin/magento config:set web/secure/use_in_frontend 0 && \
-      bin/magento config:set web/secure/use_in_adminhtml 0  && \
+      bin/magento config:set web/secure/use_in_frontend 1 && \
+      bin/magento config:set web/secure/use_in_adminhtml 1  && \
       bin/magento config:set catalog/search/enable_eav_indexer 1 && \
       bin/magento deploy:mode:set -s $DEPLOY_MODE"
 
@@ -361,7 +361,7 @@ magentoPreInstall() {
 }
 
 magentoInstall() {
-  commands="bin/magento setup:install --base-url=http://$SHOPURI/ \
+  commands="bin/magento setup:install --base-url-secure=https://$SHOPURI/ \
   --db-host=db --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
   --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \

@@ -38,5 +38,5 @@ sudo curl -L "https://github.com/docker/compose/releases/download/$(get_latest_r
 echo "sudo chmod +x /usr/local/bin/docker-compose";
 sudo chmod +x /usr/local/bin/docker-compose
 
-sudo usermod -aG docker ${USER};
+sudo usermod -aG docker "${USER}";
 newgrp docker;

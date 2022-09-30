@@ -440,13 +440,13 @@ pwaGet() {
 
 # @source: http://praveenchelumalla.com/2022/02/19/quick-install-magento-pwa/
 pwaSetup() {
-  #if [ ! -f "/home/osio/projects/mage2.pwa/docker/.env.docker.dev" ]; then
-  commands="yarn install \
-    && yarn buildpack create-custom-origin packages/venia-concept \
-    && yarn buildpack create-env-file packages/venia-concept"
+  if [ ! -f "$WORKDIR_NODE/docker/.env.docker.dev" ]; then
+    commands="yarn install \
+      && yarn buildpack create-custom-origin packages/venia-concept \
+      && yarn buildpack create-env-file packages/venia-concept"
 
-  runCommand "$nodeContainer '$commands'"
-  #fi
+    runCommand "$nodeContainerRoot '$commands'"
+  fi
 }
 
 pwaRun() {

@@ -11,7 +11,4 @@ RUN apk update && apk upgrade \
     && rm -rf /var/cache/apk/* \
     && chmod +x /usr/local/bin/*
 
-RUN  mkdir /home/$USER/node_modules \
-    && mkdir /home/$USER/.npm-global \
-    && mkdir /home/$USER/.npm \
-    && chown -R $USER:$GROUP /home/$USER
+RUN  chown -R $USER:$GROUP /home/$USER

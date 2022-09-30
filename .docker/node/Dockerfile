@@ -10,3 +10,8 @@ RUN apk update && apk upgrade \
     && apk add --update make g++  openssl bash dirmngr bash-completion nano tzdata python3 \
     && rm -rf /var/cache/apk/* \
     && chmod +x /usr/local/bin/*
+
+RUN  mkdir /home/$USER/node_modules \
+    && mkdir /home/$USER/.npm-global \
+    && mkdir /home/$USER/.npm \
+    && chown -R $USER:$GROUP /home/$USER

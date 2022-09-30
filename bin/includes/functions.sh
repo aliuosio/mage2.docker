@@ -374,8 +374,7 @@ magentoInstall() {
   --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=1 \
   --session-save=redis --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db2 --session-save-redis-db=1 \
   --timezone=Europe/Berlin --currency=EUR --language=de_DE \
-  --cleanup-database
-  "
+  --cleanup-database"
 
   runCommand "$phpContainer '$commands'"
 }
@@ -432,8 +431,8 @@ setNodeOptionSSL() {
 }
 
 pwaGet() {
-  if [ ! -d "$WORKDIR_NODE" ]; then
-    commands="git clone https://github.com/magento/pwa-studio.git $WORKDIR_NODE"
+  if [ ! -f "$WORKDIR_NODE/.git" ]; then
+    commands="git clone https://github.com/magento/pwa-studio.git $WORKDIR_NODE/pwa"
     runCommand "$commands"
   fi
 }
@@ -441,9 +440,11 @@ pwaGet() {
 # @source: http://praveenchelumalla.com/2022/02/19/quick-install-magento-pwa/
 pwaSetup() {
   if [ ! -f "$WORKDIR_NODE/docker/.env.docker.dev" ]; then
-    commands="yarn install \
-      && yarn buildpack create-custom-origin packages/venia-concept \
-      && yarn buildpack create-env-file packages/venia-concept"
+    commands="mkdir .npm-global .npm \
+              && cd pwa \
+              && yarn install \
+              && yarn buildpack create-custom-origin packages/venia-concept \
+              && yarn buildpack create-env-file packages/venia-concept"
 
     runCommand "$nodeContainerRoot '$commands'"
   fi

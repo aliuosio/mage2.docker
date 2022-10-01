@@ -33,8 +33,8 @@ DB_CONNECT="mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
+nodeContainer="docker exec -it -u node ${NAMESPACE}_node sh -lc"
 nodeContainerRoot="docker exec -it -u root ${NAMESPACE}_node sh -lc"
-nodeContainer="docker exec -it ${NAMESPACE}_node sh -lc"
 dbContainer="docker exec -it ${NAMESPACE}_db bash -lc"
 
 getLogo() {
@@ -425,29 +425,36 @@ setNodeOption() {
 }
 
 setNodeOptionSSL() {
-  if [ "${NODE_VERSION}" -ge 17 ]; then
-    setNodeOption "--openssl-legacy-provider"
+  NODE_VERSION_NUMBER=$(cut -d . -f 1 <<< "$NODE_VERSION") ;
+
+  if [ "$NODE_VERSION_NUMBER" -gt 16 ]; then
+    commands="export NODE_OPTIONS=--openssl-legacy-provider"
+    runCommand "$nodeContainerRoot '$commands'"
   fi
 }
 
 pwaGet() {
-  if [ ! -f "$WORKDIR_NODE/.git" ]; then
-    commands="git clone https://github.com/magento/pwa-studio.git $WORKDIR_NODE/pwa"
+  PWA_FOLDER="$WORKDIR_NODE/pwa"
+  if [ ! -d "$PWA_FOLDER/.git" ]; then
+    commands="git clone https://github.com/magento/pwa-studio.git $PWA_FOLDER"
     runCommand "$commands"
   fi
 }
 
 # @source: http://praveenchelumalla.com/2022/02/19/quick-install-magento-pwa/
 pwaSetup() {
-  if [ ! -f "$WORKDIR_NODE/docker/.env.docker.dev" ]; then
-    commands="mkdir .npm-global .npm \
-              && cd pwa \
-              && yarn install \
-              && yarn buildpack create-custom-origin packages/venia-concept \
-              && yarn buildpack create-env-file packages/venia-concept"
-
-    runCommand "$nodeContainerRoot '$commands'"
+  PWA_FOLDER="$WORKDIR_NODE/pwa"
+  if [ -d "$PWA_FOLDER/node_modules" ]; then
+    commands="cd pwa && yarn start"
+  else
+    commands="npm config set prefix '$WORKDIR_SERVER_NODE/.npm-global' \
+    && cd pwa \
+    && yarn install \
+    && yarn buildpack create-custom-origin packages/venia-concept \
+    && yarn buildpack create-env-file packages/venia-concept"
   fi
+
+  runCommand "$nodeContainerRoot '$commands'"
 }
 
 pwaRun() {

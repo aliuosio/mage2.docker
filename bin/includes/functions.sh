@@ -32,9 +32,8 @@ WORKDIR_SERVER=/var/www/html
 DB_CONNECT="mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
-phpContainer="docker exec -it -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
-nodeContainer="docker exec -it -u node ${NAMESPACE}_node sh -lc"
-nodeContainerRoot="docker exec -it -u root ${NAMESPACE}_node sh -lc"
+phpContainer="docker exec -it ${NAMESPACE}_php bash -lc"
+nodeContainer="docker exec -it ${NAMESPACE}_node sh -lc"
 dbContainer="docker exec -it ${NAMESPACE}_db bash -lc"
 
 getLogo() {
@@ -429,7 +428,7 @@ setNodeOptionSSL() {
 
   if [ "$NODE_VERSION_NUMBER" -gt 16 ]; then
     commands="export NODE_OPTIONS=--openssl-legacy-provider"
-    runCommand "$nodeContainerRoot '$commands'"
+    runCommand "$nodeContainer '$commands'"
   fi
 }
 
@@ -454,7 +453,7 @@ pwaSetup() {
     && yarn buildpack create-env-file packages/venia-concept"
   fi
 
-  runCommand "$nodeContainerRoot '$commands'"
+  runCommand "$nodeContainer '$commands'"
 }
 
 pwaRun() {

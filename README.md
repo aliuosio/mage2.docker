@@ -77,8 +77,11 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Xdebug as configurable option (xdebug.idekey=docker)
 
 ### Todos
+* fix SSL in node container
+* compatibility Magento 2.4.5
+* add Magento version choice to `bin/install.sh config` prompt
+* fix `bin/install.sh config` WORKDIR config
 * add domain to `etc/hosts` option for interactive config in `bin/install.sh`
-* fix SSL (nginx and node)n
 * create backup of `.env` after `bin/install.sh` usage
 * refactor docker-compose.osx.yml
 * Exchange `docker-sync` with `Mutagen`

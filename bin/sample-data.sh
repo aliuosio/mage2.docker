@@ -12,6 +12,8 @@ getLogo
 dockerRefresh
 sampleDataInstall
 setMagentoPermissions
+setPermissionsContainer
+setPermissionsHost
 
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

@@ -27,12 +27,11 @@ setEnvironment() {
 
 setEnvironment "$1"
 
-PHP_USER="www-data"
 WORKDIR_SERVER=/var/www/html
 DB_CONNECT="mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
-phpContainer="docker exec -it -u www-data ${NAMESPACE}_php bash -lc"
+phpContainer="docker exec -it  -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
 nodeContainer="docker exec -it ${NAMESPACE}_node sh -lc"
 dbContainer="docker exec -it ${NAMESPACE}_db bash -lc"
 
@@ -214,17 +213,25 @@ restoreGitIgnoreAfterComposerInstall() {
 
 setMagentoPermissions() {
   commands="find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} + \
-            && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
-            && chmod u+x bin/magento"
+  && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
+  && chmod u+x bin/magento"
 
   runCommand "$phpContainer '$commands'"
 }
 
 setPermissionsContainer() {
   commands="chown -R ${PHP_USER}:${PHP_USER} $WORKDIR_SERVER \
-            && chown -R ${PHP_USER}:${PHP_USER} /home/${PHP_USER}/.composer"
+  && chown -R ${PHP_USER}:${PHP_USER} /home/${PHP_USER}/.composer"
 
   runCommand "$phpContainerRoot '$commands'"
+}
+
+setPermissionsHost() {
+  commands="sudo chown -R ${USER}:${USER} ${WORKDIR} \
+  && sudo chown -R ${USER}:${USER} ${WORKDIR_NODE} \
+  && sudo chown -R ${USER}:${USER} /home/${USER}/.composer"
+
+  runCommand "$commands"
 }
 
 showSuccess() {
@@ -347,11 +354,10 @@ magentoConfigImport() {
 }
 
 magentoConfig() {
-  commands="
-      bin/magento config:set web/secure/use_in_frontend 1 && \
-      bin/magento config:set web/secure/use_in_adminhtml 1  && \
-      bin/magento config:set catalog/search/enable_eav_indexer 1 && \
-      bin/magento deploy:mode:set -s $DEPLOY_MODE"
+  commands="bin/magento config:set web/secure/use_in_frontend 1 && \
+  bin/magento config:set web/secure/use_in_adminhtml 1  && \
+  bin/magento config:set catalog/search/enable_eav_indexer 1 && \
+  bin/magento deploy:mode:set -s $DEPLOY_MODE"
 
   runCommand "$phpContainer '$commands'"
 }

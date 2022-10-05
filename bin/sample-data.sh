@@ -11,6 +11,7 @@ startAll=$(date +%s)
 getLogo
 dockerRefresh
 sampleDataInstall
+setMagentoPermissions
 
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

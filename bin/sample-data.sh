@@ -10,6 +10,7 @@ startAll=$(date +%s)
 
 getLogo
 dockerRefresh
+setPermissionsContainer
 sampleDataInstall
 setMagentoPermissions
 setPermissionsContainer

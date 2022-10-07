@@ -438,33 +438,28 @@ setNodeOptionSSL() {
   fi
 }
 
-pwaGet() {
-  PWA_FOLDER="$WORKDIR_NODE/pwa"
-  if [ ! -d "$PWA_FOLDER/.git" ]; then
-    commands="git clone https://github.com/magento/pwa-studio.git $PWA_FOLDER"
-    runCommand "$commands"
-  fi
-}
-
 # @source: http://praveenchelumalla.com/2022/02/19/quick-install-magento-pwa/
 pwaSetup() {
-  PWA_FOLDER="$WORKDIR_NODE/pwa"
-  if [ -d "$PWA_FOLDER/node_modules" ]; then
-    commands="cd pwa && yarn start"
-  else
+  PWA_FOLDER_FULL="$WORKDIR_NODE/$PWA_FOLDER"
+
+  if [ ! -d "$PWA_FOLDER_FULL/node_modules" ]; then
     commands="npm config set prefix '$WORKDIR_SERVER_NODE/.npm-global' \
-    && cd pwa \
-    && yarn install \
-    && yarn buildpack create-custom-origin packages/venia-concept \
-    && yarn buildpack create-env-file packages/venia-concept"
+    && yarn create @magento/pwa \
+    && cd $PWA_FOLDER \
+    && yarn buildpack create-custom-origin ./ \
+    && yarn watch"
   fi
 
   runCommand "$nodeContainer '$commands'"
 }
 
 pwaRun() {
-  commands="yarn run watch:venia"
-  runCommand "$nodeContainer '$commands'"
+  PWA_FOLDER_FULL="$WORKDIR_NODE/$PWA_FOLDER"
+
+  if [ -d "$PWA_FOLDER_FULL/node_modules" ]; then
+    commands="cd $PWA_FOLDER && yarn watch"
+    runCommand "$nodeContainer '$commands'"
+  fi
 }
 
 createPWAFolderHost() {

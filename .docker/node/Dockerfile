@@ -7,7 +7,7 @@ ENV GROUP=node
 ENV PATH=/home/node/node_modules/.bin:/home/node/.npm-global/bin:$PATH
 
 RUN apk update && apk upgrade \
-    && apk add --update make g++ git openssl bash dirmngr bash-completion nano tzdata python3 \
+    && apk add --update make g++ git openssh openssl bash dirmngr bash-completion nano tzdata python3 \
     && rm -rf /var/cache/apk/* \
     && chmod +x /usr/local/bin/*
 

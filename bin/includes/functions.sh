@@ -32,7 +32,6 @@ DB_CONNECT="mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
 phpContainer="docker exec -it  -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
-nodeContainer="docker exec -it ${NAMESPACE}_node sh -lc"
 dbContainer="docker exec -it ${NAMESPACE}_db bash -lc"
 
 getLogo() {
@@ -228,7 +227,6 @@ setPermissionsContainer() {
 
 setPermissionsHost() {
   commands="sudo chown -R ${USER}:${USER} ${WORKDIR} \
-  && sudo chown -R ${USER}:${USER} ${WORKDIR_NODE} \
   && sudo chown -R ${USER}:${USER} /home/${USER}/.composer"
 
   runCommand "$commands"
@@ -382,91 +380,6 @@ magentoInstall() {
   --cleanup-database"
 
   runCommand "$phpContainer '$commands'"
-}
-
-pwaOnilab() {
-  commands=""
-
-  if [ "${NODE_VERSION}" -ge 18 ]; then
-    commands="export NODE_OPTIONS=--openssl-legacy-provider"
-  fi
-
-  if [ ! -d "$WORKDIR_NODE/pwa" ]; then
-    commands="
-      $commands
-      npm config set prefix '/home/node/.npm-global'
-      yarn add --location=global node-gyp
-      yarn add --location=global create-razzle-app
-      create-razzle-app pwa
-      cd pwa
-      yarn add --force react@latest
-      yarn add --force graphql --save
-      yarn add --force swiper --save
-      yarn add --force node-sass --save
-      yarn add --force apollo-client --save
-      yarn add --force apollo-cache-inmemory --save
-      yarn add --force apollo-link-http --save
-      yarn add --force apollo-link-context --save
-      yarn add --force react-apollo --save
-      yarn add --force graphql-tag --save
-      yarn add --force react-redux --save
-      yarn add --force react-notifications --save
-      yarn add --force formik --save
-      "
-  else
-    commands="
-    $commands
-    cd pwa
-    yarn start
-    "
-  fi
-
-  runCommand "$nodeContainer '$commands'"
-}
-
-setNodeOption() {
-  commands="export NODE_OPTIONS=$1"
-  runCommand "$nodeContainer '$commands'"
-}
-
-setNodeOptionSSL() {
-  NODE_VERSION_NUMBER=$(cut -d . -f 1 <<< "$NODE_VERSION") ;
-
-  if [ "$NODE_VERSION_NUMBER" -gt 16 ]; then
-    commands="export NODE_OPTIONS=--openssl-legacy-provider"
-    runCommand "$nodeContainer '$commands'"
-  fi
-}
-
-# @source: http://praveenchelumalla.com/2022/02/19/quick-install-magento-pwa/
-pwaSetup() {
-  PWA_FOLDER_FULL="$WORKDIR_NODE/$PWA_FOLDER"
-
-  if [ ! -d "$PWA_FOLDER_FULL/node_modules" ]; then
-    commands="npm config set prefix '$WORKDIR_SERVER_NODE/.npm-global' \
-    && yarn create @magento/pwa \
-    && cd $PWA_FOLDER \
-    && yarn buildpack create-custom-origin ./ \
-    && yarn watch"
-  fi
-
-  runCommand "$nodeContainer '$commands'"
-}
-
-pwaRun() {
-  PWA_FOLDER_FULL="$WORKDIR_NODE/$PWA_FOLDER"
-
-  if [ -d "$PWA_FOLDER_FULL/node_modules" ]; then
-    commands="cd $PWA_FOLDER && yarn watch"
-    runCommand "$nodeContainer '$commands'"
-  fi
-}
-
-createPWAFolderHost() {
-  if [ ! -d "$WORKDIR_NODE" ]; then
-    commands="mkdir -p $WORKDIR_NODE"
-    runCommand "$commands"
-  fi
 }
 
 magentoSetup() {

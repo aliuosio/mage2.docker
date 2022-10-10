@@ -162,24 +162,6 @@ services:
       TZ: ${TZ}
     command: --interval 3600
 
-  node:
-    #    build:
-    #      context: ./.docker/node
-    #      args:
-    #        NODE_VERSION: ${NODE_VERSION}
-    container_name: ${NAMESPACE}_node
-    image: osioaliu/node:${NODE_VERSION}
-    working_dir: $WORKDIR_SERVER_NODE
-    user: ${UID_GID}
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - TZ=${TZ}
-    entrypoint: ["tail", "-f", "/dev/null"]
-    volumes:
-      - node_data:${WORKDIR_SERVER_NODE}:delegated
-
 volumes:
   rabbitmq_data:
   db_data:
@@ -188,6 +170,4 @@ volumes:
   app_data:
     external: true
   composer_cache:
-    external: true
-  node_data:
     external: true

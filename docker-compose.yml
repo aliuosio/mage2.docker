@@ -68,10 +68,10 @@ services:
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
   elasticsearch:
-    #    build:
-    #      context: ./.docker/elasticsearch
-    #      args:
-    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+#    build:
+#      context: ./.docker/elasticsearch
+#      args:
+#        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
@@ -162,24 +162,6 @@ services:
       TZ: ${TZ}
     command: --interval 3600
 
-  node:
-#    build:
-#      context: ./.docker/node
-#      args:
-#        NODE_VERSION: ${NODE_VERSION}
-    container_name: ${NAMESPACE}_node
-    image: osioaliu/node:${NODE_VERSION}
-    working_dir: $WORKDIR_SERVER_NODE
-    user: ${UID_GID}
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - TZ=${TZ}
-    entrypoint: ["tail", "-f", "/dev/null"]
-    volumes:
-      - node_data:${WORKDIR_SERVER_NODE}:delegated
-
 volumes:
   rabbitmq_data:
   db_data:
@@ -195,8 +177,3 @@ volumes:
       type: none
       o: bind
       device: ${HOME}/.composer
-  node_data:
-    driver_opts:
-      type: none
-      o: bind
-      device: ${WORKDIR_NODE}

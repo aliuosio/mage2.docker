@@ -37,7 +37,6 @@ gitUpdate
 osxExtraPackages
 makeExecutable
 createFolderHost
-createPWAFolderHost
 setNginxVhost
 dockerRefresh
 setPermissionsContainer

@@ -1,10 +1,2 @@
-/.idea/
-/.docker/config_blueprints/auth.json
 /.env
-/.docker-sync/*
-.DS_Store
-/htdocs/
-*.sql
-*.gz
-/docker-sync.yml
-/node/
+.idea/

@@ -47,7 +47,7 @@ magentoRefresh
 setMagentoPermissions
 setMagentoCron
 setPermissionsContainer
-setPermissionsHost
+# setPermissionsHost
 
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"

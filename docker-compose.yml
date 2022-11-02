@@ -153,14 +153,22 @@ services:
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
-  watchtower:
-    container_name: ${NAMESPACE}_watchtower
-    image: containrrr/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      TZ: ${TZ}
-    command: --interval 3600
+#  watchtower:
+#    container_name: ${NAMESPACE}_watchtower
+#    image: containrrr/watchtower
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    environment:
+#      TZ: ${TZ}
+#    command: --interval 3600
+
+#  blackfire_agent:
+#    image: blackfire/blackfire
+#    restart: always
+#    environment:
+#      BLACKFIRE_SERVER_ID: <Your Server ID>
+#      BLACKFIRE_SERVER_TOKEN: <Your Server Token>
+
 
 volumes:
   rabbitmq_data:

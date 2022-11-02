@@ -1,7 +1,7 @@
 ## Magento 2 installer on OSX/Linux Docker stack 
 ### One Stack for all Projects
-**Docker containers: varnish, nginx, php, elasticsearch, mariadb, redis, rabbitmq, nodejs, mailhog, watchtower**
-
+**Docker containers: varnish, nginx, php, elasticsearch, mariadb, redis, rabbitmq, mailhog, watchtower, blackfire**
+> Varnish, Blackfire and Watchtower are commented out of the docker-compose.yml
 ### Get Source
 
     git clone https://github.com/aliuosio/mage2.docker.git

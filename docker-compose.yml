@@ -137,9 +137,12 @@ services:
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
-#  blackfire_agent:
+#  blackfire:
+#    container_name: ${NAMESPACE}_blackfire
 #    image: blackfire/blackfire
 #    restart: always
+#    ports:
+#      - "8307:8307"
 #    environment:
 #      BLACKFIRE_SERVER_ID: <Your Server ID>
 #      BLACKFIRE_SERVER_TOKEN: <Your Server Token>

@@ -2,22 +2,6 @@ version: '3.8'
 
 services:
 
-#  varnish:
-#    container_name: ${NAMESPACE}_varnish
-#    image: varnish:${VARNISH_VERSION}
-#    environment:
-#      - TZ=${TZ}
-#      - VARNISH_SIZE=1G
-#    tmpfs:
-#      - /var/lib/varnish:exec
-#    command: "-p default_keep=300"
-#    depends_on:
-#      - nginx
-#    ports:
-#      - "80:80"
-#    volumes:
-#      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
-
   nginx:
     container_name: ${NAMESPACE}_nginx
     image: nginx:${NGINX_VERSION}
@@ -153,6 +137,29 @@ services:
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
+#  blackfire_agent:
+#    image: blackfire/blackfire
+#    restart: always
+#    environment:
+#      BLACKFIRE_SERVER_ID: <Your Server ID>
+#      BLACKFIRE_SERVER_TOKEN: <Your Server Token>
+
+#  varnish:
+#    container_name: ${NAMESPACE}_varnish
+#    image: varnish:${VARNISH_VERSION}
+#    environment:
+#      - TZ=${TZ}
+#      - VARNISH_SIZE=1G
+#    tmpfs:
+#      - /var/lib/varnish:exec
+#    command: "-p default_keep=300"
+#    depends_on:
+#      - nginx
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
+
 #  watchtower:
 #    container_name: ${NAMESPACE}_watchtower
 #    image: containrrr/watchtower
@@ -161,13 +168,6 @@ services:
 #    environment:
 #      TZ: ${TZ}
 #    command: --interval 3600
-
-#  blackfire_agent:
-#    image: blackfire/blackfire
-#    restart: always
-#    environment:
-#      BLACKFIRE_SERVER_ID: <Your Server ID>
-#      BLACKFIRE_SERVER_TOKEN: <Your Server Token>
 
 
 volumes:

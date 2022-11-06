@@ -74,7 +74,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     * [magepal/magento2-gmailsmtpapp](https://github.com/magepal/magento2-gmail-smtp-app) SMTP Module
     * [yireo/magento2-webp2](https://github.com/yireo/Yireo_Webp2) WebP Converter
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
-* Xdebug as configurable option (xdebug.idekey=docker)
+* Xdebug as configurable option (xdebug.idekey=PHPSTORM)
 
 ### Todos
 * fix SSL in node container

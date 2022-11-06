@@ -361,8 +361,8 @@ magentoConfig() {
 }
 
 magentoPreInstall() {
+  #commands="composer create-project --repository-url=https://mirror.mage-os.org/ magento/project-community-edition:${MAGENTO_VERSION} ."
   commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
-
   runCommand "$phpContainer '$commands'"
 }
 

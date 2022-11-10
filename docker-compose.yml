@@ -43,6 +43,8 @@ services:
       COMPOSER_CACHE_DIR: /home/www-data/.composer
     user: ${UID_GID}
     restart: on-failure
+    entrypoint: [ "fixuid","docker-php-entrypoint" ]
+    command: [ "php-fpm" ]
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www-data/.composer:delegated
@@ -52,10 +54,10 @@ services:
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
   elasticsearch:
-#    build:
-#      context: ./.docker/elasticsearch
-#      args:
-#        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+    #    build:
+    #      context: ./.docker/elasticsearch
+    #      args:
+    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
@@ -129,13 +131,13 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
-  mailhog:
-    container_name: ${NAMESPACE}_mailhog
-    image: mailhog/mailhog:${MAILHOG_VERSION}
-    environment:
-      TZ: ${TZ}
-    ports:
-      - ${MAILHOG_EXTERNAL_PORT}:8025
+#  mailhog:
+#    container_name: ${NAMESPACE}_mailhog
+#    image: mailhog/mailhog:${MAILHOG_VERSION}
+#    environment:
+#      TZ: ${TZ}
+#    ports:
+#      - ${MAILHOG_EXTERNAL_PORT}:8025
 
 #  blackfire:
 #    container_name: ${NAMESPACE}_blackfire

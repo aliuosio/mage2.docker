@@ -37,6 +37,8 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8307\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
     && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
 
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
 COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 
 RUN chmod +x /usr/local/bin/*

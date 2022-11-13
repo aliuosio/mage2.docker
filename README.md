@@ -78,7 +78,8 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 
 ### Todos
 * fix SSL in node container
-* compatibility Magento 2.4.5
+* switch between Mage-os and Magento 2 in config
+* ~~compatibility Magento 2.4.5~~
 * add Magento version choice to `bin/install.sh config` prompt
 * fix `bin/install.sh config` WORKDIR config
 * add domain to `etc/hosts` option for interactive config in `bin/install.sh`

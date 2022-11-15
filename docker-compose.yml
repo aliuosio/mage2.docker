@@ -131,13 +131,13 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
-#  mailhog:
-#    container_name: ${NAMESPACE}_mailhog
-#    image: mailhog/mailhog:${MAILHOG_VERSION}
-#    environment:
-#      TZ: ${TZ}
-#    ports:
-#      - ${MAILHOG_EXTERNAL_PORT}:8025
+  mailhog:
+    container_name: ${NAMESPACE}_mailhog
+    image: mailhog/mailhog:${MAILHOG_VERSION}
+    environment:
+      TZ: ${TZ}
+    ports:
+      - ${MAILHOG_EXTERNAL_PORT}:8025
 
 #  blackfire:
 #    container_name: ${NAMESPACE}_blackfire
@@ -165,14 +165,14 @@ services:
 #    volumes:
 #      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
 
-#  watchtower:
-#    container_name: ${NAMESPACE}_watchtower
-#    image: containrrr/watchtower
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    environment:
-#      TZ: ${TZ}
-#    command: --interval 3600
+  watchtower:
+    container_name: ${NAMESPACE}_watchtower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TZ: ${TZ}
+    command: --interval 3600
 
 
 volumes:

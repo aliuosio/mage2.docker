@@ -16,8 +16,8 @@ RUN apk add --no-cache --virtual build-dependencies libc-dev libxslt-dev freetyp
     && docker-php-ext-configure gd --with-webp --with-jpeg --with-freetype \
     && docker-php-ext-install gd bcmath intl gettext pdo_mysql opcache soap sockets xsl zip \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis apcu-5.1.21 \
-    && docker-php-ext-enable redis apcu \
+    && pecl install -o -f redis apcu-5.1.21 xdebug \
+    && docker-php-ext-enable redis apcu xdebug \
     && rm -rf /var/cache/apk/* \
     && docker-php-source delete \
     && rm -rf /tmp/pear \
@@ -27,17 +27,6 @@ RUN apk add --no-cache --virtual build-dependencies libc-dev libxslt-dev freetyp
     && chmod 4755 /usr/local/bin/fixuid \
     && mkdir -p /etc/fixuid \
     && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
-
-RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
-    && architecture=$(uname -m) \
-    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/alpine/$architecture/$version \
-    && mkdir -p /tmp/blackfire \
-    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire \
-    && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get ('extension_dir');")/blackfire.so \
-    && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8307\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
-    && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
-
-RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 

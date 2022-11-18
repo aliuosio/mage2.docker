@@ -25,10 +25,10 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
 
   php:
-#    build:
-#      context: ./.docker/php
-#      args:
-#        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    build:
+      context: ./.docker/php
+      args:
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}
     sysctls:
@@ -139,15 +139,14 @@ services:
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
-#  blackfire:
-#    container_name: ${NAMESPACE}_blackfire
-#    image: blackfire/blackfire
-#    restart: always
-#    ports:
-#      - "8307:8307"
-#    environment:
-#      BLACKFIRE_SERVER_ID: <Your Server ID>
-#      BLACKFIRE_SERVER_TOKEN: <Your Server Token>
+  watchtower:
+    container_name: ${NAMESPACE}_watchtower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TZ: ${TZ}
+    command: --interval 3600
 
 #  varnish:
 #    container_name: ${NAMESPACE}_varnish
@@ -164,16 +163,6 @@ services:
 #      - "80:80"
 #    volumes:
 #      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
-
-  watchtower:
-    container_name: ${NAMESPACE}_watchtower
-    image: containrrr/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      TZ: ${TZ}
-    command: --interval 3600
-
 
 volumes:
   rabbitmq_data:

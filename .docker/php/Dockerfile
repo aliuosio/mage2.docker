@@ -7,11 +7,11 @@ ENV GROUP=www-data
 
 RUN apk update && apk upgrade
 
-RUN apk add --no-cache --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev curl \
+RUN apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev curl \
     && set -xe \
-    && apk add --no-cache git bash bash-completion nano tzdata icu procps \
-    && apk add --no-cache --virtual .php-deps make \
-    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS zlib-dev icu-dev icu-data-full gettext gettext-dev g++ curl-dev \
+    && apk add git bash bash-completion nano tzdata icu procps \
+    && apk add --virtual .php-deps make \
+    && apk add --virtual .build-deps $PHPIZE_DEPS zlib-dev icu-dev icu-data-full gettext gettext-dev g++ curl-dev \
     && docker-php-ext-configure hash --with-mhash \
     && docker-php-ext-configure gd --with-webp --with-jpeg --with-freetype \
     && docker-php-ext-install gd bcmath intl gettext pdo_mysql opcache soap sockets xsl zip \

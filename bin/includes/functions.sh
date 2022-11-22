@@ -145,13 +145,6 @@ osxExtraPackages() {
   fi
 }
 
-setHostSettings() {
-  sudo sysctl vm.overcommit_memory=1
-  sudo echo never /sys/kernel/mm/transparent_hugepage/enabled
-  sudo sysctl vm.max_map_count=262144
-  sudo systemctl daemon-reload
-}
-
 gitUpdate() {
   if [ ! -d "$WORKDIR" ] && [ "$GIT_URL" ]; then
     runCommand "git clone $GIT_URL $WORKDIR"

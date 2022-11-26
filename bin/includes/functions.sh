@@ -160,10 +160,6 @@ composerOptimzerWithAPCu() {
   runCommand "docker exec -u $1 $2 composer dump-autoload -o --apcu"
 }
 
-makeExecutable() {
-  runCommand "chmod +x bin/*.sh;"
-}
-
 dockerRefresh() {
   if [[ $(uname -s) == "Darwin" ]]; then
     runCommand "docker-sync stop &&

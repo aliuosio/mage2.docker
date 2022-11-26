@@ -10,8 +10,8 @@
  Fresh Installation (latest magento 2 version) or your running project when located in your filesystem
     
     cd mage2.docker
-    chmod +x bin/*.sh
-    bin/install.sh
+    chmod +x bin/*
+    bin/install
 
 > with `bin/install config` you can use prompts to configure install
     
@@ -29,12 +29,11 @@ OSX: on first run very slow due to docker-sync update of local shop files volume
 See `.docker-sync/daemon.log` for progress
     
 ### next startup after reboot of Host
-    bin/start.sh
+    bin/start
 
 ### Install sample data
 
-    chmod +x sample-data.sh
-    bin/sample-data.sh
+    bin/sample-data
 
 ### PHP Container Usage
     
@@ -42,7 +41,7 @@ See `.docker-sync/daemon.log` for progress
     
 ### Elasticsearch Usage
 
-** Configured automatically with install.sh **
+** Configured automatically with install **
 
 In Magento 2 Backend `stores` -`Configuration` -`Catalog` -`Catalog` -`Tab: Catalog Search`
     
@@ -66,7 +65,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
     SMTP Port: 1025
     
 ### Features
-* Fresh Install or use existing magento 2 project on your file system using `bin/install.sh config`
+* Fresh Install or use existing magento 2 project on your file system using `bin/install config`
 * alternative **OSX docker-compose** file using docker-sync **for better performance**
 * set project directory to where ever you want (as configurable option in .env)
 * [Mailhog](https://github.com/mailhog/MailHog) container
@@ -80,16 +79,16 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * fix SSL in node container
 * switch between Mage-os and Magento 2 in config
 * ~~compatibility Magento 2.4.5~~
-* add Magento version choice to `bin/install.sh config` prompt
-* fix `bin/install.sh config` WORKDIR config
-* add domain to `etc/hosts` option for interactive config in `bin/install.sh`
-* create backup of `.env` after `bin/install.sh` usage
+* add Magento version choice to `bin/install config` prompt
+* fix `bin/install config` WORKDIR config
+* add domain to `etc/hosts` option for interactive config in `bin/install`
+* create backup of `.env` after `bin/install` usage
 * refactor docker-compose.osx.yml
 * Exchange `docker-sync` with `Mutagen`
 * reduce the number of volumes
 * Docker letsencrypt certification Container
 * add downloader script to clone and install App
-* make Webserver(Apache or Nginx) configurable in `bin/install.sh` and `docker-entrypoint.sh`
+* make Webserver(Apache or Nginx) configurable in `bin/install` and `docker-entrypoint`
 * rename config_blueprints to config and move config files to .docker/config
 * simplify letsencrypt certificate embedding in nginx container
 * Nginx Header Config passes at https://securityheaders.com/

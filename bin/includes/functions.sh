@@ -355,6 +355,23 @@ magentoPreInstall() {
   runCommand "$phpContainer '$commands'"
 }
 
+setPerformanceVars() {
+  commands="bin/magento config:set catalog/search/enable_eav_indexer 1 &&
+    bin/magento config:set dev/template/minify_html 1 &&
+    bin/magento config:set dev/js/merge_files 1 &&
+    bin/magento config:set dev/js/enable_js_bundling 1 &&
+    bin/magento config:set dev/js/minify_files 1 &&
+    bin/magento config:set dev/js/move_script_to_bottom 1 &&
+    bin/magento config:set dev/css/merge_css_files 1 &&
+    bin/magento config:set dev/css/minify_files 1 &&
+    bin/magento config:set web/seo/use_rewrites 0 &&
+    bin/magento config:set web/url/redirect_to_base 0 &&
+    bin/magento config:set web/secure/use_in_frontend 0 &&ow
+    bin/magento config:set web/secure/use_in_adminhtml 0"
+
+  runCommand "$phpContainer '$commands'"
+}
+
 magentoInstall() {
   commands="bin/magento setup:install --base-url-secure=https://$SHOPURI/ --base-url=http://$SHOPURI/ \
   --db-host=db --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
@@ -389,6 +406,7 @@ magentoSetup() {
     fi
   else
     magentoInstall
+    setPerformanceVars
   fi
 
   magentoConfigImport

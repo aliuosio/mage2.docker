@@ -358,10 +358,11 @@ magentoConfig() {
 }
 
 setSMTP() {
-  commands="bin/magento config:set system/gmailsmtpapp/auth NONE && \
-    bin/magento config:set system/gmailsmtpapp/ssl none && \
-    bin/magento config:set system/gmailsmtpapp/smtphost mailhog && \
-    bin/magento config:set system/gmailsmtpapp/smtpport 1025"
+  commands=" bin/magento config:set system/gmailsmtpapp/active 1 && \
+  bin/magento config:set system/gmailsmtpapp/auth NONE && \
+  bin/magento config:set system/gmailsmtpapp/ssl none && \
+  bin/magento config:set system/gmailsmtpapp/smtphost mailhog && \
+  bin/magento config:set system/gmailsmtpapp/smtpport 1025"
 
   runCommand "$phpContainer '$commands'"
 }

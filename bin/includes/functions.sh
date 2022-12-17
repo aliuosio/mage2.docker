@@ -357,6 +357,15 @@ magentoConfig() {
   runCommand "$phpContainer '$commands'"
 }
 
+setSMTP() {
+  commands="bin/magento config:set system/gmailsmtpapp/auth NONE && \
+    bin/magento config:set system/gmailsmtpapp/ssl none && \
+    bin/magento config:set system/gmailsmtpapp/smtphost mailhog && \
+    bin/magento config:set system/gmailsmtpapp/smtpport 1025"
+
+  runCommand "$phpContainer '$commands'"
+}
+
 magentoPreInstall() {
   commands="composer create-project --repository-url=https://mirror.mage-os.org/ magento/project-community-edition:${MAGENTO_VERSION} ."
   #commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
@@ -401,4 +410,5 @@ magentoSetup() {
 
   magentoConfigImport
   magentoConfig
+  setSMTP
 }

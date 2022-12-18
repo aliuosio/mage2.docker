@@ -6,7 +6,7 @@ ENV USER=www-data
 ENV GROUP=www-data
 
 RUN apk update && apk upgrade
-
+RUN apk add --update linux-headers
 RUN apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev curl \
     && set -xe \
     && apk add git bash bash-completion nano tzdata icu procps \

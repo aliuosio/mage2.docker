@@ -25,10 +25,10 @@ services:
       - app_data:${WORKDIR_SERVER}:delegated
 
   php:
-    build:
-      context: ./.docker/php
-      args:
-        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    #    build:
+    #      context: ./.docker/php
+    #      args:
+    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}
     sysctls:
@@ -115,38 +115,40 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
+    tmpfs:
+      - /data
     volumes:
       - redis_data:/data
       - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
-  rabbitmq:
-    container_name: ${NAMESPACE}_rabbitmq
-    image: rabbitmq:${RABBITMQ_VERSION}
-    environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin2017
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-
-  mailhog:
-    container_name: ${NAMESPACE}_mailhog
-    image: mailhog/mailhog:${MAILHOG_VERSION}
-    environment:
-      TZ: ${TZ}
-    ports:
-      - ${MAILHOG_EXTERNAL_PORT}:8025
-
-  watchtower:
-    container_name: ${NAMESPACE}_watchtower
-    image: containrrr/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      TZ: ${TZ}
-    command: --interval 3600
+#  rabbitmq:
+#    container_name: ${NAMESPACE}_rabbitmq
+#    image: rabbitmq:${RABBITMQ_VERSION}
+#    environment:
+#      RABBITMQ_DEFAULT_USER: admin
+#      RABBITMQ_DEFAULT_PASS: admin2017
+#    ports:
+#      - "15672:15672"
+#      - "5672:5672"
+#    volumes:
+#      - rabbitmq_data:/var/lib/rabbitmq
+#
+#  mailhog:
+#    container_name: ${NAMESPACE}_mailhog
+#    image: mailhog/mailhog:${MAILHOG_VERSION}
+#    environment:
+#      TZ: ${TZ}
+#    ports:
+#      - ${MAILHOG_EXTERNAL_PORT}:8025
+#
+#  watchtower:
+#    container_name: ${NAMESPACE}_watchtower
+#    image: containrrr/watchtower
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    environment:
+#      TZ: ${TZ}
+#    command: --interval 3600
 
 #  varnish:
 #    container_name: ${NAMESPACE}_varnish

@@ -164,11 +164,11 @@ dockerRefresh() {
   if [[ $(uname -s) == "Darwin" ]]; then
     runCommand "docker-sync stop &&
                 docker-sync start &&
-                docker-compose -f docker-compose.osx.yml down &&
-                docker-compose -f docker-compose.osx.yml up -d"
+                docker compose -f docker-compose.osx.yml down &&
+                docker compose -f docker-compose.osx.yml up -d"
   else
     runCommand setHostSettings
-    runCommand "docker-compose down && docker-compose up -d"
+    runCommand "docker compose down && docker compose up -d"
   fi
 }
 
@@ -379,7 +379,6 @@ magentoInstall() {
   --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
   --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
-  --amqp-host=rabbitmq --amqp-ssl=false --amqp-port=5672 --amqp-user=admin --amqp-password=admin2017 --amqp-virtualhost='/' \
   --page-cache=redis --page-cache-redis-server=redis --page-cache-redis-db=0 \
   --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=1 \
   --session-save=redis --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db2 --session-save-redis-db=2 \

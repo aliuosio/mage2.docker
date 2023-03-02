@@ -118,7 +118,6 @@ services:
     tmpfs:
       - /data
     volumes:
-      - redis_data:/data
       - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
 #  rabbitmq:

@@ -115,8 +115,6 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
-    tmpfs:
-      - /data
     volumes:
       - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 

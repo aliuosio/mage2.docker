@@ -26,7 +26,6 @@ RUN apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjp
     && chmod 4755 /usr/local/bin/fixuid \
     && mkdir -p /etc/fixuid \
     && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
-
+COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 RUN chmod +x /usr/local/bin/*
-
 USER $USER:$GROUP

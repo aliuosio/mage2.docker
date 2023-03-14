@@ -22,13 +22,10 @@ RUN apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjp
     && docker-php-source delete \
     && rm -rf /tmp/pear \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer \
-    && curl -o /usr/local/bin/n98-magerun2.phar https://files.magerun.net/n98-magerun2.phar \
     && curl -SsL https://github.com/boxboat/fixuid/releases/download/v0.5.1/fixuid-0.5.1-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf -  \
     && chmod 4755 /usr/local/bin/fixuid \
     && mkdir -p /etc/fixuid \
     && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
-
-COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 
 RUN chmod +x /usr/local/bin/*
 

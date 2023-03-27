@@ -269,7 +269,7 @@ sampleDataInstallMustInstall() {
 }
 
 MagentoTwoFactorAuthDisable() {
-  commands="bin/magento module:disable -c Magento_TwoFactorAuth"
+  commands="bin/magento module:disable -c Magento_AdminAdobeImsTwoFactorAuth Magento_TwoFactorAuth"
   runCommand "$phpContainer '$commands'"
 }
 

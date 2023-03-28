@@ -168,7 +168,7 @@ dockerRefresh() {
                 docker compose -f docker-compose.osx.yml up -d"
   else
     runCommand setHostSettings
-    runCommand "docker compose down && docker compose up -d"
+    runCommand "docker compose stop && docker compose up -d"
   fi
 }
 

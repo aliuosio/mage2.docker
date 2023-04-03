@@ -19,6 +19,7 @@ services:
         aliases:
           - ${SHOPURI}
     volumes:
+      - php_socket:/var/run/php
       - app_data:${WORKDIR_SERVER}:delegated
       - .docker/nginx/ssl:/etc/nginx/ssl:ro
       - .docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -46,6 +47,7 @@ services:
     entrypoint: [ "fixuid","docker-php-entrypoint" ]
     command: [ "php-fpm" ]
     volumes:
+      - php_socket:/var/run/php
       - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www-data/.composer:delegated
       - ${HOME}/.ssh:/home/www-data/.ssh:delegated
@@ -164,6 +166,7 @@ services:
 #      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
 
 volumes:
+  php_socket:
   rabbitmq_data:
   db_data:
   elastic_data:

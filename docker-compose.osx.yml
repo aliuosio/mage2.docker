@@ -47,6 +47,7 @@ services:
     entrypoint: [ "fixuid","docker-php-entrypoint" ]
     command: [ "php-fpm" ]
     volumes:
+      - db_socket:/var/run/mysqld
       - php_socket:/var/run/php
       - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www-data/.composer:delegated
@@ -80,6 +81,7 @@ services:
         condition: service_healthy
     entrypoint: 'docker-entrypoint.sh'
     volumes:
+      - redis_socket:/var/run/redis/
       - elastic_data:/usr/share/elasticsearch/data
 
   db:
@@ -99,6 +101,7 @@ services:
       timeout: 30s
       retries: 3
     volumes:
+      - db_socket:/var/run/mysqld
       - db_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
       - .docker/mysql/config/my.cnf:/etc/mysql/my.cnf
@@ -118,6 +121,7 @@ services:
       timeout: 30s
       retries: 3
     volumes:
+      - redis_socket:/var/run/redis/
       - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
 #  rabbitmq:
@@ -166,6 +170,8 @@ services:
 #      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
 
 volumes:
+  redis_socket:
+  db_socket:
   php_socket:
   rabbitmq_data:
   db_data:

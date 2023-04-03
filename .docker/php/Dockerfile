@@ -28,4 +28,5 @@ RUN apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjp
     && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
 COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 RUN chmod +x /usr/local/bin/*
+RUN mkdir -p /var/run/php/ && chown $USER:$GROUP /var/run/php
 USER $USER:$GROUP

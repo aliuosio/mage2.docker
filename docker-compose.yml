@@ -41,7 +41,7 @@ services:
         condition: service_healthy
     environment:
       TZ: ${TZ}
-      COMPOSER_CACHE_DIR: /root/.composer
+      COMPOSER_CACHE_DIR: /home/www-data/.composer
     user: ${UID_GID}
     restart: on-failure
     entrypoint: [ "fixuid","docker-php-entrypoint" ]
@@ -50,7 +50,7 @@ services:
       - db_socket:/var/run/mysqld
       - php_socket:/var/run/php
       - app_data:${WORKDIR_SERVER}:delegated
-      - composer_cache:/root/.composer:delegated
+      - composer_cache:/home/www-data/.composer:delegated
       - ${HOME}/.ssh:/home/www-data/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro

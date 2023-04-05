@@ -209,14 +209,14 @@ setMagentoPermissions() {
 
 setPermissionsContainer() {
   commands="chown -R ${PHP_USER}:${PHP_USER} $WORKDIR_SERVER \
-  && chown -R ${PHP_USER}:${PHP_USER} /root/.composer"
+  && chown -R ${PHP_USER}:${PHP_USER} /home/${PHP_USER}/.composer"
 
   runCommand "$phpContainerRoot '$commands'"
 }
 
 setPermissionsHost() {
   commands="sudo chown -R ${USER}:${USER} ${WORKDIR} \
-  && sudo chown -R ${USER}:${USER} /root/.composer"
+  && sudo chown -R ${USER}:${USER} /home/${USER}/.composer"
 
   runCommand "$commands"
 }

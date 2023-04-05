@@ -216,7 +216,7 @@ setPermissionsContainer() {
 
 setPermissionsHost() {
   commands="sudo chown -R ${USER}:${USER} ${WORKDIR} \
-  && sudo chown -R ${USER}:${USER} /home/${USER}/.composer"
+  && sudo chown -R ${USER}:${USER} /root/.composer"
 
   runCommand "$commands"
 }

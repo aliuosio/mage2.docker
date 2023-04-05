@@ -41,7 +41,7 @@ services:
         condition: service_healthy
     environment:
       TZ: ${TZ}
-      COMPOSER_CACHE_DIR: /home/www-data/.composer
+      COMPOSER_CACHE_DIR: /root/.composer
     user: ${UID_GID}
     restart: on-failure
     entrypoint: [ "fixuid","docker-php-entrypoint" ]

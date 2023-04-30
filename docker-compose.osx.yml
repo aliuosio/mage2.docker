@@ -26,10 +26,10 @@ services:
       - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
 
   php:
-    #    build:
-    #      context: ./.docker/php
-    #      args:
-    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    build:
+      context: ./.docker/php
+      args:
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}
     sysctls:
@@ -49,6 +49,7 @@ services:
     volumes:
       - db_socket:/var/run/mysqld
       - php_socket:/var/run/php
+      - redis_socket:/run/redis/
       - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www-data/.composer:delegated
       - ${HOME}/.ssh:/home/www-data/.ssh:delegated
@@ -57,10 +58,10 @@ services:
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
   elasticsearch:
-    #    build:
-    #      context: ./.docker/elasticsearch
-    #      args:
-    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+    build:
+      context: ./.docker/elasticsearch
+      args:
+        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
@@ -81,7 +82,6 @@ services:
         condition: service_healthy
     entrypoint: 'docker-entrypoint.sh'
     volumes:
-      - redis_socket:/var/run/redis/
       - elastic_data:/usr/share/elasticsearch/data
 
   db:
@@ -121,7 +121,7 @@ services:
       timeout: 30s
       retries: 3
     volumes:
-      - redis_socket:/var/run/redis/
+      - redis_socket:/run/redis/
       - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
 #  rabbitmq:

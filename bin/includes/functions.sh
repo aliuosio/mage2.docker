@@ -378,8 +378,8 @@ magentoInstall() {
   --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
   --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
-  --page-cache=redis --page-cache-redis-server=redis --page-cache-redis-db=0 \
-  --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=1 \
+  --page-cache=redis --page-cache-redis-server=/run/redis/redis.sock  --page-cache-redis-db=0 \
+  --cache-backend=redis --cache-backend-redis-server=/run/redis/redis.sock  --cache-backend-redis-db=1 \
   --session-save=redis --session-save-redis-host=/run/redis/redis.sock --session-save-redis-persistent-id=sess-db2 --session-save-redis-db=2 \
   --timezone=Europe/Berlin --currency=EUR --language=de_DE \
   --cleanup-database"

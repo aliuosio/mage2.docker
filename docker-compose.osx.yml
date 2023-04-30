@@ -26,10 +26,10 @@ services:
       - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
 
   php:
-    build:
-      context: ./.docker/php
-      args:
-        PHP_VERSION_SET: ${PHP_VERSION_SET}
+    #    build:
+    #      context: ./.docker/php
+    #      args:
+    #        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}
     sysctls:
@@ -61,10 +61,10 @@ services:
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
   elasticsearch:
-    build:
-      context: ./.docker/elasticsearch
-      args:
-        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+    #    build:
+    #      context: ./.docker/elasticsearch
+    #      args:
+    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
@@ -127,17 +127,17 @@ services:
       - redis_socket:/run/redis/
       - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
-#  rabbitmq:
-#    container_name: ${NAMESPACE}_rabbitmq
-#    image: rabbitmq:${RABBITMQ_VERSION}
-#    environment:
-#      RABBITMQ_DEFAULT_USER: admin
-#      RABBITMQ_DEFAULT_PASS: admin2017
-#    ports:
-#      - "15672:15672"
-#      - "5672:5672"
-#    volumes:
-#      - rabbitmq_data:/var/lib/rabbitmq
+  #  rabbitmq:
+  #    container_name: ${NAMESPACE}_rabbitmq
+  #    image: rabbitmq:${RABBITMQ_VERSION}
+  #    environment:
+  #      RABBITMQ_DEFAULT_USER: admin
+  #      RABBITMQ_DEFAULT_PASS: admin2017
+  #    ports:
+  #      - "15672:15672"
+  #      - "5672:5672"
+  #    volumes:
+  #      - rabbitmq_data:/var/lib/rabbitmq
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog

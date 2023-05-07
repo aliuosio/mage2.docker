@@ -54,16 +54,11 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 
 ### Mailhog Usage
 
+> `bin/install` script configures the default magento 2.4.6 mail settings to run with mailhog
+
     Mail Client
     https://localhost:8025 
 
-    In Magento 2 Backend `stores` -`Configuration` -`Advanced` -`System` 
-    -`Tab: SMTP Configuration and Settings (Gmail/Google/AWS/Office360 etc)`
-   
-    Authentication method: NONE
-    SSL type: None
-    SMTP Host: mailhog
-    SMTP Port: 1025
     
 ### Features
 * Fresh Install or use existing magento 2 project on your file system using `bin/install config`

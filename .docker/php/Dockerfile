@@ -27,6 +27,7 @@ RUN apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjp
     && mkdir -p /etc/fixuid \
     && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
 COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
-RUN chmod +x /usr/local/bin/*
-RUN mkdir -p /var/run/php/ && chown $USER:$GROUP /var/run/php
+RUN curl https://files.magerun.net/n98-magerun2.phar --output /usr/local/bin/magerun2 \
+    && chmod +x /usr/local/bin/* \
+    && mkdir -p /var/run/php/ && chown $USER:$GROUP /var/run/php
 USER $USER:$GROUP

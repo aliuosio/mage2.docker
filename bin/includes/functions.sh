@@ -321,7 +321,7 @@ DatabaseImport() {
 }
 
 conposerFunctions() {
-  commands="composer i"
+  commands="composer install --ignore-platform-reqs"
   runCommand "$phpContainer '$commands'"
 }
 
@@ -353,14 +353,6 @@ magentoConfig() {
   bin/magento config:set dev/css/minify_files 1 && \
   bin/magento config:set web/seo/use_rewrites 0 && \
   bin/magento deploy:mode:set -s $DEPLOY_MODE"
-
-  runCommand "$phpContainer '$commands'"
-}
-
-setSMTP() {
-  commands="bin/magento config:set system/smtp/transport smtp && \
-  bin/magento config:set system/smtp/host mailhog && \
-  bin/magento config:set system/smtp/port 1025"
 
   runCommand "$phpContainer '$commands'"
 }
@@ -408,5 +400,4 @@ magentoSetup() {
 
   magentoConfigImport
   magentoConfig
-  setSMTP
 }

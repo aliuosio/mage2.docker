@@ -30,4 +30,6 @@ COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 RUN curl https://files.magerun.net/n98-magerun2.phar --output /usr/local/bin/magerun2 \
     && chmod +x /usr/local/bin/* \
     && mkdir -p /var/run/php/ && chown $USER:$GROUP /var/run/php
+
+RUN apk add npm
 USER $USER:$GROUP

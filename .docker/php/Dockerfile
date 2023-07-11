@@ -16,7 +16,7 @@ RUN apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjp
     && docker-php-ext-configure gd --with-webp --with-jpeg --with-freetype \
     && docker-php-ext-install gd bcmath intl gettext pdo_mysql opcache soap sockets xsl zip \
     && pecl channel-update pecl.php.net \
-    && pecl install -o -f redis apcu-5.1.21 xdebug \
+    && pecl install -o -f redis apcu-5.1.21 xdebug-3.1.6 \
     && docker-php-ext-enable redis apcu xdebug \
     && rm -rf /var/cache/apk/* \
     && docker-php-source delete \

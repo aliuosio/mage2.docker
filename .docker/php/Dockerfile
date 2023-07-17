@@ -4,10 +4,10 @@ LABEL maintainer="Osiozekhai Aliu"
 
 ENV USER=www-data
 ENV GROUP=www-data
+COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 
-RUN apk update && apk upgrade
-RUN apk add --update linux-headers
-RUN apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev curl \
+RUN apk update && apk upgrade \
+    && apk --update add --virtual build-dependencies npm libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev curl \
     && set -xe \
     && apk add git bash bash-completion nano tzdata icu procps \
     && apk add --virtual .php-deps make \
@@ -25,11 +25,8 @@ RUN apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjp
     && curl -SsL https://github.com/boxboat/fixuid/releases/download/v0.5.1/fixuid-0.5.1-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf -  \
     && chmod 4755 /usr/local/bin/fixuid \
     && mkdir -p /etc/fixuid \
-    && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
-COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
-RUN curl https://files.magerun.net/n98-magerun2.phar --output /usr/local/bin/magerun2 \
-    && chmod +x /usr/local/bin/* \
-    && mkdir -p /var/run/php/ && chown $USER:$GROUP /var/run/php
+    && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml \
+    && curl https://files.magerun.net/n98-magerun2.phar --output /usr/local/bin/magerun2 \
+    && chmod +x /usr/local/bin/*
 
-RUN apk add npm
 USER $USER:$GROUP

@@ -344,14 +344,14 @@ magentoConfig() {
   commands="bin/magento config:set web/secure/use_in_frontend 1 && \
   bin/magento config:set web/secure/use_in_adminhtml 1 && \
   bin/magento config:set catalog/search/enable_eav_indexer 1 && \
-  bin/magento config:set dev/template/minify_html 1 && \
-  bin/magento config:set dev/js/merge_files 1 && \
-  bin/magento config:set dev/js/enable_js_bundling 1 && \
-  bin/magento config:set dev/js/minify_files 1 && \
-  bin/magento config:set dev/js/move_script_to_bottom 1 && \
-  bin/magento config:set dev/css/merge_css_files 1 && \
-  bin/magento config:set dev/css/minify_files 1 && \
-  bin/magento config:set web/seo/use_rewrites 0 && \
+  bin/magento config:set dev/template/minify_html 0 && \
+  bin/magento config:set dev/js/merge_files 0 && \
+  bin/magento config:set dev/js/enable_js_bundling 0 && \
+  bin/magento config:set dev/js/minify_files 0 && \
+  bin/magento config:set dev/js/move_script_to_bottom 0 && \
+  bin/magento config:set dev/css/merge_css_files 0 && \
+  bin/magento config:set dev/css/minify_files 0 && \
+  bin/magento config:set web/seo/use_rewrites 1 && \
   bin/magento deploy:mode:set -s $DEPLOY_MODE"
 
   runCommand "$phpContainer '$commands'"
@@ -372,7 +372,7 @@ magentoInstall() {
   --page-cache=redis --page-cache-redis-server=/run/redis/redis.sock  --page-cache-redis-db=0 \
   --cache-backend=redis --cache-backend-redis-server=/run/redis/redis.sock  --cache-backend-redis-db=1 \
   --session-save=redis --session-save-redis-host=/run/redis/redis.sock --session-save-redis-persistent-id=sess-db2 --session-save-redis-db=2 \
-  --timezone=Europe/Berlin --currency=EUR --language=de_DE \
+  --timezone=Europe/Berlin --currency=EUR \
   --cleanup-database"
 
   runCommand "$phpContainer '$commands'"

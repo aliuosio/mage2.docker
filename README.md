@@ -14,7 +14,7 @@ using sockets instead of TCP/IP for redis sessions, MySQL and PHP
     chmod +x bin/*
     bin/install
 
-> with `bin/install config` you can use prompts to configure install (THIS COMMAND IS BUGGY. FEEL FREE TO CONRIBUTE)
+> with `bin/install config` you can use prompts to configure install (USING the command with config IS BUGGY. FEEL FREE TO CONRIBUTE)
     
 > use .env to change values after installation and activate on restart of containers 
 

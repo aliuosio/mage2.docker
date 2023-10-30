@@ -14,7 +14,7 @@ using sockets instead of TCP/IP for redis sessions, MySQL and PHP
     chmod +x bin/*
     bin/install
 
-> with `bin/install config` you can use prompts to configure install
+> with `bin/install config` you can use prompts to configure install (USING the command with config IS BUGGY. FEEL FREE TO CONRIBUTE)
     
 > use .env to change values after installation and activate on restart of containers 
 
@@ -71,6 +71,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Xdebug as configurable option (xdebug.idekey=PHPSTORM)
 
 ### Todos
+* fix `bin/install config`
 * fix SSL in node container
 * switch between Mage-os and Magento 2 in config
 * ~~compatibility Magento 2.4.5~~

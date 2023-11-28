@@ -331,7 +331,7 @@ setNginxVhost() {
 }
 
 composerExtraPackages() {
-  commands="composer req --dev mage2tv/magento-cache-clean && composer req yireo/magento2-webp2"
+  commands="composer req --dev mage2tv/magento-cache-clean; composer require splendidinternet/mage2-locale-de-de yireo/magento2-webp2"
   runCommand "$phpContainer '$commands'"
 }
 
@@ -342,6 +342,7 @@ magentoConfigImport() {
 
 magentoConfig() {
   commands="bin/magento config:set web/secure/use_in_frontend 1 && \
+  bin/magento config:set customer/address/street_lines 1 && \
   bin/magento config:set web/secure/use_in_adminhtml 1 && \
   bin/magento config:set catalog/search/enable_eav_indexer 1 && \
   bin/magento config:set dev/template/minify_html 0 && \
@@ -352,6 +353,7 @@ magentoConfig() {
   bin/magento config:set dev/css/merge_css_files 0 && \
   bin/magento config:set dev/css/minify_files 0 && \
   bin/magento config:set web/seo/use_rewrites 1 && \
+  bin/magento config:set general/locale/code de_DE && \
   bin/magento deploy:mode:set -s $DEPLOY_MODE"
 
   runCommand "$phpContainer '$commands'"
@@ -365,15 +367,14 @@ magentoPreInstall() {
 
 magentoInstall() {
   commands="bin/magento setup:install --base-url=http://$SHOPURI/ \
-  --db-host=/var/run/mysqld/mysqld.sock --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
+  --db-host=db --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
   --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
   --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
-  --page-cache=redis --page-cache-redis-server=/run/redis/redis.sock  --page-cache-redis-db=0 \
-  --cache-backend=redis --cache-backend-redis-server=/run/redis/redis.sock  --cache-backend-redis-db=1 \
-  --session-save=redis --session-save-redis-host=/run/redis/redis.sock --session-save-redis-persistent-id=sess-db2 --session-save-redis-db=2 \
-  --timezone=Europe/Berlin --currency=EUR \
-  --cleanup-database"
+  --page-cache=redis --page-cache-redis-server=redis  --page-cache-redis-db=0 \
+  --cache-backend=redis --cache-backend-redis-server=redis  --cache-backend-redis-db=1 \
+  --session-save=redis --session-save-redis-host=redis --session-save-redis-persistent-id=sess-db2 --session-save-redis-db=2 \
+  --timezone=Europe/Berlin --currency=EUR --language=de_DE --cleanup-database"
 
   runCommand "$phpContainer '$commands'"
 }

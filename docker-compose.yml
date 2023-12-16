@@ -51,8 +51,6 @@ services:
     volumes:
       - ../magento:/var/www/html:delegated
       - ../.composer:/home/www-data/.composer:delegated
-      - db_socket:/var/run/mysqld
-      - redis_socket:/run/redis/
       - ${HOME}/.ssh:/home/www-data/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
@@ -82,8 +80,6 @@ services:
       db:
         condition: service_healthy
     entrypoint: 'docker-entrypoint.sh'
-    volumes:
-      - elastic_data:/usr/share/elasticsearch/data
 
   db:
     container_name: ${NAMESPACE}_db
@@ -102,7 +98,6 @@ services:
       timeout: 30s
       retries: 3
     volumes:
-      - db_socket:/var/run/mysqld
       - db_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
       - .docker/mysql/config/my.cnf:/etc/mysql/my.cnf
@@ -122,7 +117,6 @@ services:
       timeout: 30s
       retries: 3
     volumes:
-      - redis_socket:/run/redis/
       - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
 #  rabbitmq:
@@ -171,8 +165,4 @@ services:
 #      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
 
 volumes:
-  redis_socket:
-  db_socket:
-  rabbitmq_data:
   db_data:
-  elastic_data:

@@ -38,7 +38,7 @@ setNginxVhost
 dockerRefresh
 setPermissionsContainer
 magentoSetup
-# MagentoTwoFactorAuthDisable
+MagentoTwoFactorAuthDisable
 sampleDataInstallMustInstall
 magentoRefresh
 setMagentoPermissions

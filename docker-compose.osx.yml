@@ -19,7 +19,6 @@ services:
         aliases:
           - ${SHOPURI}
     volumes:
-      # - php_socket:/var/run/php
       - app_data:${WORKDIR_SERVER}:delegated
       - .docker/nginx/ssl:/etc/nginx/ssl:ro
       - .docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -51,7 +50,6 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - db_socket:/var/run/mysqld
-      # - php_socket:/var/run/php
       - redis_socket:/run/redis/
       - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www-data/.composer:delegated
@@ -60,32 +58,44 @@ services:
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
-  elasticsearch:
-    #    build:
-    #      context: ./.docker/elasticsearch
-    #      args:
-    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
-    container_name: ${NAMESPACE}_elasticsearch
-    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
+  #  elasticsearch:
+  #    build:
+  #      context: ./.docker/elasticsearch
+  #      args:
+  #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+  #    container_name: ${NAMESPACE}_elasticsearch
+  #    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
+  #    environment:
+  #      - TZ=${TZ}
+  #      - include_type_name=true
+  #      - bootstrap.memory_lock=true
+  #      - xpack.security.enabled=false
+  #      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
+  #      - http.host=0.0.0.0
+  #      - transport.host=127.0.0.1
+  #      - discovery.type:single-node
+  #    ulimits:
+  #      memlock:
+  #        soft: -1
+  #        hard: -1
+  #    depends_on:
+  #      db:
+  #        condition: service_healthy
+  #    entrypoint: 'docker-entrypoint.sh'
+  #    volumes:
+  #      - elastic_data:/usr/share/elasticsearch/data
+
+  opensearch:
+    container_name: ${NAMESPACE}_opensearch
+    image: markoshust/magento-opensearch:${OPENSEARCH_VERSION}
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    env_file: .docker/opensearch/.env
     environment:
-      - TZ=${TZ}
-      - include_type_name=true
-      - bootstrap.memory_lock=true
-      - xpack.security.enabled=false
-      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
-      - http.host=0.0.0.0
-      - transport.host=127.0.0.1
-      - discovery.type:single-node
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    depends_on:
-      db:
-        condition: service_healthy
-    entrypoint: 'docker-entrypoint.sh'
-    volumes:
-      - elastic_data:/usr/share/elasticsearch/data
+      - "discovery.type=single-node"
+      - "cluster.routing.allocation.disk.threshold_enabled=false"
+      - "index.blocks.read_only_allow_delete"
 
   db:
     container_name: ${NAMESPACE}_db
@@ -127,25 +137,25 @@ services:
       - redis_socket:/run/redis/
       - ./.docker/redis/config/redis.conf:/etc/redis/redis.conf:ro
 
-  #  rabbitmq:
-  #    container_name: ${NAMESPACE}_rabbitmq
-  #    image: rabbitmq:${RABBITMQ_VERSION}
-  #    environment:
-  #      RABBITMQ_DEFAULT_USER: admin
-  #      RABBITMQ_DEFAULT_PASS: admin2017
-  #    ports:
-  #      - "15672:15672"
-  #      - "5672:5672"
-  #    volumes:
-  #      - rabbitmq_data:/var/lib/rabbitmq
+#  rabbitmq:
+#    container_name: ${NAMESPACE}_rabbitmq
+#    image: rabbitmq:${RABBITMQ_VERSION}
+#    environment:
+#      RABBITMQ_DEFAULT_USER: admin
+#      RABBITMQ_DEFAULT_PASS: admin2017
+#    ports:
+#      - "15672:15672"
+#      - "5672:5672"
+#    volumes:
+#      - rabbitmq_data:/var/lib/rabbitmq
 
-  mailhog:
-    container_name: ${NAMESPACE}_mailhog
-    image: mailhog/mailhog:${MAILHOG_VERSION}
-    environment:
-      TZ: ${TZ}
-    ports:
-      - ${MAILHOG_EXTERNAL_PORT}:8025
+#  mailhog:
+#    container_name: ${NAMESPACE}_mailhog
+#    image: mailhog/mailhog:${MAILHOG_VERSION}
+#    environment:
+#      TZ: ${TZ}
+#    ports:
+#      - ${MAILHOG_EXTERNAL_PORT}:8025
 
 #  watchtower:
 #    container_name: ${NAMESPACE}_watchtower

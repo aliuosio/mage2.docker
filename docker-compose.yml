@@ -19,7 +19,7 @@ services:
         aliases:
           - ${SHOPURI}
     volumes:
-      - ../magento:/var/www/html:delegated
+      - ../magento:${WORKDIR_SERVER}:delegated
       - .docker/nginx/ssl:/etc/nginx/ssl:ro
       - .docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
       - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
@@ -49,18 +49,17 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - ../magento:/var/www/html:delegated
-      - ../.composer:/home/www-data/.composer:delegated
-      - ${HOME}/.ssh:/home/www-data/.ssh:delegated
+      - ../magento:${WORKDIR_SERVER}:delegated
+      - ~/.composer:/home/www-data/.composer:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
   elasticsearch:
-#    build:
-#      context: ./.docker/elasticsearch
-#      args:
-#        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+    build:
+      context: ./.docker/elasticsearch
+      args:
+        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
     container_name: ${NAMESPACE}_elasticsearch
     image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
     environment:
@@ -80,6 +79,18 @@ services:
       db:
         condition: service_healthy
     entrypoint: 'docker-entrypoint.sh'
+
+#  opensearch:
+#    container_name: ${NAMESPACE}_opensearch
+#    image: markoshust/magento-opensearch:${OPENSEARCH_VERSION}
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#    env_file: .docker/opensearch/.env
+#    environment:
+#      - "discovery.type=single-node"
+#      - "cluster.routing.allocation.disk.threshold_enabled=false"
+#      - "index.blocks.read_only_allow_delete"
 
   db:
     container_name: ${NAMESPACE}_db

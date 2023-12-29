@@ -192,3 +192,9 @@ volumes:
     external: true
   composer_cache:
     external: true
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16

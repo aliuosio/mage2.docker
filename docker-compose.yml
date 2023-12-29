@@ -198,3 +198,9 @@ volumes:
       type: none
       o: bind
       device: ${HOME}/.composer
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16

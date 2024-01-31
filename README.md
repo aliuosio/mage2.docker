@@ -1,5 +1,5 @@
 ## Magento 2 installer on OSX/Linux Docker stack 
-### One Stack for all Projects
+### One Stack for all Projects by adjusting .env file
 **Docker containers: Nginx, PHP, Opensearch, MariaDB, Redis, Mailhog, Watchtower**
 using sockets instead of TCP/IP for redis sessions, MySQL and PHP
 > RabbitMQ, MailHog, Watchtower and Varnish are commented out of the docker-compose.yml

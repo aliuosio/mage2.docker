@@ -2,7 +2,7 @@
 ### One Stack for all Projects
 **Docker containers: Nginx, PHP, Opensearch, MariaDB, Redis, Mailhog, Watchtower**
 using sockets instead of TCP/IP for redis sessions, MySQL and PHP
-> rabbitmq, mailhog, Watchtower and Varnish are commented out of the docker-compose.yml
+> RabbitMQ, MailHog, Watchtower and Varnish are commented out of the docker-compose.yml
 ### Get Source
 
     git clone https://github.com/aliuosio/mage2.docker.git

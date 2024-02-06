@@ -5,7 +5,7 @@ LABEL maintainer="Osiozekhai Aliu"
 ENV USER=www-data
 ENV GROUP=www-data
 ENV ACPU_VERSION=5.1.23
-ENV XDEBUG_VERSION=3.3.1
+ENV XDEBUG_VERSION=2.9.8
 ENV FIXUID_VERSION=0.6.0
 
 RUN apk update && apk upgrade
@@ -21,8 +21,8 @@ RUN apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjp
     && docker-php-ext-install gd bcmath intl gettext pdo_mysql opcache soap sockets xsl zip
 
 RUN pecl channel-update pecl.php.net \
-    && pecl install -o -f redis apcu-$ACPU_VERSION xdebug-$XDEBUG_VERSION \
-    && docker-php-ext-enable redis apcu xdebug \
+    && pecl install -o -f redis xdebug-$XDEBUG_VERSION \
+    && docker-php-ext-enable redis xdebug \
     && rm -rf /var/cache/apk/* \
     && docker-php-source delete \
     && rm -rf /tmp/pear
@@ -39,6 +39,13 @@ COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 RUN curl https://files.magerun.net/n98-magerun2.phar --output /usr/local/bin/magerun2 \
     && chmod +x /usr/local/bin/* \
     && mkdir -p /var/run/php/ && chown $USER:$GROUP /var/run/php
+
+RUN cd /tmp \
+	&& curl -o ioncube.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+    && tar -xvvzf ioncube.tar.gz \
+    && mv ioncube/ioncube_loader_lin_7.0.so /usr/local/lib/php/extensions/* \
+    && rm -Rf ioncube.tar.gz ioncube \
+    &&  echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name ioncube_loader_lin_7.0.so)"  > /usr/local/etc/php/conf.d/00_ioncube_loader.ini
 
 RUN apk add npm
 USER $USER:$GROUP

@@ -358,8 +358,8 @@ magentoConfig() {
 }
 
 magentoPreInstall() {
-  commands="composer create-project --repository-url=https://mirror.mage-os.org/ magento/project-community-edition:${MAGENTO_VERSION} ."
-  #commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
+  # commands="composer create-project --repository-url=https://mirror.mage-os.org/ magento/project-community-edition:${MAGENTO_VERSION} ."
+  commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
   runCommand "$phpContainer '$commands'"
 }
 
@@ -370,8 +370,9 @@ magentoInstall() {
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
   --search-engine=opensearch --opensearch-host=opensearch --opensearch-port=9200 --opensearch-index-prefix=magento2 --opensearch-timeout=15 \
   --page-cache=redis --page-cache-redis-server=/run/redis/redis.sock  --page-cache-redis-db=0 \
-  --cache-backend=redis --cache-backend-redis-server=/run/redis/redis.sock  --cache-backend-redis-db=1 \
-  --session-save=redis --session-save-redis-host=/run/redis/redis.sock --session-save-redis-persistent-id=sess-db2 --session-save-redis-db=2 \
+  --cache-backend=redis --cache-backend-redis-server=/run/redis/redis.sock --cache-backend-redis-db=1 \
+  --session-save=redis --session-save-redis-host=/run/redis/redis.sock \
+  --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1 \
   --timezone=Europe/Berlin --currency=EUR \
   --cleanup-database"
 

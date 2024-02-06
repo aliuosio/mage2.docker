@@ -40,14 +40,9 @@ See `.docker-sync/daemon.log` for progress
     
     docker exec -it mage2_php bash
     
-### Elasticsearch Usage
+### Opensearch Usage
 
 ** Configured automatically with install **
-
-In Magento 2 Backend `stores` -`Configuration` -`Catalog` -`Catalog` -`Tab: Catalog Search`
-    
-    Search Engine: Elasticsearch 7.0+
-    Elasticsearch Server Hostname: elasticsearch
     
 You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
 On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1

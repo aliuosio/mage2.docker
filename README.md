@@ -71,6 +71,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Xdebug as configurable option (xdebug.idekey=PHPSTORM)
 
 ### Todos
+* add cache warmer
 * move back to http and use varnish as cache
 * fix `bin/install config`
 * fix SSL in node container

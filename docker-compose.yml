@@ -97,6 +97,8 @@ services:
       - "discovery.type=single-node"
       - "cluster.routing.allocation.disk.threshold_enabled=false"
       - "index.blocks.read_only_allow_delete"
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
 
   db:
     container_name: ${NAMESPACE}_db
@@ -202,6 +204,7 @@ services:
 #      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
 
 volumes:
+  opensearch_data:
   redis_socket_cache:
   redis_socket_session:
   db_socket:

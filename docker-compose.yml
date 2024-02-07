@@ -50,16 +50,16 @@ services:
     command: [ "php-fpm" ]
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    volumes:
-      - db_socket:/var/run/mysqld
-      - redis_socket_cache:/run/redis/
-      - redis_socket_session:/run/redis/
-      - app_data:${WORKDIR_SERVER}:delegated
-      - composer_cache:/home/www-data/.composer:delegated
-      - ${HOME}/.ssh:/home/www-data/.ssh:delegated
-      - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
-      - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
-      - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
+#    volumes:
+#      - db_socket:/var/run/mysqld
+#      - redis_socket_cache:/run/redis/
+#      - redis_socket_session:/run/redis/
+#      - app_data:${WORKDIR_SERVER}:delegated
+#      - composer_cache:/home/www-data/.composer:delegated
+#      - ${HOME}/.ssh:/home/www-data/.ssh:delegated
+#      - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
+#      - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
+#      - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
 #  elasticsearch:
 #    build:

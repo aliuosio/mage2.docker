@@ -50,16 +50,16 @@ services:
     command: [ "php-fpm" ]
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    volumes:
-      - db_socket:/var/run/mysqld
-      - redis_socket_cache:/run/redis/
-      - redis_socket_session:/run/redis/
-      - app_data:${WORKDIR_SERVER}:delegated
-      - composer_cache:/home/www-data/.composer:delegated
-      - ${HOME}/.ssh:/home/www-data/.ssh:delegated
-      - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
-      - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
-      - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
+  #    volumes:
+  #      - db_socket:/var/run/mysqld
+  #      - redis_socket_cache:/run/redis/
+  #      - redis_socket_session:/run/redis/
+  #      - app_data:${WORKDIR_SERVER}:delegated
+  #      - composer_cache:/home/www-data/.composer:delegated
+  #      - ${HOME}/.ssh:/home/www-data/.ssh:delegated
+  #      - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
+  #      - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
+  #      - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
   #  elasticsearch:
   #    build:
@@ -86,17 +86,17 @@ services:
   #        condition: service_healthy
   #    entrypoint: 'docker-entrypoint.sh'
 
-  opensearch:
-    container_name: ${NAMESPACE}_opensearch
-    image: markoshust/magento-opensearch:${OPENSEARCH_VERSION}
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    env_file: .docker/opensearch/.env
-    environment:
-      - "discovery.type=single-node"
-      - "cluster.routing.allocation.disk.threshold_enabled=false"
-      - "index.blocks.read_only_allow_delete"
+  #  opensearch:
+  #    container_name: ${NAMESPACE}_opensearch
+  #    image: markoshust/magento-opensearch:${OPENSEARCH_VERSION}
+  #    ports:
+  #      - "9200:9200"
+  #      - "9300:9300"
+  #    env_file: .docker/opensearch/.env
+  #    environment:
+  #      - "discovery.type=single-node"
+  #      - "cluster.routing.allocation.disk.threshold_enabled=false"
+  #      - "index.blocks.read_only_allow_delete"
 
   db:
     container_name: ${NAMESPACE}_db
@@ -202,6 +202,7 @@ services:
 #      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
 
 volumes:
+  opensearch_data:
   redis_socket_cache:
   redis_socket_session:
   db_socket:

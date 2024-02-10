@@ -41,5 +41,5 @@ RUN cd /tmp \
     && rm -Rf ioncube.tar.gz ioncube \
     &&  echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name ioncube_loader_lin_7.0.so)"  > /usr/local/etc/php/conf.d/00_ioncube_loader.ini
 
-RUN apk add npm
+# RUN apk add npm
 USER $USER:$GROUP

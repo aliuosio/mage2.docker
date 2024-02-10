@@ -146,13 +146,13 @@ services:
     volumes:
       - opensearch_data:/usr/share/opensearch/data
 
-#  mailhog:
-#    container_name: ${NAMESPACE}_mailhog
-#    image: mailhog/mailhog:${MAILHOG_VERSION}
-#    environment:
-#      TZ: ${TZ}
-#    ports:
-#      - ${MAILHOG_EXTERNAL_PORT}:8025
+  mailhog:
+    container_name: ${NAMESPACE}_mailhog
+    image: mailhog/mailhog:${MAILHOG_VERSION}
+    environment:
+      TZ: ${TZ}
+    ports:
+      - ${MAILHOG_EXTERNAL_PORT}:8025
 
 #  elasticsearch:
 #    build:

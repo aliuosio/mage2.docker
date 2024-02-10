@@ -371,8 +371,11 @@ magentoConfig() {
   bin/magento config:set system/full_page_cache/caching_application 2 && \
   bin/magento config:set system/full_page_cache/varnish/access_list localhost && \
   bin/magento config:set system/full_page_cache/varnish/backend_host localhost && \
-  bin/magento config:set system/full_page_cache/varnish/backend_port 8080 && \
   bin/magento config:set system/full_page_cache/varnish/grace_period 300 && \
+  bin/magento config:set system/smtp/disable 0 && \
+  bin/magento config:set system/smtp/transport smtp && \
+  bin/magento config:set system/smtp/host mailhog && \
+  bin/magento config:set system/smtp/port 1025 && \
   bin/magento config:set dev/grid/async_indexing 1 && \
   bin/magento config:set web/seo/use_rewrites 0 && \
   bin/magento deploy:mode:set -s $DEPLOY_MODE"

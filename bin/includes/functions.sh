@@ -358,6 +358,7 @@ magentoInstall() {
 magentoConfig() {
   commands="bin/magento config:set web/secure/use_in_frontend 0 && \
   bin/magento config:set web/secure/use_in_adminhtml 0 && \
+  bin/magento config:set dev/caching/cache_user_defined_attributes 1 && \
   bin/magento config:set catalog/search/enable_eav_indexer 1 && \
   bin/magento config:set dev/template/minify_html 1 && \
   bin/magento config:set dev/js/merge_files 1 && \
@@ -366,6 +367,12 @@ magentoConfig() {
   bin/magento config:set dev/js/move_script_to_bottom 1 && \
   bin/magento config:set dev/css/merge_css_files 1 && \
   bin/magento config:set dev/css/minify_files 1 && \
+  bin/magento config:set dev/grid/async_indexing 1 && \
+  bin/magento config:set system/full_page_cache/caching_application 2 && \
+  bin/magento config:set system/full_page_cache/varnish/access_list localhost && \
+  bin/magento config:set system/full_page_cache/varnish/backend_host localhost && \
+  bin/magento config:set system/full_page_cache/varnish/backend_port 8080 && \
+  bin/magento config:set system/full_page_cache/varnish/grace_period 300 && \
   bin/magento config:set dev/grid/async_indexing 1 && \
   bin/magento config:set web/seo/use_rewrites 0 && \
   bin/magento deploy:mode:set -s $DEPLOY_MODE"

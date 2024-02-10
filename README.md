@@ -19,12 +19,12 @@ using sockets instead of TCP/IP for redis sessions, MySQL and PHP
 > use .env to change values after installation and activate on restart of containers 
 
 ### Backend
-    https://localhost/admin
+    http://localhost/admin
     User: mage2_admin
     Password: mage2_admin123#T
     
 ### Frontend
-    https://localhost
+    http://localhost
 
 OSX: on first run very slow due to docker-sync update of local shop files volume in the background. 
 See `.docker-sync/daemon.log` for progress
@@ -66,41 +66,10 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 * Xdebug as configurable option (xdebug.idekey=PHPSTORM)
 
 ### Todos
+* configure mailhog with `bin/install`
 * add cache warmer
-* move back to http and use varnish as cache
 * fix `bin/install config`
-* fix SSL in node container
-* switch between Mage-os and Magento 2 in config
-* ~~compatibility Magento 2.4.5~~
-* add Magento version choice to `bin/install config` prompt
-* fix `bin/install config` WORKDIR config
-* add domain to `etc/hosts` option for interactive config in `bin/install`
-* create backup of `.env` after `bin/install` usage
-* refactor docker-compose.osx.yml
-* Exchange `docker-sync` with `Mutagen`
 * reduce the number of volumes
-* Docker letsencrypt certification Container
-* add downloader script to clone and install App
-* make Webserver(Apache or Nginx) configurable in `bin/install` and `docker-entrypoint`
-* rename config_blueprints to config and move config files to .docker/config
-* simplify letsencrypt certificate embedding in nginx container
-* Nginx Header Config passes at https://securityheaders.com/
-* ~~set permissons between host node container~~
-* ~~set german locale, curreny, timezone~~
-* ~~fix redis socket support~~
-* ~~add PHP 8 to Dockerfile~~
-* ~~add magento 2 cronjob~~
-* ~~add DB Import progress bar~~
-* ~~add Healtchecks to docker-compose~~
-* ~~modify installer to use config flag instead of flag kickit~~
-* ~~build own ElasticSearch Image with required Plugins for Magento 2~~
-* ~~fix OSX Installer~~
-* ~~change PHP container OS from debian to alpine~~
-* ~~set Time and Zone according to host~~
-* ~~map local user to php container www-data user~~ thanks to [fixuid](https://github.com/boxboat/fixuid)
-* ~~add DB Import functions and logs~~
-* ~~modify for running Magento 2 project~~
-* ~~exchange MySQL with MariaDB as soon as Magento 2 Installer fixes Mariadb container again~~
 
 #### Support
 If you encounter any problems or bugs, please create an issue on [GitHub](https://github.com/aliuosio/mage2.docker/issues).

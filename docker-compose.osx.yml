@@ -2,21 +2,21 @@ version: '3.8'
 
 services:
 
-  #  varnish:
-  #    container_name: ${NAMESPACE}_varnish
-  #    image: varnish:${VARNISH_VERSION}
-  #    environment:
-  #      - TZ=${TZ}
-  #      - VARNISH_SIZE=1G
-  #    tmpfs:
-  #      - /var/lib/varnish:exec
-  #    command: "-p default_keep=300"
-  #    depends_on:
-  #      - nginx
-  #    ports:
-  #      - "80:80"
-  #    volumes:
-  #      - .docker/varnish/config/default.vcl:/etc/varnish/default.vcl
+  varnish:
+    container_name: ${NAMESPACE}_varnish
+    image: varnish:${VARNISH_VERSION}
+    environment:
+      - TZ=${TZ}
+      - VARNISH_SIZE=1G
+    tmpfs:
+      - /var/lib/varnish:exec
+    command: "-p default_keep=300"
+    depends_on:
+      - nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .docker/varnish/default.vcl:/etc/varnish/default.vcl
 
   nginx:
     container_name: ${NAMESPACE}_nginx
@@ -24,7 +24,7 @@ services:
     depends_on:
       - php
     ports:
-      - "80:80"
+      - "8080:8080"
     environment:
       SHOPURI: ${SHOPURI}
       TZ: ${TZ}
@@ -143,6 +143,8 @@ services:
       - "discovery.type=single-node"
       - "cluster.routing.allocation.disk.threshold_enabled=false"
       - "index.blocks.read_only_allow_delete"
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
 
 #  mailhog:
 #    container_name: ${NAMESPACE}_mailhog

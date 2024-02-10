@@ -366,6 +366,7 @@ magentoConfig() {
   bin/magento config:set dev/js/move_script_to_bottom 1 && \
   bin/magento config:set dev/css/merge_css_files 1 && \
   bin/magento config:set dev/css/minify_files 1 && \
+  bin/magento config:set dev/grid/async_indexing 1 && \
   bin/magento config:set web/seo/use_rewrites 0 && \
   bin/magento deploy:mode:set -s $DEPLOY_MODE"
 

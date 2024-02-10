@@ -225,7 +225,7 @@ showSuccess() {
   if [ -n "$2" ]; then
     message "Backend:\
 
-https://$1/admin\
+http://$1/admin\
 
 User: <Backend Users from Your DB Dump>\
 
@@ -234,11 +234,11 @@ Password: <Backend Users Passwords from Your DB Dump>\
 
 Frontend:\
 
-https://$1"
+http://$1"
   else
     message "Backend:\
 
-https://$1/admin\
+http://$1/admin\
 
 User: mage2_admin\
 
@@ -247,7 +247,7 @@ Password: mage2_admin123#T\
 
 Frontend:\
 
-https://$1"
+http://$1"
   fi
 
 }
@@ -340,42 +340,40 @@ magentoConfigImport() {
   runCommand "$phpContainer '$commands'"
 }
 
+magentoInstall() {
+  commands="bin/magento setup:install --base-url=http://$SHOPURI/ \
+  --db-host=/var/run/mysqld/mysqld.sock --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
+  --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
+  --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
+  --search-engine=opensearch --opensearch-host=opensearch --opensearch-port=9200 --opensearch-index-prefix=$SHOPURI --opensearch-timeout=15 \
+  --session-save=redis --session-save-redis-host=redis_session --session-save-redis-persistent-id=sess-db0 --session-save-redis-db=1 \
+  --cache-backend=redis --cache-backend-redis-server=redis_cache --cache-backend-redis-db=0 \
+  --page-cache=redis --page-cache-redis-server=redis_cache --page-cache-redis-db=1 \
+  --timezone=Europe/Berlin --currency=EUR \
+  --cleanup-database"
+
+  runCommand "$phpContainer '$commands'"
+}
+
 magentoConfig() {
-  commands="bin/magento config:set web/secure/use_in_frontend 1 && \
-  bin/magento config:set web/secure/use_in_adminhtml 1 && \
+  commands="bin/magento config:set web/secure/use_in_frontend 0 && \
+  bin/magento config:set web/secure/use_in_adminhtml 0 && \
   bin/magento config:set catalog/search/enable_eav_indexer 1 && \
-  bin/magento config:set dev/template/minify_html 0 && \
-  bin/magento config:set dev/js/merge_files 0 && \
-  bin/magento config:set dev/js/enable_js_bundling 0 && \
-  bin/magento config:set dev/js/minify_files 0 && \
-  bin/magento config:set dev/js/move_script_to_bottom 0 && \
-  bin/magento config:set dev/css/merge_css_files 0 && \
-  bin/magento config:set dev/css/minify_files 0 && \
-  bin/magento config:set web/seo/use_rewrites 1 && \
+  bin/magento config:set dev/template/minify_html 1 && \
+  bin/magento config:set dev/js/merge_files 1 && \
+  bin/magento config:set dev/js/enable_js_bundling 1 && \
+  bin/magento config:set dev/js/minify_files 1 && \
+  bin/magento config:set dev/js/move_script_to_bottom 1 && \
+  bin/magento config:set dev/css/merge_css_files 1 && \
+  bin/magento config:set dev/css/minify_files 1 && \
+  bin/magento config:set web/seo/use_rewrites 0 && \
   bin/magento deploy:mode:set -s $DEPLOY_MODE"
 
   runCommand "$phpContainer '$commands'"
 }
 
 magentoPreInstall() {
-  # commands="composer create-project --repository-url=https://mirror.mage-os.org/ magento/project-community-edition:${MAGENTO_VERSION} ."
   commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
-  runCommand "$phpContainer '$commands'"
-}
-
-magentoInstall() {
-  commands="bin/magento setup:install --base-url-secure=https://$SHOPURI/ --base-url=http://$SHOPURI/ \
-  --db-host=/var/run/mysqld/mysqld.sock --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
-  --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
-  --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
-  --search-engine=opensearch --opensearch-host=opensearch --opensearch-port=9200 --opensearch-index-prefix=magento2 --opensearch-timeout=15 \
-  --page-cache=redis --page-cache-redis-server=/run/redis/redis.sock  --page-cache-redis-db=0 \
-  --cache-backend=redis --cache-backend-redis-server=/run/redis/redis.sock --cache-backend-redis-db=1 \
-  --session-save=redis --session-save-redis-host=/run/redis/redis.sock \
-  --session-save-redis-persistent-id=sess-db1 --session-save-redis-db=1 \
-  --timezone=Europe/Berlin --currency=EUR \
-  --cleanup-database"
-
   runCommand "$phpContainer '$commands'"
 }
 

@@ -16,7 +16,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - .docker/varnish/default.vcl:/etc/varnish/default.vcl
+      - .docker/varnish/default.vcl:/etc/varnish/default.vcl:ro
 
   nginx:
     container_name: ${NAMESPACE}_nginx

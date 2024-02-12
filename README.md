@@ -52,7 +52,7 @@ On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-cou
 > `bin/install` script configures the default magento 2.4.6 mail settings to run with mailhog
 
     Mail Client
-    https://localhost:8025 
+    http://localhost:8025 
 
     
 ### Features

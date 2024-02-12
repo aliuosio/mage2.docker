@@ -39,21 +39,21 @@ services:
       - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
 
   php:
-    build:
-      context: ./.docker/php
-      args:
-        PHP_VERSION_SET: ${PHP_VERSION_SET}
+#    build:
+#      context: ./.docker/php
+#      args:
+#        PHP_VERSION_SET: ${PHP_VERSION_SET}
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}
     sysctls:
       net.core.somaxconn: 65536
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#      redis_session:
-#        condition: service_healthy
-#      redis_cache:
-#        condition: service_healthy
+    depends_on:
+      db:
+        condition: service_healthy
+      redis_session:
+        condition: service_healthy
+      redis_cache:
+        condition: service_healthy
     environment:
       TZ: ${TZ}
       COMPOSER_CACHE_DIR: /home/www-data/.composer
@@ -64,14 +64,14 @@ services:
     command: [ "php-fpm" ]
     extra_hosts:
       - "host.docker.internal:host-gateway"
-#    volumes:
-#      - db_socket:/var/run/mysqld
-#      - app_data:${WORKDIR_SERVER}:delegated
-#      - composer_cache:/home/www-data/.composer:delegated
-#      - ${HOME}/.ssh:/home/www-data/.ssh:delegated
-#      - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
-#      - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
-#      - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
+    volumes:
+      - db_socket:/var/run/mysqld
+      - app_data:${WORKDIR_SERVER}:delegated
+      - composer_cache:/home/www-data/.composer:delegated
+      - ${HOME}/.ssh:/home/www-data/.ssh:delegated
+      - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
+      - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
+      - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
 
   db:
     container_name: ${NAMESPACE}_db

@@ -5,12 +5,10 @@ services:
   varnish:
     container_name: ${NAMESPACE}_varnish
     image: varnish:${VARNISH_VERSION}
-    environment:
-      - TZ=${TZ}
-      - VARNISH_SIZE=2G
     tmpfs:
       - /var/lib/varnish:exec
     command: "-p default_keep=300"
+    env_file: .env
     depends_on:
       - nginx
     ports:
@@ -25,9 +23,7 @@ services:
       - php
     ports:
       - "8080:8080"
-    environment:
-      SHOPURI: ${SHOPURI}
-      TZ: ${TZ}
+    env_file: .env
     command: '/usr/sbin/nginx -g "daemon off; error_log /dev/stderr info;"'
     networks:
       default:
@@ -43,8 +39,14 @@ services:
 #      context: ./.docker/php
 #      args:
 #        PHP_VERSION_SET: ${PHP_VERSION_SET}
+#        ACPU_VERSION: $ACPU_VERSION
+#        XDEBUG_VERSION: $XDEBUG_VERSION
+#        FIXUID_VERSION: $FIXUID_VERSION
+#        USER_PHP: $USER_PHP
+#        GROUP_PHP: $GROUP_PHP
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}
+    env_file: .env
     sysctls:
       net.core.somaxconn: 65536
     depends_on:
@@ -54,10 +56,6 @@ services:
         condition: service_healthy
       redis_cache:
         condition: service_healthy
-    environment:
-      TZ: ${TZ}
-      COMPOSER_CACHE_DIR: /home/www-data/.composer
-      PHP_IDE_CONFIG: "serverName=localhost"
     user: ${UID_GID}
     restart: on-failure
     entrypoint: [ "fixuid","docker-php-entrypoint" ]
@@ -68,7 +66,6 @@ services:
       - db_socket:/var/run/mysqld
       - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www-data/.composer:delegated
-      - ${HOME}/.ssh:/home/www-data/.ssh:delegated
       - .docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - .docker/php/config/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini:ro
       - .docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
@@ -76,12 +73,7 @@ services:
   db:
     container_name: ${NAMESPACE}_db
     image: mariadb:${MARIADB_VERSION}
-    environment:
-      TZ: ${TZ}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    env_file: .env
     ports:
       - ${MYSQL_PORT}:3306
     healthcheck:
@@ -98,12 +90,11 @@ services:
   redis_session:
     container_name: ${NAMESPACE}_redis_session
     image: redis:${REDIS_VERSION}
+    env_file: .env
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
     command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
-    environment:
-      TZ: ${TZ}
     healthcheck:
       test: 'redis-cli ping || exit 1'
       interval: 30s
@@ -119,9 +110,8 @@ services:
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
+    env_file: .env
     command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
-    environment:
-      TZ: ${TZ}
     healthcheck:
       test: 'redis-cli ping || exit 1'
       interval: 30s
@@ -137,9 +127,8 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
-    env_file: .docker/opensearch/.env
+    env_file: .env
     environment:
-      - "TZ: ${TZ}"
       - "discovery.type=single-node"
       - "cluster.routing.allocation.disk.threshold_enabled=false"
       - "index.blocks.read_only_allow_delete"
@@ -149,8 +138,7 @@ services:
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:${MAILHOG_VERSION}
-    environment:
-      TZ: ${TZ}
+    env_file: .env
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 

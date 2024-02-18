@@ -2,28 +2,7 @@
 
 set -e
 
-MAGENTO_VERSION=2.4.6-p3
 
-WORKDIR=/var/www/html
-PHP_USER=www-data
-SHOPURI=localhost
-DEPLOY_MODE=default
-GIT_URL=
-DB_DUMP=
-TZ=Europe/Berlin
-
-MYSQL_DATABASE=mage2
-MYSQL_PASSWORD=mage2
-MYSQL_ROOT_PASSWORD=mage2
-
-ADMIN_NAME=admin
-ADMIN_SURNAME=admin
-ADMIN_USER=mage2_admin
-ADMIN_PASS=mage2_admin123#T
-ADMIN_EMAIL=admin@admin.de
-
-SAMPLE_DATA=true
-UID_GID=1000:1000
 
 
 message() {

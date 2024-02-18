@@ -2,11 +2,11 @@ ARG PHP_VERSION_SET
 FROM php:${PHP_VERSION_SET}
 LABEL maintainer="Osiozekhai Aliu"
 
-ENV USER=www-data
-ENV GROUP=www-data
-ENV ACPU_VERSION=5.1.23
-ENV XDEBUG_VERSION=3.3.1
-ENV FIXUID_VERSION=0.6.0
+ARG USER_PHP
+ARG GROUP_PHP
+ARG ACPU_VERSION
+ARG XDEBUG_VERSION
+ARG FIXUID_VERSION
 
 RUN apk update && apk upgrade \
     && apk add --update linux-headers \
@@ -28,13 +28,13 @@ RUN apk update && apk upgrade \
     && curl -SsL https://github.com/boxboat/fixuid/releases/download/v$FIXUID_VERSION/fixuid-$FIXUID_VERSION-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf - \
     && chmod 4755 /usr/local/bin/fixuid \
     && mkdir -p /etc/fixuid \
-    && printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml \
+    && printf "user: $USER_PHP\ngroup: $GROUP_PHP\n" > /etc/fixuid/config.yml \
     && curl https://files.magerun.net/n98-magerun2.phar --output /usr/local/bin/magerun2 \
-    && mkdir -p /var/run/php/ && chown $USER:$GROUP /var/run/php
+    && mkdir -p /var/run/php/ && chown $USER_PHP:$GROUP_PHP /var/run/php
 
 COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 COPY scripts/* /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/*
 
-USER $USER:$GROUP
+USER $USER_PHP:$GROUP_PHP

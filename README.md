@@ -1,7 +1,7 @@
 ## Docker stack with Magento 2 latest installer 
 ### One Stack for all Projects by adjusting .env file
 **Docker containers: Varnish, Nginx, PHP, Opensearch, MariaDB, Redis, Mailhog, RabbitMQ, Watchtower**
-using sockets instead of TCP/IP for redis sessions, MySQL and PHP
+using sockets instead of TCP/IP for redis sessions and MySQL
 > RabbitMQ, MailHog, Watchtower are commented out of the docker-compose.yml
 ### Get Source
 

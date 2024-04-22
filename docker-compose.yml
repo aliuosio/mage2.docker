@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   varnish:
@@ -142,31 +140,6 @@ services:
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
-#  elasticsearch:
-#    build:
-#      context: ./.docker/elasticsearch
-#      args:
-#        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
-#    container_name: ${NAMESPACE}_elasticsearch
-#    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
-#    environment:
-#      - TZ=${TZ}
-#      - include_type_name=true
-#      - bootstrap.memory_lock=true
-#      - xpack.security.enabled=false
-#      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
-#      - http.host=0.0.0.0
-#      - transport.host=127.0.0.1
-#      - discovery.type:single-node
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#    depends_on:
-#      db:
-#        condition: service_healthy
-
-#    entrypoint: 'docker-entrypoint.sh'
 #  rabbitmq:
 #    container_name: ${NAMESPACE}_rabbitmq
 #    image: rabbitmq:${RABBITMQ_VERSION}
@@ -177,7 +150,6 @@ services:
 #      - "15672:15672"
 #      - "5672:5672"
 #    volumes:
-
 #      - rabbitmq_data:/var/lib/rabbitmq
 
 #  watchtower:
@@ -190,6 +162,7 @@ services:
 #    command: --interval 3600
 
 volumes:
+  # rabbitmq_data:
   opensearch_data:
   redis_socket_cache:
   redis_socket_session:

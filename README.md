@@ -27,9 +27,6 @@ using sockets instead of TCP/IP for redis sessions and MySQL
     
 ### Frontend
     http://localhost
-
-OSX: on first run very slow due to docker-sync update of local shop files volume in the background. 
-See `.docker-sync/daemon.log` for progress
     
 ### next startup after reboot of Host
     bin/start
@@ -42,13 +39,6 @@ See `.docker-sync/daemon.log` for progress
     
     docker exec -it mage2_php bash
     
-### Opensearch Usage
-
-** Configured automatically with install **
-    
-You **MUST** set `sysctl -w vm.max_map_count=262144` on the docker host system or the elasticsearch container goes down
-On OSX see link: https://stackoverflow.com/questions/41192680/update-max-map-count-for-elasticsearch-docker-container-mac-host?rq=1
-
 ### Mailhog Usage
 
 > `bin/install` script configures the default magento 2.4.6 mail settings to run with mailhog

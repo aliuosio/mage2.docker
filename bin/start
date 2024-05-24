@@ -12,3 +12,4 @@ docker compose exec -u root php bin/magento cron:install
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"
 showSuccess "$SHOPURI" "$DUMP"
+setPermissionsContainer

@@ -167,7 +167,7 @@ dockerRefresh() {
                 docker compose -f docker-compose.osx.yml down &&
                 docker compose -f docker-compose.osx.yml up -d"
   else
-    runCommand setHostSettings
+    # runCommand setHostSettings
     runCommand "docker network prune -f && docker compose down && docker compose up -d"
   fi
 }

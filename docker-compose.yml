@@ -6,7 +6,6 @@ services:
     tmpfs:
       - /var/lib/varnish:exec
     command: "-p default_keep=300"
-    env_file: .env
     depends_on:
       - nginx
     ports:
@@ -21,7 +20,6 @@ services:
       - php
     ports:
       - "8080:8080"
-    env_file: .env
     command: '/usr/sbin/nginx -g "daemon off; error_log /dev/stderr info;"'
     networks:
       default:
@@ -44,7 +42,6 @@ services:
 #        GROUP_PHP: $GROUP_PHP
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}
-    env_file: .env
     sysctls:
       net.core.somaxconn: 65536
     depends_on:
@@ -71,7 +68,6 @@ services:
   db:
     container_name: ${NAMESPACE}_db
     image: mariadb:${MARIADB_VERSION}
-    env_file: .env
     ports:
       - ${MYSQL_PORT}:3306
     healthcheck:
@@ -88,7 +84,6 @@ services:
   redis_session:
     container_name: ${NAMESPACE}_redis_session
     image: redis:${REDIS_VERSION}
-    env_file: .env
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
@@ -108,7 +103,6 @@ services:
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
-    env_file: .env
     command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
     healthcheck:
       test: 'redis-cli ping || exit 1'
@@ -125,7 +119,6 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
-    env_file: .env
     environment:
       - "discovery.type=single-node"
       - "cluster.routing.allocation.disk.threshold_enabled=false"
@@ -136,7 +129,6 @@ services:
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:${MAILHOG_VERSION}
-    env_file: .env
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 

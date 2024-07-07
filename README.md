@@ -58,6 +58,7 @@ using sockets instead of TCP/IP for redis sessions and MySQL
 * Xdebug as configurable option (xdebug.idekey=PHPSTORM)
 
 ### Todos
+* setup php image for windows and osx
 * configure mailhog with `bin/install`
 * add cache warmer
 * fix `bin/install config`

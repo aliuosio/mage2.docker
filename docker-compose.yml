@@ -116,6 +116,7 @@ services:
   opensearch:
     container_name: ${NAMESPACE}_opensearch
     image: markoshust/magento-opensearch:${OPENSEARCH_VERSION}
+    env_file: .env
     ports:
       - "9200:9200"
       - "9300:9300"

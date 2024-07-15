@@ -42,6 +42,7 @@ services:
 #        GROUP_PHP: $GROUP_PHP
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}
+    env_file: .env
     sysctls:
       net.core.somaxconn: 65536
     depends_on:

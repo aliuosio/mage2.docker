@@ -68,6 +68,7 @@ services:
   db:
     container_name: ${NAMESPACE}_db
     image: mariadb:${MARIADB_VERSION}
+    env_file: .env
     ports:
       - ${MYSQL_PORT}:3306
     healthcheck:

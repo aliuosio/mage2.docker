@@ -8,6 +8,9 @@ ARG ACPU_VERSION
 ARG XDEBUG_VERSION
 ARG FIXUID_VERSION
 
+COPY ./.docker/php/cwebp-120-linux-x86-64 /usr/local/bin/cwebp
+COPY ./.docker/php/scripts/* /usr/local/bin/
+
 RUN apk update && apk upgrade \
     && apk add --update linux-headers \
     && apk add --virtual build-dependencies libc-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev libwebp-dev curl \
@@ -31,9 +34,6 @@ RUN apk update && apk upgrade \
     && printf "user: $USER_PHP\ngroup: $GROUP_PHP\n" > /etc/fixuid/config.yml \
     && curl https://files.magerun.net/n98-magerun2.phar --output /usr/local/bin/magerun2 \
     && mkdir -p /var/run/php/ && chown $USER_PHP:$GROUP_PHP /var/run/php
-
-COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
-COPY scripts/* /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/*
 

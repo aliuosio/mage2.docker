@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Source the .env file
+if [ -f .env ]; then
+  export $(cat .env | grep -v '#' | awk '/=/ {print $1}')
+fi
+
+# Ensure Docker Buildx is set up
+docker buildx create --use
+docker buildx inspect --bootstrap
+
+# Build and push the PHP service image
+docker buildx build \
+  --file .docker/php/Dockerfile \
+  --build-arg PHP_VERSION_SET="${PHP_VERSION_SET}" \
+  --build-arg USER_PHP="${USER_PHP}" \
+  --build-arg GROUP_PHP="${GROUP_PHP}" \
+  --build-arg ACPU_VERSION="${ACPU_VERSION}" \
+  --build-arg XDEBUG_VERSION="${XDEBUG_VERSION}" \
+  --build-arg FIXUID_VERSION="${FIXUID_VERSION}" \
+  --platform "${PLATFORMS}" -t "osioaliu/php:${PHP_VERSION_SET}" \
+  --push .

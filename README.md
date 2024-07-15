@@ -1,7 +1,7 @@
 ## Docker stack with Magento 2 latest installer 
 ### One Stack for all Projects by adjusting .env file
 **Docker containers: Varnish, Nginx, PHP, Opensearch, MariaDB, Redis, Mailhog, RabbitMQ, Watchtower**
-using sockets instead of TCP/IP for redis sessions and MySQL
+using sockets with PHP (linux/amd64,linux/arm/v7, linux/arm64) instead of TCP/IP for redis sessions and MySQL
 > RabbitMQ, MailHog, Watchtower are commented out of the docker-compose.yml
 > to run projects parallel you need to add a proxy like Traefik or nginx-proxy
 
@@ -58,7 +58,7 @@ using sockets instead of TCP/IP for redis sessions and MySQL
 * Xdebug as configurable option (xdebug.idekey=PHPSTORM)
 
 ### Todos
-* setup php image for windows and osx
+* ~~setup php image for windows and osx~~
 * configure mailhog with `bin/install`
 * add cache warmer
 * fix `bin/install config`

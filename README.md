@@ -9,6 +9,8 @@ using sockets with PHP (linux/amd64,linux/arm/v7, linux/arm64) instead of TCP/IP
 
     git clone https://github.com/aliuosio/mage2.docker.git
 
+> check for updates with `git fetch && git pull`
+
 ### Installation
  Fresh Installation (latest magento 2 version) or your running project when located in your filesystem
     

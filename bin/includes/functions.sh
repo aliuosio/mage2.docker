@@ -46,11 +46,7 @@ getLogo() {
 }
 
 sedForOs() {
-  if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "sed -i '' 's#$1#$2#' $3"
-  else
     runCommand "sed -i 's#$1#$2#' $3"
-  fi
 }
 
 createFolderHost() {
@@ -111,11 +107,7 @@ rePlaceIn() {
   pattern=".*$2.*"
   replacement="$2=$value"
   envFile="$3"
-  if [[ $(uname -s) == "Darwin" ]]; then
-    sed -i "" "s#$pattern#$replacement#" "$envFile"
-  else
-    sed -i "s#$pattern#$replacement#" "$envFile"
-  fi
+  sed -i "s#$pattern#$replacement#" "$envFile"
 }
 
 prompt() {
@@ -161,15 +153,7 @@ composerOptimzerWithAPCu() {
 }
 
 dockerRefresh() {
-  if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "docker-sync stop &&
-                docker-sync start &&
-                docker compose -f docker-compose.osx.yml down &&
-                docker compose -f docker-compose.osx.yml up -d"
-  else
-    # runCommand setHostSettings
     runCommand "docker network prune -f && docker compose down && docker compose up -d"
-  fi
 }
 
 setHostSettings() {

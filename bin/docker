@@ -2,38 +2,43 @@
 
 set -e
 
-get_latest_release() {
+get_latest_compose_release() {
   curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
     grep '"tag_name":' |                                            # Get tag line
     sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON fbustervalue
 }
 
-# docker
+# docker remove old
 sudo apt-get remove docker docker-engine docker.io containerd runc || true;
+
+# docker essentials
 sudo apt-get update -y;
-sudo apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common;
+sudo apt-get install apt-transport-https ca-certificates curl software-properties-common;
 
-if [[ "$(grep -Ei 'debian' /etc/*release)" ]]; then
-    OS="debian";
-    VERSION="bookworm";
-fi
+if grep -Ei 'debian' /etc/*release > /dev/null; then
+  OS="debian"
+elif grep -Ei 'ubuntu' /etc/*release > /dev/null; then
+  OS="ubuntu"
+elif grep -Ei 'mint' /etc/*release > /dev/null; then
+  OS="linuxmint"
+else
+  echo "Unsupported operating system."
+exit 1
 
-sudo curl -fsSL https://download.docker.com/linux/${OS}/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$OS $VERSION stable"
+# docker repo and key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg;
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/$OS $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null;
+
+# docker install
 sudo apt-get update -y;
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io;
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin;
 
-# docker-compose
-echo "sudo curl -L "https://github.com/docker/compose/releases/download/$(get_latest_release docker/compose)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose";
-sudo curl -L "https://github.com/docker/compose/releases/download/$(get_latest_release docker/compose)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-
+# docker-compose install
+echo "sudo curl -L "https://github.com/docker/compose/releases/download/$(get_latest_compose_release docker/compose)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose";
+sudo curl -L "https://github.com/docker/compose/releases/download/$(get_latest_compose_release docker/compose)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 echo "sudo chmod +x /usr/local/bin/docker-compose";
 sudo chmod +x /usr/local/bin/docker-compose
 
+# docker post config
 sudo usermod -aG docker "${USER}";
 newgrp docker;

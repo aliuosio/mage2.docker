@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+echo "Only for Ubuntu based systems"
 
 get_latest_compose_release() {
   curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
@@ -15,19 +16,9 @@ sudo apt-get remove docker docker-engine docker.io containerd runc || true;
 sudo apt-get update -y;
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common;
 
-if grep -Ei 'debian' /etc/*release > /dev/null; then
-  OS="debian"
-elif grep -Ei 'ubuntu' /etc/*release > /dev/null; then
-  OS="ubuntu"
-elif grep -Ei 'mint' /etc/*release > /dev/null; then
-  OS="linuxmint"
-else
-  echo "Unsupported operating system."
-exit 1
-
 # docker repo and key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg;
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/$OS $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null;
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu noble stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null;
 
 # docker install
 sudo apt-get update -y;

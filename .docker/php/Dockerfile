@@ -1,4 +1,4 @@
-ARG PHP_VERSION_SET
+ARG PHP_VERSION_SET=8.2.22-fpm-alpine3.20
 FROM php:${PHP_VERSION_SET}
 LABEL maintainer="Osiozekhai Aliu"
 

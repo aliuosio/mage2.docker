@@ -10,4 +10,4 @@ createFolderHost
 dockerRefresh
 docker compose exec php php_install
 setPermissionsContainer
-docker compose exec -u root php bin/magento cron:install
+setMagentoCron

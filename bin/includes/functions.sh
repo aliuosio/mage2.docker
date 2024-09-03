@@ -237,8 +237,8 @@ http://$1"
 }
 
 setMagentoCron() {
-  commands="bin/magento cron:install"
-  runCommand "$phpContainerRoot '$commands'"
+  commands="docker compose exec -u root php bin/magento cron:install"
+  runCommand "$commands"
 }
 
 sampleDataInstall() {

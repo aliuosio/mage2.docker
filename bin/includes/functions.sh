@@ -236,11 +236,6 @@ http://$1"
 
 }
 
-setMagentoCron() {
-  commands="bin/magento cron:install"
-  runCommand "$phpContainerRoot '$commands'"
-}
-
 sampleDataInstall() {
   commands="php -d memory_limit=-1 bin/magento sampledata:deploy && bin/magento se:up && bin/magento i:rei && bin/magento c:c;"
   runCommand "$phpContainer '$commands'"
@@ -370,6 +365,16 @@ magentoConfig() {
 magentoPreInstall() {
   commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
   runCommand "$phpContainer '$commands'"
+}
+
+setMagentoCron() {
+  commands="bin/magento cron:install"
+  runCommand "docker compose exec -u root php bash -c '$commands'"
+}
+
+algoliaCron() {
+  commands="echo \"*/5 * * * * /usr/local/bin/php /var/www/html/bin/magento indexer:reindex algolia_queue_runner\" >> /etc/crontabs/root"
+  runCommand "docker compose exec -u root php bash -c '$commands'"
 }
 
 magentoSetup() {

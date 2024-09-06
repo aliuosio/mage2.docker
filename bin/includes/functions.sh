@@ -31,7 +31,7 @@ WORKDIR_SERVER=/var/www/html
 DB_CONNECT="mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE"
 
 phpContainerRoot="docker exec -it -u root ${NAMESPACE}_php bash -lc"
-phpContainer="docker exec -it  -u ${PHP_USER} ${NAMESPACE}_php bash -lc"
+phpContainer="docker exec -it ${NAMESPACE}_php bash -lc"
 dbContainer="docker exec -it ${NAMESPACE}_db bash -lc"
 
 getLogo() {
@@ -368,7 +368,7 @@ magentoPreInstall() {
 }
 
 setMagentoCron() {
-  commands="bin/magento cron:install"
+  commands="cd $WORKDIR_SERVER && [ -f bin/magento ] && bin/magento cron:install || echo 'bin/magento not found'"
   runCommand "$phpContainerRoot '$commands'"
 }
 
@@ -399,4 +399,9 @@ magentoSetup() {
 
   magentoConfigImport
   magentoConfig
+}
+
+install () {
+    commands="php_install"
+    runCommand "$phpContainer '$commands'"
 }

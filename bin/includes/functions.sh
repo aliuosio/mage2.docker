@@ -372,6 +372,11 @@ setMagentoCron() {
   runCommand "$phpContainerRoot '$commands'"
 }
 
+algoliaCron() {
+  commands="echo \"*/5 * * * * /usr/local/bin/php /var/www/html/bin/magento indexer:reindex algolia_queue_runner\" >> /etc/crontabs/root"
+  runCommand "$phpContainerRoot '$commands'"
+}
+
 magentoSetup() {
   if [ -f "$WORKDIR/composer.json" ]; then
     conposerFunctions

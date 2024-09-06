@@ -9,7 +9,6 @@ project_root=$(dirname $(dirname $(realpath "$0" )))
 getLogo
 dockerRefresh
 setMagentoCron
-# algoliaCron
 endAll=$(date +%s)
 message "Setup Time: $((endAll - startAll)) Sec"
 showSuccess "$SHOPURI" "$DUMP"

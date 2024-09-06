@@ -369,12 +369,7 @@ magentoPreInstall() {
 
 setMagentoCron() {
   commands="bin/magento cron:install"
-  runCommand "docker compose exec -u root php bash -c '$commands'"
-}
-
-algoliaCron() {
-  commands="echo \"*/5 * * * * /usr/local/bin/php /var/www/html/bin/magento indexer:reindex algolia_queue_runner\" >> /etc/crontabs/root"
-  runCommand "docker compose exec -u root php bash -c '$commands'"
+  runCommand "$phpContainerRoot '$commands'"
 }
 
 magentoSetup() {

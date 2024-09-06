@@ -9,6 +9,5 @@ project_root=$(dirname $(dirname $(realpath "$0" )))
 createFolderHost
 dockerRefresh
 setMagentoCron
-# algoliaCron
 setPermissionsContainer
 docker compose exec -u root php bin/magento cron:install

@@ -2,30 +2,9 @@
 
 set -e
 
-startAll=$(date +%s)
 . php_functions.sh
 
-getLogo
-
-if [[ $1 == "config" ]]; then
-  message "Press [ENTER] alone to keep the current values"
-  prompt "rePlaceInEnv" "Abolute Path to empty folder(fresh install) or running project (current: $WORKDIR)" "WORKDIR"
-  prompt "rePlaceInEnv" "Git Repo (if work directory has to be cloned) (current: $GIT_URL)" "GIT_URL"
-  prompt "rePlaceInEnv" "Project Name (alphanumeric only) (current: $COMPOSE_PROJECT_NAME)" "COMPOSE_PROJECT_NAME"
-  prompt "rePlaceInEnv" "Set Shop URL (use no http prefix)(current: $SHOPURI)" "SHOPURI"
-  specialPrompt "Use Project DB [d]ump, [s]ample data or [n]one of the above?"
-  prompt "rePlaceInEnv" "Which Composer Version? (current: $COMPOSER_VERSION)" "COMPOSER_VERSION"
-  prompt "rePlaceInEnv" "Which MariaDB Version? (10.4) (current: $MARIADB_VERSION)" "MARIADB_VERSION"
-  prompt "rePlaceInEnv" "Which Elasticsearch Version? (current: $ELASTICSEARCH_VERSION)" "ELASTICSEARCH_VERSION"
-fi
-
-gitUpdate
 magentoSetup
 MagentoTwoFactorAuthDisable
 sampleDataInstallMustInstall
 setMagentoPermissions
-
-endAll=$(date +%s)
-message "Setup Time: $((endAll - startAll)) Sec"
-
-showSuccess "$SHOPURI" "$DUMP"

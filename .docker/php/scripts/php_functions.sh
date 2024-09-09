@@ -2,9 +2,6 @@
 
 set -e
 
-
-
-
 message() {
   echo ""
   echo -e "$1"
@@ -31,129 +28,6 @@ setEnvironment() {
 
 setEnvironment "$1"
 
-getLogo() {
-  echo "                             _____      _            _             "
-  echo "                            / __  \    | |          | |            "
-  echo " _ __ ___   __ _  __ _  ___ \`' / /'  __| | ___   ___| | _____ _ __ "
-  echo "| '_ \` _ \ / _\` |/ _\` |/ _ \  / /   / _\` |/ _ \ / __| |/ / _ \ '__|"
-  echo "| | | | | | (_| | (_| |  __/./ /___| (_| | (_) | (__|   <  __/ |   "
-  echo "|_| |_| |_|\__,_|\__, |\___|\_____(_)__,_|\___/ \___|_|\_\___|_|   "
-  echo "                  __/ |                                            "
-  echo "                 |___/                                             "
-}
-
-sedForOs() {
-  if [[ $(uname -s) == "Darwin" ]]; then
-    runCommand "sed -i '' 's#$1#$2#' $3"
-  else
-    runCommand "sed -i 's#$1#$2#' $3"
-  fi
-}
-
-specialPrompt() {
-  if [[ -n "$1" ]]; then
-    read -rp "$1" RESPONSE
-    if [[ ${RESPONSE} == '' || ${RESPONSE} == 'n' || ${RESPONSE} == 'N' ]]; then
-      rePlaceInEnv "false" "SAMPLE_DATA"
-      rePlaceInEnv "" "DB_DUMP"
-    elif [[ ${RESPONSE} == 's' || ${RESPONSE} == 'S' ]]; then
-      rePlaceInEnv "true" "SAMPLE_DATA"
-      rePlaceInEnv "" "DB_DUMP"
-    elif [[ ${RESPONSE} == 'd' || ${RESPONSE} == 'D' ]]; then
-      rePlaceInEnv "false" "SAMPLE_DATA"
-      prompt "rePlaceInEnv" "Set Absolute Path to Project DB Dump (current: ${DB_DUMP})" "DB_DUMP"
-    fi
-  fi
-}
-
-rePlaceInEnv() {
-  file="./.env"
-  if [[ -n "$1" ]]; then
-    UID_GID="$(id -u "${USER}"):$(id -g "${USER}")"
-    rePlaceIn "$UID_GID" "UID_GID" "$file"
-
-    rePlaceIn "$1" "$2" "./.env"
-    if [[ $2 == "COMPOSE_PROJECT_NAME" ]]; then
-      rePlaceIn "$1" "NAMESPACE" "$file"
-      rePlaceIn "$1" "MYSQL_DATABASE" "$file"
-      rePlaceIn "$1" "MYSQL_USER" "$file"
-    fi
-  fi
-
-  if [[ "$MYSQL_ROOT_PASSWORD" == "" ]]; then
-    # shellcheck disable=SC2046
-    rePlaceIn $(openssl rand -base64 12) "MYSQL_ROOT_PASSWORD" "./.env"
-  fi
-
-  if [[ "$MYSQL_PASSWORD" == "" ]]; then
-    # shellcheck disable=SC2046
-    rePlaceIn $(openssl rand -base64 12) "MYSQL_PASSWORD" "./.env"
-  fi
-}
-
-rePlaceIn() {
-  [[ "$1" == "yes" || "$1" == "y" ]] && value="true" || value=$1
-  pattern=".*$2.*"
-  replacement="$2=$value"
-  envFile="$3"
-  if [[ $(uname -s) == "Darwin" ]]; then
-    sed -i "" "s#$pattern#$replacement#" "$envFile"
-  else
-    sed -i "s#$pattern#$replacement#" "$envFile"
-  fi
-}
-
-prompt() {
-  if [[ -n "$2" ]]; then
-    read -rp "$2" RESPONSE
-    [[ $RESPONSE == '' && $3 == 'WORKDIR' ]] && VALUE=$RESPONSE || VALUE=$RESPONSE
-    # shellcheck disable=SC2091
-    $($1 "${VALUE}" "$3")
-  fi
-}
-
-gitUpdate() {
-  if [ ! -d "$WORKDIR" ] && [ "$GIT_URL" ]; then
-    runCommand "git clone $GIT_URL $WORKDIR"
-    sedForOs "filemode\ =\ true" "filemode\ =\ false" "$WORKDIR/.git/config"
-  else
-    if [ -f "$WORKDIR/.git/config" ]; then
-      runCommand "git -C $WORKDIR fetch -p -a && git pull"
-    fi
-  fi
-}
-
-composerOptimzerWithAPCu() {
-  runCommand "docker exec -u $1 $2 composer dump-autoload -o --apcu"
-}
-
-setHostSettings() {
-  sudo sysctl vm.overcommit_memory=1
-  sudo echo never /sys/kernel/mm/transparent_hugepage/enabled
-  sudo sysctl vm.max_map_count=262144
-  sudo systemctl daemon-reload
-}
-
-removeAll() {
-  if [ -d "$WORKDIR" ]; then
-    commands="rm -rf $WORKDIR/*;"
-    runCommand "$commands"
-  fi
-}
-
-restoreAll() {
-  git checkout "$WORKDIR/*"
-}
-
-magentoRefresh() {
-  commands="bin/magento se:up && bin/magento ca:cl;"
-  runCommand "$commands"
-}
-
-restoreGitIgnoreAfterComposerInstall() {
-  runCommand "git -C $WORKDIR checkout .gitignore"
-}
-
 setMagentoPermissions() {
   commands="find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} + \
   && find var generated vendor pub/static pub/media app/etc -type d -exec chmod u+w {} + \
@@ -162,50 +36,6 @@ setMagentoPermissions() {
   runCommand "$commands"
 }
 
-setPermissionsContainer() {
-  commands="chown -R ${PHP_USER}:${PHP_USER} $WORKDIR \
-  && chown -R ${PHP_USER}:${PHP_USER} /home/${PHP_USER}/.composer"
-
-  runCommand "$commands"
-}
-
-setPermissionsHost() {
-  commands="sudo chown -R ${USER}:${USER} ${WORKDIR} \
-  && sudo chown -R ${USER}:${USER} /home/${USER}/.composer"
-
-  runCommand "$commands"
-}
-
-showSuccess() {
-  if [ -n "$2" ]; then
-    message "Backend:\
-
-http://$1/admin\
-
-User: <Backend Users from Your DB Dump>\
-
-Password: <Backend Users Passwords from Your DB Dump>\
-
-
-Frontend:\
-
-http://$1"
-  else
-    message "Backend:\
-
-http://$1/admin\
-
-User: mage2_admin\
-
-Password: mage2_admin123#T\
-
-
-Frontend:\
-
-http://$1"
-  fi
-
-}
 
 sampleDataInstall() {
   commands="php -d memory_limit=-1 bin/magento sampledata:deploy && bin/magento se:up && bin/magento i:rei && bin/magento c:c;"
@@ -295,7 +125,7 @@ magentoPreInstall() {
 }
 
 magentoSetup() {
-  if [ -f "$WORKDIR/composer.json" ]; then
+  if [ -f "$WORKDIR_SERVER/composer.json" ]; then
     conposerFunctions
   else
     magentoPreInstall

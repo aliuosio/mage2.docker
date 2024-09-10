@@ -31,15 +31,6 @@ services:
       - .docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
 
   php:
-#    build:
-#      context: ./.docker/php
-#      args:
-#        PHP_VERSION_SET: ${PHP_VERSION_SET}
-#        ACPU_VERSION: $ACPU_VERSION
-#        XDEBUG_VERSION: $XDEBUG_VERSION
-#        FIXUID_VERSION: $FIXUID_VERSION
-#        USER_PHP: $USER_PHP
-#        GROUP_PHP: $GROUP_PHP
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}
     env_file: .env

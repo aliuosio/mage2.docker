@@ -2,3 +2,4 @@
 .idea/
 htdocs
 /shop/
+.docker/mysql/db_dumps/*

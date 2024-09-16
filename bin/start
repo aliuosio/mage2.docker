@@ -9,7 +9,6 @@ project_root=$(dirname $(dirname $(realpath "$0" )))
 
 getLogo
 dockerRefresh
-setPermissionsContainer
 setMagentoCron
 showSuccess "$SHOPURI" "$DUMP"
 endAll=$(date +%s)

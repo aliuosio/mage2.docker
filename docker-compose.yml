@@ -72,7 +72,7 @@ services:
       - db_socket:/var/run/mysqld
       - db_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
-      - .docker/mysql/config/my.cnf:/etc/mysql/my.cnf
+      - .docker/mysql/config/my.cnf:/etc/mysql/my.cnf:ro
 
   redis_session:
     container_name: ${NAMESPACE}_redis_session

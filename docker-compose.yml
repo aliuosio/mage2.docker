@@ -7,14 +7,14 @@ services:
       - /var/lib/varnish:exec
     command: "-p default_keep=300"
     depends_on:
-      - nginx
+      - webserver
     ports:
       - "80:80"
     volumes:
       - .docker/varnish/default.vcl:/etc/varnish/default.vcl:ro
 
-  nginx:
-    container_name: ${NAMESPACE}_nginx
+  webserver:
+    container_name: ${NAMESPACE}_webserver
     image: nginx:${NGINX_VERSION}
     depends_on:
       - php

@@ -6,7 +6,7 @@ import std;
 # For SSL offloading, pass the following header in your proxy server or load balancer: 'SSL-OFFLOADED: https'
 
 backend default {
-    .host = "nginx";
+    .host = "webserver";
     .port = "8080";
     .first_byte_timeout = 300s;
     .between_bytes_timeout = 300s;

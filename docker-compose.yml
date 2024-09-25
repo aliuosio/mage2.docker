@@ -24,8 +24,6 @@ services:
           - ${SHOPURI}
     ports:
       - "80:80"
-    command: >
-      sh -c "a2enmod proxy proxy_fcgi rewrite && apache2-foreground"
     volumes:
       - app_data:${WORKDIR_SERVER}:delegated
       - .docker/apache/sites-enabled/site.conf:/etc/apache2/sites-enabled/site.conf:ro

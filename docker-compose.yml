@@ -106,32 +106,19 @@ services:
       - redis_socket_cache:/run/redis/
       - ./.docker/redis/redis.conf:/etc/redis/redis.conf:ro
 
-  elasticsearch:
-    #    build:
-    #      context: ./.docker/elasticsearch
-    #      args:
-    #        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
-    container_name: ${NAMESPACE}_elasticsearch
-    image: osioaliu/elasticsearch:${ELASTICSEARCH_VERSION}
+  opensearch:
+    container_name: ${NAMESPACE}_opensearch
+    image: markoshust/magento-opensearch:${OPENSEARCH_VERSION}
+    env_file: .env
+    ports:
+      - "9200:9200"
+      - "9300:9300"
     environment:
-      - TZ=${TZ}
-      - include_type_name=true
-      - bootstrap.memory_lock=true
-      - xpack.security.enabled=false
-      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
-      - http.host=0.0.0.0
-      - transport.host=127.0.0.1
-      - discovery.type:single-node
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    depends_on:
-      db:
-        condition: service_healthy
-    entrypoint: 'docker-entrypoint.sh'
+      - "discovery.type=single-node"
+      - "cluster.routing.allocation.disk.threshold_enabled=false"
+      - "index.blocks.read_only_allow_delete"
     volumes:
-      - elastic_data:/usr/share/elasticsearch/data
+      - opensearch_data:/usr/share/opensearch/data
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog

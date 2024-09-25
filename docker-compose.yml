@@ -149,7 +149,7 @@ services:
 
 volumes:
   # rabbitmq_data:
-  elastic_data:
+  opensearch_data:
   redis_socket_cache:
   redis_socket_session:
   db_socket:

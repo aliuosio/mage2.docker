@@ -18,5 +18,5 @@ docker buildx build \
   --build-arg ACPU_VERSION="${ACPU_VERSION}" \
   --build-arg XDEBUG_VERSION="${XDEBUG_VERSION}" \
   --build-arg FIXUID_VERSION="${FIXUID_VERSION}" \
-  --platform "${PLATFORMS}" -t "osioaliu/php:${PHP_VERSION_SET}" \
+  --platform "${PLATFORMS}" -t "osioaliu/php.prematic:${PHP_VERSION_SET}" \
   --push .

@@ -32,7 +32,7 @@ services:
 
   php:
     container_name: ${NAMESPACE}_php
-    image: osioaliu/php:${PHP_VERSION_SET}
+    image: osioaliu/php.prematic:${PHP_VERSION_SET}
     env_file: .env
     sysctls:
       net.core.somaxconn: 65536

@@ -1,12 +1,25 @@
 services:
 
+  varnish:
+    container_name: ${NAMESPACE}_varnish
+    image: varnish:${VARNISH_VERSION}
+    tmpfs:
+      - /var/lib/varnish:exec
+    command: "-p default_keep=300"
+    depends_on:
+      - webserver
+    ports:
+      - "80:80"
+    volumes:
+      - .docker/varnish/default.vcl:/etc/varnish/default.vcl:ro
+
   webserver:
     container_name: ${NAMESPACE}_webserver
     image: httpd:${APACHE_VERSION}
     depends_on:
       - php
     ports:
-      - "80:80"
+      - "8080:8080"
     networks:
       default:
         aliases:
@@ -23,11 +36,13 @@ services:
     sysctls:
       net.core.somaxconn: 65536
     depends_on:
-      db:
+      redis_cache:
         condition: service_healthy
       redis_session:
         condition: service_healthy
-      redis_cache:
+      db:
+        condition: service_healthy
+      elasticsearch:
         condition: service_healthy
     user: ${UID_GID}
     restart: on-failure
@@ -108,9 +123,6 @@ services:
       memlock:
         soft: -1
         hard: -1
-    depends_on:
-      db:
-        condition: service_healthy
     healthcheck:
       test: [ "CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1" ]
       interval: 30s

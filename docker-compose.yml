@@ -25,7 +25,6 @@ services:
         aliases:
           - ${SHOPURI}
     volumes:
-      - /var/run/php:/var/run/php
       - app_data:${WORKDIR_SERVER}:delegated
       - .docker/apache/config/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
       - .docker/apache/config/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf:ro
@@ -52,7 +51,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - /var/run/php:/var/run/php
       - db_socket:/var/run/mysqld
       - app_data:${WORKDIR_SERVER}:delegated
       - composer_cache:/home/www-data/.composer:delegated

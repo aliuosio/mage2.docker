@@ -36,8 +36,4 @@ RUN apk update && apk upgrade \
 
 RUN chmod +x /usr/local/bin/*
 
-RUN mkdir -p /var/run/php && \
-    chown -R www-data:www-data /var/run/php && \
-    chmod 0755 /var/run/php
-
 USER $USER_PHP:$GROUP_PHP

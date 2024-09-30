@@ -133,6 +133,15 @@ services:
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025
 
+  watchtower:
+    container_name: ${NAMESPACE}_watchtower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TZ: ${TZ}
+    command: --interval 3600
+
 #  rabbitmq:
 #    container_name: ${NAMESPACE}_rabbitmq
 #    image: rabbitmq:${RABBITMQ_VERSION}
@@ -144,15 +153,6 @@ services:
 #      - "5672:5672"
 #    volumes:
 #      - rabbitmq_data:/var/lib/rabbitmq
-
-#  watchtower:
-#    container_name: ${NAMESPACE}_watchtower
-#    image: containrrr/watchtower
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    environment:
-#      TZ: ${TZ}
-#    command: --interval 3600
 
 volumes:
   # rabbitmq_data:

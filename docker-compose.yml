@@ -63,7 +63,7 @@ services:
       - ${MYSQL_PORT}:3306
     healthcheck:
       test: 'mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD}'
-      interval: 30s
+      interval: 10s
       timeout: 30s
       retries: 3
     volumes:
@@ -97,10 +97,10 @@ services:
         condition: service_healthy
     entrypoint: 'docker-entrypoint.sh'
     healthcheck:
-      test: curl -s http://localhost:9200 >/dev/null || exit 1
-      interval: 30s
+      test: "curl -s -XGET 'http://localhost:9200/_cluster/health' | grep -q '\"status\":\"yellow\"\\|\"status\":\"green\"' || exit 1"
+      interval: 10s
       timeout: 10s
-      retries: 50
+      retries: 5
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 

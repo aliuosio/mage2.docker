@@ -39,9 +39,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      redis_session:
-        condition: service_healthy
-      redis_cache:
+      elasticsearch:
         condition: service_healthy
     user: ${UID_GID}
     restart: on-failure
@@ -74,38 +72,6 @@ services:
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
       - .docker/mysql/config/my.cnf:/etc/mysql/my.cnf:ro
 
-  redis_session:
-    container_name: ${NAMESPACE}_redis_session
-    image: redis:${REDIS_VERSION}
-    sysctls:
-      net.core.somaxconn: '1024'
-    entrypoint: redis-server
-    command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
-    healthcheck:
-      test: 'redis-cli ping || exit 1'
-      interval: 30s
-      timeout: 30s
-      retries: 3
-    volumes:
-      - redis_socket_session:/run/redis/
-      - ./.docker/redis/redis.conf:/etc/redis/redis.conf:ro
-
-  redis_cache:
-    container_name: ${NAMESPACE}_redis_cache
-    image: redis:${REDIS_VERSION}
-    sysctls:
-      net.core.somaxconn: '1024'
-    entrypoint: redis-server
-    command: [ "/etc/redis/redis.conf", "--appendonly", "yes" ]
-    healthcheck:
-      test: 'redis-cli ping || exit 1'
-      interval: 30s
-      timeout: 30s
-      retries: 3
-    volumes:
-      - redis_socket_cache:/run/redis/
-      - ./.docker/redis/redis.conf:/etc/redis/redis.conf:ro
-
   elasticsearch:
     #    build:
     #      context: ./.docker/elasticsearch
@@ -130,6 +96,11 @@ services:
       db:
         condition: service_healthy
     entrypoint: 'docker-entrypoint.sh'
+    healthcheck:
+      test: curl -s http://localhost:9200 >/dev/null || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 50
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 

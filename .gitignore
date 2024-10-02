@@ -3,3 +3,5 @@
 htdocs
 /shop/
 .docker/mysql/db_dumps/*
+.env.*
+!.env.temp

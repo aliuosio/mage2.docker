@@ -397,8 +397,8 @@ magentoSetup() {
     magentoInstall
   fi
 
-  magentoConfigImport
   magentoConfig
+  magentoConfigImport
 }
 
 install () {

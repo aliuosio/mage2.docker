@@ -72,7 +72,7 @@ services:
       - db_socket:/var/run/mysqld
       - db_data:/var/lib/mysql/
       - .docker/mysql/db_dumps:/docker-entrypoint-initdb.d
-      - .docker/mysql/config/my.cnf:/etc/mysql/my.cnf
+      # - .docker/mysql/config/my.cnf:/etc/mysql/my.cnf
 
   redis_session:
     container_name: ${NAMESPACE}_redis_session
@@ -131,7 +131,7 @@ services:
         condition: service_healthy
     entrypoint: 'docker-entrypoint.sh'
     volumes:
-      - opensearch_data:/usr/share/opensearch/data
+      - elastic_data:/usr/share/elasticsearch/data
 
   mailhog:
     container_name: ${NAMESPACE}_mailhog
@@ -162,7 +162,7 @@ services:
 
 volumes:
   # rabbitmq_data:
-  opensearch_data:
+  elastic_data:
   redis_socket_cache:
   redis_socket_session:
   db_socket:

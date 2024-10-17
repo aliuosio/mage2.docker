@@ -125,6 +125,7 @@ services:
     image: mailhog/mailhog:${MAILHOG_VERSION}
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025
+      - "1025:1025"
 
 #  rabbitmq:
 #    container_name: ${NAMESPACE}_rabbitmq

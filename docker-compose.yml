@@ -156,10 +156,7 @@ volumes:
   db_socket:
   db_data:
   app_data:
-    driver_opts:
-      type: none
-      o: bind
-      device: ${WORKDIR}
+    driver: local
   composer_cache:
     driver_opts:
       type: none

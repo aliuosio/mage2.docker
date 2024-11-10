@@ -191,13 +191,6 @@ setMagentoPermissions() {
   runCommand "$phpContainer '$commands'"
 }
 
-setPermissionsContainer() {
-  commands="chown -R ${PHP_USER}:${PHP_USER} $WORKDIR_SERVER \
-  && chown -R ${PHP_USER}:${PHP_USER} /home/${PHP_USER}/.composer"
-
-  runCommand "$phpContainerRoot '$commands'"
-}
-
 setPermissionsHost() {
   commands="sudo chown -R ${USER}:${USER} ${WORKDIR} \
   && sudo chown -R ${USER}:${USER} /home/${USER}/.composer"
@@ -404,4 +397,22 @@ magentoSetup() {
 install () {
     commands="php_install"
     runCommand "$phpContainer '$commands'"
+}
+
+copyHtmlToWorkdir() {
+  docker cp "${NAMESPACE}"_php:/var/www/html/. "$WORKDIR/"
+}
+
+removeVolumeDriverLocal() {
+  if [[ "$(uname)" == "Darwin" ]]; then
+    sed -i '' 's/volume driver: local for app_data/driver_opts:\
+    type: none\
+    o: bind\
+    device: ${WORKDIR}/' "$1"
+  else
+    sed -i 's/driver: local/driver_opts:\
+    type: none\
+    o: bind\
+    device: ${WORKDIR}/' "$1"
+  fi
 }

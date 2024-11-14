@@ -11,7 +11,7 @@ getLogo
 #dockerRefresh
 #install
 #copyHtmlToWorkdir
-removeVolumeDriverLocal
+exchangeComposerVolumeDriver
 dockerRefresh
 setMagentoCron
 showSuccess "$SHOPURI" "$DUMP"

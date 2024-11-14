@@ -402,17 +402,3 @@ install () {
 copyHtmlToWorkdir() {
   docker cp "${NAMESPACE}"_php:/var/www/html/. "$WORKDIR/"
 }
-
-removeVolumeDriverLocal() {
-  if [[ "$(uname)" == "Darwin" ]]; then
-    sed -i '' 's/volume driver: local for app_data/driver_opts:\
-    type: none\
-    o: bind\
-    device: ${WORKDIR}/' "$1"
-  else
-    sed -i 's/driver: local/driver_opts:\
-    type: none\
-    o: bind\
-    device: ${WORKDIR}/' "$1"
-  fi
-}

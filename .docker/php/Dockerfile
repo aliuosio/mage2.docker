@@ -7,7 +7,6 @@ ARG ACPU_VERSION
 ARG XDEBUG_VERSION
 ARG FIXUID_VERSION
 
-COPY ./.docker/php/cwebp-120-linux-x86-64 /usr/local/bin/cwebp
 COPY ./.docker/php/scripts/* /usr/local/bin/
 
 RUN apk update && apk upgrade \

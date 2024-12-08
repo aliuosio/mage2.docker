@@ -32,7 +32,16 @@ services:
 
   php:
     container_name: ${NAMESPACE}_php
-    image: osioaliu/php:${PHP_VERSION_SET}
+    image: osioaliu/php_mageos:${PHP_VERSION_SET}
+    build:
+      context: ./.docker/php
+      args:
+        PHP_VERSION_SET: ${PHP_VERSION_SET}
+        ACPU_VERSION: $ACPU_VERSION
+        XDEBUG_VERSION: $XDEBUG_VERSION
+        FIXUID_VERSION: $FIXUID_VERSION
+        USER_PHP: $USER_PHP
+        GROUP_PHP: $GROUP_PHP
     env_file: .env
     sysctls:
       net.core.somaxconn: 65536

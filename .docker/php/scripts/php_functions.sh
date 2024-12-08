@@ -116,8 +116,9 @@ magentoConfig() {
 }
 
 magentoPreInstall() {
-  commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
-  runCommand "$commands"
+  # commands="composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=${MAGENTO_VERSION} ."
+commands="composer create-project --repository-url=https://repo.mage-os.org/ mage-os/project-community-edition ."  
+runCommand "$commands"
 }
 
 magentoSetup() {

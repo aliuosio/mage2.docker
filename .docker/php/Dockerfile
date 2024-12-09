@@ -7,7 +7,7 @@ ARG ACPU_VERSION
 ARG XDEBUG_VERSION
 ARG FIXUID_VERSION
 
-COPY ./.docker/php/scripts/* /usr/local/bin/
+COPY ./scripts/* /usr/local/bin/
 
 RUN apk update && apk upgrade \
     && apk add --update linux-headers \

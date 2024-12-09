@@ -10,6 +10,5 @@ getLogo
 createFolderHost
 dockerRefresh
 install
-setPermissionsContainer
 setMagentoCron
 showSuccess "$SHOPURI" "$DUMP"

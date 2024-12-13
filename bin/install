@@ -7,11 +7,9 @@ project_root=$(dirname $(dirname $(realpath "$0" )))
 . "$project_root/bin/includes/functions.sh" "$project_root"
 
 getLogo
-#createFolderHost
-#dockerRefresh
-#install
-#copyHtmlToWorkdir
-exchangeComposerVolumeDriver
+createFolderHost
 dockerRefresh
+install
+setPermissionsContainer
 setMagentoCron
 showSuccess "$SHOPURI" "$DUMP"

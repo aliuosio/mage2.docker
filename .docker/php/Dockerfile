@@ -1,4 +1,5 @@
-FROM php:8.3.10-fpm-alpine3.19
+ARG PHP_VERSION_SET
+FROM php:${PHP_VERSION_SET:-8.1.29-fpm-alpine3.19}
 LABEL maintainer="Osiozekhai Aliu"
 
 ARG USER_PHP

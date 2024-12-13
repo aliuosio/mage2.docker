@@ -49,7 +49,7 @@ sampleDataInstallMustInstall() {
 }
 
 MagentoTwoFactorAuthDisable() {
-  commands="bin/magento module:disable -c Magento_TwoFactorAuth"
+  commands="bin/magento module:disable -c Magento_AdminAdobeImsTwoFactorAuth Magento_TwoFactorAuth"
   runCommand "$commands"
 }
 
@@ -81,7 +81,7 @@ magentoInstall() {
   --db-host=/var/run/mysqld/mysqld.sock --db-name=$MYSQL_DATABASE --db-user=root --db-password=$MYSQL_ROOT_PASSWORD \
   --backend-frontname=admin --admin-lastname=$ADMIN_NAME --admin-firstname=$ADMIN_SURNAME --admin-email=$ADMIN_EMAIL \
   --admin-user=$ADMIN_USER --admin-password=$ADMIN_PASS \
-  --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 \
+  --search-engine=opensearch --opensearch-host=opensearch --opensearch-port=9200 --opensearch-index-prefix=$SHOPURI --opensearch-timeout=15 \
   --session-save=redis --session-save-redis-host=redis_session --session-save-redis-persistent-id=sess-db0 --session-save-redis-db=1 \
   --cache-backend=redis --cache-backend-redis-server=redis_cache --cache-backend-redis-db=0 \
   --page-cache=redis --page-cache-redis-server=redis_cache --page-cache-redis-db=1 \
@@ -108,6 +108,10 @@ magentoConfig() {
   bin/magento config:set system/full_page_cache/varnish/access_list localhost && \
   bin/magento config:set system/full_page_cache/varnish/backend_host localhost && \
   bin/magento config:set system/full_page_cache/varnish/grace_period 300 && \
+  bin/magento config:set system/smtp/disable 0 && \
+  bin/magento config:set system/smtp/transport smtp && \
+  bin/magento config:set system/smtp/host mailhog && \
+  bin/magento config:set system/smtp/port 1025 && \
   bin/magento config:set dev/grid/async_indexing 1 && \
   bin/magento config:set web/seo/use_rewrites 0 && \
   bin/magento deploy:mode:set -s $DEPLOY_MODE"

@@ -139,14 +139,14 @@ services:
 #    volumes:
 #      - rabbitmq_data:/var/lib/rabbitmq
 
-#  watchtower:
-#    container_name: ${NAMESPACE}_watchtower
-#    image: containrrr/watchtower
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    environment:
-#      TZ: ${TZ}
-#    command: --interval 3600
+  watchtower:
+    container_name: ${NAMESPACE}_watchtower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TZ: ${TZ}
+    command: --interval 3600
 
 volumes:
   # rabbitmq_data:

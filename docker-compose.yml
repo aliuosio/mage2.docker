@@ -3,6 +3,7 @@ services:
   varnish:
     container_name: ${NAMESPACE}_varnish
     image: varnish:${VARNISH_VERSION}
+    pull_policy: always
     tmpfs:
       - /var/lib/varnish:exec
     command: "-p default_keep=300"
@@ -34,6 +35,7 @@ services:
     container_name: ${NAMESPACE}_php
     image: osioaliu/php:${PHP_VERSION_SET}
     env_file: .env
+    pull_policy: always
     sysctls:
       net.core.somaxconn: 65536
     depends_on:
@@ -61,6 +63,7 @@ services:
     container_name: ${NAMESPACE}_db
     image: mariadb:${MARIADB_VERSION}
     env_file: .env
+    pull_policy: always
     ports:
       - ${MYSQL_PORT}:3306
     healthcheck:
@@ -93,6 +96,7 @@ services:
   redis_cache:
     container_name: ${NAMESPACE}_redis_cache
     image: redis:${REDIS_VERSION}
+    pull_policy: always
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
@@ -109,6 +113,7 @@ services:
   opensearch:
     container_name: ${NAMESPACE}_opensearch
     image: markoshust/magento-opensearch:${OPENSEARCH_VERSION}
+    pull_policy: always
     env_file: .env
     ports:
       - "9200:9200"

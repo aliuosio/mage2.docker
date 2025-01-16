@@ -22,6 +22,7 @@ using sockets with PHP (linux/amd64, linux/arm64) instead of TCP/IP for redis se
     
 > use .env to change values after installation and activate on restart of containers 
 
+
 ### Backend
     http://localhost/admin
     User: mage2_admin

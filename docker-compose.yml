@@ -45,8 +45,6 @@ services:
         condition: service_healthy
       redis_cache:
         condition: service_healthy
-      redis:
-        condition: service_healthy
     user: ${UID_GID}
     restart: on-failure
     entrypoint: [ "fixuid","docker-php-entrypoint" ]

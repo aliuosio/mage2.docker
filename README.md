@@ -48,7 +48,6 @@ using sockets with PHP (linux/amd64, linux/arm64) instead of TCP/IP for redis se
     
 ### Features
 * Fresh Install or use existing magento 2 project on your file system using `bin/install config`
-* alternative **OSX docker-compose** file using docker-sync **for better performance**
 * set project directory to where ever you want (as configurable option in .env)
 * [Mailhog](https://github.com/mailhog/MailHog) container
 * **Extra Composer Packages with Magento 2 Installer**
@@ -72,5 +71,3 @@ Follow the instructions here: https://help.github.com/articles/fork-a-repo/
 
 #### License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://openng.de/source.org/licenses/MIT)
-
-

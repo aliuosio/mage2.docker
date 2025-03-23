@@ -90,6 +90,7 @@ services:
       timeout: 30s
       retries: 3
     volumes:
+      - redis_socket_session:/run/redis/
       - ./.docker/redis/redis.conf:/etc/redis/redis.conf:ro
 
   redis_cache:
@@ -106,6 +107,7 @@ services:
       timeout: 30s
       retries: 3
     volumes:
+      - redis_socket_cache:/run/redis/
       - ./.docker/redis/redis.conf:/etc/redis/redis.conf:ro
 
   opensearch:
@@ -145,6 +147,8 @@ services:
 volumes:
   # rabbitmq_data:
   opensearch_data:
+  redis_socket_cache:
+  redis_socket_session:
   db_socket:
   db_data:
   app_data:

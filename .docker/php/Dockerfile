@@ -1,5 +1,5 @@
 ARG PHP_VERSION_SET
-FROM php:${PHP_VERSION_SET:-8.1.29-fpm-alpine3.19}
+FROM php:${PHP_VERSION_SET:-8.1.29-fpm}
 LABEL maintainer="Osiozekhai Aliu"
 
 ARG USER_PHP
@@ -13,7 +13,6 @@ COPY ./.docker/php/scripts/* /usr/local/bin/
 
 # Install dependencies and PHP extensions in a single layer
 RUN set -eux; \
-    # Update system and install basic tools
     apk update && apk upgrade; \
     apk add --no-cache \
         bash \
@@ -26,6 +25,18 @@ RUN set -eux; \
         procps \
         tzdata; \
     \
+    # Install runtime dependencies needed for PHP extensions
+    apk add --no-cache \
+        freetype \
+        gettext \
+        icu-libs \
+        libjpeg-turbo \
+        libpng \
+        libwebp \
+        libxslt \
+        libzip \
+        zlib; \
+    \
     # Install build dependencies
     apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
@@ -33,7 +44,6 @@ RUN set -eux; \
         freetype-dev \
         g++ \
         gettext-dev \
-        icu-data-full \
         icu-dev \
         libc-dev \
         libjpeg-turbo-dev \
@@ -44,8 +54,6 @@ RUN set -eux; \
         linux-headers \
         make \
         zlib-dev; \
-    \
-    # Configure and install PHP extensions
     docker-php-ext-configure hash --with-mhash; \
     docker-php-ext-configure gd --with-webp --with-jpeg --with-freetype; \
     docker-php-ext-install -j$(nproc) \
@@ -59,8 +67,6 @@ RUN set -eux; \
         sockets \
         xsl \
         zip; \
-    \
-    # Install PECL extensions
     pecl channel-update pecl.php.net; \
     pecl install -o -f \
         redis \
@@ -70,20 +76,17 @@ RUN set -eux; \
         redis \
         apcu \
         xdebug; \
-    \
-    # Install tools
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer; \
     curl -SsL https://github.com/boxboat/fixuid/releases/download/v${FIXUID_VERSION}/fixuid-${FIXUID_VERSION}-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf -; \
     curl -sS https://files.magerun.net/n98-magerun2.phar --output /usr/local/bin/magerun2; \
-    \
-    # Configure permissions and directories
     chmod 4755 /usr/local/bin/fixuid; \
     chmod +x /usr/local/bin/*; \
-    mkdir -p /etc/fixuid /var/run/php/; \
+    # Create required directories with proper permissions
+    mkdir -p /etc/fixuid /var/run/php/ /var/www-data/.composer; \
     printf "user: %s\ngroup: %s\n" "$USER_PHP" "$GROUP_PHP" > /etc/fixuid/config.yml; \
     chown $USER_PHP:$GROUP_PHP /var/run/php; \
-    \
-    # Cleanup
+    chown $USER_PHP:$GROUP_PHP /var/www-data/.composer; \
+    # Clean up
     docker-php-source delete; \
     apk del .build-deps; \
     rm -rf \
@@ -93,8 +96,6 @@ RUN set -eux; \
         /usr/share/doc/* \
         /usr/share/man/* \
         /usr/share/php/doc/* \
-        /usr/share/php/www.php.net/* \
-        /var/lib/apt/lists/* \
-        /var/cache/apk/*
+        /usr/share/php/www.php.net/*
 
 USER $USER_PHP:$GROUP_PHP

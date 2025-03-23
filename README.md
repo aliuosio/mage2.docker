@@ -53,7 +53,7 @@
 ### Features
 * Fresh Install or use existing magento 2 project on your file system
 * set project directory to where ever you want (as configurable option in .env)
-* [n98-magerun2](https://github.com/n98/magerun2) (in php container accessable as magerun2)
+* [n98-magerun2](https://github.com/netz98/n98-magerun) (in php container accessable as `magerun2`)
 * [Mailhog](https://github.com/mailhog/MailHog) container
 * **Extra Composer Packages with Magento 2 Installer**
     * [yireo/magento2-webp2](https://github.com/yireo/Yireo_Webp2) WebP Converter

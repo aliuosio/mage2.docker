@@ -5,3 +5,4 @@ htdocs
 .docker/mysql/db_dumps/*
 .env.*
 !.env.temp
+mage2.docker.code-workspace

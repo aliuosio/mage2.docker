@@ -1,7 +1,7 @@
 ## Docker stack with Magento 2 latest installer and Sample Data
 ### One Stack for all Projects by adjusting .env file
 **Docker containers: Varnish, Nginx, PHP, Opensearch, MariaDB, Redis, Mailhog, RabbitMQ, Watchtower**
-using sockets with PHP (linux/amd64, linux/arm64) instead of TCP/IP for redis sessions and MySQL
+using sockets with PHP with NodeJS (linux/amd64, linux/arm64) instead of TCP/IP for redis sessions and MySQL
 > RabbitMQ, MailHog, Watchtower are commented out of the docker-compose.yml
 > to run projects parallel you need to add a proxy like Traefik or nginx-proxy
 
@@ -17,6 +17,9 @@ using sockets with PHP (linux/amd64, linux/arm64) instead of TCP/IP for redis se
     cd mage2.docker
     chmod +x bin/*
     bin/install
+
+> if there is a composer.json found in this directory this will used instead of a fresh install. 
+> Database will be imported from .docker/mysql/db_dumps if found
 
 > with `bin/install config` you can use prompts to configure install (USING the command with config IS BUGGY. FEEL FREE TO CONRIBUTE)
     
@@ -47,8 +50,9 @@ using sockets with PHP (linux/amd64, linux/arm64) instead of TCP/IP for redis se
 
     
 ### Features
-* Fresh Install or use existing magento 2 project on your file system using `bin/install config`
+* Fresh Install or use existing magento 2 project on your file system
 * set project directory to where ever you want (as configurable option in .env)
+* [n98-magerun2](https://github.com/n98/magerun2) (in php container accessable as magerun2)
 * [Mailhog](https://github.com/mailhog/MailHog) container
 * **Extra Composer Packages with Magento 2 Installer**
     * [yireo/magento2-webp2](https://github.com/yireo/Yireo_Webp2) WebP Converter
@@ -56,8 +60,6 @@ using sockets with PHP (linux/amd64, linux/arm64) instead of TCP/IP for redis se
 * Xdebug as configurable option (xdebug.idekey=PHPSTORM)
 
 ### Todos
-* ~~setup php image for windows and osx~~
-* configure mailhog with `bin/install`
 * add cache warmer
 * fix `bin/install config`
 * reduce the number of volumes

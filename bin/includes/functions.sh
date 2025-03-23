@@ -321,8 +321,7 @@ magentoInstall() {
   --session-save=redis --session-save-redis-host=redis_session --session-save-redis-persistent-id=sess-db0 --session-save-redis-db=1 \
   --cache-backend=redis --cache-backend-redis-server=redis_cache --cache-backend-redis-db=0 \
   --page-cache=redis --page-cache-redis-server=redis_cache --page-cache-redis-db=1 \
-  --timezone=Europe/Berlin --currency=EUR \
-  --cleanup-database"
+  --timezone=Europe/Berlin --currency=EUR"
 
   runCommand "$phpContainer '$commands'"
 }
@@ -367,6 +366,16 @@ setMagentoCron() {
 
 algoliaCron() {
   commands="echo \"*/5 * * * * /usr/local/bin/php /var/www/html/bin/magento indexer:reindex algolia_queue_runner\" >> /etc/crontabs/root"
+  runCommand "$phpContainerRoot '$commands'"
+}
+
+setContainerPermissonsComposer(){
+  commands="mkdir -p $COMPOSER_CACHE_DIR && chown -R $USER_PHP:$GROUP_PHP $COMPOSER_CACHE_DIR"
+  runCommand "$phpContainerRoot '$commands'"
+}
+
+setContainerPermissonsWorkDir(){
+  commands="chown -R $USER_PHP:$GROUP_PHP $WORKDIR_SERVER"
   runCommand "$phpContainerRoot '$commands'"
 }
 

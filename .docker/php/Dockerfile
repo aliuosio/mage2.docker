@@ -7,11 +7,11 @@ ARG GROUP_PHP
 ARG ACPU_VERSION
 ARG XDEBUG_VERSION
 ARG FIXUID_VERSION
+ARG WORKDIR_SERVER
 
-COPY ./.docker/php/cwebp-120-linux-x86-64 /usr/local/bin/cwebp
-COPY ./.docker/php/scripts/* /usr/local/bin/
+COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
+COPY scripts/* /usr/local/bin/
 
-# Install dependencies and PHP extensions in a single layer
 RUN set -eux; \
     apk update && apk upgrade; \
     apk add --no-cache \
@@ -24,8 +24,6 @@ RUN set -eux; \
         npm \
         procps \
         tzdata; \
-    \
-    # Install runtime dependencies needed for PHP extensions
     apk add --no-cache \
         freetype \
         gettext \
@@ -36,8 +34,6 @@ RUN set -eux; \
         libxslt \
         libzip \
         zlib; \
-    \
-    # Install build dependencies
     apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         curl-dev \
@@ -77,18 +73,15 @@ RUN set -eux; \
         apcu \
         xdebug; \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer; \
-    curl -SsL https://github.com/boxboat/fixuid/releases/download/v${FIXUID_VERSION}/fixuid-${FIXUID_VERSION}-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf -; \
     curl -sS https://files.magerun.net/n98-magerun2.phar --output /usr/local/bin/magerun2; \
-    chmod 4755 /usr/local/bin/fixuid; \
-    chmod +x /usr/local/bin/*; \
-    # Create required directories with proper permissions
-    mkdir -p /etc/fixuid /var/run/php/ /var/www-data/.composer; \
-    printf "user: %s\ngroup: %s\n" "$USER_PHP" "$GROUP_PHP" > /etc/fixuid/config.yml; \
-    chown $USER_PHP:$GROUP_PHP /var/run/php; \
-    chown $USER_PHP:$GROUP_PHP /var/www-data/.composer; \
-    # Clean up
-    docker-php-source delete; \
-    apk del .build-deps; \
+    curl -SsL https://github.com/boxboat/fixuid/releases/download/v${FIXUID_VERSION}/fixuid-${FIXUID_VERSION}-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf - && \
+    chmod 4755 /usr/local/bin/fixuid && \
+    mkdir -p /etc/fixuid && \
+    printf "user: $USER_PHP\ngroup: $GROUP_PHP\n" > /etc/fixuid/config.yml && \
+    chmod +x /usr/local/bin/* &&  \
+    mkdir -p /var/run/php/ /var/www-data/.composer &&  \
+    docker-php-source delete && \
+    apk del .build-deps && \
     rm -rf \
         /tmp/* \
         /var/cache/apk/* \

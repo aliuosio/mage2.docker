@@ -9,8 +9,11 @@ ARG XDEBUG_VERSION
 ARG FIXUID_VERSION
 ARG WORKDIR_SERVER
 
-COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
-COPY scripts/* /usr/local/bin/
+# COPY cwebp-120-linux-x86-64 /usr/local/bin/cwebp
+COPY ./.docker/php/cwebp-120-linux-x86-64 /usr/local/bin/cwebp
+
+# COPY scripts/* /usr/local/bin/
+COPY ./.docker/php/scripts/* /usr/local/bin/
 
 RUN set -eux; \
     apk update && apk upgrade; \

@@ -4,6 +4,8 @@ services:
     container_name: ${NAMESPACE}_varnish
     image: varnish:${VARNISH_VERSION}
     pull_policy: always
+    env_file:
+      - .env
     tmpfs:
       - /var/lib/varnish:exec
     command: "-p default_keep=300"
@@ -18,6 +20,8 @@ services:
     container_name: ${NAMESPACE}_webserver
     image: nginx:${NGINX_VERSION}
     pull_policy: always
+    env_file:
+      - .env
     depends_on:
       - php
     ports:
@@ -56,6 +60,8 @@ services:
       redis_cache:
         condition: service_healthy
     user: ${UID_GID}
+    env_file:
+      - .env
     restart: on-failure
     entrypoint: [ "fixuid","docker-php-entrypoint" ]
     command: [ "php-fpm" ]
@@ -75,11 +81,8 @@ services:
     pull_policy: always
     ports:
       - ${MYSQL_PORT}:3306
-    environment:
-      - "MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
-      - "MARIADB_DATABASE=${MYSQL_DATABASE}"
-      - "MARIADB_USER=${MYSQL_USER}"
-      - "MARIADB_PASSWORD=${MYSQL_PASSWORD}"
+    env_file:
+      - .env
     healthcheck:
       test: 'mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD}'
       interval: 30s
@@ -95,6 +98,8 @@ services:
     container_name: ${NAMESPACE}_redis_session
     image: redis:${REDIS_VERSION}
     pull_policy: always
+    env_file:
+      - .env
     sysctls:
       net.core.somaxconn: '1024'
     entrypoint: redis-server
@@ -111,6 +116,8 @@ services:
   redis_cache:
     container_name: ${NAMESPACE}_redis_cache
     image: redis:${REDIS_VERSION}
+    env_file:
+      - .env
     pull_policy: always
     sysctls:
       net.core.somaxconn: '1024'
@@ -128,6 +135,8 @@ services:
   opensearch:
     container_name: ${NAMESPACE}_opensearch
     image: markoshust/magento-opensearch:${OPENSEARCH_VERSION}
+    env_file:
+      - .env
     pull_policy: always
     ports:
       - "9200:9200"
@@ -142,6 +151,8 @@ services:
   mailhog:
     container_name: ${NAMESPACE}_mailhog
     image: mailhog/mailhog:${MAILHOG_VERSION}
+    env_file:
+      - .env
     pull_policy: always
     ports:
       - ${MAILHOG_EXTERNAL_PORT}:8025

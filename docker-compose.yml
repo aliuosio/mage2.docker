@@ -75,6 +75,11 @@ services:
     pull_policy: always
     ports:
       - ${MYSQL_PORT}:3306
+    environment:
+      - "MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      - "MARIADB_DATABASE=${MYSQL_DATABASE}"
+      - "MARIADB_USER=${MYSQL_USER}"
+      - "MARIADB_PASSWORD=${MYSQL_PASSWORD}"
     healthcheck:
       test: 'mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD}'
       interval: 30s

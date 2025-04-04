@@ -21,11 +21,9 @@
 
 > if there is a composer.json found in this directory this will used instead of a fresh install. 
 > Database will be imported from .docker/mysql/db_dumps if found
-
-> with `bin/install config` you can use prompts to configure install (USING the command with config IS BUGGY. FEEL FREE TO CONRIBUTE)
     
 > use .env to change values after installation and activate on restart of containers 
-
+> for a fresh install run `docker compose down -v` and then`bin/install`
 
 ### Backend
     http://localhost/admin

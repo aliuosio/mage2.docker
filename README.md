@@ -1,8 +1,8 @@
 ## Docker stack with Magento 2 latest installer and Sample Data
-### One Stack for all Projects by adjusting .env file
-**Docker containers: Varnish, Nginx, PHP, Opensearch, MariaDB, Redis, Mailhog, RabbitMQ, Watchtower**
+### A single stack for all projects, configurable via the .env file.
+**Docker containers: Varnish, Nginx, PHP, Opensearch, MariaDB, Redis, Mailhog, RabbitMQ**
 **PHP with NodeJS (linux/amd64, linux/arm64)**
-**MySQL connect per socket instead of TCP/IP**
+**MySQL connects via socket instead of TCP/IP**
 > RabbitMQ, MailHog, Watchtower are commented out of the docker-compose.yml
 > to run projects parallel you need to add a proxy like Traefik or nginx-proxy
 
@@ -13,16 +13,18 @@
 > check for updates with `git fetch && git pull`
 
 ### Installation
- Fresh Installation (latest magento 2 version) or your running project when located in your filesystem
+  Fresh installation (latest Magento 2 version) or use an existing project located in your filesystem.
     
     cd mage2.docker
     chmod +x bin/*
     bin/install
 
-> if there is a composer.json found in this directory this will used instead of a fresh install. 
+> if there is a composer.json found in this directory, it will be used instead of performing a fresh install.
+
 > Database will be imported from .docker/mysql/db_dumps if found
     
-> use .env to change values after installation and activate on restart of containers 
+> use .env to change values after installation; changes will be applied upon container restart with `bin/start`
+
 > for a fresh install run `docker compose down -v` and then`bin/install`
 
 ### Backend
@@ -51,16 +53,15 @@
 ### Features
 * Fresh Install or use existing magento 2 project on your file system
 * set project directory to where ever you want (as configurable option in .env)
-* [n98-magerun2](https://github.com/netz98/n98-magerun) (in php container accessable as `magerun2`)
+* [n98-magerun2](https://github.com/netz98/n98-magerun) (accessible as `magerun2` within the PHP container)
 * [Mailhog](https://github.com/mailhog/MailHog) container
-* **Extra Composer Packages with Magento 2 Installer**
+* **Additional Composer Packages included with the Magento 2 Installer**
     * [yireo/magento2-webp2](https://github.com/yireo/Yireo_Webp2) WebP Converter
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
 * Xdebug as configurable option (xdebug.idekey=PHPSTORM)
 
 ### Todos
-* add cache warmer
-* fix `bin/install config`
+* add `bin/install config`
 * reduce the number of volumes
 
 #### Support

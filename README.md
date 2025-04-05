@@ -17,6 +17,7 @@
     
     cd mage2.docker
     chmod +x bin/*
+    cp .env.temp .env # modify path to a existing shop if you want or use default for fresh install
     bin/install
 
 > if there is a composer.json found in this directory, it will be used instead of performing a fresh install.

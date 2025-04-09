@@ -385,17 +385,6 @@ magentoSetup() {
   else
     magentoPreInstall
     composerExtraPackages
-  fi
-
-  if [ -n "$DB_DUMP" ]; then
-    if [ -f "$DB_DUMP" ]; then
-      DatabaseImport
-      setMage2Env
-    else
-      echo -e " \033[5mDatabase Dump was not found under: $DB_DUMP\033[0m"
-      exit
-    fi
-  else
     magentoInstall
   fi
 

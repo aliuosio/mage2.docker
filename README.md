@@ -50,6 +50,16 @@
     Mail Client
     http://localhost:8025 
 
+
+### Xdebug Configuration
+1. Enable Xdebug in your `.docker/php/config/xdebug.ini` file by setting:
+    
+        xdebug.mode=on
+        xdebug.idekey=PHPSTORM
+
+2. Restart the containers:
+
+        bin/start
     
 ### Features
 * Fresh Install or use existing magento 2 project on your file system
@@ -61,9 +71,8 @@
     * [mage2tv/magento-cache-clean](https://github.com/mage2tv/magento-cache-clean) Cache Cleaner
 * Xdebug as configurable option (xdebug.idekey=PHPSTORM)
 
-### Todos
-* add `bin/install config`
-* reduce the number of volumes
+
+
 
 #### Support
 If you encounter any problems or bugs, please create an issue on [GitHub](https://github.com/aliuosio/mage2.docker/issues).

@@ -57,6 +57,7 @@ RUN set -eux; \
     docker-php-ext-configure gd --with-webp --with-jpeg --with-freetype; \
     docker-php-ext-install -j$(nproc) \
         bcmath \
+        ftp \
         gd \
         gettext \
         intl \
